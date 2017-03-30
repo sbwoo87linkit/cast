@@ -1,0 +1,41 @@
+{
+    "name": "sherman",
+    "version": "dev",
+
+    "spring": {
+        "port": 8080,
+        "sync_port": 3002
+    },
+
+    "was": {
+        "port": 3030,
+        "sync_port": 3000,
+        "session": {
+            "secret": "mobigen",
+            "key": "express.sid",
+            "timeout": 1800000
+        },
+        "view_engine": "jade"
+    },
+
+    "tmp": {
+        "path": "./tmp"
+    },
+
+    "log": {
+        "path": "./log",
+        "out": "server.log",
+        "err": "exceptions.log",
+        "route": "route.log",
+
+        "level": "notice",
+        "maxsize": 9999900,
+        "maxfiles": 10
+    },
+
+    "debug": {
+        "auth": true,
+        "user": "admin",
+        "pass": "hello.sherman"
+    }
+}

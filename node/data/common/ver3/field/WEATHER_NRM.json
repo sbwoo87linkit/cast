@@ -1,0 +1,21 @@
+{
+    "fields": [
+        { "name": "LOCATION", "type": "TEXT" },
+        { "name": "DATE", "type": "TEXT" },
+        { "name": "AVG_TEMP", "type": "NUMBER" },
+        { "name": "LOWEST_TEMP", "type": "NUMBER" },
+        { "name": "HIGHEST_TEMP", "type": "NUMBER" },
+        { "name": "RAINFALL_CONT_TIME", "type": "NUMBER" },
+        { "name": "RAINFALL_PER_DAY", "type": "NUMBER" },
+        { "name": "MAX_WIND_SPEED", "type": "NUMBER" },
+        { "name": "AVG_WIND_SPEED", "type": "NUMBER" },
+        { "name": "MIN_RELATIVE_HUMIDITY", "type": "NUMBER" },
+        { "name": "AVG_RELATIVE_HUMIDITY", "type": "NUMBER" },
+        { "name": "AVG_VAPOR_PRESSURE", "type": "NUMBER" },
+        { "name": "MAX_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+        { "name": "MIN_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+        { "name": "AVG_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+        { "name": "SUM_SUNSHINE_TIME", "type": "NUMBER" }
+    ],
+    "results": []
+}

@@ -1,0 +1,81 @@
+{
+    "data": [{
+        "id": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "fields": [
+            { "name": "DATE", "type": "TEXT", "option": null },
+            { "name": "LOCATION", "type": "TEXT", "option": null },
+            { "name": "AVG_TEMP", "type": "NUMBER", "option": null },
+            { "name": "LOWEST_TEMP", "type": "NUMBER", "option": null },
+            { "name": "HIGHEST_TEMP", "type": "NUMBER", "option": null }
+        ],
+        "dataset": {
+            "format": "iris",
+            "table": "WEATHER_NRM"
+        },
+        "name": "WEATHER_NRM",
+        "scope": "GLOBAL",
+        "description": null,
+        "userid": "root",
+        "cdate": "20170210131232",
+        "mdate": "20170210131232",
+        "partition_range": "0"
+    }, {
+        "id": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "fields": [
+            { "name": "PTIME", "type": "TIMESTAMP", "classification": "time", "option": { "format": "YYYYMMDDHHmmss" } },
+            { "name": "FTS_RAW_DATA", "type": "TEXT", "classification": "raw" },
+            { "name": "PLAYERID", "type": "TEXT", "option": null },
+            { "name": "YEARID", "type": "NUMBER", "option": null },
+            { "name": "STINT", "type": "NUMBER", "option": null },
+            { "name": "TEAMID", "type": "TEXT", "option": null },
+            { "name": "LGID", "type": "TEXT", "option": null },
+            { "name": "G", "type": "NUMBER", "option": null },
+            { "name": "AB", "type": "NUMBER", "option": null },
+            { "name": "R", "type": "NUMBER", "option": null },
+            { "name": "H", "type": "NUMBER", "option": null },
+            { "name": "TWO_B", "type": "NUMBER", "option": null },
+            { "name": "THREE_B", "type": "NUMBER", "option": null },
+            { "name": "HR", "type": "NUMBER", "option": null },
+            { "name": "RBI", "type": "NUMBER", "option": null },
+            { "name": "SB", "type": "NUMBER", "option": null },
+            { "name": "CS", "type": "NUMBER", "option": null },
+            { "name": "BB", "type": "NUMBER", "option": null },
+            { "name": "SO", "type": "NUMBER", "option": null },
+            { "name": "IBB", "type": "NUMBER", "option": null },
+            { "name": "HBP", "type": "NUMBER", "option": null },
+            { "name": "SH", "type": "NUMBER", "option": null },
+            { "name": "SF", "type": "NUMBER", "option": null },
+            { "name": "GIDP", "type": "NUMBER", "option": null },
+            { "name": "FTS_PARTITION_TIME", "type": "TIMESTAMP", "option": { "format": "YYYYMMDDHHmmss" } }
+        ],
+        "dataset": {
+            "format": "iris",
+            "table": "BATTING"
+        },
+        "name": "BATTING all with time, raw",
+        "scope": "LOCAL",
+        "description": null,
+        "userid": "root",
+        "cdate": "20170210131404",
+        "mdate": "20170210131404",
+        "partition_range": "1440"
+    }, {
+        "id": "62a1eb9a-c9ee-4007-96ec-2ec712954564",
+        "fields": [
+            { "name": "PTIME", "type": "TIMESTAMP", "classification": "time", "option": { "format": "YYYYMMDDHHmmss" } },
+            { "name": "FTS_RAW_DATA", "type": "TEXT", "classification": "raw" },
+            { "name": "PLAYERID", "type": "TEXT", "option": null },
+            { "name": "FTS_PARTITION_TIME", "type": "TIMESTAMP", "option": { "format": "YYYYMMDDHHmmss" } }
+        ],
+        "dataset": {
+            "format": "csv",
+            "path": "/folderA/folderB/file.csv"
+        },
+        "name": "HDFS BATTING",
+        "description": "HDFS",
+        "scope": null,
+        "userid": "root",
+        "cdate": "20170210131404",
+        "mdate": "20170210131404"
+    }]
+}

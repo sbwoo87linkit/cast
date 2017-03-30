@@ -1,0 +1,52 @@
+/* component */
+.mu-popup-menu > li {
+    cursor: pointer;
+}
+/* 검색 */
+.mu-icon.flag:before {
+    content: "\f024";
+}
+/* 검색어 추천 */
+.searchAssistant .highlight {
+    color:#2d93ec;
+}
+/* 피벗 */
+
+
+/* 검색어 자동 완성 */
+.history-bgcolor {
+    background-color: #b0e0e6 !important;
+}
+
+/* Mobius 임의 수정 */
+/* tooltip */
+.mu-tooltip.top-left{margin-top:-10px}
+.mu-tooltip.top-left > .arrow{left:16px;bottom:-11px;margin-left:-11px;border-bottom-width:0;border-top-color:#ccc}
+.mu-tooltip.top-left > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
+.mu-tooltip.top-right{margin-top:-10px}
+.mu-tooltip.top-right > .arrow{right:16px;bottom:-11px;margin-right:-11px;border-bottom-width:0;border-top-color:#ccc}
+.mu-tooltip.top-right > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
+.mu-tooltip.bottom-left{margin-top:10px}
+.mu-tooltip.bottom-left > .arrow{left:16px;top:-11px;margin-left:-11px;border-top-width:0;border-bottom-color:#ccc}
+.mu-tooltip.bottom-left > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
+.mu-tooltip.bottom-right{margin-top:10px}
+.mu-tooltip.bottom-right > .arrow{right:16px;top:-11px;margin-right:-11px;border-top-width:0;border-bottom-color:#ccc}
+.mu-tooltip.bottom-right > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
+.mu-tooltip.left-top{margin-left:-10px}
+.mu-tooltip.left-top > .arrow{right:-11px;top:16px;margin-top:-11px;border-right-width:0;border-left-color:#ccc}
+.mu-tooltip.left-top > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
+.mu-tooltip.left-bottom{margin-left:-10px}
+.mu-tooltip.left-bottom > .arrow{right:-11px;bottom:16px;margin-bottom:-11px;border-right-width:0;border-left-color:#ccc}
+.mu-tooltip.left-bottom > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
+.mu-tooltip.right-top{margin-left:13px}
+.mu-tooltip.right-top > .arrow{left:-11px;top:16px;margin-top:-11px;border-left-width:0;border-right-color:#ccc}
+.mu-tooltip.right-top > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
+.mu-tooltip.right-bottom{margin-left:13px}
+.mu-tooltip.right-bottom > .arrow{left:-11px;bottom:16px;margin-bottom:-11px;border-left-width:0;border-right-color:#ccc}
+.mu-tooltip.right-bottom > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
+
+/* 데이터 모델 */
+.dm-field-type-width { width: 113px !important; }
+.dm-time-width { width: 170px !important; }
+.dm-table-width { width: 270px !important; }
+.dm-option-width { width: 85% !important; }

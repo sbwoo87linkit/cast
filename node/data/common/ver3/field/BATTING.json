@@ -1,0 +1,30 @@
+{
+    "fields": [
+        { "name": "PTIME", "type":"TEXT" },
+        { "name": "PLAYERID", "type": "TEXT" },
+        { "name": "YEARID", "type": "NUMBER" },
+        { "name": "STINT", "type": "NUMBER" },
+        { "name": "TEAMID", "type": "TEXT" },
+        { "name": "LGID", "type": "TEXT" },
+        { "name": "G", "type": "NUMBER" },
+        { "name": "AB", "type": "NUMBER" },
+        { "name": "R", "type": "NUMBER" },
+        { "name": "H", "type": "NUMBER" },
+        { "name": "TWO_B", "type": "NUMBER" },
+        { "name": "THREE_B", "type": "NUMBER" },
+        { "name": "HR", "type": "NUMBER" },
+        { "name": "RBI", "type": "NUMBER" },
+        { "name": "SB", "type": "NUMBER" },
+        { "name": "CS", "type": "NUMBER" },
+        { "name": "BB", "type": "NUMBER" },
+        { "name": "SO", "type": "NUMBER" },
+        { "name": "IBB", "type": "NUMBER" },
+        { "name": "HBP", "type": "NUMBER" },
+        { "name": "SH", "type": "NUMBER" },
+        { "name": "SF", "type": "NUMBER" },
+        { "name": "GIDP", "type": "NUMBER" },
+        { "name": "FTS_RAW_DATA", "type": "TEXT" },
+        { "name": "FTS_PARTITION_TIME", "type": "TEXT" }
+    ],
+    "results": []
+}

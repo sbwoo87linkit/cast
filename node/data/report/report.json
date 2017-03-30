@@ -1,0 +1,662 @@
+{
+    "data": [
+        {
+            "id": "80ae1d03-7861-4bfb-aa9d-a27ae04fe432",
+            "title": "기본 검색",
+            "desc": null,
+            "userId": "demo2",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": "-15m",
+            "endDate": "now",
+            "pivotState": false,
+            "pivotType": null,
+            "pivotAttribute": null,
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "38ad1e81-eb98-4d0a-938e-2d3f47783082",
+            "title": "기본 피벗",
+            "desc": null,
+            "userId": "demo2",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "grid",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "2",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [],
+                "rows": [],
+                "cols": [],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "*",
+                            "type": "*"
+                        },
+                        "func": "count",
+                        "label": null
+                    }
+                ],
+                "rowOpts": {},
+                "colOpts": {}
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "38ad1e81-eb98-1d0a-938e-2d3f47783082",
+            "title": "필터 테스트",
+            "desc": null,
+            "userId": "demo2",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "grid",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "2",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "contains",
+                            "value": "CH"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "doesNotContain",
+                            "value": "CH"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "startsWith",
+                            "value": "CH"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "endsWith",
+                            "value": "CH"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "isNull",
+                            "value": ""
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "match": {
+                            "operator": "isNotNull",
+                            "value": ""
+                        }
+                    }
+                ],
+                "rows": [],
+                "cols": [],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "*",
+                            "type": "*"
+                        },
+                        "func": "count",
+                        "label": null
+                    }
+                ],
+                "rowOpts": {},
+                "colOpts": {}
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "80996d09-3f0a-4a4c-800e-7beb3a4318b5",
+            "title": "IMSI-Cell 별 CQI 비교",
+            "desc": "선택한 시간 범위에서 IMSI별로 CQI 가 5 이하 통화 수 비교",
+            "userId": "root",
+            "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "column",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "4",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [
+                    {
+                        "field": {
+                            "name": "ENB_ID",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": "=",
+                            "value": "22594"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "CQI",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": "<=",
+                            "value": "5"
+                        }
+                    }
+                ],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "IMSI",
+                            "type": "NUMBER"
+                        },
+                        "useRange": false,
+                        "time_unit": "1H"
+                    }
+                ],
+                "cols": [
+                    {
+                        "field": {
+                            "name": "CELL_ID",
+                            "type": "NUMBER"
+                        },
+                        "useRange": false,
+                        "time_unit": "1H"
+                    }
+                ],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "CQI",
+                            "type": "NUMBER"
+                        },
+                        "func": "count"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "18eed4fd-da4e-4ee7-b518-07a88c960313",
+            "title": "홈런 삼진아웃 비교",
+            "desc": "2015년 홈런 30개 이상 선수의 삼진 아웃 수",
+            "userId": "root",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "grid",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "2",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [
+                    {
+                        "field": {
+                            "name": "HR",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": ">=",
+                            "value": "30"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "YEARID",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": "=",
+                            "value": "2015"
+                        }
+                    }
+                ],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "PLAYERID",
+                            "type": "TEXT"
+                        },
+                        "time_unit": "1H"
+                    }
+                ],
+                "cols": [],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "SO",
+                            "type": "NUMBER"
+                        },
+                        "func": "sum"
+                    },
+                    {
+                        "field": {
+                            "name": "HR",
+                            "type": "NUMBER"
+                        },
+                        "func": "sum"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019073100",
+            "mdate": "20161019073100"
+        },
+        {
+            "id": "ca4d0cab-14b7-4a1c-bf08-bd378451f2d7",
+            "title": "팀별 홈런 개수 20개 이상인 선수 현황",
+            "desc": "2015년 리그 각 팀별 홈런 개수가 20개 이상인 선수 수",
+            "userId": "root",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "column",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "2",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [
+                    {
+                        "field": {
+                            "name": "YEARID",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": "=",
+                            "value": "2015"
+                        }
+                    },
+                    {
+                        "field": {
+                            "name": "HR",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": ">=",
+                            "value": "20"
+                        }
+                    }
+                ],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "TEAMID",
+                            "type": "TEXT"
+                        },
+                        "time_unit": "1H"
+                    }
+                ],
+                "cols": [],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "PLAYERID",
+                            "type": "TEXT"
+                        },
+                        "func": "count"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "5ccbcb1c-9abe-4de0-9be9-1303ae92087f",
+            "title": "리그별 홈런 비교",
+            "desc": "연도별 National League, American League 홈런 수 비교",
+            "userId": "root",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "line",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "2",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null
+                },
+                "filters": [],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "FTS_PARTITION_TIME",
+                            "type": "TIMESTAMP"
+                        },
+                        "useRange": false,
+                        "time_unit": "1H",
+                        "labelRotate": 0
+                    }
+                ],
+                "cols": [
+                    {
+                        "field": {
+                            "name": "LGID",
+                            "type": "TEXT"
+                        },
+                        "time_unit": "1H"
+                    }
+                ],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "HR",
+                            "type": "NUMBER"
+                        },
+                        "func": "sum"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "ac509346-63ac-4eb7-a4a4-138768084b87",
+            "title": "팀별 홈런 통계",
+            "desc": "선택 기간 동안 팀별 홈런 통계 비교",
+            "userId": "root",
+            "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+            "query": "*  | stats sum(HR) by TEAMID",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": false,
+            "pivotType": null,
+            "pivotAttribute": null,
+            "cdate": "20161019163100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "e0b5e245-f1af-4c4e-8c90-1ed85a6697c8",
+            "title": "cell별 CQI 추이분석",
+            "desc": "선택한 시간 범위에서 특정 기지국의 cell 별 CQI 추이",
+            "userId": "root",
+            "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+            "query": "*",
+            "startDate": "20160307000000",
+            "endDate": "20160307120000",
+            "pivotState": true,
+            "pivotType": "line",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "4",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": 1457276400000,
+                    "end": 1457319600000,
+                    "text": "2016/03/07 00:00:00 ~ 2016/03/07 12:00:00"
+                },
+                "filters": [],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "FTS_PARTITION_TIME",
+                            "type": "TIMESTAMP"
+                        },
+                        "useRange": false,
+                        "time_unit": "1H",
+                        "labelRotate": 0
+                    }
+                ],
+                "cols": [
+                    {
+                        "field": {
+                            "name": "CELL_ID",
+                            "type": "NUMBER"
+                        }
+                    }
+                ],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "CQI",
+                            "type": "NUMBER"
+                        },
+                        "func": "count"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173500"
+        },
+        {
+            "id": "c39b2777-3c8d-48f0-9b08-1cba41e07d7d",
+            "title": "기지국별 CQI 평균",
+            "desc": "선택한 시간 범위의 기지국별 CQI평균",
+            "userId": "root",
+            "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "column",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "4",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null,
+                    "text": "전체 시간"
+                },
+                "filters": [],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "ENB_ID",
+                            "type": "NUMBER"
+                        },
+                        "useRange": false,
+                        "time_unit": "1m"
+                    }
+                ],
+                "cols": [
+                    {
+                        "field": {
+                            "name": "ENB_ID",
+                            "type": "NUMBER"
+                        }
+                    }
+                ],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "CQI",
+                            "type": "NUMBER"
+                        },
+                        "func": "avg"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {}
+            },
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        },
+        {
+            "id": "b2c73180-6812-46e7-83bc-a7f39759c5bf",
+            "title": "22594기지국 cell별 CQI 분석",
+            "desc": "선택한 시간 범위의 22594 기지국 cell 별 CQI 평균",
+            "userId": "root",
+            "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+            "query": "*",
+            "startDate": null,
+            "endDate": null,
+            "pivotState": true,
+            "pivotType": "column",
+            "pivotAttribute": {
+                "query": "*",
+                "modelId": "4",
+                "dataCount": 0,
+                "timeRange": {
+                    "start": null,
+                    "end": null,
+                    "text": "전체 시간"
+                },
+                "filters": [
+                    {
+                        "field": {
+                            "name": "ENB_ID",
+                            "type": "NUMBER"
+                        },
+                        "match": {
+                            "operator": "=",
+                            "value": "22594"
+                        }
+                    }
+                ],
+                "rows": [
+                    {
+                        "field": {
+                            "name": "CELL_ID",
+                            "type": "NUMBER"
+                        },
+                        "useRange": false
+                    }
+                ],
+                "cols": [
+                    {
+                        "field": {
+                            "name": "CELL_ID",
+                            "type": "NUMBER"
+                        }
+                    }
+                ],
+                "cells": [
+                    {
+                        "field": {
+                            "name": "CQI",
+                            "type": "NUMBER"
+                        },
+                        "func": "avg"
+                    }
+                ],
+                "rowOpts": {
+                    "align": "",
+                    "limit_num": 100
+                },
+                "colOpts": {
+                    "limit_num": 100
+                }
+            },
+            "cdate": "20161019173000",
+            "mdate": "20161019173000"
+        },
+        {
+            "id": "80ae1d03-7861-4bfb-aa9d-a27ae04fe433",
+            "title": "삭제된 데이터",
+            "desc": null,
+            "userId": "demo2",
+            "modelId": "99",
+            "query": "*",
+            "startDate": "-15m",
+            "endDate": "now",
+            "pivotState": false,
+            "pivotType": null,
+            "pivotAttribute": null,
+            "cdate": "20161019173100",
+            "mdate": "20161019173100"
+        }
+    ]
+}

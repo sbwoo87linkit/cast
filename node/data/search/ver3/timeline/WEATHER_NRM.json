@@ -1,0 +1,14 @@
+{
+    "data": {
+        "1d": [{
+            "status": {
+                "current": 1,
+                "total": 1
+            },
+            "total_count": 289774,
+            "isEnd": true,
+            "modes": [],
+            "unit": null
+        }]
+    }
+}

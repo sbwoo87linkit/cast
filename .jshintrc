@@ -1,0 +1,57 @@
+{
+  // Details: https://github.com/victorporof/Sublime-JSHint#using-your-own-jshintrc-options
+  // Example: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+  // Documentation: http://www.jshint.com/docs/
+  "node": true,     // node.js environment
+  "jquery": true,   //
+  "mocha": true,
+  "jasmine": true,
+  "quotmark": "single",
+  // "camelcase": true,
+  "forin": true,    // use for-in, check "if (obj.hasOwnProperty(key) {}"
+  "freeze": true,   // Array, String, Date prototype freeze
+  "indent": 4,      // indent: space 4
+  // "maxlen": 80,     // max char length about line
+  "curly": true,
+  "eqeqeq": true,   // ==, != [x] / ===, !== [o]
+  // "latedef": true,
+  "newcap": true,   // new animal() [x] / new Anamal() [o]
+  "noarg": true,    // deprecated arguments.caller, arguments.callee
+  "sub": true,      // .key [o] / ['key'] [o]
+  "validthis": true, // Possible strict violation
+
+  // defaults
+  "browser": true,
+  "esnext": true,
+  "globalstrict": true,
+  // "smarttabs": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true,
+  "globals": {
+    "_": true,
+    "$": true,
+
+    "alert": true,
+    "comfirm": true,
+    "prompt": true,
+
+    "require": true,
+    "define": true,
+    "module": true,
+    "exports": true
+  },
+  "predef" : [
+    "$",
+    "_",
+
+    "alert",
+    "comfirm",
+    "prompt",
+
+    "require",
+    "define",
+    "module",
+    "exports"
+  ]
+}

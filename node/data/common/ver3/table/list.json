@@ -1,0 +1,60 @@
+
+{
+    "data": [
+        {
+            "scope": "GLOBAL",
+            "name": "WEATHER_NRM",
+            "partition_range": "0",
+            "columns": [
+                { "name": "LOCATION", "type": "TEXT" },
+                { "name": "DATE", "type": "TEXT" },
+                { "name": "AVG_TEMP", "type": "NUMBER" },
+                { "name": "LOWEST_TEMP", "type": "NUMBER" },
+                { "name": "HIGHEST_TEMP", "type": "NUMBER" },
+                { "name": "RAINFALL_CONT_TIME", "type": "NUMBER" },
+                { "name": "RAINFALL_PER_DAY", "type": "NUMBER" },
+                { "name": "MAX_WIND_SPEED", "type": "NUMBER" },
+                { "name": "AVG_WIND_SPEED", "type": "NUMBER" },
+                { "name": "MIN_RELATIVE_HUMIDITY", "type": "NUMBER" },
+                { "name": "AVG_RELATIVE_HUMIDITY", "type": "NUMBER" },
+                { "name": "AVG_VAPOR_PRESSURE", "type": "NUMBER" },
+                { "name": "MAX_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+                { "name": "MIN_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+                { "name": "AVG_SEA_LEVEL_PRESSURE", "type": "NUMBER" },
+                { "name": "SUM_SUNSHINE_TIME", "type": "NUMBER" }
+            ]
+        }, {
+            "scope": "LOCAL",
+            "name": "BATTING",
+            "partition_range": "1440",
+            "columns": [
+                { "name": "PTIME", "type": "TEXT" },
+                { "name": "PLAYERID", "type": "TEXT" },
+                { "name": "YEARID", "type": "NUMBER" },
+                { "name": "STINT", "type": "NUMBER" },
+                { "name": "TEAMID", "type": "TEXT" },
+                { "name": "LGID", "type": "TEXT" },
+                { "name": "G", "type": "NUMBER" },
+                { "name": "AB", "type": "NUMBER" },
+                { "name": "R", "type": "NUMBER" },
+                { "name": "H", "type": "NUMBER" },
+                { "name": "TWO_B", "type": "NUMBER" },
+                { "name": "THREE_B", "type": "NUMBER" },
+                { "name": "HR", "type": "NUMBER" },
+                { "name": "RBI", "type": "NUMBER" },
+                { "name": "SB", "type": "NUMBER" },
+                { "name": "CS", "type": "NUMBER" },
+                { "name": "BB", "type": "NUMBER" },
+                { "name": "SO", "type": "NUMBER" },
+                { "name": "IBB", "type": "NUMBER" },
+                { "name": "HBP", "type": "NUMBER" },
+                { "name": "SH", "type": "NUMBER" },
+                { "name": "SF", "type": "NUMBER" },
+                { "name": "GIDP", "type": "NUMBER" },
+                { "name": "FTS_RAW_DATA", "type": "TEXT" },
+                { "name": "FTS_PARTITION_TIME", "type": "TEXT" }
+            ]
+        }
+    ],
+    "count": 2
+}

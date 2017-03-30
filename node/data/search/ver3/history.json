@@ -1,0 +1,2502 @@
+{
+    "data": [{
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot count(*)",
+        "executeTime": "20170210133653"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot sum(H),min(R) SPLITROW 'iris_date_group(\"FTS_PARTITION_TIME\", \"1d\")','iris_date_group(\"PLAYERID\", \"1d\")' AS '선수','iris_number_group(\"YEARID\", 10)' AS '연도' SPLITCOL TEAMID FILTER PLAYERID LIKE %ab% AND YEARID >= 1000 AND YEARID <= 2000 AND YEARID >= 1500 AND YEARID <= 2500 COLSIZE 100",
+        "executeTime": "20170210114017"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot sum(H),min(R) SPLITROW 'iris_date_group(\"FTS_PARTITION_TIME\", \"1d\")','iris_date_group(\"PLAYERID\", \"1d\")' AS '선수','iris_date_group(\"YEARID\", \"10\")' AS '연도' SPLITCOL TEAMID FILTER PLAYERID IS NOT NULL AND YEARID 1000  AND YEARID 2000  AND YEARID 1500  AND YEARID 2500  COLSIZE 100",
+        "executeTime": "20170210113143"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot sum(H),min(R) SPLITROW 'iris_date_group(\"FTS_PARTITION_TIME\", \"1d\")','iris_date_group(\"PLAYERID\", \"1d\")' AS '선수','iris_number_group(\"YEARID\", 10)' AS '연도' SPLITCOL TEAMID FILTER PLAYERID LIKE \"%ab%\" AND YEARID >= 1000 AND YEARID <= 2000 AND YEARID >= 1500 AND YEARID <= 2500 COLSIZE 100",
+        "executeTime": "20170210112957"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot sum(H),min(R) SPLITROW 'iris_date_group(\"FTS_PARTITION_TIME\", \"1d\")',PLAYERID AS '플레이어','iris_number_group(\"YEARID\", 10)' AS '연도' SPLITCOL TEAMID FILTER PLAYERID LIKE \"%ab\" AND YEARID >= 1000 AND YEARID <= 2000 AND YEARID <= 2000 COLSIZE 100",
+        "executeTime": "20170210110329"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* |pivot count(*) SPLITROW PLAYERID,YEARID FILTER YEARID >= 1 AND YEARID <= 1",
+        "executeTime": "20170210104137"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot count(*) | pivot count(*) SPLITROW PLAYERID | pivot count(*) SPLITROW PLAYERID,'iris_number_group(\"YEARID\", 1)' FILTER YEARID >= 1 AND YEARID <= 1",
+        "executeTime": "20170210103631"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot count(*) SPLITROW PLAYERID,'iris_number_group(\"YEARID\", 1)' AS 'test' FILTER YEARID >= 2 AND YEARID <= 3 | pivot count(*)",
+        "executeTime": "20170210100923"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot count(*) | pivot count(*) SPLITROW PLAYERID | pivot count(*) SPLITROW PLAYERID,YEARID | pivot count(*) SPLITROW PLAYERID,'iris_number_group(\"YEARID\", 1)' AS 'test' FILTER YEARID >= 2 AND YEARID <= 3",
+        "executeTime": "20170210100441"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot max(H) AS 'IAmFieldB'",
+        "executeTime": "20170210100311"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot max(HR) AS 'IAmFieldB'",
+        "executeTime": "20170210100304"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | pivot count(*) SPLITROW TEAMID",
+        "executeTime": "20170210094210"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170209193249"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(H) by PLAYERID | sort -sum(H) | rename sum(H) sum_H",
+        "executeTime": "20170209182324"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(H) by PLAYERID | sort -sum(H) | where sum(H) > 0",
+        "executeTime": "20170209182248"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where sum(H) > 0",
+        "executeTime": "20170209182239"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | where sum(H) > 0",
+        "executeTime": "20170209182224"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | where sum(HR) > 0",
+        "executeTime": "20170209182133"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "74b3a38a-8ccb-43f1-bae0-4a36d73cd786",
+        "query": "* CDATE='20170206113432'",
+        "executeTime": "20170209170308"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "b110fe7c-43ec-4af2-99e7-8ee547824bdd",
+        "query": "* CDATE='20170208103143'",
+        "executeTime": "20170209165122"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* ENB_ID=22590",
+        "executeTime": "20170209164851"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | where sum(R) > 0",
+        "executeTime": "20170209163226"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* ",
+        "executeTime": "20170209152815"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "PHI",
+        "executeTime": "20170209095531"
+    }, {
+        "userId": "root",
+        "startDate": "20160307110000",
+        "endDate": "20160307120000",
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* ENB_ID=22590 CELL_ID=13 | pivot avg(TA) SPLITROW FTS_PARTITION_TIME SPLITCOL ENB_ID",
+        "executeTime": "20170208151407"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "cc951dc1-5b15-47b6-a21f-3a8669279ffc",
+        "query": "* MDATE='20170208100000' ",
+        "executeTime": "20170208151220"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "cc951dc1-5b15-47b6-a21f-3a8669279ffc",
+        "query": "* MDATE='20170208140000' ",
+        "executeTime": "20170208151156"
+    }, {
+        "userId": "root",
+        "startDate": "20160307110000",
+        "endDate": "20160307120000",
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* END_ID=22590 CELL_ID=13",
+        "executeTime": "20170208151036"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "aa650b81-c086-4974-9765-fb2d61a8342d",
+        "query": "* NAME='APOLLO_ENB_01' | pivot count(*) SPLITROW NAME",
+        "executeTime": "20170208111835"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "aa650b81-c086-4974-9765-fb2d61a8342d",
+        "query": "* NAME='APOLLO_ENB_01'",
+        "executeTime": "20170208111807"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) AS sum_HR | where sum_HR > 0",
+        "executeTime": "20170208110152"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | where sum(HR) > 0",
+        "executeTime": "20170208105951"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "74b3a38a-8ccb-43f1-bae0-4a36d73cd786",
+        "query": "* PARTITION_RANGE = 0 DATASET='TEST_WAS_LOG_REPORT'",
+        "executeTime": "20170208103517"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "74b3a38a-8ccb-43f1-bae0-4a36d73cd786",
+        "query": "* PARTITION_RANGE = 0 DATASET='ANGORA_DATAMODELS'",
+        "executeTime": "20170208103350"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "aa650b81-c086-4974-9765-fb2d61a8342d",
+        "query": "* | stats sum(PARTITION_RANGE) by DATASET",
+        "executeTime": "20170208103055"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "aa650b81-c086-4974-9765-fb2d61a8342d",
+        "query": "* DATASET='BATTING' | stats sum(PARTITION_RANGE)",
+        "executeTime": "20170208103042"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "aa650b81-c086-4974-9765-fb2d61a8342d",
+        "query": "* DATASET='BATTING'",
+        "executeTime": "20170208102709"
+    }, {
+        "userId": "root",
+        "startDate": "20160510000000",
+        "endDate": "20160511000000",
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510181622'",
+        "executeTime": "20170208101514"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG<-8",
+        "executeTime": "20170208101020"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160505181558'",
+        "executeTime": "20170208100056"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208100030"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID='CHN' LGID='NL'",
+        "executeTime": "20170208095719"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160505181607'",
+        "executeTime": "20170208095443"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208095400"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160505181602'",
+        "executeTime": "20170208095332"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208095322"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160505181558|abercda01|1871|1|TRO|NA|1|4|0|0|0|0|0|0|0|0|0|0|||||'",
+        "executeTime": "20170208095301"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG < 0",
+        "executeTime": "20170208095259"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208095236"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160505181600'",
+        "executeTime": "20170208095227"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG is not null",
+        "executeTime": "20170208095152"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG < 0",
+        "executeTime": "20170208095108"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG < -8",
+        "executeTime": "20170208095049"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG | where AVG > 0",
+        "executeTime": "20170208095025"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208094947"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | sql SELECT * FROM ANGORA",
+        "executeTime": "20170208094940"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208094937"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' OR max(AVG_TEMP) >'-8'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094926"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' OR max(AVG_TEMP) >-8  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094916"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | fields -A",
+        "executeTime": "20170208094907"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' max(AVG_TEMP) >-8  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094906"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' max(AVG_TEMP)  > -8  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094859"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | sql",
+        "executeTime": "20170208094858"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' max(AVG_TEMP)  > '-8'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094850"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | sql select * from angora",
+        "executeTime": "20170208094848"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' max(AVG_TEMP)  > '-8'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094845"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208094841"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170208094828"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' AVG  > '-8'  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094825"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' AVG  > -8  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094811"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' AVG  > -8  | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094733"
+    }, {
+        "userId": "root",
+        "startDate": "20160509201800",
+        "endDate": "20160509202400",
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160509201800'",
+        "executeTime": "20170208094559"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094514"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208094412"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170208093607"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2014-05-10'",
+        "executeTime": "20170208093452"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2007-01-01'",
+        "executeTime": "20170208093431"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2014-05-09'",
+        "executeTime": "20170208093409"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2014-05-09'",
+        "executeTime": "20170208093219"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='171'",
+        "executeTime": "20170208093018"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='265'",
+        "executeTime": "20170208092909"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "*| stats count(*) BY date_group(FTS_PARTITION_TIME, \"1Yaa\")",
+        "executeTime": "20170208092710"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160505181558|abercda01|1871|1|TRO|NA|1|4|0|0|0|0|0|0|0|0|0|0|||||'",
+        "executeTime": "20170208092054"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* | substr FTS_PARTITION_TIME 1 5",
+        "executeTime": "20170208091244"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* substr FTS_PARTITION_TIME 1 5",
+        "executeTime": "20170208091226"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* | substr 시간 1 10",
+        "executeTime": "20170208090608"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* | substr FTS_RAW_DATA 1 10",
+        "executeTime": "20170208090547"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID >= 2010 TEAMID='LAN' YEARID=2012 |  stats sum(H) by TEAMID",
+        "executeTime": "20170207184415"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID >= 2010 TEAMID='LAN' YEARID=2012",
+        "executeTime": "20170207184307"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2009-12-07'|sort +DATE",
+        "executeTime": "20170207183955"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207183913"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2007-01-07'|sort +DATE",
+        "executeTime": "20170207183818"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119'",
+        "executeTime": "20170207182715"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119",
+        "executeTime": "20170207182712"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207182627"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2013-01-03'|sort +DATE",
+        "executeTime": "20170207182533"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* LGID='AL'",
+        "executeTime": "20170207182445"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='2013-01-03'|sort +DATE",
+        "executeTime": "20170207182139"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID=''",
+        "executeTime": "20170207181752"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='undefined'|sort +DATE",
+        "executeTime": "20170207181726"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='undefined'|sort +DATE",
+        "executeTime": "20170207181258"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207181212"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | pivot max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207181203"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='undefined'|sort +DATE",
+        "executeTime": "20170207181138"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION",
+        "executeTime": "20170207181118"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='undefined'|sort +DATE",
+        "executeTime": "20170207181118"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "8656799b-af55-4192-a655-4f901f34aa55",
+        "query": "* FILE_TYPE=3075",
+        "executeTime": "20170207181014"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID=2012",
+        "executeTime": "20170207180753"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(H) by PLAYERID",
+        "executeTime": "20170207180410"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID",
+        "executeTime": "20170207180358"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PLAYERID='highan01'",
+        "executeTime": "20170207180354"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183830|zitoba01|2015|1|OAK|AL|3|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207174201"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183833|zuninmi01|2015|1|SEA|AL|112|350|28|61|11|0|11|28|0|1|21|132|0|5|8|2|6'",
+        "executeTime": "20170207174122"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207174030"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207173042"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats count(*) BY date_group(FTS_PARTITION_TIME, \"1Yaa\")",
+        "executeTime": "20170207172948"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* LGID != \"AA\" LGID='AL' STINT=2",
+        "executeTime": "20170207172521"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* LGID='NL' STINT=1",
+        "executeTime": "20170207172437"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* LGID='AL' STINT=2",
+        "executeTime": "20170207172424"
+    }, {
+        "userId": "root",
+        "startDate": "20170207153521",
+        "endDate": "20170207153522",
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* ENB_ID=22590 CELL_ID=13 TA <= 100 TA IS NOT NULL ENB_ID=22590",
+        "executeTime": "20170207153526"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW DATE",
+        "executeTime": "20170207153022"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW LOCATION",
+        "executeTime": "20170207152935"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207152843"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207145532"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* | stats",
+        "executeTime": "20170207145332"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* '2015'",
+        "executeTime": "20170207145116"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183826'",
+        "executeTime": "20170207144221"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183826'",
+        "executeTime": "20170207144128"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207144055"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207142259"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot min(AVG_TEMP) AS AVG SPLITROW LOCATION | sort AVG",
+        "executeTime": "20170207142139"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* LOCATION='other (53)'",
+        "executeTime": "20170207142138"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170207141534"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* | stats",
+        "executeTime": "20170207140313"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot max(AVG_TEMP) AS AVG SPLITROW LOCATION | sort +AVG",
+        "executeTime": "20170207132540"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170207132527"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* DATE='other (785)'",
+        "executeTime": "20170207132413"
+    }, {
+        "userId": "root",
+        "startDate": "-1y",
+        "endDate": "0y",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PLAYERID='zobribe01'",
+        "executeTime": "20170207131519"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID=",
+        "executeTime": "20170207113933"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* zobribe01",
+        "executeTime": "20170207113551"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183831|zobribe01|2015|1|OAK|AL|67|235|39|63|20|2|6|33|1|1|33|26|2|0|0|3|5'",
+        "executeTime": "20170207113538"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID='OAK' YEARID!=2015",
+        "executeTime": "20170207112252"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183832|zobribe01|2015|2|KCA|AL|59|232|37|66|16|1|7|23|2|3|29|30|1|1|0|2|3'",
+        "executeTime": "20170207112243"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183832|zobribe01|2015|2|KCA|AL|59|232|37|66|16|1|7|23|2|3|29|30|1|1|0|2|3'",
+        "executeTime": "20170207112235"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID='OAK' YEARID!=2015 PLAYERID='saverjo01'",
+        "executeTime": "20170207112232"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot min(AVG_TEMP) AS AVG SPLITROW LOCATION",
+        "executeTime": "20170207111932"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot max(AVG_TEMP) AS AVG SPLITROW LOCATION",
+        "executeTime": "20170207111900"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* 'zobribe01 2015' FTS_RAW_DATA='20160510183832|zobribe01|2015|2|KCA|AL|59|232|37|66|16|1|7|23|2|3|29|30|1|1|0|2|3'",
+        "executeTime": "20170207111859"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* 'zobribe01 2015'",
+        "executeTime": "20170207110953"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* 'zobribe01|2015'",
+        "executeTime": "20170207110952"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID='OAK'",
+        "executeTime": "20170207110420"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* AVG_TEMP=3.3|stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170207110042"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2  | stats max(RAINFALL_CONT_TIME) BY DATE | top 100",
+        "executeTime": "20170207105126"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* zobribe01|2015",
+        "executeTime": "20170207105033"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* zobribe01 2015",
+        "executeTime": "20170207104954"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* will",
+        "executeTime": "20170207104817"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* zychto01",
+        "executeTime": "20170207104727"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2 | top 10 +AVG_WIND_SPEED  | stats max(RAINFALL_CONT_TIME) BY DATE",
+        "executeTime": "20170207103647"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2 | top 100 +AVG_WIND_SPEED  | stats max(RAINFALL_CONT_TIME) BY DATE",
+        "executeTime": "20170207103618"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2 | top 100",
+        "executeTime": "20170207103543"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2 | top 100  | stats max(RAINFALL_CONT_TIME) BY DATE",
+        "executeTime": "20170207103510"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2  | stats max(RAINFALL_CONT_TIME) BY DATE | top 100",
+        "executeTime": "20170207103501"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2  |top 100 | stats max(RAINFALL_CONT_TIME) BY DATE",
+        "executeTime": "20170207103451"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "AVG_WIND_SPEED=2 | stats max(RAINFALL_CONT_TIME) BY DATE",
+        "executeTime": "20170207102720"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | pivot max(AVG_TEMP) AS AVG SPLITROW DATE | sort +AVG",
+        "executeTime": "20170207095217"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='119' | pivot max(AVG_TEMP) SPLITROW DATE",
+        "executeTime": "20170206205135"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | pivot max(AVG_TEMP) SPLITROW DATE",
+        "executeTime": "20170206205034"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119' | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206204108"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' OR LOCATION='119'",
+        "executeTime": "20170206203949"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION='100' LOCATION='119'",
+        "executeTime": "20170206203940"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* LOCATION='100' LOCATION='119'",
+        "executeTime": "20170206203927"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* LOCATION='100'",
+        "executeTime": "20170206203909"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 LOCATION=100",
+        "executeTime": "20170206203831"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 AND LOCATION=100",
+        "executeTime": "20170206203802"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 뭉 LOCATION=100",
+        "executeTime": "20170206203757"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 OR LOCATION=100",
+        "executeTime": "20170206203140"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206195342"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193811"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193454"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 AVG_TEMP=3|stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193237"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193215"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193127"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=119 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206193036"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "LOCATION=90 | stats max(AVG_TEMP) BY DATE",
+        "executeTime": "20170206192926"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | stats max(AVG_TEMP) BY AVG_TEMP",
+        "executeTime": "20170206192821"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | stats max(AVG_TEMP) BY AVG_TEMP",
+        "executeTime": "20170206192739"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* | stats count(*)",
+        "executeTime": "20170206192526"
+    }, {
+        "userId": "root",
+        "startDate": "20160507000000",
+        "endDate": "20160508000000",
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160507234934'",
+        "executeTime": "20170206185824"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR)  | where `sum(HR)`  > 0",
+        "executeTime": "20170206185719"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR)  | where `sum(HR)` is not null",
+        "executeTime": "20170206175715"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR)  | where `sum(HR)`  > 0",
+        "executeTime": "20170206175604"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR)  | where sum(HR)  > 0",
+        "executeTime": "20170206174913"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID  | where max(HR)  > 1",
+        "executeTime": "20170206174745"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID  | where sum(HR)  > 1",
+        "executeTime": "20170206174726"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID",
+        "executeTime": "20170206174709"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where `sum(HR)` is not null",
+        "executeTime": "20170206174343"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | where sum(HR) > 0",
+        "executeTime": "20170206174250"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where sum(HR) > 0",
+        "executeTime": "20170206174223"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR)",
+        "executeTime": "20170206174156"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where `sum(HR)` > 0",
+        "executeTime": "20170206174054"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where `sum(HR)` > 3",
+        "executeTime": "20170206174017"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where sum(HR) > 3",
+        "executeTime": "20170206173950"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | where sum(HR) > 3",
+        "executeTime": "20170206173912"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | where sum(HR) > 3",
+        "executeTime": "20170206173903"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) by PLAYERID | sort -sum(HR) | where sum(HR) > 3",
+        "executeTime": "20170206173857"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | where sum(HR) > 3",
+        "executeTime": "20170206173846"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | where some(HR) > 3",
+        "executeTime": "20170206173840"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | where HR > 3",
+        "executeTime": "20170206173834"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | rename sum(HR) HR | where HR > 3",
+        "executeTime": "20170206170837"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | rename sum(HR) HR | where HR > 0",
+        "executeTime": "20170206170402"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "NL TEAMID='PHI' STINT!=1 | stats sum(HR) by PLAYERID | sort -sum(HR) | rename sum(HR) HR | where HR > 0",
+        "executeTime": "20170206170256"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "04dd7971-ed26-4137-8e7a-84ca9361cf00",
+        "query": "* HIGH=1.35",
+        "executeTime": "20170206160239"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "93275024-8699-43f6-bb61-bc334d1f9355",
+        "query": "* CDR_TYP=8",
+        "executeTime": "20170206155828"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* CQI=6",
+        "executeTime": "20170206155041"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* CQI=",
+        "executeTime": "20170206154515"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "c6bd589a-9b80-4239-84b0-2ec712954564",
+        "query": "* CQI=",
+        "executeTime": "20170206154446"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183233|reverbe01|2015|1|PHI|NL|96|366|49|109|13|6|1|26|24|5|19|36|0|1|2|0|4'",
+        "executeTime": "20170206143100"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_PARTITION_TIME='20160510183834'",
+        "executeTime": "20170206115140"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "05f8617c-9764-4dd8-9ccf-63544428978b",
+        "query": "* FTS_RAW_DATA='20160510183834|zychto01|2015|1|SEA|AL|13|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0'",
+        "executeTime": "20170206115054"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4484da2b-01b0-4857-919f-aa429f8d01d1",
+        "query": "* HIGHEST_TEMP=",
+        "executeTime": "20170202114458"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4484da2b-01b0-4857-919f-aa429f8d01d1",
+        "query": "* HIGHEST_TEMP=",
+        "executeTime": "20170202114439"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170200",
+        "endDate": "20160307170300",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* ENB_ID = 22590 TA >= 18 TA <> 65535",
+        "executeTime": "20170131175926"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* ENB_ID=22590",
+        "executeTime": "20170131173319"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* STINT=LGID='NL'|sort -STINT",
+        "executeTime": "20170131173153"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* STINT=LGID='NL'|sort -STINT",
+        "executeTime": "20170131173141"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* STINT=LGID='NL'|sort -STINT",
+        "executeTime": "20170131173117"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID | sort -YEARID",
+        "executeTime": "20170131171112"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "e07d55c7-8507-44fb-b0d6-fc9468045abd",
+        "query": "* FTS_RAW_DATA='20160506183253|holloke01|1925|1|DET|AL|38|48|3|11|0|1|0|2|0|1|1|3||0|4||'",
+        "executeTime": "20170131163945"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170200",
+        "endDate": "20160307170300",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* ENB_ID = 22590 TA >= 18 TA <> 65535",
+        "executeTime": "20170131133057"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* TA >=18 TA <> 65535 ENB_ID=22590|sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora\"",
+        "executeTime": "20170131132202"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* TA >=18 TA <> 65535 |sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora\"",
+        "executeTime": "20170131132143"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* TA >=18 TA <> 65535 |sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora\"",
+        "executeTime": "20170131132010"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* TA >=18 TA <> 65535 |sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora\"",
+        "executeTime": "20170131131941"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "TA=8| sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora where TA >=18\"",
+        "executeTime": "20170131131825"
+    }, {
+        "userId": "root",
+        "startDate": "20160307170000",
+        "endDate": "20160307180000",
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* | sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora where TA >=18\"",
+        "executeTime": "20170131131625"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* | sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora where TA >=18\"",
+        "executeTime": "20170131131559"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* | sql \"select ATTEMPT_TIME, * from angora\"",
+        "executeTime": "20170131131427"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f149abaf-0742-4f51-824a-a0fea0836ff0",
+        "query": "* | sql \"select SUBSTR(ATTEMPT_TIME, 1, 16) as CTIME_MIN, * from angora\"",
+        "executeTime": "20170131131324"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID = \"PHI\" YEARID=2006|sort -YEARID",
+        "executeTime": "20170131114549"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI'",
+        "executeTime": "20170131113207"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI'",
+        "executeTime": "20170131113129"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI' | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID SORT desc | sort -YEARID",
+        "executeTime": "20170131113105"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI' | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID SORT desc | sort -YEARID",
+        "executeTime": "20170131112938"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI' | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID SORT desc",
+        "executeTime": "20170131112916"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* TEAMID='PHI' | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID",
+        "executeTime": "20170131112848"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID SORT YEARID",
+        "executeTime": "20170131112641"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID SORT -YEARID",
+        "executeTime": "20170131112637"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID",
+        "executeTime": "20170131112545"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "* | pivot max(HR) SPLITROW YEARID SPLITCOL TEAMID",
+        "executeTime": "20170131112209"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NL PLAYERID='doakbi01' | stats count(*) by YEARID | sort -YEARID",
+        "executeTime": "20170131111312"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NL PLAYERID='doakbi01' | stats count(*) by YEARID",
+        "executeTime": "20170131111250"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NL PLAYERID='doakbi01'",
+        "executeTime": "20170131111220"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NL",
+        "executeTime": "20170131111201"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NL",
+        "executeTime": "20170131111026"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "81364be0-0463-4760-8fd5-00bbcdee5d6c",
+        "query": "NK",
+        "executeTime": "20170131110936"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "e07d55c7-8507-44fb-b0d6-fc9468045abd",
+        "query": "* | sort -FTS_PARTITION_TIME",
+        "executeTime": "20170131103059"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "e07d55c7-8507-44fb-b0d6-fc9468045abd",
+        "query": "* | sort +FTS_PARTITION_TIME",
+        "executeTime": "20170131103051"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "e07d55c7-8507-44fb-b0d6-fc9468045abd",
+        "query": "* | sort FTS_PARTITION_TIME",
+        "executeTime": "20170131103037"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR 36 TEAMID='CHA'",
+        "executeTime": "20170131100541"
+    }, {
+        "userId": "root",
+        "startDate": "-15m",
+        "endDate": "now",
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR 36 TEAMID='CHA'",
+        "executeTime": "20170131100535"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR 36 TEAMID='CHA' PLAYERID='johnsmi04'",
+        "executeTime": "20170131094424"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PTIME='20160506183250'",
+        "executeTime": "20170131094422"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR 36 TEAMID='CHA'",
+        "executeTime": "20170126153609"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR 36",
+        "executeTime": "20170126153559"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 36",
+        "executeTime": "20170126153546"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 OR AL",
+        "executeTime": "20170126153525"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 AND AL",
+        "executeTime": "20170126153513"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01",
+        "executeTime": "20170126153503"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01 AL",
+        "executeTime": "20170126153450"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01",
+        "executeTime": "20170126153435"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* holloke01",
+        "executeTime": "20170126152437"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* PLAYERID='holloke01'",
+        "executeTime": "20170126152428"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "97c3283e-b23a-4036-8264-63b3b8b57f28",
+        "query": "* ENB_ID=22590 CELL_ID=13",
+        "executeTime": "20170126125750"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED' TA=null|sql \"select  substr(EVENT_DATE, 1, 16) as C_MIN,  concat(CAST(ENB_ID  as int ),  '_' , CAST(CELL_ID as int))  as ENB_CELL, * from angora\"",
+        "executeTime": "20170126124908"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats avg(partition_range) by dataset",
+        "executeTime": "20170125174518"
+    }, {
+        "userId": "root",
+        "startDate": "0M",
+        "endDate": "now",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "asd",
+        "executeTime": "20170125174405"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG'",
+        "executeTime": "20170125174219"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' AND CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED'",
+        "executeTime": "20170125174157"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' AND CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED'",
+        "executeTime": "20170125174140"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED'",
+        "executeTime": "20170125173952"
+    }, {
+        "userId": "root",
+        "startDate": "-4h",
+        "endDate": "now",
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "testestest",
+        "executeTime": "20170125153453"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats avg(partition_range)",
+        "executeTime": "20170125150939"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats avg(partition_range) by id",
+        "executeTime": "20170125150840"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats min(partition_range)",
+        "executeTime": "20170125150734"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "| stats max(partition_range)",
+        "executeTime": "20170125145331"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats max(partition_range)",
+        "executeTime": "20170125145314"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats max(pratition_range)",
+        "executeTime": "20170125145247"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "f07c7887-5a58-44c4-be92-8b599f6918c6",
+        "query": "* | stats max(pratition_range) by count",
+        "executeTime": "20170125145234"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA=null",
+        "executeTime": "20170125142520"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA='abc'",
+        "executeTime": "20170125142459"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA is null",
+        "executeTime": "20170125142446"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA='abc'",
+        "executeTime": "20170125142430"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA=''",
+        "executeTime": "20170125142350"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA=\"\"",
+        "executeTime": "20170125142325"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED' TA=null|sql \"select  substr(EVENT_DATE, 1, 16) as C_MIN,  concat(CAST(ENB_ID  as int ),  '_' , CAST(CELL_ID as int))  as ENB_CELL, * from angora\"",
+        "executeTime": "20170125130241"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED' TA=null|sql \"select  substr(EVENT_DATE, 1, 16) as C_MIN,  concat(CAST(ENB_ID  as int ),  '_' , CAST(CELL_ID as int))  as ENB_CELL, * from angora\"",
+        "executeTime": "20170125115616"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* 123  | where TA = \"\"",
+        "executeTime": "20170125115106"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA=\"\"",
+        "executeTime": "20170125115050"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* | where TA is null",
+        "executeTime": "20170125115038"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* TA=\"\"",
+        "executeTime": "20170125115015"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* TA=null",
+        "executeTime": "20170125115000"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* TA is null",
+        "executeTime": "20170125114940"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* TA=\"null\"",
+        "executeTime": "20170125114834"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* TA=null",
+        "executeTime": "20170125114816"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "71ac9258-b20c-40aa-9672-0364b2888b4b",
+        "query": "* VENDOR_ID='ELG' CALL_FAIL_CAUSE='CS_FALLBACK_TRIGGERED' TA=null|sql \"select  substr(EVENT_DATE, 1, 16) as C_MIN,  concat(CAST(ENB_ID  as int ),  '_' , CAST(CELL_ID as int))  as ENB_CELL, * from angora\"",
+        "executeTime": "20170125114755"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(STINT) by TEAMID",
+        "executeTime": "20170125104129"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* TEAMID='PHA'",
+        "executeTime": "20170125103128"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(STINT) by TEAMID",
+        "executeTime": "20170125103103"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* abcsd",
+        "executeTime": "20170124150634"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* 1923",
+        "executeTime": "20170124150617"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "7b38a62e-8396-4d36-8055-2f2b5391b00d",
+        "query": "* abc",
+        "executeTime": "20170124150550"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* abc",
+        "executeTime": "20170124150538"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* 0",
+        "executeTime": "20170124150521"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* SEO",
+        "executeTime": "20170124150415"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* SEO",
+        "executeTime": "20170124150154"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* SEO",
+        "executeTime": "20170124145532"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* SEO",
+        "executeTime": "20170124145416"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* SEO",
+        "executeTime": "20170124145344"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL",
+        "executeTime": "20170124144741"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL AND 28",
+        "executeTime": "20170124144703"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL AND 4",
+        "executeTime": "20170124144702"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL AND 28",
+        "executeTime": "20170124144652"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL AND 4",
+        "executeTime": "20170124144642"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL 4",
+        "executeTime": "20170124144633"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* AL",
+        "executeTime": "20170124144604"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* SEO",
+        "executeTime": "20170124144506"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "50475d01-0206-4471-9f4d-1c6d5ef39c26",
+        "query": "* 'Kg=='",
+        "executeTime": "20170124144441"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "50475d01-0206-4471-9f4d-1c6d5ef39c26",
+        "query": "* Kg==",
+        "executeTime": "20170124144435"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* SEO",
+        "executeTime": "20170124142222"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* 'SEO'",
+        "executeTime": "20170124142124"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* AVG_TEMP>4 LOCATION=165 HIGHEST_TEMP>=30 SUM_SUNSHINE_TIME>=8",
+        "executeTime": "20170120151031"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(H), sum(R) by TEAMID",
+        "executeTime": "20170120150952"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* AVG_TEMP>4 LOCATION =165  | sort -DATE | stats avg(AVG_TEMP), avg(LOWEST_TEMP), avg(HIGHEST_TEMP), avg(AVG_WIND_SPEED), avg(MAX_WIND_SPEED) by DATE",
+        "executeTime": "20170120143259"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID=1953",
+        "executeTime": "20170120131730"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID=1993",
+        "executeTime": "20170120131512"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "7b38a62e-8396-4d36-8055-2f2b5391b00d",
+        "query": "* | stats sum(HR)",
+        "executeTime": "20170120094552"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* |stats sum(HR)",
+        "executeTime": "20170120093541"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* |stats sum(R)",
+        "executeTime": "20170120093528"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* LGID='NL'|stats sum(R)",
+        "executeTime": "20170120093453"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* LGID='NL'|stats sum(R)",
+        "executeTime": "20170120092806"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* | stats sum(R)",
+        "executeTime": "20170120092634"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "4b338ff2-1971-46f9-bad4-150b85eb07ee",
+        "query": "* | stats sum(R)",
+        "executeTime": "20170120092447"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "0383e8e2-03b6-4a40-a83a-7e73a9f81b28",
+        "query": "* | stats sum(HEIGHT)",
+        "executeTime": "20170120092427"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* AVG_TEMP>4 LOCATION =165  | sort -DATE | stats avg(AVG_TEMP), avg(LOWEST_TEMP), avg(HIGHEST_TEMP), avg(AVG_WIND_SPEED), avg(MAX_WIND_SPEED) by DATE",
+        "executeTime": "20170119113322"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "61aa7ed0-d7f3-4b20-b6cb-9eac2b6c4a8d",
+        "query": "* AVG_TEMP>4 LOCATION =165  | sort -DATE | stats avg(AVG_TEMP), avg(LOWEST_TEMP), avg(HIGHEST_TEMP), avg(AVG_WIND_SPEED), avg(MAX_WIND_SPEED) by DATE",
+        "executeTime": "20170119102114"
+    }, {
+        "userId": "root",
+        "startDate": "20160508205500",
+        "endDate": "20160508221700",
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* YEARID=1993",
+        "executeTime": "20170118135423"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* HR=4",
+        "executeTime": "20170118111600"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats sum(HR) BY date_group(FTS_PARTITION_TIME, \"1H\")",
+        "executeTime": "20170117134229"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* | stats count(*) BY date_group(FTS_PARTITION_TIME, \"1H\")",
+        "executeTime": "20170117134120"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "** | stats count(*) BY date_group(FTS_PARTITION_TIME, \"1H\")",
+        "executeTime": "20170117134047"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PTIME='20160506183253'",
+        "executeTime": "20170117132224"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PTIME='20160506183253'",
+        "executeTime": "20170117131442"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PTIME='20160505181558'",
+        "executeTime": "20170117131209"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* PTIME='20160505181559'",
+        "executeTime": "20170117130703"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* HR=4 | stats sum(HR)",
+        "executeTime": "20170117094908"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "62a1eb9a-c9ee-4007-96ec-6f1d25bfcc9b",
+        "query": "* HR=4",
+        "executeTime": "20170117094541"
+    }, {
+        "userId": "root",
+        "startDate": null,
+        "endDate": null,
+        "modelId": "APOLLO_ENB",
+        "query": "* TA >= 18",
+        "executeTime": "20170112091559"
+    }]
+}
