@@ -95,7 +95,6 @@ http://localhost:3030/
 
 1. `gulp build` 명령 수행 (한 번만)
 2. background로 node 서버 실행
-    * `node node/www.js`
     * `pm2 start node/node.js --name=nanum` (pm2 설치 필요)
 3. `gulp` 명령 수행 (foreground)
 4. .js 파일 수정
