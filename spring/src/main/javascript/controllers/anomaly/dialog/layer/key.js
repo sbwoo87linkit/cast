@@ -164,6 +164,7 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         // fetch data
         // NOTE: layer가 close 되어도 계속 진행
         searchAgent.statsDetail(params, model, field.name)
+            // success callback은 반복적으로 호출된다.
             .success(function (data) {
                 if ($scope.keyField.values) {
                     syncModes($scope.keyField.values, data.modes);

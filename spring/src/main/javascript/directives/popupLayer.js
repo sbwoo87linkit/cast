@@ -6,8 +6,8 @@ var angular = require('angular');
 /**
 *
 */
-popupLayer.$inject = ['$document', '$window', '$timeout', 'popupLayerStore'];
-function popupLayer($document, $window, $timeout, popupLayerStore) {
+popupLayer.$inject = ['$rootScope', '$document', '$window', '$timeout', 'popupLayerStore'];
+function popupLayer($rootScope, $document, $window, $timeout, popupLayerStore) {
     /**
     *   functions
     */
@@ -39,7 +39,20 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
         };
     };
     var getPlacement = function (el) {
-        var placements = ['top', 'bottom', 'left', 'right'];
+        var placements = [
+            'top',
+            'top-left',
+            'top-right',
+            'bottom',
+            'bottom-left',
+            'bottom-right',
+            'left',
+            'left-top',
+            'left-bottom',
+            'right',
+            'right-top',
+            'right-bottom'
+        ];
 
         for (var i = 0; i < placements.length; i++) {
             if (el.hasClass(placements[i])) {
@@ -55,23 +68,50 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
         var left = 0;
         var top = 0;
 
-        switch (placement) {
+        var sp = placement.split('-');
+        var placement_f = sp[0];
+        var placement_l = sp[1];
+
+        switch (placement_f) {
             case 'left':
                 left = rect.left - width;
-                top = rect.top + (rect.height / 2) - (height / 2);
                 break;
             case 'right':
                 left = rect.left + rect.width;
-                top = rect.top + (rect.height / 2) - (height / 2);
                 break;
             case 'top':
-                left = rect.left + (rect.width / 2) - (width / 2);
                 top = rect.top - height;
                 break;
             case 'bottom':
-                left = rect.left + (rect.width / 2) - (width / 2);
                 top = rect.top + rect.height;
                 break;
+        }
+
+        if (placement_f === 'left' || placement_f === 'right') {
+            switch (placement_l) {
+                case 'top':
+                    top = rect.top;
+                    break;
+                case 'bottom':
+                    top = rect.top + rect.height - height;
+                    break;
+                default:
+                    top = rect.top + (rect.height / 2) - (height / 2);
+                    break;
+            }
+        }
+        else if (placement_f === 'top' || placement_f === 'bottom') {
+            switch (placement_l) {
+                case 'left':
+                    left = rect.left;
+                    break;
+                case 'right':
+                    left = rect.left + rect.width - width;
+                    break;
+                default:
+                    left = rect.left + (rect.width / 2) - (width / 2);
+                    break;
+            }
         }
 
         var scrollbarWidth = getScrollbarWidth();
@@ -91,6 +131,8 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
     *   directive link
     */
     function link(scope, element, attrs, ctrl) {
+        var key = scope.$eval(attrs.popupLayer) || attrs.popupLayer;
+
         // ...
         var docClickListener = function (evt) {
             if (!ctrl.isAutoClose) {
@@ -106,7 +148,9 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
             // is outer area
             var $target = angular.element(evt.target);
             if (!$target.closest(element).length) {
-                ctrl.closeEl();
+                scope.$apply(function () {
+                    ctrl.closeEl();
+                });
             }
         };
 
@@ -125,7 +169,7 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
             }
 
             // close all other layer (ignore this layer)
-            popupLayerStore.callAll('closeEl', attrs.popupLayer);
+            popupLayerStore.callAll('closeEl', key);
 
             // open 동작은 위치 설정 이후에 해야한다.
             var _this = this;
@@ -139,7 +183,11 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
 
                 // arrow 위치를 현재 위치로 고정 (50% -> ...)
                 var arrowPos = $arrow.position(); // relative pos
-                switch(_this._placement) {
+
+                var sp = _this._placement.split('-');
+                var placement_f = sp[0];
+
+                switch (placement_f) {
                     case 'top':
                     case 'bottom':
                         $arrow.css('left', arrowPos.left);
@@ -151,6 +199,8 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
                 }
 
                 $document.on('click', docClickListener);
+
+                $rootScope.$broadcast('popupLayer.opened.' + key);
             });
 
             return this;
@@ -164,6 +214,8 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
             $el.hide();
             // arrow 위치 고정 해제 (... -> 50%)
             $arrow.css({ 'left': '', 'top': '' });
+
+            $rootScope.$broadcast('popupLayer.closed.' + key);
 
             return this;
         };
@@ -196,7 +248,21 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
 
                 if (customPlacement) {
                     $el
-                        .removeClass('top bottom left right')
+                        // set arrow placement
+                        .removeClass([
+                            'top',
+                            'top-left',
+                            'top-right',
+                            'bottom',
+                            'bottom-left',
+                            'bottom-right',
+                            'left',
+                            'left-top',
+                            'left-bottom',
+                            'right',
+                            'right-top',
+                            'right-bottom'
+                        ].join(' '))
                         .addClass(placement);
                 }
 
@@ -211,7 +277,7 @@ function popupLayer($document, $window, $timeout, popupLayerStore) {
         };
 
         // register
-        popupLayerStore.append(attrs.popupLayer, ctrl);
+        popupLayerStore.append(key, ctrl);
     }
 
     return {
@@ -228,6 +294,8 @@ popupLayerArea.$inject = ['popupLayerStore'];
 function popupLayerArea(popupLayerStore) {
     function link (scope, element, attrs) {
         var key = scope.$eval(attrs.popupLayerArea) || attrs.popupLayerArea;
+        var placement = scope.$eval(attrs.layerPlacement) || attrs.layerPlacement;
+        var offset = scope.$eval(attrs.layerOffset) || attrs.layerOffset;
 
         element.click(function () {
             scope.$apply(function () {
@@ -237,11 +305,16 @@ function popupLayerArea(popupLayerStore) {
                     layer.closeEl();
                 }
                 else {
-                    layer.placeEl(element).openEl();
-
-                    scope.$eval(attrs.layerOpen, {});
+                    layer.placeEl(element, placement, offset).openEl();
                 }
             });
+        });
+
+        scope.$on('popupLayer.opened.' + key, function () {
+            scope.$eval(attrs.layerOpen, {});
+        });
+        scope.$on('popupLayer.closed.' + key, function () {
+            scope.$eval(attrs.layerClose, {});
         });
     }
 
