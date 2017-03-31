@@ -51,7 +51,7 @@ function Config($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: '/views/analysis/choose_data.html'
         })
         .state('analysis', {
-            url: '/analysis',
+            url: '/analysis?q&d&t.start&t.end&display',
             templateUrl: '/views/analysis/index.html'
         })
         // 이상 탐지
