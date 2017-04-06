@@ -24,11 +24,9 @@ function SearchCond($rootScope, DEFAULT, util) {
     */
     this.clean = function () {
         _modelId = '';
-        _query = '';
-        _timeRange = {
-            start: DEFAULT.TIME_START,
-            end: DEFAULT.TIME_END
-        };
+        _query = DEFAULT.QUERY;
+        _timeRange.start = DEFAULT.TIME_START;
+        _timeRange.end = DEFAULT.TIME_END;
 
         return this;
     };

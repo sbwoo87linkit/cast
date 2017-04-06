@@ -68,7 +68,7 @@ function DataModelAgent($log, $http, $filter, DEFAULT, MESSAGE, util) {
             };
         } else if (type === DEFAULT.STORAGE_TYPE.HDFS) {
             param.dataset = {
-                format: util.getFileFormat(obj.target.hdfs),
+                format: DEFAULT.HDFS_FILE_FORMAT,
                 path: obj.target.hdfs
             };
         }

@@ -82,7 +82,7 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         }
     });
     /**
-    *
+    *   events
     */
     $scope.$on('anomaly.opt.key_field.init_form', function () {
         // NOTE: 필드 목록에서 중복 필드 제거
@@ -119,6 +119,10 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
 
         // init validation flag
         $scope.isInvalid = {};
+    });
+    $scope.$on('searchCond.changed', function () {
+        // init
+        _fieldStatsMap = {};
     });
     /**
     *

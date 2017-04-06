@@ -185,7 +185,7 @@ function searchAgent($rootScope, $http, $q, $log, $filter, $window, DEFAULT, uti
     /**
      * 다운로드
      */
-    var getDownloadSid = function(params, callback) {
+    var getDownloadSid = function(params, successCallback, errorCallback) {
         var body = _.cloneDeep(params);
 
         var request = createRequest();
@@ -197,7 +197,7 @@ function searchAgent($rootScope, $http, $q, $log, $filter, $window, DEFAULT, uti
                 removeRequest(request.id);
                 var sid = res.data.sid;
 
-                callback(sid);
+                successCallback(sid);
             }, function(res) {
                 removeRequest(request.id);
 
@@ -208,7 +208,12 @@ function searchAgent($rootScope, $http, $q, $log, $filter, $window, DEFAULT, uti
 
                 var msg = res.data;
                 $log.error('Event Download error:', msg);
-                $rootScope.$broadcast('search.result.error', msg);
+
+                if (errorCallback) {
+                    errorCallback();
+                } else {
+                    $rootScope.$broadcast('search.result.error', msg);
+                }
             });
     };
 
@@ -359,10 +364,23 @@ function searchAgent($rootScope, $http, $q, $log, $filter, $window, DEFAULT, uti
 
                 // NOTE: 시간 필드가 없는 모델에 대한 결과에는 modes가 없다.
                 if (data.modes) {
-                    // UNPARSED -> unix timestamp
-                    _.forEach(data.modes, function(mode) {
-                        mode.date = $filter('str2msec')(mode.date);
-                    });
+                    var timeFieldName = _.get(_modelInfo, 'fields._time');
+                    var selectedFields = _.get(_modelInfo, 'fields.selected');
+                    var timeField = _.find(selectedFields, ['name', timeFieldName]);
+
+                    var format = _.get(timeField, 'option.format');
+                    if (format) {
+                        // model time format -> unix timestamp
+                        _.forEach(data.modes, function(mode) {
+                            mode.date = moment(mode.date, format, true).valueOf();
+                        });
+                    }
+                    else {
+                        // UNPARSED -> unix timestamp
+                        _.forEach(data.modes, function(mode) {
+                            mode.date = $filter('str2msec')(mode.date);
+                        });
+                    }
 
                     $rootScope.$broadcast('search.timeline.data', data.modes, timeUnit);
                 }
@@ -737,6 +755,46 @@ function searchAgent($rootScope, $http, $q, $log, $filter, $window, DEFAULT, uti
             $window.location = [uri, queryStr].join('?');
         });
     };
+
+    this.export = function(params, modelInfo, successCallback, errorCallback) {
+        // export to hdfs
+        var query = params.q;
+        var dm_id = modelInfo.id;
+        var path = params.path;
+        var exportParam = {
+            q: query,
+            datamodel_id: dm_id,
+            dataset: {
+                format: DEFAULT.HDFS_FILE_FORMAT,
+                path: path
+            }
+        };
+
+        getDownloadSid(exportParam, function(sid) {
+            var uri = [URI.event, sid, 'export'].join('/');
+            var request = createRequest();
+            $http.get(uri, {
+                    timeout: request.defer.promise
+                })
+                .then(function() {
+                    removeRequest(request.id);
+                    successCallback();
+                }, function(error) {
+                    removeRequest(request.id);
+                    var msg = error.data;
+                    $log.error('Export error:', msg);
+
+                    if (error.status === -1) {
+                        return;
+                    }
+
+                    if (errorCallback) {
+                        errorCallback();
+                    }
+                });
+        }, errorCallback);
+    };
+
     this.statsDetail = function (params, modelInfo, fieldName) {
         if (arguments.length === 1) {
             fieldName = params;

@@ -47,7 +47,7 @@ function ValueFieldCtrl($scope, MESSAGE, DEFAULT, anomalyOpts, util, popupLayerS
         closeLayer();
     };
     /**
-    *
+    *   events
     */
     $scope.$on('anomaly.opt.val_field.init_form', function () {
         // NOTE: 필드 목록에서 중복 필드 제거

@@ -44,5 +44,5 @@ module.exports = {
         TABLE: 'iris',
         HDFS: 'hdfs'
     },
-    HDFS_ALLOW_FILE_FORMAT: 'csv'
+    HDFS_FILE_FORMAT: 'csv'
 };

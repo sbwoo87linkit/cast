@@ -22,7 +22,7 @@
 
     <!-- 결과(차트) -->
     <div ng-show="!card.state.running && card.state.success">
-        <pre style="position: absolute; height: 300px;">{{card.data | json:4}}</pre>
+        <pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->

@@ -135,11 +135,11 @@ function util($filter, $location, LOCALE, MESSAGE, DEFAULT, FORMAT, REGEXP, CHAR
                     break;
                 case 'startsWith':
                     operator = 'LIKE';
-                    value = '%' + value;
+                    value = value + '%';
                     break;
                 case 'endsWith':
                     operator = 'LIKE';
-                    value = value + '%';
+                    value = '%' + value;
                     break;
             }
 

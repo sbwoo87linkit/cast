@@ -6,8 +6,8 @@ var uuidV1 = require('uuid/v1');
 /**
  * Controller
  */
-ContainerCtrl.$inject = ['$scope', '$timeout'];
-function ContainerCtrl($scope, $timeout) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'anomaly'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly) {
     // var MAX_COL = 3;
     /**
      * scope
@@ -38,6 +38,25 @@ function ContainerCtrl($scope, $timeout) {
     $scope.$on('anomaly.card.copy', function(event, card) {
         copyCard(card);
     });
+    /**
+    *   init
+    */
+    var props = anomaly.get();
+
+    if ($stateParams.auto_add === 'true' && props.valFields.length) {
+        var timeRange = searchCond.timeRange();
+        var formData = _.merge(_.cloneDeep(ADE_PARAMS), props);
+
+        formData.title = 'Untitled 00';
+        formData.comTimeRange = {
+            start: timeRange.start,
+            end: timeRange.end
+        };
+
+        addCard(formData);
+
+        anomaly.clean();
+    }
 
     /**
      * functions

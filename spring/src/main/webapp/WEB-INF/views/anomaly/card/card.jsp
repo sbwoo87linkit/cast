@@ -80,8 +80,7 @@
                                     <spring:message code="anomaly.opt.not_match" var="not_match" />
 
                                     <span><spring:message code="anomaly.opt.time_zone" />: </span>
-                                    <span ng-bind="(opt.isMatchTimezone) ? '${match}' : '${not_match}'">
-                                    </span>
+                                    <span ng-bind="(opt.isMatchTimezone) ? '${match}' : '${not_match}'"></span>
                                 </li>
                                 <li>
                                     <span><spring:message code="anomaly.opt.date_classification" />: </span>

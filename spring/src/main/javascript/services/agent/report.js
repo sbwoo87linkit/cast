@@ -98,7 +98,9 @@ function reportAgent($http, $log, $filter, REGEXP, dataModelAgent) {
                 _reportList = list; // cache
 
                 callback(null, list);
-            }, callback);
+            }, function (res) {
+                callback(res.data);
+            });
     };
     /**
      *   methods
@@ -121,9 +123,9 @@ function reportAgent($http, $log, $filter, REGEXP, dataModelAgent) {
             function(callback) {
                 getReportList(callback);
             }
-        ], function(errorRes, results) {
-            if (errorRes) {
-                var msg = errorRes.data;
+        ], function(errorMsg, results) {
+            if (errorMsg) {
+                var msg = errorMsg;
                 $log.error(msg);
                 errorCallback(msg);
                 return;

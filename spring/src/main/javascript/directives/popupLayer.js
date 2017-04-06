@@ -200,7 +200,7 @@ function popupLayer($rootScope, $document, $window, $timeout, popupLayerStore) {
 
                 $document.on('click', docClickListener);
 
-                $rootScope.$broadcast('popupLayer.opened.' + key);
+                // $rootScope.$broadcast('popupLayer.opened.' + key);
             });
 
             return this;
@@ -306,13 +306,12 @@ function popupLayerArea(popupLayerStore) {
                 }
                 else {
                     layer.placeEl(element, placement, offset).openEl();
+
+                    scope.$eval(attrs.layerOpen, {});
                 }
             });
         });
 
-        scope.$on('popupLayer.opened.' + key, function () {
-            scope.$eval(attrs.layerOpen, {});
-        });
         scope.$on('popupLayer.closed.' + key, function () {
             scope.$eval(attrs.layerClose, {});
         });

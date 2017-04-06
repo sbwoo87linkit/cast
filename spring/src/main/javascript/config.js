@@ -60,7 +60,7 @@ function Config($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: '/views/anomaly/choose_data.html'
         })
         .state('anomaly', {
-            url: '/anomaly?q&d&t.start&t.end&display',
+            url: '/anomaly?q&d&t.start&t.end&auto_add&display',
             templateUrl: '/views/anomaly/index.html'
         })
         ;

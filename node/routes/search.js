@@ -170,7 +170,7 @@ router.get('/iris-search/jobs/:sid/download', function(req, res) {
     var session = sessions.search[sid];
 
     if (!session) {
-        return res.sendStatus(404);
+        return res.sendStatus(500);
     }
 
     var type = req.query.type;
@@ -185,6 +185,21 @@ router.get('/iris-search/jobs/:sid/download', function(req, res) {
     }
 
     return res.download(filePath, fileName);
+});
+// 검색결과 export
+router.get('/iris-search/jobs/:sid/export', function(req, res) {
+    var sid = req.params.sid;
+    var session = sessions.search[sid];
+
+    if (!session) {
+        return res.status(500).send({
+            message: 'export failed'
+        });
+    }
+
+    return res.send({
+        message: 'ok'
+    });
 });
 // 검색 정보 요청 닫기
 router.delete('/iris-search/jobs/:sid/close', function(req, res) {
