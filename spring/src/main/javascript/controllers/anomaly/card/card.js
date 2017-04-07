@@ -14,6 +14,8 @@ function CardCtrl($scope, anomalyAgent, searchCond, dataModel, anomalyOpts, popu
      * scope
      */
     $scope.chartTypes = anomalyOpts.CHART_TYPES;
+    // console.log("=====================")
+    // console.log($scope.chartTypes);
     $scope.errorMsg = '';
 
     /**
@@ -26,6 +28,8 @@ function CardCtrl($scope, anomalyAgent, searchCond, dataModel, anomalyOpts, popu
      */
     $scope.changeChartType = function(type) {
         // to result ctrl
+        console.log('-----------------')
+        console.log("CardCtrl - chart type: ", type)
         $scope.$broadcast('anomaly.card.changeChart', type);
     };
 
