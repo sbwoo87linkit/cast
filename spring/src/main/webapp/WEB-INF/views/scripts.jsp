@@ -5,6 +5,6 @@
 <script src="/resources/build/sherman.vendor.min.js"></script>
 <script src="/resources/lib/mobius/mobius.min.js"></script>
 <script src="/resources/build/sherman.index.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="/resources/lib/highcharts/highcharts.js"></script>
+<script src="/resources/lib/highcharts/heatmap.js"></script>
+<script src="/resources/lib/highcharts/exporting.js"></script>
