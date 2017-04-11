@@ -145,6 +145,9 @@ function popupLayer($rootScope, $document, $window, $timeout, popupLayerStore) {
             if ($clicked.closest('.ui-datepicker.ui-widget').length) {
                 return;
             }
+            if ($clicked.closest('[mu-dialog]')) {
+                return;
+            }
             // is outer area
             var $target = angular.element(evt.target);
             if (!$target.closest(element).length) {
@@ -200,7 +203,7 @@ function popupLayer($rootScope, $document, $window, $timeout, popupLayerStore) {
 
                 $document.on('click', docClickListener);
 
-                $rootScope.$broadcast('popupLayer.opened.' + key);
+                // $rootScope.$broadcast('popupLayer.opened.' + key);
             });
 
             return this;
@@ -306,13 +309,12 @@ function popupLayerArea(popupLayerStore) {
                 }
                 else {
                     layer.placeEl(element, placement, offset).openEl();
+
+                    scope.$eval(attrs.layerOpen, {});
                 }
             });
         });
 
-        scope.$on('popupLayer.opened.' + key, function () {
-            scope.$eval(attrs.layerOpen, {});
-        });
         scope.$on('popupLayer.closed.' + key, function () {
             scope.$eval(attrs.layerClose, {});
         });

@@ -15,6 +15,7 @@ module.exports = angular.module('sherman.constants', [])
     .constant('DEFAULT', require('./default.js'))
     .constant('CONFIG', require('./config.js'))
     .constant('CHART', require('./chart.js'))
+    .constant('ADE_PARAMS', require('./ade'))
     .constant('FORMAT', {
         DATE: 'YYYY/MM/DD',
         TIME: 'HH:mm:ss',
@@ -27,7 +28,7 @@ module.exports = angular.module('sherman.constants', [])
     })
     .constant('REGEXP', {
         UNPARSED: /^(\d{14})$/,
-        // special keyword (ex) '-15m')
+        // special keyword (ex) '-1m')
         TIME_KEYWORD: /^(\+|-)?(\d+)([smhdwMQy]+)$|^(now)$/
     })
     .constant('ALIGN', {

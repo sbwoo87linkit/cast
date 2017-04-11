@@ -5,29 +5,31 @@
         <a href="" mu-accordion-head=""><spring:message code="datetime_picker.presets" /></a>
         <div class="mu-slide-body" mu-accordion-body="">
             <ul>
-                <li ng-click="applyInit();"><a href=""><spring:message code="datetime_picker.all_time" /></a></li>
+                <li ng-click="applyInit()"><a href=""><spring:message code="datetime_picker.all_time" /></a></li>
             </ul>
             <ul>
-                <li ng-click="applyPreset('today');"><a href=""><spring:message code="datetime_picker.today" /></a></li>
-                <li ng-click="applyPreset('yesterday');"><a href=""><spring:message code="datetime_picker.yesterday" /></a></li>
-                <li ng-click="applyPreset('this_week');"><a href=""><spring:message code="datetime_picker.this_week" /></a></li>
-                <li ng-click="applyPreset('prev_week');"><a href=""><spring:message code="datetime_picker.prev_week" /></a></li>
-                <li ng-click="applyPreset('this_month');"><a href=""><spring:message code="datetime_picker.this_month" /></a></li>
-                <li ng-click="applyPreset('prev_month');"><a href=""><spring:message code="datetime_picker.prev_month" /></a></li>
-                <li ng-click="applyPreset('this_quarter');"><a href=""><spring:message code="datetime_picker.this_quarter" /></a></li>
-                <li ng-click="applyPreset('prev_quarter');"><a href=""><spring:message code="datetime_picker.prev_quarter" /></a></li>
-                <li ng-click="applyPreset('this_year');"><a href=""><spring:message code="datetime_picker.this_year" /></a></li>
-                <li ng-click="applyPreset('prev_year');"><a href=""><spring:message code="datetime_picker.prev_year" /></a></li>
+                <li ng-click="applyPreset('today')"><a href=""><spring:message code="datetime_picker.today" /></a></li>
+                <li ng-click="applyPreset('yesterday')"><a href=""><spring:message code="datetime_picker.yesterday" /></a></li>
+                <li ng-click="applyPreset('this_week')"><a href=""><spring:message code="datetime_picker.this_week" /></a></li>
+                <li ng-click="applyPreset('prev_week')"><a href=""><spring:message code="datetime_picker.prev_week" /></a></li>
+                <li ng-click="applyPreset('this_month')"><a href=""><spring:message code="datetime_picker.this_month" /></a></li>
+                <li ng-click="applyPreset('prev_month')"><a href=""><spring:message code="datetime_picker.prev_month" /></a></li>
+                <li ng-click="applyPreset('this_quarter')"><a href=""><spring:message code="datetime_picker.this_quarter" /></a></li>
+                <li ng-click="applyPreset('prev_quarter')"><a href=""><spring:message code="datetime_picker.prev_quarter" /></a></li>
+                <li ng-click="applyPreset('this_year')"><a href=""><spring:message code="datetime_picker.this_year" /></a></li>
+                <li ng-click="applyPreset('prev_year')"><a href=""><spring:message code="datetime_picker.prev_year" /></a></li>
             </ul>
             <ul>
-                <li ng-click="applyPreset('-15m');"><a href=""><spring:message code="datetime_picker.last_15_minutes" /></a></li>
-                <li ng-click="applyPreset('-60m');"><a href=""><spring:message code="datetime_picker.last_60_minutes" /></a></li>
-                <li ng-click="applyPreset('-4h');"><a href=""><spring:message code="datetime_picker.last_4_hours" /></a></li>
-                <li ng-click="applyPreset('-24h');"><a href=""><spring:message code="datetime_picker.last_24_hours" /></a></li>
-                <li ng-click="applyPreset('-7d');"><a href=""><spring:message code="datetime_picker.last_7_days" /></a></li>
-                <li ng-click="applyPreset('-2w');"><a href=""><spring:message code="datetime_picker.last_2_weeks" /></a></li>
-                <li ng-click="applyPreset('-3w');"><a href=""><spring:message code="datetime_picker.last_3_weeks" /></a></li>
-                <li ng-click="applyPreset('-4w');"><a href=""><spring:message code="datetime_picker.last_4_weeks" /></a></li>
+                <li ng-click="applyPreset('-1m')"><a href=""><spring:message code="datetime_picker.last_1_minutes" /></a></li>
+                <li ng-click="applyPreset('-10m')"><a href=""><spring:message code="datetime_picker.last_10_minutes" /></a></li>
+                <li ng-click="applyPreset('-30m')"><a href=""><spring:message code="datetime_picker.last_30_minutes" /></a></li>
+                <li ng-click="applyPreset('-60m')"><a href=""><spring:message code="datetime_picker.last_60_minutes" /></a></li>
+                <li ng-click="applyPreset('-4h')"><a href=""><spring:message code="datetime_picker.last_4_hours" /></a></li>
+                <li ng-click="applyPreset('-24h')"><a href=""><spring:message code="datetime_picker.last_24_hours" /></a></li>
+                <li ng-click="applyPreset('-7d')"><a href=""><spring:message code="datetime_picker.last_7_days" /></a></li>
+                <li ng-click="applyPreset('-2w')"><a href=""><spring:message code="datetime_picker.last_2_weeks" /></a></li>
+                <li ng-click="applyPreset('-3w')"><a href=""><spring:message code="datetime_picker.last_3_weeks" /></a></li>
+                <li ng-click="applyPreset('-4w')"><a href=""><spring:message code="datetime_picker.last_4_weeks" /></a></li>
             </ul>
         </div>
     </li>

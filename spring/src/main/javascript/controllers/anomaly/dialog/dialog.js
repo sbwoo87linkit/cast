@@ -6,8 +6,8 @@ var angular = require('angular');
 /**
  * Controller
  */
-DialogCtrl.$inject = ['$scope', '$filter', '$timeout', 'DEFAULT', 'util', 'searchCond'];
-function DialogCtrl($scope, $filter, $timeout, DEFAULT, util, searchCond) {
+DialogCtrl.$inject = ['$scope', '$filter', '$timeout', 'DEFAULT', 'ADE_PARAMS', 'util', 'searchCond'];
+function DialogCtrl($scope, $filter, $timeout, DEFAULT, ADE_PARAMS, util, searchCond) {
     /**
     *
     */
@@ -82,7 +82,6 @@ function DialogCtrl($scope, $filter, $timeout, DEFAULT, util, searchCond) {
 
             // hide more options
             $scope.formView.isMoreOpt = false;
-            $scope.dlgHeight = DEFAULT_DLG_HEIGHT;
         }
     });
 
@@ -118,31 +117,15 @@ function DialogCtrl($scope, $filter, $timeout, DEFAULT, util, searchCond) {
         untitledNum += 1;
 
         var timeRange = searchCond.timeRange();
+        var formData = _.cloneDeep(ADE_PARAMS);
 
-        $scope.formData = {
-            title: 'Untitled ' + (_.padStart((untitledNum + ''), 2, '0')),
-
-            keyFields: [],
-            valFields: [],
-            model: 'SPC',
-
-            min: 0,
-            max: 100,
-            includeNewKey: true,
-            missingValue: 'do_not_process',
-
-            comTimeRange: {
-                start: timeRange.start,
-                end: timeRange.end
-            },
-            refTimeRange: {
-                start: '-4w',
-                end: 'now'
-            },
-            timeUnit: '1h',
-            isMatchTimezone: true,
-            dateClassification: 'sameday'
+        formData.title = 'Untitled ' + (_.padStart((untitledNum + ''), 2, '0'));
+        formData.comTimeRange = {
+            start: timeRange.start,
+            end: timeRange.end
         };
+
+        $scope.formData = formData;
         $scope.formView.isMoreOpt = false;
         $scope.dlgHeight = DEFAULT_DLG_HEIGHT;
     }

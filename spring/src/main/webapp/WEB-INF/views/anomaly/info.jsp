@@ -22,6 +22,7 @@
             <datetime-picker name="pivot.time_picker" change-datetime="changeDatetime(start, end, text)" start="startDate" end="endDate"></datetime-picker>
         </div>
     </div>
+    <!-- 팝업 레이어: 검색어 설정 -->
     <div class="mu-tooltip bottom-left timeResearch" style="width: 360px;" popup-layer="anomaly.prop.query">
         <div class="arrow"></div>
         <div class="mu-tooltip-inner">

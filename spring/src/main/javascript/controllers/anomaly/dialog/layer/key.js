@@ -82,7 +82,7 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         }
     });
     /**
-    *
+    *   events
     */
     $scope.$on('anomaly.opt.key_field.init_form', function () {
         // NOTE: 필드 목록에서 중복 필드 제거
@@ -110,7 +110,7 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
             $scope.currField = getStats(field);
         }
 
-        $scope.keyField.limit_num = keyField.limit_num || DEFAULT.LIMIT_NUM;
+        $scope.keyField.limit_num = keyField.limit_num || DEFAULT.CHART_LIMIT_NUM;
 
         $scope.keyValueMode = 'all';
         if (keyField.values) {
@@ -120,6 +120,10 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         // init validation flag
         $scope.isInvalid = {};
     });
+    $scope.$on('searchCond.changed', function () {
+        // init
+        _fieldStatsMap = {};
+    });
     /**
     *
     */
@@ -127,7 +131,7 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         var isInvalid = $scope.isInvalid;
         var limitNum = +(fieldData.limit_num);
 
-        isInvalid.limitNum = (!util.isNumber(limitNum) || !util.isValidScope(limitNum, 0, DEFAULT.LIMIT_NUM));
+        isInvalid.limitNum = (!util.isNumber(limitNum) || !util.isValidScope(limitNum, 0, DEFAULT.CHART_LIMIT_NUM));
 
         return !_.some(isInvalid);
     }
@@ -166,8 +170,9 @@ function KeyFieldCtrl($scope, DEFAULT, util, popupLayerStore, dataModel, searchC
         searchAgent.statsDetail(params, model, field.name)
             // success callback은 반복적으로 호출된다.
             .success(function (data) {
-                if ($scope.keyField.values) {
-                    syncModes($scope.keyField.values, data.modes);
+                var keyField = $scope.keyField;
+                if (keyField && keyField.values) {
+                    syncModes(keyField.values, data.modes);
                 }
                 // 덮어쓰기
                 field.modes = data.modes;

@@ -221,7 +221,8 @@
                 <th><spring:message code="anomaly.opt.time_zone" /></th>
                 <td>
                     <div class="mu-checkbox">
-                        <input type="checkbox" name="time_zone" id="lbl_ade_time_zone" ng-model="formData.isMatchTimezone">
+                        <!-- NOTE: 서버에 not match 처리가 없으나 사용자의 이해를 돕기위해 disabled 처리 -->
+                        <input type="checkbox" name="time_zone" id="lbl_ade_time_zone" ng-model="formData.isMatchTimezone" disabled="disabled">
                         <label for="lbl_ade_time_zone"><spring:message code="anomaly.opt.match" /></label>
                     </div>
 
