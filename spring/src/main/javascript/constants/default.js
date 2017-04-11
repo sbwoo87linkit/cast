@@ -12,7 +12,7 @@ module.exports = {
     QUERY: '*',
 
     TIME_UNIT: '1H',
-    TIME_START: '-1m',
+    TIME_START: '-1w',
     TIME_END: 'now',
 
     ALIGN: 'asc',

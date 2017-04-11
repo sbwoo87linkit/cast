@@ -3,7 +3,7 @@
  *   constant
  */
 // var DATA_PATH = '../data/anomaly';
-var DELAY_MS = (1000 * 2.0);
+var DELAY_MS = (500);
 /**
  *   modules
  */
