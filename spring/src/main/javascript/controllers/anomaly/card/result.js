@@ -13,6 +13,9 @@ function ResultCtrl($scope) {
     /**
      * 이벤트
      */
+    $scope.$on('anomaly.card.data_loaded', function(event, data) {
+        // TODO: 차트 데이터 수신
+    });
     $scope.$on('anomaly.card.changeChart', function (event, type) {
         $scope.chartType = type;
         // TODO: 차트 교체 처리
@@ -45,7 +48,6 @@ function ResultCtrl($scope) {
     }
 
     function renderLineChart() {
-
         new Highcharts.Chart('container_' + $scope.$index, {
 
             credits: {enabled: false},

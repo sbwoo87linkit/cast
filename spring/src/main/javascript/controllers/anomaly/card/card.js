@@ -68,6 +68,8 @@ function CardCtrl($scope, anomalyAgent, searchCond, dataModel, anomalyOpts, popu
                     card.state.error = false;
                     card.state.current = 0;
                     card.state.total = 1;
+
+                    $scope.$broadcast('anomaly.card.data_loaded', data);
                 }
             })
             .error(function(error) {
