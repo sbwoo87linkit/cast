@@ -9,7 +9,7 @@ module.exports = {
     title: '',
 
     keyFields: [],
-    valFields: [],
+    valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     model: 'SPC',
 
     min: 0,
