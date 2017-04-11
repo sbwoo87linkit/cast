@@ -71,7 +71,16 @@ function Run($rootScope, $templateCache, $http, $state, $log, LOCALE, MESSAGE, D
             // d: dataName
             if (_.isEmpty(toParams.d)) {
                 event.preventDefault(); // stop current execution
-                $state.go('pivot_choose_data'); // go to pivot_choose_data
+                $state.go('pivot_choose_data');
+                return;
+            }
+        }
+        var isToAnomaly = (toState.name === 'anomaly');
+        if (isToAnomaly) {
+            // d: dataName
+            if (_.isEmpty(toParams.d)) {
+                event.preventDefault(); // stop current execution
+                $state.go('anomaly_choose_data');
                 return;
             }
         }

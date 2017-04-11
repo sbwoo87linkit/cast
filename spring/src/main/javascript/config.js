@@ -33,7 +33,7 @@ function Config($httpProvider, $stateProvider, $urlRouterProvider) {
             '/datamodel': true
         };
         if (!pathMap[path]) {
-            path = '/anomaly';
+            path = '/analysis_choose_data';
         }
 
         var state = $injector.get('$state');
