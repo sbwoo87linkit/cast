@@ -7,9 +7,8 @@ var uuidV1 = require('uuid/v1');
 /**
  * Controller
  */
-CardCtrl.$inject = ['$scope', 'anomalyAgent', 'searchCond', 'dataModel', 'OPTIONS.ANOMALY', 'popupLayerStore', 'util'];
-
-function CardCtrl($scope, anomalyAgent, searchCond, dataModel, anomalyOpts, popupLayerStore, util) {
+CardCtrl.$inject = ['$scope', '$timeout', '$element', 'anomalyAgent', 'searchCond', 'dataModel', 'OPTIONS.ANOMALY', 'popupLayerStore', 'util'];
+function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataModel, anomalyOpts, popupLayerStore, util) {
     /**
      * scope
      */
@@ -35,7 +34,14 @@ function CardCtrl($scope, anomalyAgent, searchCond, dataModel, anomalyOpts, popu
         }
 
         // to result ctrl
-        $scope.$broadcast('anomaly.card.resizeChart');
+        $timeout(function () {
+            var el = $element;
+            var size = {
+                width: el.outerWidth(),
+                height: el.outerHeight()
+            };
+            $scope.$broadcast('anomaly.card.resizeChart', size, el);
+        });
     });
 
     /**

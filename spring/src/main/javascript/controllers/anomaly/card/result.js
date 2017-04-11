@@ -24,7 +24,7 @@ function ResultCtrl($scope) {
         }
     });
 
-    $scope.$on('anomaly.card.resizeChart', function () {
+    $scope.$on('anomaly.card.resizeChart', function (event, size, elCard) {
         // TODO: 차트 사이즈 변경 처리
         if ($scope.card.data.isEnd) {
             setTimeout(switchChart);
