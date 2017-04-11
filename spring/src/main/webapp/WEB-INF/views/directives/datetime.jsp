@@ -20,7 +20,9 @@
                 <li ng-click="applyPreset('prev_year')"><a href=""><spring:message code="datetime_picker.prev_year" /></a></li>
             </ul>
             <ul>
-                <li ng-click="applyPreset('-15m')"><a href=""><spring:message code="datetime_picker.last_15_minutes" /></a></li>
+                <li ng-click="applyPreset('-1m')"><a href=""><spring:message code="datetime_picker.last_1_minutes" /></a></li>
+                <li ng-click="applyPreset('-10m')"><a href=""><spring:message code="datetime_picker.last_10_minutes" /></a></li>
+                <li ng-click="applyPreset('-30m')"><a href=""><spring:message code="datetime_picker.last_30_minutes" /></a></li>
                 <li ng-click="applyPreset('-60m')"><a href=""><spring:message code="datetime_picker.last_60_minutes" /></a></li>
                 <li ng-click="applyPreset('-4h')"><a href=""><spring:message code="datetime_picker.last_4_hours" /></a></li>
                 <li ng-click="applyPreset('-24h')"><a href=""><spring:message code="datetime_picker.last_24_hours" /></a></li>

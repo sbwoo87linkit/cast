@@ -12,11 +12,11 @@ module.exports = {
     QUERY: '*',
 
     TIME_UNIT: '1H',
-    TIME_START: '-15m',
+    TIME_START: '-1m',
     TIME_END: 'now',
 
     ALIGN: 'asc',
-    LIMIT_NUM: 100,
+    CHART_LIMIT_NUM: 500,
     OVER_PARTITION_NUM: 100,
     SEARCH_MAX_COUNT: 1000,
     PIVOT_MAX_COUNT: 500,

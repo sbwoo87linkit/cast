@@ -28,7 +28,7 @@ module.exports = angular.module('sherman.constants', [])
     })
     .constant('REGEXP', {
         UNPARSED: /^(\d{14})$/,
-        // special keyword (ex) '-15m')
+        // special keyword (ex) '-1m')
         TIME_KEYWORD: /^(\+|-)?(\d+)([smhdwMQy]+)$|^(now)$/
     })
     .constant('ALIGN', {

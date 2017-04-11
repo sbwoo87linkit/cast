@@ -145,6 +145,9 @@ function popupLayer($rootScope, $document, $window, $timeout, popupLayerStore) {
             if ($clicked.closest('.ui-datepicker.ui-widget').length) {
                 return;
             }
+            if ($clicked.closest('[mu-dialog]')) {
+                return;
+            }
             // is outer area
             var $target = angular.element(evt.target);
             if (!$target.closest(element).length) {
