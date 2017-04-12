@@ -2,6 +2,9 @@
 /**
  *
  */
+var Highcharts = require('highcharts');
+require('highcharts/modules/heatmap')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
 /**
  * Controller
  */
@@ -78,6 +81,10 @@ function ResultCtrl($scope) {
                 }
             },
 
+            exporting: {
+                enabled: true
+            },
+
             series: [{
                 name: $scope.card.data.fields.key_field[0].values[0],
                 data: $scope.card.data.results[0]
@@ -97,7 +104,6 @@ function ResultCtrl($scope) {
                 name: $scope.card.data.fields.key_field[0].values[5],
                 data: $scope.card.data.results[5]
             }]
-
         });
 
     }
@@ -164,6 +170,10 @@ function ResultCtrl($scope) {
                 }
             },
 
+            exporting: {
+                enabled: true
+            },
+
             series: [{
                 name: 'Sales per employee',
                 borderWidth: 1,
@@ -173,7 +183,6 @@ function ResultCtrl($scope) {
                     color: '#000000'
                 }
             }]
-
         });
     }
 }

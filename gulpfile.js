@@ -35,6 +35,8 @@ var LIB_LIST = [
     'async',
     'd3',
     'highcharts',
+    'highcharts/modules/heatmap',
+    'highcharts/modules/exporting',
     'is_js',
     'jquery',
     'jquery-ui',
