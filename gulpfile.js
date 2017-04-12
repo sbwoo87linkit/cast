@@ -33,6 +33,7 @@ var LIB_LIST = [
     'angular-route',
     'angular-ui-router',
     'async',
+    'd3',
     'highcharts',
     'is_js',
     'jquery',
