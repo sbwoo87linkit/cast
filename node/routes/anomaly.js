@@ -2,94 +2,53 @@
 /**
  *   constant
  */
-// var DATA_PATH = '../data/anomaly';
+var DATA_PATH = '../data/anomaly';
 var DELAY_MS = (500);
 /**
  *   modules
  */
-// var path = require('path');
+var path = require('path');
 var _ = require('lodash');
+var uuidV1 = require('uuid/v1');
 
 var express = require('express');
 var router = express.Router();
-// var _ = require('lodash');
-var uuidV1 = require('uuid/v1');
 /**
  *   data
  */
-// var data = require(path.join(DATA_PATH, 'data.json'));
+var data_k0_v1 = require(path.join(DATA_PATH, 'data_k0_v1.json'));
+var data_k1_v1 = require(path.join(DATA_PATH, 'data_k1_v1.json'));
+var data_k1_v2 = require(path.join(DATA_PATH, 'data_k1_v2.json'));
+var data_k2_v1 = require(path.join(DATA_PATH, 'data_k2_v1.json'));
 /**
  *   variables
  */
 var MAX_SPLIT_NUM = 5;
 var sessions = {};
 
-var dataSum = function(num) {
-    return num + Math.floor((Math.random() * 1000) + 100);
-};
-
-var makeFieldData = function(sid, fields, key) {
-    var session = sessions[sid];
-    var data = session.data;
-
-    return _.map(fields, function(value, index) {
-        var values = (data && data.fields[key]) ? data.fields[key][index].values : [];
-        if (values.length === 0) {
-            for (var i = 0, l = 6; i < l; i++) {
-                values.push(Math.floor((Math.random() * 2000) + 4000));
-            }
-        }
-
-        return {
-            name: value.name,
-            values: _.map(values, dataSum)
-        };
-    });
-};
-
-var makeResult = function(sid) {
-    var session = sessions[sid];
-    var data = session.data;
-
-    var results = (data && data.results) ? data.results : [];
-    if (results.length === 0) {
-        for (var i = 0, l = 6; i < l; i++) {
-            var tempArr = [];
-            for (var n = 0, m = 12; n < m; n++) {
-                tempArr.push(Math.floor((Math.random() * 50) + MAX_SPLIT_NUM));
-            }
-            results.push(tempArr);
-        }
-    }
-
-    return _.map(results, function(value) {
-        return _.map(value, dataSum);
-    });
-};
-
 var makeData = function(sid, param) {
-    var status = {
-        current: 1,
-        total: Math.floor((Math.random() * 10) + MAX_SPLIT_NUM)
-    };
+    var data = null;
 
-    var stops = [1, 5, 7.5, 15];
-
-    var fields = {};
-
-    if (param.ade.key) {
-        fields.key_field = makeFieldData(sid, param.ade.key, 'key_field');
+    if (param.ade.key.length === 0) {
+        data = _.cloneDeep(data_k0_v1);
     }
-    if (param.ade.value) {
-        fields.value_field = makeFieldData(sid, param.ade.value, 'value_field');
+    else if (param.ade.key.length <= 1) {
+        if (param.ade.values.length === 1) {
+            data = _.cloneDeep(data_k1_v1);
+        }
+        else {
+            data = _.cloneDeep(data_k1_v2);
+        }
+    }
+    else {
+        // if (param.ade.values.length === 1) {
+            data = _.cloneDeep(data_k2_v1);
+        // }
+        // else {}
     }
 
-    var data = {
-        status: status,
-        fields: fields,
-        stops: stops,
-        results: makeResult(sid)
-    };
+    data.status.current = 1;
+    data.status.total = Math.floor((Math.random() * 10) + MAX_SPLIT_NUM);
 
     sessions[sid].data = data;
 
@@ -127,29 +86,24 @@ router.get('/ade/jobs/:sid', function(req, res) {
         return res.sendStatus(404);
     }
 
-    var index = sessions[sid].index;
     var param = sessions[sid].param;
+    var index = sessions[sid].index;
     var isEnd = (index === MAX_SPLIT_NUM);
+
     var data = makeData(sid, param);
-    // var getOnce = (param.getOnce) ? param.getOnce : false;
-    var noDelay = (param.noDelay) ? param.noDelay : false;
+
+    data.status = {
+        'current': index,
+        'total': MAX_SPLIT_NUM
+    };
+    data.isEnd = isEnd;
 
     if (!isEnd) {
-        data.status = {
-            'current': index,
-            'total': MAX_SPLIT_NUM,
-        };
-        data.isEnd = false;
-
         sessions[sid].index = (index + 1);
-    } else {
-        data.status = {
-            'current': index,
-            'total': (MAX_SPLIT_NUM)
-        };
-        data.isEnd = true;
     }
 
+    // var getOnce = (param.getOnce) ? param.getOnce : false;
+    var noDelay = (param.noDelay) ? param.noDelay : false;
     var delay = ((noDelay) ? 0 : DELAY_MS);
     setTimeout(function() {
         res.send(data);

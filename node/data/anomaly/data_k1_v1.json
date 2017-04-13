@@ -1,0 +1,39 @@
+{
+    "status": {
+        "current": 1,
+        "total": 1
+    },
+    "fields": {
+        "time_fields": [ "FTS_PARTITION_TIME" ],
+        "keys": [ "PLAYERID" ],
+        "values": [ "avg(HR)" ],
+        "ucl": [ "ucl_avg(HR)" ],
+        "lcl": [ "lcl_avg(HR)" ],
+        "variance": [ "variance_avg(HR)" ],
+        "center": [ "center_avg(HR)" ],
+        "score": [ "score" ],
+        "code": [ "code_avg(HR)" ],
+        "all": [
+            { "name": "FTS_PARTITION_TIME", "type": "text" },
+            { "name": "PLAYERID",           "type": "text" },
+            { "name": "avg(HR)",            "type": "number" },
+            { "name": "ucl_avg(HR)",        "type": "number" },
+            { "name": "lcl_avg(HR)",        "type": "number" },
+            { "name": "center_avg(HR)",     "type": "number" },
+            { "name": "variance_avg(HR)",   "type": "number" },
+            { "name": "score",              "type": "number" },
+            { "name": "code_avg(HR)",       "type": "number" }
+        ]
+    },
+    "results": [
+        [ "20100101000000", "holloke01",      1,      0,      0,      1,      1,   null,   null ],
+        [ "20100101000000", "adamssp01",      1,      0,      0,      0,      1,      1, "N1_L" ],
+        [ "20100101000000", "cldrivi01",      5,      7,      3,    4.5,    3.5,   0.14,   null ],
+        [ "20100102000000", "holloke01",      1,   null,   null,   null,   null,      2,   "F1" ],
+        [ "20100102000000", "adamssp01",     11,   10.1,    3.3,    5.5,    4.5,   3.22, "S1_U" ],
+        [ "20100102000000", "cldrivi01",      5,    5.1,    4.2,    3.5,      4,   1.37,   null ],
+        [ "20100103000000", "holloke01",      3,    3.3,    0.5,      2,    2.1,   0.45,   null ],
+        [ "20100103000000", "adamssp01",      9,   10.5,    1.1,      6,    5.3,   2.56,   null ],
+        [ "20100103000000", "cldrivi01",      3,    5.1,    2.4,    3.2,    4.4,   0.74,   null ]
+    ]
+}

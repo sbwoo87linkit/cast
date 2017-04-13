@@ -1,0 +1,32 @@
+{
+    "status": {
+        "current": 1,
+        "total": 1
+    },
+    "fields": {
+        "time_fields": [ "FTS_PARTITION_TIME" ],
+        "keys": [],
+        "values": [ "avg(HR)" ],
+        "ucl": [ "ucl_avg(HR)" ],
+        "lcl": [ "lcl_avg(HR)" ],
+        "variance": [ "variance_avg(HR)" ],
+        "center": [ "center_avg(HR)" ],
+        "score": [ "score" ],
+        "code": [ "code_avg(HR)" ],
+        "all": [
+            { "name": "FTS_PARTITION_TIME", "type": "text" },
+            { "name": "avg(HR)",            "type": "number" },
+            { "name": "ucl_avg(HR)",        "type": "number" },
+            { "name": "lcl_avg(HR)",        "type": "number" },
+            { "name": "center_avg(HR)",     "type": "number" },
+            { "name": "variance_avg(HR)",   "type": "number" },
+            { "name": "score",              "type": "number" },
+            { "name": "code_avg(HR)",       "type": "number" }
+        ]
+    },
+    "results": [
+        [ "20100101000000",      1,      0,      0,      1,      1,   null,   null ],
+        [ "20100102000000",      1,   null,   null,   null,   null,      2,   "F1" ],
+        [ "20100103000000",      3,    3.3,    0.5,      2,    2.1,   0.45,   null ]
+    ]
+}
