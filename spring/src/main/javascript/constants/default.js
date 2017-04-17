@@ -20,6 +20,7 @@ module.exports = {
     OVER_PARTITION_NUM: 100,
     SEARCH_MAX_COUNT: 1000,
     PIVOT_MAX_COUNT: 500,
+    TIMELINE_MAX_COUNT: 500,
 
     TO_FIXED_NUM: 6,
 
@@ -44,5 +45,6 @@ module.exports = {
         TABLE: 'iris',
         HDFS: 'hdfs'
     },
-    HDFS_FILE_FORMAT: 'csv'
+    HDFS_FILE_FORMAT: 'csv',
+    HDFS_FILE_SEP: ',' // ex) ',' '|^|', ...
 };
