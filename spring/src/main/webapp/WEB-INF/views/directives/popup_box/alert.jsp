@@ -9,7 +9,7 @@
             <p class="mu-alert-status" ng-switch-when="error"><spring:message code="error" /></p>
         </div>
         <div class="mu-alert-body">
-            <span ng-repeat="msg in message track by $index">{{msg}}<br></span>
+            <span style="word-break: break-all;" ng-repeat="msg in message track by $index">{{msg}}<br></span>
         </div>
         <div class="mu-alert-foot">
             <button type="button" class="mu-btn" ng-click="close(true)"><spring:message code="yes" /></button>
