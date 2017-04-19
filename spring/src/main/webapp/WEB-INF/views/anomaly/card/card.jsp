@@ -8,13 +8,6 @@
                 {{card.adeOptions.title}}
             </span>
             <div class="mu-hgroup fr">
-                <!-- selectbox: 차트 유형 -->
-                <div class="mu-selectbox" mu-select-v2="anomaly.sb.chart_type" select-model="card.chartType" mu-disabled="card.state.running">
-                    <button class="mu-value" title="{{chartTypes[card.chartType]}}">{{chartTypes[card.chartType]}}</button>
-                    <ul class="mu-list">
-                        <li ng-repeat="(value, name) in chartTypes" mu-option-v2="value" ng-click="changeChartType(value)" title="{{name}}">{{name}}</li>
-                    </ul>
-                </div>
                 <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only" ng-click="card.isMaxSize=!card.isMaxSize;resetRows();"><i class="mu-icon-img" ng-class="{ true: 'collapse', false: 'expand' }[!!(card.isMaxSize)]"></i></button>
                 <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only" ng-click="" ng-disabled="card.state.running" popup-layer-area="anomaly.layer.cardmenu_{{$index}}"><i class="mu-icon-img more"></i></button>
             </div>
