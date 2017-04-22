@@ -20,7 +20,6 @@ function ResultCtrl($scope, $timeout, $compile) {
     var X_LABEL_HEIGHT = 80;
 
 
-
     $scope.addCard = function () {
         console.log('============= add card =================');
     }
@@ -68,28 +67,33 @@ function ResultCtrl($scope, $timeout, $compile) {
         }
 
         if (chartType === 'heatmap') {
+            // if ($scope.scaleModeModel.value === true) {
+            //     // Scaled heatmap
+            //     data = transformScaleHeatmapData($scope.card.data, true);
+            //     // 차트 컨텐이너 초기화
+            //     $('#container_' + $scope.$index).empty();
+            //     for (var i = 0; i <= data.yAxisData.length; i++) {
+            //         var chartId = 'heatmap_' + $scope.$index + '_' + i;
+            //         if (i === data.yAxisData.length) {
+            //             // x축 레이블 차트
+            //             $('#container_' + $scope.$index).append('<div class="heatmap-chart" id="' + chartId + '">heatmap</div>');
+            //         } else {
+            //             // 데이터 차트
+            //             $('#container_' + $scope.$index).prepend('<div class="heatmap-chart row" id="' + chartId + '">heatmap</div>');
+            //         }
+            //         renderScaleHeatmapChart(data, i, chartId);
+            //     }
+            // } else {
+            //     // non-scaled heatmap
+            //     data = transformPlainHeatmapData($scope.card.data, false);
+            //     renderPlainHeatmapChart(data)
+            // }
 
-            if ($scope.scaleModeModel.value === true) {
-                // Scaled heatmap
-                data = transformScaleHeatmapData($scope.card.data, true);
-                // 차트 컨텐이너 초기화
-                $('#container_' + $scope.$index).empty();
-                for (var i = 0; i <= data.yAxisData.length; i++) {
-                    var chartId = 'heatmap_' + $scope.$index + '_' + i;
-                    if (i === data.yAxisData.length) {
-                        // x축 레이블 차트
-                        $('#container_' + $scope.$index).append('<div class="heatmap-chart" id="' + chartId + '">heatmap</div>');
-                    } else {
-                        // 데이터 차트
-                        $('#container_' + $scope.$index).prepend('<div class="heatmap-chart row" id="' + chartId + '">heatmap</div>');
-                    }
-                    renderScaleHeatmapChart(data, i, chartId);
-                }
-            } else {
-                // non-scaled heatmap
-                data = transformPlainHeatmapData($scope.card.data, false);
-                renderPlainHeatmapChart(data)
-            }
+            console.log('$scope.scaleModeModel.value', $scope.scaleModeModel.value);
+
+            data = transformPlainHeatmapData($scope.card.data, $scope.scaleModeModel.value);
+            renderPlainHeatmapChart(data)
+
         }
     }
 
@@ -409,22 +413,20 @@ function ResultCtrl($scope, $timeout, $compile) {
             }
 
 
-
         });
     }
 
     function transformPlainHeatmapData(data, isScaleMode) {
 
-        // console.log(data);
-        // return;
-        data =   {
+        // 아래는 테스트 데이터 입니다.
+        data = {
             "status": {
                 "current": 1,
                 "total": 1
             },
             "fields": {
                 "time_fields": ["FTS_PARTITION_TIME"],
-                "keys": ["PLAYERID", "LGID"],
+                "keys": ["PLAYERID", "LGID"],  // --->  사용자 선택하는 Key가 1개 또는 여러개 들어오게 됩니다.
                 "values": ["avg(HR)"],
                 "ucl": ["ucl_avg(HR)"],
                 "lcl": ["lcl_avg(HR)"],
@@ -476,36 +478,26 @@ function ResultCtrl($scope, $timeout, $compile) {
                 ]
             },
             "results": [
-                ["20100101000000", "NL", "holloke01", 1,  0,    0,   1,    1,   null, null],
-                ["20100101000000", "AL", "adamssp01", 1,  0,    0,   0,    1,   1, "N1_L"],
-                ["20100101000000", "NL", "cldrivi01", 5,  7,    3,   4.5,  3.5, 0.14, null],
+                ["20100101000000", "NL", "holloke01", 1, 0, 0, 1, 1, null, null],
+                ["20100101000000", "AL", "adamssp01", 1, 0, 0, 0, 1, 1, "N1_L"],
+                ["20100101000000", "NL", "cldrivi01", 5, 7, 3, 4.5, 3.5, 0.14, null],
 
-                ["20100102000000", "AL", "holloke01", 1,  null, null,null, null, 2, "F1"],
+                ["20100102000000", "AL", "holloke01", 1, null, null, null, null, 2, "F1"],
                 ["20100102000000", "AL", "adamssp01", 11, 10.1, 3.3, 5.5, 4.5, 3.22, "S1_U"],
-                ["20100102000000", "NL", "cldrivi01", 5, 5.1,  4.2, 3.5, 4,   1.37, null],
+                ["20100102000000", "NL", "cldrivi01", 5, 5.1, 4.2, 3.5, 4, 1.37, null],
 
-                ["20100103000000", "NL", "holloke01", 3, 3.3,  0.5, 2,   2.1, 0.45, null],
-                ["20100103000000", "AL", "adamssp01", 9, 10.5, 1.1, 6,   5.3, 2.56, null],
-                ["20100103000000", "AL", "cldrivi01", 3, 5.1,  2.4, 3.2, 4.4, 0.74, null]
+                ["20100103000000", "NL", "holloke01", 3, 3.3, 0.5, 2, 2.1, 0.45, null],
+                ["20100103000000", "AL", "adamssp01", 9, 10.5, 1.1, 6, 5.3, 2.56, null],
+                ["20100103000000", "AL", "cldrivi01", 3, 5.1, 2.4, 3.2, 4.4, 0.74, null]
             ]
         }
-
 
         var scoreFieldIndex = _.findIndex(data.fields.all, {name: 'score'});
         // var keyCount = data.fields.keys.length;
         var keys = [];
-        for (var i=data.fields.keys.length-1; i >= 0; i--) {
+        for (var i = data.fields.keys.length - 1; i >= 0; i--) {
             // console.log((i + 1), data.fields.keys[i])
         }
-
-
-
-
-        // d.xAxisData = arrDateTimes;
-        // d.yAxisData = [];
-        // d.heatmapData = null;
-
-
 
         // 데이터 구조
         var heatmap = {};
@@ -513,6 +505,7 @@ function ResultCtrl($scope, $timeout, $compile) {
         heatmap.yAxisData = [];
         heatmap.scoreData = [];
         var arrDateTimes = [];
+
         var arrKey1 = [];
         var arrKey2 = [];
 
@@ -520,9 +513,6 @@ function ResultCtrl($scope, $timeout, $compile) {
             if (arrDateTimes.indexOf(data.results[i][0]) === -1) {
                 arrDateTimes.push(data.results[i][0]);
             }
-            // if (arrKey1.indexOf(data.results[i][1] + ', ' + data.results[i][1]) === -1) {
-            //     temp.yAxisData.push(data.results[i][2] + ', ' + data.results[i][1]);
-            // }
             if (arrKey1.indexOf(data.results[i][1]) === -1) {
                 arrKey1.push(data.results[i][1]);
             }
@@ -535,25 +525,25 @@ function ResultCtrl($scope, $timeout, $compile) {
         // 값 할당
         var arr = [];
         var d, k1, k2, s;  // datetime, key1, key2, score
-        for (var i=0; i< arrDateTimes.length; i++) {
+        for (var i = 0; i < arrDateTimes.length; i++) {
             // x축 Datetime 기준으로 Array of array 구성
             arr.push([]);
             // x축 (Datatime) 추가
             heatmap.xAxisData.push(arrDateTimes[i]);
-            for (var j=0; j< arrKey2.length; j++) {
-                for (var k=0; k<arrKey1.length; k++) {
+            for (var j = 0; j < arrKey2.length; j++) {
+                for (var k = 0; k < arrKey1.length; k++) {
 
                     // y축 (keys) 추가
-                    if (heatmap.yAxisData.indexOf(arrKey2[j] + ',' + arrKey1[k]) === -1){
+                    if (heatmap.yAxisData.indexOf(arrKey2[j] + ',' + arrKey1[k]) === -1) {
                         heatmap.yAxisData.push(arrKey2[j] + ',' + arrKey1[k]);
                     }
-                    for(var l=0; l< data.results.length; l++) {
-                        d= data.results[l][0];
-                        k1= data.results[l][1];
-                        k2= data.results[l][2];
+                    for (var l = 0; l < data.results.length; l++) {
+                        d = data.results[l][0];
+                        k1 = data.results[l][1];
+                        k2 = data.results[l][2];
 
                         // console.log(d, arrDateTimes[i], k1, arrKey1[k], k2, arrKey2[j]);
-                        if (d === arrDateTimes[i] &&  k1 === arrKey1[k]  &&  k2 === arrKey2[j] ) {
+                        if (d === arrDateTimes[i] && k1 === arrKey1[k] && k2 === arrKey2[j]) {
                             s = (data.results[l][scoreFieldIndex]);
                             // console.log('+++++++++++++ matched ', s);
                             break;
@@ -561,104 +551,102 @@ function ResultCtrl($scope, $timeout, $compile) {
                             s = null;
                         }
                     }
-                    arr[i].push([ arrDateTimes[i], arrKey2[j], arrKey1[k], s]);
+                    arr[i].push([arrDateTimes[i], arrKey2[j], arrKey1[k], s]);
                 }
             }
         }
 
         // console.log(JSON.stringify(data.results));
         // console.log(arrDateTimes, arrKey1, arrKey2);
-        console.log(JSON.stringify(arr));
+        // console.log(JSON.stringify(arr));
 
         // heatmap matrix로 변환
         // heatmap.scoreData
+
         for (var x = 0; x < arr.length; x++) {
-            for (var y = 0; y< arr[x].length; y++) {
-                heatmap.scoreData.push([x,y,arr[x][y][3]])
+            for (var y = 0; y < arr[x].length; y++) {
+                heatmap.scoreData.push([x, y, arr[x][y][3]])
             }
         }
 
+        if ($scope.scaleModeModel.value) {
+            for (var y = 0; y < heatmap.yAxisData.length; y++) {
 
-        //
-        // // Array of Object로 변환
-        // var arr = [];
-        // for (var i = 0; i < data.results.length; i++) {
-        //     arr.push({datetime: data.results[i][0], score: data.results[i][scoreFieldIndex]});
-        // }
-        // // console.log(JSON.stringify(arr))
+                // 행의 최대값 구하기
+                var arr = [];
+                // var max = 0;
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    // console.log(y, ':', heatmap.scoreData[y][0], heatmap.scoreData[y][1], heatmap.scoreData[y][2]);
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    console.log(index, heatmap);
+                    console.log(index, heatmap.scoreData);
+                    console.log(index, heatmap.scoreData[index]);
+                    console.log(index, heatmap.scoreData[index][2]);
+                    arr.push(heatmap.scoreData[index][2]);
+                }
+                var max = Math.max.apply(Math, arr);
+                // console.log(arr, max);
 
-        // var scoreFieldPosition;
-        // var temp = {};
-        // temp.xAxisData = [];
-        // temp.yAxisData = [];
-        // temp.valueData = [];
-        // for (var i = 0; i < data.results.length; i++) {
-        //     if (temp.xAxisData.indexOf(data.results[i][0]) === -1) {
-        //         temp.xAxisData.push(data.results[i][0]);
-        //     }
-        //     if (temp.yAxisData.indexOf(data.results[i][2] + ', ' + data.results[i][1]) === -1) {
-        //         temp.yAxisData.push(data.results[i][2] + ', ' + data.results[i][1]);
-        //     }
-        // }
-        // // 검증
-        // // console.log(JSON.stringify(temp));
-        // for (var i = 0; i < data.results.length; i++) {
-        //     // console.log(JSON.stringify(data.results[i]))
-        //     for (var j=0; j < data.results[i].length; j++) {
-        //         // console.log(JSON.stringify(data.results[i]))
-        //         console.log()
-        //     }
-        // }
-        /*
-         datetime	20100101000000	20100102000000	20100103000000
-         holloke01, NL	null	null	0.45
-         holloke01, AL	null	2	    null
-         adamssp01, NL	null	null	null
-         adamssp01, AL	1	    3.22	2.56
-         cldrivi01, NL	0.14	1.37	null
-         cldrivi01, AL	null	null	0.74
+                // Row Scaled(Row independent) Color 적용
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    // console.log(y, ':', heatmap.scoreData[y][0], heatmap.scoreData[y][1], heatmap.scoreData[y][2]);
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    // console.log(index, heatmap.scoreData[index][2]);
+                    var value = heatmap.scoreData[index][2];
+                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                    // arr.push(heatmap.scoreData[index][2]);
+                }
 
-         */
+
+            }
+            // console.log(JSON.stringify(heatmap));
+        }
+        // console.log(JSON.stringify(heatmap));
+
+        // heatmap.scoreData = [];
 
 
 
-        // d.xAxisData = ['20100101000000', '20100102000000', '20100103000000'];
-        // d.yAxisData = ['holloke01, NL', 'holloke01, AL', 'adamssp01, NL', 'adamssp01, AL', 'cldrivi01, NL', 'cldrivi01, AL'];
-        // // d.valueData = [[0, 1, 2, 3], [null, 3.22, 2.56, 10]];
-        // // d.valueData = [[0, 1, 2, 3]];
-        // d.valueData = [[null, null, null, 1, 0.14, null], [null, 2, null, 3.22, 1.37, null], [0.45, null, null, 2.56, null, 0.74]];
-        // d.heatmapData = [];
-        // if (isScaleMode) {
-        //     for (var y = 0; y <= d.yAxisData.length; y++) {
-        //         d.heatmapData.push([]);
-        //         for (var x = 0; x < d.xAxisData.length; x++) {
-        //             if (y === d.yAxisData.length) {
-        //                 d.heatmapData[y].push([x, 0, null])
-        //             } else {
-        //                 d.heatmapData[y].push([x, 0, d.valueData[x][y]])
-        //             }
-        //         }
-        //     }
-        // } else {
-        //     for (var y = 0; y < d.yAxisData.length; y++) {
-        //         // d.heatmapData.push([]);
-        //         for (var x = 0; x < d.xAxisData.length; x++) {
-        //             // console.log(x,y);
-        //             d.heatmapData.push([x, y, d.valueData[x][y]]);
-        //         }
-        //     }
-        // }
-
-
-        console.log(JSON.stringify(heatmap));
         return heatmap;
+    }
+
+    function getPointColor(value, max) {
+
+        // console.log(value, max);
+        if (value === null || isNaN(parseFloat(value))) {
+            return '#f7f7f7';
+            // value = 0;
+        }
+        if (max === null || isNaN(parseFloat(max))) {
+            max = 0;
+        }
+        var color1 = '96C3F0';
+        var color2 = 'FFFFFF';
+        // var ratio = 0.5;
+        var ratio = value / max;
+        if (isNaN(parseFloat(ratio))) {
+            ratio = 0;
+        }
+        // console.log(value, max, ratio);
+        var hex = function (x) {
+            x = x.toString(16);
+            return (x.length == 1) ? '0' + x : x;
+        };
+
+        var r = Math.ceil(parseInt(color1.substring(0, 2), 16) * ratio + parseInt(color2.substring(0, 2), 16) * (1 - ratio));
+        var g = Math.ceil(parseInt(color1.substring(2, 4), 16) * ratio + parseInt(color2.substring(2, 4), 16) * (1 - ratio));
+        var b = Math.ceil(parseInt(color1.substring(4, 6), 16) * ratio + parseInt(color2.substring(4, 6), 16) * (1 - ratio));
+
+        var middle = '#' + hex(r) + hex(g) + hex(b);
+        // console.log('middle:', middle);
+        return middle;
     }
 
     function transformHeatmapData_temp(data, isScaleMode) {
 
         // console.log(data);
         // return;
-        data =   {
+        data = {
             "status": {
                 "current": 1,
                 "total": 1
@@ -717,17 +705,17 @@ function ResultCtrl($scope, $timeout, $compile) {
                 ]
             },
             "results": [
-                ["20100101000000", "NL", "holloke01", 1,  0,    0,   1,    1,   null, null],
-                ["20100101000000", "AL", "adamssp01", 1,  0,    0,   0,    1,   1, "N1_L"],
-                ["20100101000000", "NL", "cldrivi01", 5,  7,    3,   4.5,  3.5, 0.14, null],
+                ["20100101000000", "NL", "holloke01", 1, 0, 0, 1, 1, null, null],
+                ["20100101000000", "AL", "adamssp01", 1, 0, 0, 0, 1, 1, "N1_L"],
+                ["20100101000000", "NL", "cldrivi01", 5, 7, 3, 4.5, 3.5, 0.14, null],
 
-                ["20100102000000", "AL", "holloke01", 1,  null, null,null, null, 2, "F1"],
+                ["20100102000000", "AL", "holloke01", 1, null, null, null, null, 2, "F1"],
                 ["20100102000000", "AL", "adamssp01", 11, 10.1, 3.3, 5.5, 4.5, 3.22, "S1_U"],
-                ["20100102000000", "NL", "cldrivi01", 5, 5.1,  4.2, 3.5, 4,   1.37, null],
+                ["20100102000000", "NL", "cldrivi01", 5, 5.1, 4.2, 3.5, 4, 1.37, null],
 
-                ["20100103000000", "NL", "holloke01", 3, 3.3,  0.5, 2,   2.1, 0.45, null],
-                ["20100103000000", "AL", "adamssp01", 9, 10.5, 1.1, 6,   5.3, 2.56, null],
-                ["20100103000000", "AL", "cldrivi01", 3, 5.1,  2.4, 3.2, 4.4, 0.74, null]
+                ["20100103000000", "NL", "holloke01", 3, 3.3, 0.5, 2, 2.1, 0.45, null],
+                ["20100103000000", "AL", "adamssp01", 9, 10.5, 1.1, 6, 5.3, 2.56, null],
+                ["20100103000000", "AL", "cldrivi01", 3, 5.1, 2.4, 3.2, 4.4, 0.74, null]
             ]
         }
 
@@ -735,7 +723,7 @@ function ResultCtrl($scope, $timeout, $compile) {
         var scoreFieldIndex = _.findIndex(data.fields.all, {name: 'score'});
         // var keyCount = data.fields.keys.length;
         var keys = [];
-        for (var i=data.fields.keys.length-1; i >= 0; i--) {
+        for (var i = data.fields.keys.length - 1; i >= 0; i--) {
             // console.log((i + 1), data.fields.keys[i])
         }
 
@@ -763,21 +751,21 @@ function ResultCtrl($scope, $timeout, $compile) {
         // 값 할당
         var arr = [];
         var d, k1, k2, s;  // datetime, key1, key2, score
-        for (var i=0; i< arrDateTimes.length; i++) {
+        for (var i = 0; i < arrDateTimes.length; i++) {
             // arr.push([]);
-            for (var j=0; j< arrKey2.length; j++) {
-                for (var k=0; k<arrKey1.length; k++) {
+            for (var j = 0; j < arrKey2.length; j++) {
+                for (var k = 0; k < arrKey1.length; k++) {
 
-                    for(var l=0; l< data.results.length; l++) {
-                        d= data.results[l][0];
+                    for (var l = 0; l < data.results.length; l++) {
+                        d = data.results[l][0];
                         // console.log('d: ', d)
-                        k1= data.results[l][1];
-                        k2= data.results[l][2];
+                        k1 = data.results[l][1];
+                        k2 = data.results[l][2];
 
                         // console.log(d, arrDateTimes[i], k1, arrKey1[k], k2, arrKey2[j]);
 
 
-                        if (d === arrDateTimes[i] &&  k1 === arrKey1[k]  &&  k2 === arrKey2[j] ) {
+                        if (d === arrDateTimes[i] && k1 === arrKey1[k] && k2 === arrKey2[j]) {
                             s = (data.results[l][scoreFieldIndex]);
                             // console.log('+++++++++++++ matched ', s);
                             break;
@@ -787,7 +775,7 @@ function ResultCtrl($scope, $timeout, $compile) {
                         }
 
                     }
-                    arr.push([ arrDateTimes[i], arrKey2[j], arrKey1[k], s]);
+                    arr.push([arrDateTimes[i], arrKey2[j], arrKey1[k], s]);
                 }
             }
         }
@@ -821,7 +809,7 @@ function ResultCtrl($scope, $timeout, $compile) {
         // console.log(JSON.stringify(temp));
         for (var i = 0; i < data.results.length; i++) {
             // console.log(JSON.stringify(data.results[i]))
-            for (var j=0; j < data.results[i].length; j++) {
+            for (var j = 0; j < data.results[i].length; j++) {
                 // console.log(JSON.stringify(data.results[i]))
                 console.log()
             }
@@ -888,7 +876,7 @@ function ResultCtrl($scope, $timeout, $compile) {
         d.yAxisData = ['aaa', 'bbb', 'ccc', 'ddd'];
         // d.valueData = [[0, 1, 2, 3], [null, 3.22, 2.56, 10]];
         // d.valueData = [[0, 1, 2, 3]];
-        d.valueData = [[1, 2, 3, 4], [5,6,700000,8], [9,10,11,12]];
+        d.valueData = [[1, 2, 3, 4], [5, 6, 700000, 8], [9, 10, 11, 12]];
         d.heatmapData = [];
         if (isScaleMode) {
             for (var y = 0; y <= d.yAxisData.length; y++) {

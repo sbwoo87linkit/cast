@@ -30,7 +30,7 @@
     -->
 
         <div id="container_{{$index}}" style="width:100%; height:100%;"></div>
-        <div ng-if="app.chartType === 'heatmap'" style="position:absolute; border:1px solid blue; top:0; left:0; bottom:80px; width:20px;">
+        <div ng-if="app.chartType === 'heatmap'" style="background:#cbe1f8;position:absolute; border:1px solid blue; top:0; left:0; bottom:80px; width:20px;">
             <div>1</div>
             <div>2</div>
             <div>3</div>
