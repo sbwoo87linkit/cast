@@ -21,19 +21,39 @@
     </div>
 
     <!-- 결과(차트) -->
-    <div ng-show="!card.state.running && card.state.success" style="height:100%">
-        <!-- <pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre> -->
+    <div ng-show="!card.state.running && card.state.success" style="position:relative; height:100%">
+    <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
+    <!--
+    <div style="width: 100%;height: 50px;padding: 16px;border: 1px solid #000;" mu-popupmenu-area="pm1_1">
+    selected option: {{selectedOption}}
+    </div>
+    -->
+
         <div id="container_{{$index}}" style="width:100%; height:100%;"></div>
+        <div ng-if="app.chartType === 'heatmap'" style="position:absolute; border:1px solid blue; top:0; left:0; bottom:80px; width:20px;">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+        </div>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
-    <div class="mu-tooltip" popup-layer="anomaly.layer.chartmenu_{{$index}}">
-        <div class="arrow"></div>
-        <ul class="mu-popup-menu">
-            <li><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
-            <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-            <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-        </ul>
+
+    <!--
+    <div mu-popupmenu="pm1_1" popupmenu-open="openMenu(target)" popupmenu-select="selectItem(item)">
+    <ul class="mu-popup-menu" mu-popupmenu-list="">
+    <li mu-popupmenu-item=""><a href="">분리</a></li>
+    </ul>
     </div>
+    -->
+    <!--
+    <div class="mu-tooltip" popup-layer="anomaly.layer.chartmenu_{{$index}}">
+    <div class="arrow"></div>
+    <ul class="mu-popup-menu">
+    <li><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
+    <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
+    <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
+    </ul>
+    </div>-->
     <!-- //contextmenu : 차트 메뉴 -->
 </div>

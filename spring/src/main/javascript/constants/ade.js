@@ -8,7 +8,8 @@
 module.exports = {
     title: '',
 
-    keyFields: [],
+    // keyFields: [],
+    keyFields: [{ field: { name: "FTS_RAW_DATA", type: "TEXT"}}],
     valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     model: 'SPC',
 
