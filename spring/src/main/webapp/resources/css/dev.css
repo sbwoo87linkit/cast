@@ -50,3 +50,35 @@
 .dm-time-width { width: 170px !important; }
 .dm-table-width { width: 270px !important; }
 .dm-option-width { width: 85% !important; }
+
+
+
+
+
+/* --------------------- */
+/* anomaly - sangbum Woo */
+/* --------------------- */
+
+.heatmap-chart {
+    border : 1px solid transparent;
+}
+
+.heatmap-chart.row:hover {
+    border : 1px solid red;
+}
+
+.highcharts-container, .heatmap-chart {
+    overflow: visible !important;
+}
+
+/*Heatmap tooltip 제어*/
+svg {
+    overflow:visible;
+}
+
+/*svg overflow visible로 인해 보여지는 Heatmap range text 숨김*/
+svg>text {
+    display:none;
+}
+
+

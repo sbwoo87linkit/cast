@@ -14,6 +14,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
      */
     $scope.chartTypes = anomalyOpts.CHART_TYPES;
     $scope.errorMsg = '';
+    $scope.app = { chartType : ''};
+    $scope.scaleModeModel = {value: false};
 
     /**
      * variables
@@ -26,6 +28,12 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     $scope.changeChartType = function(type) {
         // to result ctrl
         $scope.$broadcast('anomaly.card.changeChart', type);
+    };
+
+    //scaleModeChanged
+    $scope.changeHeatmapScaleMode = function(isScaleMode) {
+        // to result ctrl
+        $scope.$broadcast('anomaly.card.changeHeatmapScaleMode', isScaleMode);
     };
 
     $scope.$watch('card.isMaxSize', function(isMaxSize) {
