@@ -55,6 +55,8 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         $rootScope.$broadcast('popupmenu.closeAll');
 
         console.log('============= splitCard =================');
+        console.log(JSON.stringify($scope.selectedChartData));
+        console.log($scope.selectedRowIndex);
         var data = $scope.selectedChartData;
         var index = $scope.selectedRowIndex;
 
@@ -125,23 +127,6 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
     function renderHeatmapChart(data) {
 
-        var lastUpdate = +new Date(),
-            timeout = 3000;
-
-        function reloadFlash() {
-            $("#flash").fadeIn();
-            lastUpdate = +new Date();
-            setTimeout(hideFlash, timeout);
-        }
-
-        function hideFlash() {
-            var now = +new Date();
-            if (now >= lastUpdate + timeout) {
-                $("#flash").fadeOut();
-            }
-        }
-
-
         window.chart = Highcharts.chart('container_' + $scope.$index, {
 
 
@@ -150,19 +135,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
             chart: {
                 type: 'heatmap',
                 height: CONTAINER_HEIGHT,
-                marginTop: 0,
-                events: {
-                    load: function () {
-                        //add report div
-                        var ch = this,
-                            x = 0,
-                            y = 10;
-
-                        ch.flashText = ch.renderer.text('<div id="flash"><div id="report"></div></div>', x, y, true).attr({
-                            zIndex: 101
-                        }).add();
-                    }
-                }
+                marginTop: 0
             },
 
             plotOptions: {
@@ -171,9 +144,6 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                         enabled: false,
                         events: {
                             contextmenu: function (evt) {
-                                // 데이터레이블에서는  y 데이터를 받을수 없음.
-                                reloadFlash();
-                                $('#report').html('텍스트외 빈영역에서 마우스 우클릭 하세요.');
 
                             }
                         }
