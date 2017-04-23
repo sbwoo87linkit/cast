@@ -34,7 +34,8 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         // TODO: 차트 사이즈 변경 처리
 
         // 최초 data_loaded 보다 size 이벤트가 먼저 발생하여 데이터가 없는 경우 차트랜더링 않음.
-        if (!$scope.card.data.isEnd) {
+
+        if ($scope.card.data === undefined || !$scope.card.data.isEnd) {
             return
         }
         $timeout(renderChart);
