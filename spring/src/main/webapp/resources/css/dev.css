@@ -82,3 +82,5 @@ svg>text {
 }
 
 
+#flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }
+#report { padding: 7px 0px 7px 10px; }
