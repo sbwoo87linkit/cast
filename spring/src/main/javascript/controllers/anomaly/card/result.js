@@ -204,7 +204,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                             },
                             mouseOut: function () {
                                 var chart = this.series.chart;
-                                heatmapMouseout(chart);
+                                resetHighlight(chart);
                             }
 
                         }
