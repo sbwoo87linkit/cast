@@ -37,7 +37,6 @@ var LIB_LIST = [
     'highcharts',
     'highcharts/modules/heatmap',
     'highcharts/modules/exporting',
-    'highcharts-custom-events',
     'is_js',
     'jquery',
     'jquery-ui',

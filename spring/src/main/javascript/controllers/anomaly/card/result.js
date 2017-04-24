@@ -5,7 +5,6 @@
 var Highcharts = require('highcharts');
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/exporting')(Highcharts);
-var HighchartsCustomEvents = require('highcharts-custom-events')(Highcharts);
 /**
  * Controller
  */
