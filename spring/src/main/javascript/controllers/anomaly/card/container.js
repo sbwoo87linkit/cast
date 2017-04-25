@@ -86,13 +86,12 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         });
     }
 
-    $scope.splitAddCard = function (data) {
-        console.log('splitCard................')
-
+    $scope.splitAddCard = function (data, index, adeOptions) {
+        var _cardId = uuidV1();
         var card = {
             // index: $scope.cards.length,
             id: _cardId,
-            chartType: 'heatmap',
+            chartType: 'line',
             isMaxSize: false,
             state: {
                 // 실행 상태로 추가
@@ -102,32 +101,12 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
                 current: 0,
                 total: 1
             },
-            adeOptions: {
-                "title": "Untitled 02",
-                "keyFields": [{"field": {"name": "FTS_RAW_DATA", "type": "TEXT"}, "$$hashKey": "object:863"}],
-                "valFields": [{"field": {"name": "HR", "type": "NUMBER"}, "func": "sum", "$$hashKey": "object:865"}],
-                "model": "SPC",
-                "min": 0,
-                "max": 100,
-                "includeNewKey": true,
-                "missingValue": "do_not_process",
-                "comTimeRange": {"start": "-1w", "end": "now"},
-                "refTimeRange": {"start": "-4w", "end": "now"},
-                "timeUnit": "1h",
-                "isMatchTimezone": true,
-                "dateClassification": "sameday"
-            },
+            adeOptions: adeOptions,
             data: data
         };
+        console.log(JSON.stringify(card));
         $scope.cards.push(card);
-
     }
-
-    function splitCard(data) {
-        console.log(JSON.stringify(options));
-
-    }
-
 
     function copyCard(card) {
         $scope.cards.push(card);

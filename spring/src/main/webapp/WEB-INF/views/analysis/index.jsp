@@ -6,10 +6,12 @@
         <%@ include file="./info.jsp"%>
     </div>
 
-    <!-- ... -->
+    <div class="mu-row main">
+        <!-- 메인 작업화면 -->
+        <%@ include file="./main.jsp"%>
+    </div>
 
-    <div class="fl" style="width:300px"><button>button</button></div>
-    <div class="" style="background: #eee;">bbb</div>
+    <!-- ... -->
 
 
 </section>
