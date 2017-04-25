@@ -6,8 +6,10 @@
         <div class="dotWrap"><i class="mu-icon-img loading"></i><br>
             <spring:message code="anomaly.message.waiting_results"/>
         </div>
-        <button type="button" class="mu-btn mu-btn-icon" ng-click="cancelAde()"><i class="mu-icon-img cancel"></i><span><spring:message
-                code="cancel"/></span></button>
+        <button type="button" class="mu-btn mu-btn-icon" ng-click="cancelAde()">
+            <i class="mu-icon-img cancel"></i>
+            <span><spring:message code="cancel"/></span>
+        </button>
         <div class="mu-progress" mu-progress="card.state.current" progress-min="0" progress-max="card.state.total">
             <div class="mu-pbar" mu-progress-bar=""></div>
         </div>
@@ -30,10 +32,6 @@
     <!-- 결과(차트) -->
     <div ng-show="!card.state.running && card.state.success" style="position:relative; height:100%">
         <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
-        <!--<div style="width: 100%;height: 50px;padding: 16px;border: 1px solid #000;" mu-popupmenu-area="pm1_1">-->
-            <!--selected option: {{selectedOption}}-->
-        <!--</div>-->
-
         <div id="container_{{$index}}" style="width:100%; height:100%;"></div>
     </div>
 

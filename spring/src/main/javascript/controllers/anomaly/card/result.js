@@ -15,6 +15,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
      * constant
      */
     var CONTAINER_HEIGHT = 326,
+        HIGHLIGHT_WIDTH = 5,
         HIGHLIGHT_COLOR = 'pink';
 
     /**
@@ -23,6 +24,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
     $scope.$on('anomaly.card.data_loaded', function (event, data) {
         // TODO: 차트 데이터 수신
         // console.log('data_loaded');
+        // console.log(JSON.stringify($scope.card.data));
         $timeout(renderChart);
     });
 
@@ -45,18 +47,26 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         $timeout(renderChart);
     });
 
+    // 윈도우 리사이즈 이벤트시 차트 갱신
+    $(window).resize(function() {
+        $timeout(renderChart);
+    });
+
     /**
      * 차트 기능
      */
+
+    // console.log(JSON.stringify($scope.card));
 
 
     $scope.splitCard = function () {
         // 팝업메뉴를 닫는다
         $rootScope.$broadcast('popupmenu.closeAll');
 
-        console.log('============= splitCard =================');
-        console.log(JSON.stringify($scope.selectedChartData));
-        console.log($scope.selectedRowIndex);
+        // console.log('============= splitCard =================');
+        // console.log(JSON.stringify($scope.card.data));
+        // console.log(JSON.stringify($scope.selectedChartData));
+        // console.log($scope.selectedRowIndex);
         var data = $scope.selectedChartData;
         var index = $scope.selectedRowIndex;
 
@@ -87,22 +97,22 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                 }, {"name": "score", "type": "number"}, {"name": "code_avg(HR)", "type": "number"}]
             },
             "results": [["20100101000000", 1, 0, 0, 1, 1, null, null], ["20100102000000", 1, null, null, null, null, 2, "F1"], ["20100103000000", 3, 3.3, 0.5, 2, 2.1, 0.45, null]],
-            "isEnd": true
+            "isEnd": false
         }
 
 
-        $scope.splitAddCard(data, index);
+        $scope.splitAddCard(d, index, $scope.card.adeOptions);
 
     }
 
 
     function renderChart() {
 
-        console.log(JSON.stringify($scope.card.data));
+        // console.log(JSON.stringify($scope.card.data));
 
         var data;
         $scope.app.chartType = getChartType($scope.card.data);
-        console.log('$scope.app.chartType', $scope.app.chartType);
+        // console.log('$scope.app.chartType', $scope.app.chartType);
 
         if ($scope.app.chartType === 'line') {
             data = transformLine($scope.card.data);
@@ -118,14 +128,18 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
     function resetHighlight(chart) {
         for (var i = 0; i < chart.series[0].data.length; i++) {
-            if (chart.series[0].data[i].old_color !== undefined) {
-                chart.series[0].data[i].update({color: chart.series[0].data[i].old_color}, false);
-            }
+            // if (chart.series[0].data[i].old_color !== undefined) {
+            //     chart.series[0].data[i].update({color: chart.series[0].data[i].old_color}, false);
+            // }
+            chart.series[0].data[i].update({borderWidth: 1}, false);
         }
         chart.redraw();
     }
 
     function renderHeatmapChart(data) {
+
+        // console.log(JSON.stringify(data))
+        var y = null; // mouseover selected row y
 
         window.chart = Highcharts.chart('container_' + $scope.$index, {
 
@@ -143,36 +157,89 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                     dataLabels: {
                         enabled: false,
                         events: {
-                            contextmenu: function (evt) {
-
-                            }
-                        }
-                    },
-                    point: {
-                        events: {
-                            contextmenu: function (evt) {
+                            click: function (evt) {
                                 // 기본 정의 이벤트의 동작을 막아준다.
+                                console.log('datalabel y: ', y);
                                 evt.preventDefault();
 
                                 $scope.selectedChartData = data;
                                 $scope.selectedRowIndex = this.y;
+                                console.log('this.y', this.y);
 
                                 // 다른 팝업메뉴가 열려있으면 닫도록 한다.
                                 $rootScope.$broadcast('popupmenu.closeAll');
                                 $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
 
                             },
+                            contextmenu: function (evt) {
+                                // 기본 정의 이벤트의 동작을 막아준다.
+                                evt.preventDefault();
+
+                                $scope.selectedChartData = data;
+                                $scope.selectedRowIndex = y;
+
+                                // 다른 팝업메뉴가 열려있으면 닫도록 한다.
+                                $rootScope.$broadcast('popupmenu.closeAll');
+                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
+
+                            },
+
+
+                        }
+                    },
+                    point: {
+                        events: {
+                            // click: function (evt) {
+                            //     // 기본 정의 이벤트의 동작을 막아준다.
+                            //     evt.preventDefault();
+                            //
+                            //     $scope.selectedChartData = data;
+                            //     $scope.selectedRowIndex = this.y;
+                            //
+                            //     // 다른 팝업메뉴가 열려있으면 닫도록 한다.
+                            //     $rootScope.$broadcast('popupmenu.closeAll');
+                            //     $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
+                            //
+                            // },
+                            contextmenu: function (evt) {
+                                // 기본 정의 이벤트의 동작을 막아준다.
+                                evt.preventDefault();
+
+                                $scope.selectedChartData = data;
+                                $scope.selectedRowIndex = y;
+
+                                // 다른 팝업메뉴가 열려있으면 닫도록 한다.
+                                $rootScope.$broadcast('popupmenu.closeAll');
+                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
+
+                            },
+                            // // mouseover background
+                            // mouseOver: function () {
+                            //     var chart = this.series.chart;
+                            //     // clear highlight
+                            //     resetHighlight(chart);
+                            //     for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
+                            //         var index = this.y + i * chart.yAxis[0].categories.length;
+                            //         chart.series[0].data[index].old_color = chart.series[0].data[index].color;
+                            //         chart.series[0].data[index].update({color: HIGHLIGHT_COLOR}, false);
+                            //     }
+                            //     chart.redraw();
+                            // },
+
+                            // // mouseover cell border
                             mouseOver: function () {
                                 var chart = this.series.chart;
                                 // clear highlight
                                 resetHighlight(chart);
                                 for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
                                     var index = this.y + i * chart.yAxis[0].categories.length;
-                                    chart.series[0].data[index].old_color = chart.series[0].data[index].color;
-                                    chart.series[0].data[index].update({color: HIGHLIGHT_COLOR}, false);
+                                    // chart.series[0].data[index].old_color = chart.series[0].data[index].color;
+                                    chart.series[0].data[index].update({borderWidth: HIGHLIGHT_WIDTH}, false);
                                 }
                                 chart.redraw();
                             },
+
+
                             mouseOut: function () {
                                 var chart = this.series.chart;
                                 resetHighlight(chart);
@@ -202,7 +269,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                 title: null,
                 labels: {
                     style: {
-                        color: 'balck'
+                        color: 'black'
                     }
                 }
             },
@@ -228,29 +295,17 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                 useHTML: true,
                 backgroundColor: 'white',
                 formatter: function () {
-                    return '<b>x: </b>' + this.series.xAxis.categories[this.point.x] + '<br>'
-                        + '<b>y: </b>' + this.series.yAxis.categories[this.point.y] + '<br>'
-                        + '<b>v: </b>' + this.point.value;
+                    return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]) + '<br>'
+                        + '<b>키: </b>' + this.series.yAxis.categories[this.point.y] + '<br>'
+                        + '<b>score: </b>' + this.point.value;
                 },
-                hideDelay: 0,
-
+                hideDelay: 0
             },
 
-            // tooltip: {
-            //     hideDelay: 0,
-            //     backgroundColor: "rgba(255,255,255,0)",
-            //     borderWidth: 0,
-            //     shadow: false,
-            //     useHTML: true,
-            //     formatter: function () {
-            //         return '<div class="MyChartTooltip">test<br /> test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br />  test<br /> test<br />  test<br />  test<br />  test<br />  test<br />    </div>';
-            //     }
-            // },
-            //
+
             series: [{
-                name: 'Sales per employee',
+                name: 'score',
                 borderWidth: 1,
-                // data: [[0, 0, 1], [1, 0, 2], [2, 0, 3]],
                 data: data.scoreData,
                 dataLabels: {
                     enabled: true,
@@ -267,8 +322,44 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
     }
 
     function transformHeatmap(data, isScaleMode) {
+        console.log(data)
+        /*
 
-        var delimiter = ', ';
+         // filed name 정의
+         var timeFieldName = data.fields.time_fields[0],
+         uclFieldName = data.fields.ucl[0],
+         lclFieldName = data.fields.lcl[0],
+         varianceFieldName = data.fields.variance[0];
+
+         // 차트 데이터 구조
+         var lineChartData = {};
+         lineChartData.categories = [];
+         lineChartData.series = [];
+         lineChartData.series.push({name: uclFieldName, data: []});
+         lineChartData.series.push({name: lclFieldName, data: []});
+         lineChartData.series.push({name: varianceFieldName, data: []});
+
+         // results 데이터를 차트데이터로 변환
+         _.forEach(data.results, function (r) {
+         var index = _.findIndex(data.fields.all, {name: timeFieldName})
+         lineChartData.categories.push(strToDate(r[index]));
+         _.forEach(lineChartData.series, function (s) {
+         index = _.findIndex(data.fields.all, {name: s.name})
+         s.data.push(r[index]);
+         });
+         })
+         return lineChartData;
+
+
+         */
+
+        // field name 정의
+        var delimiter = ', ',
+            timeFieldName = data.fields.time_fields[0],
+            scoreFieldName = data.fields.score[0]
+
+            ;
+
 
         var timeFieldIndex = _.findIndex(data.fields.all, {name: 'FTS_PARTITION_TIME'});
 
@@ -341,9 +432,158 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
                 heatmap.scoreData.push([i, j, value]);
             });
+
         });
 
-        if ($scope.scaleModeModel.value) {
+        // Datetime 포맷 UTC 변경
+        heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+            return strToDate(d);
+        })
+
+        if (isScaleMode) {
+            for (var y = 0; y < heatmap.yAxisData.length; y++) {
+
+                // 행의 최대값 구하기
+                var arr = [];
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    arr.push(heatmap.scoreData[index][2]);
+                }
+                var max = Math.max.apply(Math, arr);
+
+                // Row Scaled(Row independent) Color 적용
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    var value = heatmap.scoreData[index][2];
+                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                }
+            }
+        }
+        // console.log(JSON.stringify(heatmap.scoreData));
+        return heatmap;
+    }
+
+    function transformHeatmap2(data, isScaleMode) {
+        console.log(data)
+        /*
+
+         // filed name 정의
+         var timeFieldName = data.fields.time_fields[0],
+         uclFieldName = data.fields.ucl[0],
+         lclFieldName = data.fields.lcl[0],
+         varianceFieldName = data.fields.variance[0];
+
+         // 차트 데이터 구조
+         var lineChartData = {};
+         lineChartData.categories = [];
+         lineChartData.series = [];
+         lineChartData.series.push({name: uclFieldName, data: []});
+         lineChartData.series.push({name: lclFieldName, data: []});
+         lineChartData.series.push({name: varianceFieldName, data: []});
+
+         // results 데이터를 차트데이터로 변환
+         _.forEach(data.results, function (r) {
+         var index = _.findIndex(data.fields.all, {name: timeFieldName})
+         lineChartData.categories.push(strToDate(r[index]));
+         _.forEach(lineChartData.series, function (s) {
+         index = _.findIndex(data.fields.all, {name: s.name})
+         s.data.push(r[index]);
+         });
+         })
+         return lineChartData;
+
+
+         */
+
+
+
+        var delimiter = ', ',
+            timeFieldName = data.fields.time_fields[0],
+            scoreFieldName = data.fields.score[0]
+
+                ;
+
+
+        var timeFieldIndex = _.findIndex(data.fields.all, {name: 'FTS_PARTITION_TIME'});
+
+        var scoreFieldIndex = _.findIndex(data.fields.all, {name: 'score'});
+
+        var keyIndexes = [];
+        _.forEach(data.fields.keys, function (key) {
+            keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
+        });
+        keyIndexes = keyIndexes.reverse();
+
+        var keys = [];
+        _.forEach(keyIndexes, function (index) {
+            var arr = [];
+            _.forEach(data.results, function (result) {
+                arr.push(result[index]);
+            });
+            keys.push(_.uniq(arr));
+        });
+
+        var yAxisLabels = [];
+        _.forEach(keys, function (item, i) {
+            if (i === 0) {
+                _.forEach(item, function (item2) {
+                    yAxisLabels.push(item2);
+                });
+            } else {
+                var arr = [];
+                _.forEach(yAxisLabels, function (item2) {
+                    _.forEach(item, function (item3) {
+                        arr.push(item2 + delimiter + item3);
+                    });
+                });
+                yAxisLabels = arr;
+            }
+        });
+
+        // 데이터 구조
+        var heatmap = {};
+        heatmap.xAxisData = [];
+        heatmap.yAxisData = [];
+        heatmap.scoreData = [];
+
+        _.forEach(data.results, function (result) {
+            heatmap.xAxisData.push(result[timeFieldIndex]);
+        });
+        heatmap.xAxisData = _.uniq(heatmap.xAxisData);
+
+        heatmap.yAxisData = yAxisLabels;
+
+        _.forEach(heatmap.xAxisData, function (time, i) {
+            _.forEach(heatmap.yAxisData, function (label, j) {
+                var temp = label.split(delimiter),
+                    condition = {},
+                    item,
+                    value;
+
+                condition[timeFieldIndex] = time;
+
+                _.forEach(keyIndexes, function (index, i) {
+                    condition[index] = temp[i];
+                });
+
+                item = _.find(data.results, condition);
+                if (item) {
+                    value = item[scoreFieldIndex];
+                } else {
+                    value = null;
+                }
+
+                heatmap.scoreData.push([i, j, value]);
+            });
+
+        });
+
+        // Datetime 포맷 UTC 변경
+        heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+            return strToDate(d);
+        })
+
+        if (isScaleMode) {
             for (var y = 0; y < heatmap.yAxisData.length; y++) {
 
                 // 행의 최대값 구하기
@@ -428,9 +668,30 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
             },
 
             yAxis: {
+                enabled: false,
                 title: {
-                    text: 'Value'
+                    text: null
                 }
+            },
+
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+
+            tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
+                formatter: function () {
+                    return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x) + '<br>'
+                        + '<b>시리즈: </b>' + this.series.name + '<br>'
+                        + '<b>값: </b>' + this.y;
+                },
+                hideDelay: 0
             },
 
             legend: {
@@ -452,57 +713,30 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
     function transformLine(data) {
 
-        // line - 2: UCL, 3: LCL, 5: variance
-        // data.results = data.results.sort(Comparator);
-        //
-        // $scope.lineData = {};
-        // $scope.lineData.series = [];
-        // $scope.lineData.categories = [];
-        // var uclName = data.fields.ucl[0], //'ucl_avg(HR)';
-        //     lclName = data.fields.ucl[0], // 'lcl_avg(HR)';
-        //     varianceName = data.fields.variance[0];// 'variance_avg(HR)';
-        //
-        // $scope.lineData.series.push({name: uclName, data: []});
-        // $scope.lineData.series.push({name: lclName, data: []});
-        // $scope.lineData.series.push({name: varianceName, data: []});
-        //
-        //
-        // for (var i = 0; i < data.results.length; i++) {
-        //     $scope.lineData.series[0].data.push(data.results[i][2]); // ucl
-        //     $scope.lineData.series[1].data.push(data.results[i][3]); // lcl
-        //     $scope.lineData.series[2].data.push(data.results[i][5]); // variance
-        //     $scope.lineData.categories.push(strToDate(data.results[i][0]));
-        // }
+        // filed name 정의
+        var timeFieldName = data.fields.time_fields[0],
+            uclFieldName = data.fields.ucl[0],
+            lclFieldName = data.fields.lcl[0],
+            varianceFieldName = data.fields.variance[0];
 
+        // 차트 데이터 구조
+        var lineChartData = {};
+        lineChartData.categories = [];
+        lineChartData.series = [];
+        lineChartData.series.push({name: uclFieldName, data: []});
+        lineChartData.series.push({name: lclFieldName, data: []});
+        lineChartData.series.push({name: varianceFieldName, data: []});
 
-        var d = {};
-        d.series = [];
-        d.categories = [];
-        var uclName = data.fields.ucl[0], //'ucl_avg(HR)';
-            lclName = data.fields.ucl[0], // 'lcl_avg(HR)';
-            varianceName = data.fields.variance[0];// 'variance_avg(HR)';
-
-        d.series.push({name: uclName, data: []});
-        d.series.push({name: lclName, data: []});
-        d.series.push({name: varianceName, data: []});
-
-
-        for (var i = 0; i < data.results.length; i++) {
-            d.series[0].data.push(data.results[i][2]); // ucl
-            d.series[1].data.push(data.results[i][3]); // lcl
-            d.series[2].data.push(data.results[i][5]); // variance
-            d.categories.push(strToDate(data.results[i][0]));
-        }
-        // console.log(d);
-        return d;
-
-
-    }
-
-    function Comparator(a, b) {
-        if (a[0] < b[0]) return -1;
-        if (a[0] > b[0]) return 1;
-        return 0;
+        // results 데이터를 차트데이터로 변환
+        _.forEach(data.results, function (r) {
+            var index = _.findIndex(data.fields.all, {name: timeFieldName})
+            lineChartData.categories.push(strToDate(r[index]));
+            _.forEach(lineChartData.series, function (s) {
+                index = _.findIndex(data.fields.all, {name: s.name})
+                s.data.push(r[index]);
+            });
+        })
+        return lineChartData;
     }
 
     function strToDate(dateString) {
@@ -517,13 +751,12 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
     function getChartType(data) {
 
-        var chartType = ''
+        var chartType = '';
         if (data.fields.keys.length === 0 && data.fields.values.length === 1) {
             chartType = 'line';
         } else {
             chartType = 'heatmap';
         }
-        // console.log('chartType:', chartType);
         return chartType;
     }
 

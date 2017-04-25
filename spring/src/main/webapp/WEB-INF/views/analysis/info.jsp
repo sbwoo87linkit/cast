@@ -14,6 +14,9 @@
             <i class="mu-icon-img searchWord"></i><span ng-bind="query"></span>
         </button>
     </div>
+    <div class="mu-hgroup fr">
+        <button type="button" class="mu-btn mu-btn-icon" ng-click="execute()"><i class="mu-icon-img anomaly"></i><span>실행</span></button>
+    </div>
 
     <!-- 팝업 레이어: 시간 설정 -->
     <div class="mu-tooltip bottom-left pivotTooltip" style="width: 745px;" popup-layer="analysis.prop.t_range">
