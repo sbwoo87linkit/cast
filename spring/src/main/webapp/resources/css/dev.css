@@ -84,3 +84,30 @@ svg>text {
 
 #flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }
 #report { padding: 7px 0px 7px 10px; }
+
+
+/* New Popup 메뉴*/
+.popup {
+    position: fixed;
+    display: none;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0px 0px 7px 0px #d5d5d5;
+    background: #fff;
+    padding:0px;
+    z-index: 10001;
+    list-style-type: none;
+    margin: 0; /* required for show popup at mouse point */
+}
+
+.popup a {
+    display: block;
+    padding: 10px 15px;
+    color : #9d9d9d;
+    text-decoration: none;
+}
+
+.popup a:hover {
+    /* text-decoration: none; */
+    color: #fff;
+    background:#2d93ec;
+}
