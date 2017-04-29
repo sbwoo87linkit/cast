@@ -36,6 +36,19 @@
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
+    <ul id="popup{{$index}}" class="popup">
+        <li><a href="">$id: {{$id}}</a></li>
+        <li>
+            <a href="" ng-click="renderChart(rowIndex)">카드 분리</a>
+        </li>
+        <li>
+            <a href="">검색</a>
+        </li>
+        <li>
+            <a href="">피벗</a>
+        </li>
+    </ul>
+
     <div mu-popupmenu="pm1_1" popupmenu-open="openMenu(target)" popupmenu-select="selectItem(item)">
         <ul class="mu-popup-menu" mu-popupmenu-list="">
             <li><a href="">$id: {{$id}}</a></li>
