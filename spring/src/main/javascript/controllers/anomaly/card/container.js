@@ -86,17 +86,17 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         });
     }
 
-    $scope.splitAddCard = function (data, index, adeOptions) {
+    $scope.splitAddCard = function (data, adeOptions) {
         var _cardId = uuidV1();
+        data.fields.keys = [];
         var card = {
-            // index: $scope.cards.length,
+            //index: $scope.cards.length,
             id: _cardId,
             chartType: 'line',
             isMaxSize: false,
             state: {
-                // 실행 상태로 추가
-                running: true,
-                success: false,
+                running: false,
+                success: true,
                 error: false,
                 current: 0,
                 total: 1
@@ -104,8 +104,8 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
             adeOptions: adeOptions,
             data: data
         };
-        console.log(JSON.stringify(card));
         $scope.cards.push(card);
+        $scope.$broadcast('anomaly.card.data_loaded', card.data);
     }
 
     function copyCard(card) {

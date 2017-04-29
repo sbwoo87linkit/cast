@@ -30,30 +30,17 @@
     </div>
 
     <!-- 결과(차트) -->
-    <div ng-show="!card.state.running && card.state.success" style="position:relative; height:100%">
-        <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
-        <div id="container_{{$index}}" style="width:100%; height:100%;"></div>
+    <div ng-show="!card.state.running && card.state.success" style="position:relative; width: 100%; height:100%">
+        <div id="container_{{$index}}" style="position:absolute; width:100%; height:100%;"></div>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
-
     <div mu-popupmenu="pm1_1" popupmenu-open="openMenu(target)" popupmenu-select="selectItem(item)">
         <ul class="mu-popup-menu" mu-popupmenu-list="">
             <li ng-click="splitCard()"><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
-            <!--<li><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>-->
             <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
             <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
         </ul>
     </div>
-
-    <!--
-    <div class="mu-tooltip" popup-layer="anomaly.layer.chartmenu_{{$index}}">
-    <div class="arrow"></div>
-    <ul class="mu-popup-menu">
-    <li><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
-    <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-    <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-    </ul>
-    </div>-->
     <!-- //contextmenu : 차트 메뉴 -->
 </div>
