@@ -56,27 +56,27 @@
                                         <col width="120px">
                                     </colgroup>
                                     <thead mu-table-head="" sortable="">
-                                        <tr>
-                                            <th class="none">#</th>
-                                            <th data-field="name"><spring:message code="search.model_name" /></th>
-                                            <th class="none"><spring:message code="field" /></th>
-                                            <th data-field="table"><spring:message code="search.table_name" /></th>
-                                            <th data-field="scope"><spring:message code="search.table_scope" /></th>
-                                            <th data-field="partitionRange"><spring:message code="search.partition_range" /></th>
-                                        </tr>
+                                    <tr>
+                                        <th class="none">#</th>
+                                        <th data-field="name"><spring:message code="search.model_name" /></th>
+                                        <th class="none"><spring:message code="field" /></th>
+                                        <th data-field="table"><spring:message code="search.table_name" /></th>
+                                        <th data-field="scope"><spring:message code="search.table_scope" /></th>
+                                        <th data-field="partitionRange"><spring:message code="search.partition_range" /></th>
+                                    </tr>
                                     </thead>
                                     <tbody mu-table-body="" selectable="mustone" selection-change="chooseData(row.id, row)">
-                                        <tr ng-repeat="row in $data" ng-dblclick="dblclickModelRow($event, row)" ng-init="aliasVar.filteredList = $data">
-                                            <td ng-bind="$index + 1"></td>
-                                            <td>{{row.name}}</td>
-                                            <td class="tl" style="word-break: break-word;">{{row.columns.join(', ')}}</td>
-                                            <td>{{row.table}}</td>
-                                            <td>{{row.scope}}</td>
-                                            <td><span title="{{row.partitionRange | number}}">{{row.partitionRange | partitionRange}}</span></td>
-                                        </tr>
-                                        <tr ng-show="$data.length <= 0">
-                                            <td colspan="{{$cols.length}}"><spring:message code="grid.no_data" /></td>
-                                        </tr>
+                                    <tr ng-repeat="row in $data" ng-dblclick="dblclickModelRow($event, row)" ng-init="aliasVar.filteredList = $data">
+                                        <td ng-bind="$index + 1"></td>
+                                        <td>{{row.name}}</td>
+                                        <td class="tl" style="word-break: break-word;">{{row.columns.join(', ')}}</td>
+                                        <td>{{row.table}}</td>
+                                        <td>{{row.scope}}</td>
+                                        <td><span title="{{row.partitionRange | number}}">{{row.partitionRange | partitionRange}}</span></td>
+                                    </tr>
+                                    <tr ng-show="$data.length <= 0">
+                                        <td colspan="{{$cols.length}}"><spring:message code="grid.no_data" /></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

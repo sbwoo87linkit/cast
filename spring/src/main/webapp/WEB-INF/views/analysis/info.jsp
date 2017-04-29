@@ -6,16 +6,13 @@
 
         <div class="mu-item-group" style="margin-right: 12px;"><i class="mu-icon-img data"></i><span>{{dataName || '<spring:message code="analysis.not_selected" />'}}</span></div>
         <button type="button" class="mu-btn mu-btn-icon" ng-class="{active: isToggleDate}" ng-show="existTime"
-            popup-layer-area="analysis.prop.t_range" layer-offset="{left: 2}" layer-open="openedTimeLayer()" layer-close="closedTimeLayer()">
+                popup-layer-area="analysis.prop.t_range" layer-offset="{left: 2}" layer-open="openedTimeLayer()" layer-close="closedTimeLayer()">
             <i class="mu-icon-img date"></i><span ng-bind="startDate | allrange2text:endDate"></span>
         </button>
         <button type="button" class="mu-btn mu-btn-icon" ng-class="{active: isToggleQuery}"
-            popup-layer-area="analysis.prop.query" layer-offset="{left: 2}" layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">
+                popup-layer-area="analysis.prop.query" layer-offset="{left: 2}" layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">
             <i class="mu-icon-img searchWord"></i><span ng-bind="query"></span>
         </button>
-    </div>
-    <div class="mu-hgroup fr">
-        <button type="button" class="mu-btn mu-btn-icon" ng-click="execute()"><i class="mu-icon-img anomaly"></i><span>실행</span></button>
     </div>
 
     <!-- 팝업 레이어: 시간 설정 -->
