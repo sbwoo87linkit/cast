@@ -35,11 +35,21 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         // TODO: 차트 사이즈 변경 처리
 
         // 최초 data_loaded 보다 size 이벤트가 먼저 발생하여 데이터가 없는 경우 차트랜더링 않음.
-
         if ($scope.card.data === undefined || !$scope.card.data.isEnd) {
             return
         }
         $timeout(renderChart);
+
+
+        // var container = $('#container_' + $scope.$index);
+        // container.highcharts().setSize(
+        //     container.width(),
+        //     container.height()
+        //     // ,
+        //     // doAnimation = false
+        // );
+
+
     });
 
     $scope.$on('anomaly.card.changeHeatmapScaleMode', function (event, isScaleMode) {
@@ -87,7 +97,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         // console.log('$scope.selectedRowIndex : ', $scope.selectedRowIndex)
         // d.keyIndex = $scope.selectedRowIndex;
 
-        console.log('scope selectedRowIndex', $scope.selectedRowIndex);
+        console.log('scope rowIndex', $scope.rowIndex);
 
         // console.log(d.keyIndex);
 
@@ -102,6 +112,8 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
     }
 
     function renderChart() {
+
+        console.log('render chart');
 
         var data;
         $scope.app.chartType = getChartType($scope.card.data);
@@ -134,26 +146,12 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         chart.redraw();
     }
 
-    $scope.$watch('selectedRowIndex', function (newVal, oldVal) {
-        if (newVal) {
-            console.log('newVal', newVal);
-            console.log('scope id is : ', $scope.$id);
-            console.log('scope is : ', $scope);
-        } else {
-            console.log('newVal', newVal);
-            console.log('scope id is : ', $scope.$id);
-            console.log('scope is : ', $scope);
-        }
-    });
-
     function renderHeatmapChart(data) {
 
         // mouseover selected row y
-        var y = null;
+        var rowIndex;
 
-
-
-        window.chart = Highcharts.chart('container_' + $scope.$index, {
+        Highcharts.chart('container_' + $scope.$index, {
 
             credits: {enabled: false},
 
@@ -170,43 +168,42 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                             enabled: false
                         }
                     },
-                    // dataLabels: {
-                    //     enabled: false,
-                    //     events: {
-                    //         contextmenu: function (evt) {
-                    //             // 기본 정의 이벤트의 동작을 막아준다.
-                    //             evt.preventDefault();
-                    //
-                    //             // 다른 팝업메뉴가 열려있으면 닫도록 한다.
-                    //             $rootScope.$broadcast('popupmenu.closeAll');
-                    //             $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
-                    //         }
-                    //     }
-                    // },
-                    point: {
+                    dataLabels: {
+                        enabled: false,
                         events: {
-                            contextmenu: function (evt) {
+                            contextmenu: function (event) {
                                 // 기본 정의 이벤트의 동작을 막아준다.
-                                // evt.preventDefault();
+                                event.preventDefault();
 
                                 // 다른 팝업메뉴가 열려있으면 닫도록 한다.
-                                // $rootScope.$broadcast('popupmenu.closeAll');
-                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', evt);
-                                // $scope.splitCard();
+                                $rootScope.$broadcast('popupmenu.closeAll');
+                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', event);
+                                // $scope.rowIndex = rowIndex;
+                                // $scope.$apply();
+                                // showPopup('popup', event);
+                            }
+                        }
+                    },
+                    point: {
+                        events: {
+                            contextmenu: function (event) {
+                                // 기본 정의 이벤트의 동작을 막아준다.
+                                event.preventDefault();
 
-                                // console.log('context menu clicked scope selectedRowIndex is : ', $scope.selectedRowIndex);
+                                $scope.rowIndex = rowIndex;
 
+                                console.log('$id:', $scope.$id, '$scope.rowIndex', $scope.rowIndex);
+
+                                // 다른 팝업메뉴가 열려있으면 닫도록 한다.
+                                $rootScope.$broadcast('popupmenu.closeAll');
+                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', event);
+                                // $scope.$apply();
+                                // showPopup('popup', event);
                             },
-                            // // mouseover cell border
-                            mouseOver: function () {
-                                $scope.selectedRowIndex = this.y;
-                                // var self = this;
-                                // // 선택된 Row
-                                // // console.log(self.y);
-                                // $scope.selectedRowIndex = self.y;
 
-                                // console.log('mouse over selectedRowIndex is : ', $scope.selectedRowIndex);
-                                // clear highlight
+                            mouseOver: function () {
+                                var chart = this.series.chart;
+                                rowIndex = this.y;
                                 resetHighlight(chart);
                                 for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
                                     var index = this.y + i * chart.yAxis[0].categories.length;
@@ -219,11 +216,11 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                                 var chart = this.series.chart;
                                 resetHighlight(chart);
                             }
-
                         }
                     }
                 }
             },
+
 
             title: {
                 text: null
