@@ -32,11 +32,13 @@
     <!-- 결과(차트) -->
     <div ng-show="!card.state.running && card.state.success" style="position:relative; width: 100%; height:100%">
         <div id="container_{{$index}}" style="position:absolute; width:100%; height:100%;"></div>
+        <div style="position: absolute; background: pink">$id: {{$id}}</div>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
     <div mu-popupmenu="pm1_1" popupmenu-open="openMenu(target)" popupmenu-select="selectItem(item)">
         <ul class="mu-popup-menu" mu-popupmenu-list="">
+            <li><a href="">$id: {{$id}}</a></li>
             <li ng-click="splitCard()"><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
             <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
             <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
