@@ -9,8 +9,8 @@ module.exports = {
     title: '',
 
     // keyFields: [],
-    // keyFields: [{ field: { name: "FTS_RAW_DATA", type: "TEXT"}}],
-    keyFields: [{ field: { name: "FTS_RAW_DATA", type: "TEXT"}},{ field: { name: "FTS_RAW_DATA", type: "TEXT"}}],
+    keyFields: [{ field: { name: "FTS_RAW_DATA", type: "TEXT"}}],
+    // keyFields: [{ field: { name: "FTS_RAW_DATA", type: "TEXT"}},{ field: { name: "FTS_RAW_DATA", type: "TEXT"}}],
     // valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }, { field: { name: 'STINT', type: 'NUMBER' }, func: 'sum' }],
     valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     model: 'SPC',
