@@ -22,7 +22,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     /**
      * 버튼 이벤트
      */
-    $scope.openOptionsDlg = function () {
+    $scope.openOptionsDlg = function() {
         _cardId = uuidV1();
 
         $scope.$root.$broadcast('anomaly.popup.edit.setForm', 'create');
@@ -32,15 +32,15 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     /**
      * 이벤트
      */
-    $scope.$on('anomaly.card.add', function (event, adeOptions) {
+    $scope.$on('anomaly.card.add', function(event, adeOptions) {
         addCard(adeOptions);
     });
-    $scope.$on('anomaly.card.copy', function (event, card) {
+    $scope.$on('anomaly.card.copy', function(event, card) {
         copyCard(card);
     });
     /**
-     *   init
-     */
+    *   init
+    */
     var props = anomaly.get();
 
     if ($stateParams.auto_add === 'true' && props.valFields.length) {
@@ -62,7 +62,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
      * functions
      */
     function addCard(options) {
-        // console.log(JSON.stringify(options));
         var card = {
             // index: $scope.cards.length,
             id: _cardId,
@@ -81,31 +80,9 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         };
         $scope.cards.push(card);
 
-        $timeout(function () {
+        $timeout(function() {
             $scope.$broadcast('anomaly.card.run.' + card.id);
         });
-    }
-
-    $scope.splitAddCard = function (data, adeOptions) {
-        var _cardId = uuidV1();
-        data.fields.keys = [];
-        var card = {
-            //index: $scope.cards.length,
-            id: _cardId,
-            chartType: 'line',
-            isMaxSize: false,
-            state: {
-                running: false,
-                success: true,
-                error: false,
-                current: 0,
-                total: 1
-            },
-            adeOptions: adeOptions,
-            data: data
-        };
-        $scope.cards.push(card);
-        $scope.$broadcast('anomaly.card.data_loaded', card.data);
     }
 
     function copyCard(card) {
