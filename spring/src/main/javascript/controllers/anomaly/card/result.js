@@ -24,25 +24,33 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         // 차트 데이터 수신
 
 
-        $timeout(renderChart);
+        $timeout($scope.renderChart);
     });
 
     $scope.$on('anomaly.card.changeChart', function (event, type) {
         // TODO: 차트 교체 처리
     });
 
+    // resizeChart에서 차트사이즈를 지정하여, window resize시 chart size 변경
+    window.addEventListener('resize', function(event){
+        // do stuff here
+    });
+
     $scope.$on('anomaly.card.resizeChart', function (event, size, elCard) {
         // 차트 사이즈 변경 처리
 
-        // 최초 data_loaded 보다 size 이벤트가 먼저 발생하여 데이터가 없는 경우 차트랜더링 않음.
-        if ($scope.card.data === undefined || !$scope.card.data.isEnd) {
-            return
+        try {
+            var container = $('#container_' + $scope.$index);
+            var chart = container.highcharts();
+            chart.reflow();
+        } catch (err) {
+            // do noting
         }
-        $timeout(renderChart);
+
     });
 
     $scope.$on('anomaly.card.changeHeatmapScaleMode', function (event, isScaleMode) {
-        $timeout(renderChart);
+        $timeout($scope.renderChart);
     });
 
     /**
@@ -70,7 +78,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
      * 차트 기능
      */
 
-    function renderChart(rowIndex) {
+    $scope.renderChart = function(rowIndex) {
 
 
         $timeout(function () {
