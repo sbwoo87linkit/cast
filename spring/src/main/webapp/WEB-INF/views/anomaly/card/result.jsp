@@ -37,9 +37,8 @@
 
     <!-- contextmenu : 차트 메뉴 -->
     <ul id="popup{{$index}}" class="popup">
-        <li><a href="">$id: {{$id}}</a></li>
         <li>
-            <a href="" ng-click="renderChart(rowIndex)">카드 분리</a>
+            <a href="" ng-click="splitCard(rowIndex)">카드 분리</a>
         </li>
         <li>
             <a href="">검색</a>

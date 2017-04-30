@@ -23,8 +23,8 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
     $scope.$on('anomaly.card.data_loaded', function (event, data) {
         // 차트 데이터 수신
 
-
-        $timeout($scope.renderChart);
+        $scope.cards[$scope.$index].data.rowIndex = null;
+        $timeout(transformData());
     });
 
     $scope.$on('anomaly.card.changeChart', function (event, type) {
@@ -45,11 +45,11 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
     });
 
     $scope.$on('anomaly.card.changeHeatmapScaleMode', function (event, isScaleMode) {
-        $timeout($scope.renderChart);
+        $timeout(transformData);
     });
 
     /**
-     * popup menu scope 문제 테스트
+     * new popup menu
      */
 
     $(document, '.btn_hide').on("click", function(event){
@@ -68,19 +68,43 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         $('.popup').css('display', 'none');
     }
 
-
     /**
      * 차트 기능
      */
 
-    $scope.renderChart = function(rowIndex) {
+    $scope.splitCard = function (rowIndex) {
+        var card = $scope.cards[$scope.$index];
+        console.log(card);
+        card.data.rowIndex = rowIndex;
+
+        console.log(card.data.fields.values.length);
+
+        // _.$scope.cards
+        _.times(card.data.fields.values.length, function(i) {
+            // TODO
+            // transformData()
+            // console.log('i', i)
+            card.data.valueIndex = i;
+            $scope.cards.push(card)
+
+        });
+
+        console.log($scope.cards)
+
+
+    }
+
+     function transformData() {
+
+        // console.log($scope.cards.length)
+        // return;
 
 
         $timeout(function () {
             var data = $scope.cards[$scope.$index].data;
 
-            console.log(rowIndex)
-            if (rowIndex !== undefined) {
+            console.log(data.rowIndex)
+            if (data.rowIndex !== null) {
                 // 카드분리 & 라인차트
 
                 // values fields count 후 loop하여 라인차트 랜더링
@@ -91,7 +115,8 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                 console.log('line chart', rowIndex, data);
                 renderLineChart('container_'+$scope.$index, data);
             } else {
-                // 서버데이터 수신 && 라인차트
+                // 서버데이터 수신 && 히트맵 차트
+                $scope.app.chartType = 'heatmap';
                 data = transformHeatmap($scope.card.data, $scope.scaleModeModel.value);
                 console.log('heatmap chart', data)
                 renderHeatmapChart('container_'+$scope.$index, data)
@@ -168,18 +193,6 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
                     },
                     point: {
                         events: {
-                            click: function (event) {
-                                event.preventDefault();
-
-                                $scope.rowIndex = rowIndex;
-                                $scope.$apply();
-
-                                // 다른 팝업메뉴가 열려있으면 닫도록 한다.
-                                $rootScope.$broadcast('popupmenu.closeAll');
-                                $rootScope.$broadcast('popupmenu.open.' + 'pm1_1', event);
-
-                            },
-
                             contextmenu: function (event) {
                                 // 기본 정의 이벤트의 동작을 막아준다.
                                 event.preventDefault();
