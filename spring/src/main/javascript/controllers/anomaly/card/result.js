@@ -32,11 +32,6 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
         // TODO: 차트 교체 처리
     });
 
-    // resizeChart에서 차트사이즈를 지정하여, window resize시 chart size 변경
-    window.addEventListener('resize', function(event){
-        // do stuff here
-    });
-
     $scope.$on('anomaly.card.resizeChart', function (event, size, elCard) {
         // 차트 사이즈 변경 처리
 
@@ -337,6 +332,7 @@ function ResultCtrl($rootScope, $scope, $timeout, $compile) {
 
         var uclIndexes=[], lclIndexes=[], varianceIndexes=[], lineChartData=[];
         _.forEach(data.fields.values, function(d, i){
+            // console.log(d);
             lineChartData.push([]);
             uclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.ucl[i]}))
             lclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.lcl[i]}))
