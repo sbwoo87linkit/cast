@@ -31,13 +31,16 @@
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
-    <div class="mu-tooltip" popup-layer="anomaly.layer.chartmenu_{{$index}}">
-        <div class="arrow"></div>
-        <ul class="mu-popup-menu">
-            <li><a href=""><i class="mu-icon-img divide"></i><spring:message code="anomaly.split_card" /></a></li>
-            <li><a href=""><i class="mu-icon-img search"></i><spring:message code="menu.search" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-            <li><a href=""><i class="mu-icon-img pivot"></i><spring:message code="menu.pivot" /></a><a href=""><i class="mu-icon-img link"></i></a></li>
-        </ul>
-    </div>
+    <ul id="popup{{$index}}" class="popup">
+        <li>
+            <a href="" ng-click="splitClick(rowIndex)">카드 분리</a>
+        </li>
+        <li>
+            <a href="">검색</a>
+        </li>
+        <li>
+            <a href="">피벗</a>
+        </li>
+    </ul>
     <!-- //contextmenu : 차트 메뉴 -->
 </div>
