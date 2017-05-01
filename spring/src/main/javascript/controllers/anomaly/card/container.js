@@ -6,8 +6,8 @@ var uuidV1 = require('uuid/v1');
 /**
  * Controller
  */
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'anomaly'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'anomaly', 'util'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly, util) {
     // var MAX_COL = 3;
     /**
      * scope
@@ -89,9 +89,28 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         $scope.cards.push(card);
     }
 
-    function splitCard(card) {
+    // function splitCard(card) {
+    //
+    // };
 
+
+    // 카드 분리
+    $scope.splitCard = function(index, card) {
+        var cardList = $scope.cards;
+        // var card = _.cloneDeep($scope.card);
+        var titleKey = 'adeOptions.title';
+
+        // 카드 복사시 아이디 부여
+        card.id = uuidV1();
+
+        card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
+
+        cardList.push(card);
+        $timeout(function () {
+            $scope.$broadcast('anomaly.card.data_loaded', card.data);
+        })
     };
+
 }
 
 module.exports = ContainerCtrl;
