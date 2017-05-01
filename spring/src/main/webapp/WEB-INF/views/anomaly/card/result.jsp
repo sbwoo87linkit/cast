@@ -22,7 +22,11 @@
 
     <!-- 결과(차트) -->
     <div ng-show="!card.state.running && card.state.success" style="height:100%">
-        <!-- <pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre> -->
+        <div>
+            <button ng-click="splitCard($index)">카드 분리</button>
+            {{result}}
+        </div>
+         <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
         <div id="container_{{$index}}" style="width:100%; height:100%;"></div>
     </div>
 
