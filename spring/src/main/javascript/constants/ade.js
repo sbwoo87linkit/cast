@@ -8,7 +8,7 @@
 module.exports = {
     title: '',
 
-    keyFields: [],
+    keyFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     model: 'SPC',
 
