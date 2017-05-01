@@ -30,7 +30,7 @@ function ResultCtrl($scope, util) {
      */
     $scope.$on('anomaly.card.data_loaded', function(event, data) {
         // TODO: 차트 데이터 수신
-        // if (data.)
+        renderChart(data);
     });
     $scope.$on('anomaly.card.changeChart', function (event, type) {
         // TODO: 차트 교체 처리
@@ -74,17 +74,21 @@ function ResultCtrl($scope, util) {
         })
     };
 
-    // $scope.copyCard($scope.$index);
+    function renderChart(data) {
+        transformToHeatmapData(data);
+        data.xAsixData = ['1/1', '1/2'];
+        data.yAxisData = ['aaa', 'bbb'];
+        data.heatmapData = [[0,0,1], [0,1,2], [1,0,3], [1,1,4]];
+        if ($scope.result.heatMapcolorMode === 'row') {
 
-
-    function switchChart() {
-        if ($scope.chartType === 'line') {
-            renderLineChart();
         }
+        var index = 'container_' + $scope.$index;
+        renderHeatmapChart(data, id);
+    }
 
-        if ($scope.chartType === 'heatmap') {
-            renderHeatmapChart();
-        }
+    function transformToHeatmapData(data) {
+
+        return data;
     }
 
     function renderLineChart() {
@@ -92,7 +96,7 @@ function ResultCtrl($scope, util) {
 
     }
 
-    function renderHeatmapChart() {
+    function renderHeatmapChart(data, id) {
 
     }
 }
