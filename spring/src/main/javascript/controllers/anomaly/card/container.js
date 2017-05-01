@@ -88,6 +88,10 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     function copyCard(card) {
         $scope.cards.push(card);
     }
+
+    function splitCard(card) {
+
+    };
 }
 
 module.exports = ContainerCtrl;
