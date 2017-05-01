@@ -5,6 +5,7 @@
 var Highcharts = require('highcharts');
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/exporting')(Highcharts);
+var HighchartsCustomEvents = require('highcharts-custom-events')(Highcharts);
 
 var _ = require('lodash');
 var uuidV1 = require('uuid/v1');
