@@ -73,6 +73,21 @@ function ResultCtrl($scope, $timeout, util) {
         })
     }
 
+    $(document, '.btn_hide').on("click", function(event){
+        hidePopup();
+    });
+
+    function showPopup(id, e) {
+        hidePopup();
+        var el = $('#'+id+$scope.$index);
+        el.css('display', 'block');
+        el.css('left', e.clientX + 'px');
+        el.css('top', e.clientY + 'px');
+    }
+
+    function hidePopup() {
+        $('.popup').css('display', 'none');
+    }
 
 
 
