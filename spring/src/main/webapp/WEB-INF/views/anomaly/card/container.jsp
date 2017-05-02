@@ -4,22 +4,30 @@
 
 
 
-    <highchart id="chart1" config="chartConfig"></highchart>
+    <!--<highchart id="chart1" config="chartConfig"></highchart>-->
 
-    <table style="width: 100%">
-        <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Score</th>
-        </tr>
-        <tr ng-repeat="item in items">
-            <td>{{item.n}}</td>
-            <td>
-                <highchart config="item.cfg"></highchart>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!--<table style="width: 100%">-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<th>Name</th>-->
+            <!--<th>Score</th>-->
+        <!--</tr>-->
+        <!--<tr ng-repeat="item in items">-->
+            <!--<td>{{item.n}}</td>-->
+            <!--<td>-->
+                <!--<highchart config="item.cfg"></highchart>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+    <button ng-click="addItem()">ADD</button>
+    <div style="width: 100%;  padding:20px; background: powderblue;  overflow: hidden">
+        <div  ng-repeat="item in items track by $index" style="float:left; width:300px;">
+            <highchart config="item.cfg" style="margin:5px;height: 250px;"></highchart>
+            <button ng-click="removeItem($index)">Remove {{$index}}</button>
+        </div>
+    </div>
 
 
 

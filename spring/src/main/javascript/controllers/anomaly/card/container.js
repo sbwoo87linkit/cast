@@ -10,14 +10,16 @@ ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'se
 function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly, popupLayerStore, util) {
 
 
-
-
+    /**
+     *
+     *  Highcharts-ng Test
+     */
 
     var opts = {
         chart: {
             type: 'heatmap',
-            marginTop: 40,
-            marginBottom: 80
+            marginTop: 0,
+            marginBottom: 0
         },
         colorAxis: {
             min: 0,
@@ -28,29 +30,84 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         legend: ''
     };
 
-    $scope.items = [
-        {n: 'Smith', cfg: {
-            options: opts,
-            series: [{ data: [[0,0,1], [0,1,5], [1,0,3], [1,1,1]] }],
-            title: ' ',
-            xAxis: { categories: ['1/10', '1/11']},
-            yAxis: { categories: ['TV', 'RADIO']}
-        }
-        },
-        {n: 'Smith', cfg: {
-            options: opts,
-            series: [{ data: [[0,0,1], [0,1,5], [1,0,3], [1,1,1]] }],
-            title: ' ',
-            xAxis: { categories: ['1/10', '1/11']},
-            yAxis: { categories: ['TV', 'RADIO']}
-        }
-        }
+    $scope.i = 0;
+
+    // $scope.items = [
+    //     {
+    //         n: 'Smith', cfg: {
+    //         options: opts,
+    //         series: [{data: [[0, 0, 1], [0, 1, 5], [1, 0, 3], [1, 1, 1]]}],
+    //         title: ' ',
+    //         xAxis: {categories: ['1/10', '1/11']},
+    //         yAxis: {categories: ['TV', 'RADIO']}
+    //     }
+    //     },
+    //     {
+    //         n: 'Smith', cfg: {
+    //         options: opts,
+    //         series: [{data: [[0, 0, 1], [0, 1, 5], [1, 0, 3], [1, 1, 1]]}],
+    //         title: ' ',
+    //         xAxis: {categories: ['1/10', '1/11']},
+    //         yAxis: {categories: ['TV', 'RADIO']}
+    //     }
+    //     }
+    //
+    //
+    // ];
+
+
+    $scope.items = [];
+    // $scope.items.push(item);
+    // $scope.items.push(item);
+
+
+    $scope.removeItem = function (index) {
+        $scope.items.splice(index, 1);
+    }
+
+    var i = 0;
+
+    $scope.addItem = function () {
+        i++;
+        var item = {
+            n: 'name_' + i,
+            cfg: {
+                options: opts,
+                series: [{
+                    data: [[0, 0, 1 + i], [0, 1, 5 + i], [1, 0, 3 + i], [1, 1, 1 + i]],
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000'
+                    }
+                },],
+                title: ' ',
+                xAxis: {categories: ['1/10', '1/11']},
+                yAxis: {categories: ['TV', 'RADIO']}
+            }
+        };
+
+        console.log(i);
+        $scope.items.push(item);
+    }
+
+
+    /**
+     *
+     * test - end
+     */
 
 
 
 
 
-    ];
+
+
+
+
+
+
+
+
 
 
 
@@ -108,15 +165,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     }
 
 
-
-
-
-
-
-
-
-
-
     // var MAX_COL = 3;
     /**
      * scope
@@ -131,7 +179,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     /**
      * 버튼 이벤트
      */
-    $scope.openOptionsDlg = function() {
+    $scope.openOptionsDlg = function () {
         _cardId = uuidV1();
 
         $scope.$root.$broadcast('anomaly.popup.edit.setForm', 'create');
@@ -141,15 +189,15 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     /**
      * 이벤트
      */
-    $scope.$on('anomaly.card.add', function(event, adeOptions) {
+    $scope.$on('anomaly.card.add', function (event, adeOptions) {
         addCard(adeOptions);
     });
-    $scope.$on('anomaly.card.copy', function(event, card) {
+    $scope.$on('anomaly.card.copy', function (event, card) {
         copyCard(card);
     });
     /**
-    *   init
-    */
+     *   init
+     */
     var props = anomaly.get();
 
     if ($stateParams.auto_add === 'true' && props.valFields.length) {
@@ -189,7 +237,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         };
         $scope.cards.push(card);
 
-        $timeout(function() {
+        $timeout(function () {
             $scope.$broadcast('anomaly.card.run.' + card.id);
         });
     }
@@ -202,7 +250,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     //
     // };
 
-    var closeLayer = function(index) {
+    var closeLayer = function (index) {
         var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
 
         if (layer) {
@@ -211,7 +259,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     };
 
     // 카드 복사
-    $scope.copyCard = function(index, card) {
+    $scope.copyCard = function (index, card) {
         console.log(card)
         var cardList = $scope.cards;
         card = _.cloneDeep(card);
@@ -232,7 +280,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
 
 
     // 카드 분리
-    $scope.splitCard = function(index, card) {
+    $scope.splitCard = function (index, card) {
         var cardList = $scope.cards;
         // var card = _.cloneDeep($scope.card);
         var titleKey = 'adeOptions.title';
