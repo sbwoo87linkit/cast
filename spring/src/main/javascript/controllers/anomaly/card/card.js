@@ -14,10 +14,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
      */
     $scope.chartTypes = anomalyOpts.CHART_TYPES;
     $scope.errorMsg = '';
-    $scope.card.isRowScale = false;
-    $scope.card.chartType = 'heatmap';
-    $scope.card.rowIndex = -1;
-    $scope.card.valueIndex = -1;
 
     /**
      * variables
@@ -141,7 +137,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     // 카드 삭제
     $scope.removeCard = function(index) {
+        console.log(JSON.stringify($scope.cards));
+        console.log('removeCard', index)
         $scope.cards.splice(index, 1);
+        console.log(JSON.stringify($scope.cards));
 
         closeLayer(index);
     };

@@ -135,6 +135,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
 
         cardList.push(card);
         $timeout(function () {
+            console.log('broadcast......')
             $scope.$broadcast('anomaly.card.data_loaded', card.data);
         })
     };
