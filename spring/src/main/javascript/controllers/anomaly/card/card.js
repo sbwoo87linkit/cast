@@ -15,7 +15,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     $scope.chartTypes = anomalyOpts.CHART_TYPES;
     $scope.errorMsg = '';
     $scope.result = {};
-    $scope.result.heatmapColorMode = 'map';
+    $scope.result.heatmapScaleMode = 'map';
 
     /**
      * variables
