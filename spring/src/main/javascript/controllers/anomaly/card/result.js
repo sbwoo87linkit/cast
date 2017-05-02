@@ -36,10 +36,11 @@ function ResultCtrl($scope, $timeout, util) {
      * 이벤트
      */
     $scope.$on('anomaly.card.data_loaded', function(event, data) {
-        // TODO: 차트 데이터 수신
-        $timeout(
-            renderChart(data)
-        )
+        // 차트 데이터 수신
+        // 추가된 카드의 size를 인식하도록 $timeout으로 차트를 그린다
+        $timeout(function () {
+            renderChart(data);
+        })
     });
     $scope.$on('anomaly.card.changeChart', function (event, type) {
         // TODO: 차트 교체 처리
@@ -49,6 +50,14 @@ function ResultCtrl($scope, $timeout, util) {
         // TODO: 차트 사이즈 변경 처리
         if ($scope.card.data.isEnd) {
             // setTimeout(switchChart);
+        }
+
+        try {
+            var container = $('#container_' + $scope.$index);
+            var chart = container.highcharts();
+            chart.reflow();
+        } catch (err) {
+            // do noting
         }
     });
 
@@ -66,10 +75,9 @@ function ResultCtrl($scope, $timeout, util) {
     $scope.splitClick = function () {
 
         var card = _.cloneDeep($scope.card);
-        console.log(card);
         _.times(card.data.fields.values.length, function (i) {
             var card = _.cloneDeep($scope.card);
-            // call function in containter controller
+            // function in containter
             $scope.splitCard($scope.$index, card);
         })
     }
@@ -104,13 +112,12 @@ function ResultCtrl($scope, $timeout, util) {
 
     function renderChart(data) {
         data = transformToHeatmapData(data);
-        console.log(data);
         if ($scope.result.heatMapcolorMode === 'row') {
 
         }
         var id = 'container_' + $scope.$index;
-        console.log('id', id)
         renderHeatmapChart(id, data);
+
     }
 
     // function transformToHeatmapData(data) {
@@ -122,11 +129,6 @@ function ResultCtrl($scope, $timeout, util) {
 
 
     }
-
-    // function renderHeatmapChart(data, id) {
-    //
-    // }
-
 
     function transformToHeatmapData(data, isScaleMode) {
 
@@ -421,8 +423,6 @@ function ResultCtrl($scope, $timeout, util) {
 
     function renderHeatmapChart(id, data) {
 
-        console.log('renderHeatmapChart')
-        // mouseover selected row y
         var rowIndex;
 
         Highcharts.chart(id, {
@@ -431,7 +431,6 @@ function ResultCtrl($scope, $timeout, util) {
 
             chart: {
                 type: 'heatmap',
-                // height: CONTAINER_HEIGHT,
                 marginTop: 0
             },
 
@@ -451,7 +450,6 @@ function ResultCtrl($scope, $timeout, util) {
 
                                 $scope.rowIndex = rowIndex;
                                 $scope.$apply();
-
                                 showPopup('popup', event);
                             }
                         }
