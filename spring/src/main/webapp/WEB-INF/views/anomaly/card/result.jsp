@@ -25,6 +25,8 @@
          <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
         <div id="container_{{$index}}" style="height: 100%; width: 100%; position: absolute"></div>
         <div style="position: absolute; margin: 10px; padding: 5px;text-align: left; background: pink">
+            <p>$index : {{$index}}</p>
+            <p>$id : {{$id}}</p>
             <p>card.chartType : {{card.chartType}}</p>
             <p>card.isRowScale : {{card.isRowScale}}</p>
             <p>card.rowIndex : {{card.rowIndex}}</p>
