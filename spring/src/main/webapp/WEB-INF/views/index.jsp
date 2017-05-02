@@ -12,6 +12,13 @@
 
     <!-- <%@ include file="./footer.jsp"%> -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.10/highcharts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts-ng/0.0.13/highcharts-ng.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://blacklabel.github.io/custom_events/js/customEvents.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
     <%@ include file="./scripts.jsp"%>
 </body>
 </html>

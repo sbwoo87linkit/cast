@@ -8,7 +8,7 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
-require('highcharts-ng');
+// require('highcharts-ng');
 
 require('./constants');
 require('./directives');
