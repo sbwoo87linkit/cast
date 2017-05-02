@@ -21,13 +21,9 @@
     </div>
 
     <!-- 결과(차트) -->
-    <div ng-show="!card.state.running && card.state.success" style="height:100%">
-        <div>
-            <button ng-click="splitClick($index)">카드 분리</button>
-            {{result}}
-        </div>
+    <div ng-show="!card.state.running && card.state.success" style="position:relative; display:block; height:100%;width:100%">
          <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
-        <div id="container_{{$index}}" style="width:200px; height:200px;"></div>
+        <div id="container_{{$index}}" class="chart" style="position: absolute; width:100%; height:100%;"></div>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->

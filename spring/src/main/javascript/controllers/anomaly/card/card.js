@@ -129,21 +129,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
     };
 
-    // 카드 복사
-    $scope.copyCard = function(index) {
-        var cardList = $scope.cards;
-        var card = _.cloneDeep($scope.card);
-        var titleKey = 'adeOptions.title';
-
-        // 카드 복사시 아이디 부여
-        card.id = uuidV1();
-
-        card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
-
-        cardList.push(card);
-
-        closeLayer(index);
-    };
 
     // 다시 실행
     $scope.restartJob = function(index) {
