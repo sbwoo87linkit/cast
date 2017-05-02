@@ -21,9 +21,9 @@
     </div>
 
     <!-- 결과(차트) -->
-    <div ng-show="!card.state.running && card.state.success" style="position:relative; display:block; height:100%;width:100%">
+    <div ng-show="!card.state.running && card.state.success" style="position: relative; height: 100%; width:100%">
          <!--<pre style="position: absolute; height: 300px; width: calc(100% - 30px); text-align: left;">{{card.data | json:4}}</pre>-->
-        <div id="container_{{$index}}" class="chart" style="position: absolute; width:100%; height:100%;"></div>
+        <div id="container_{{$index}}" style="height: 100%; width: 100%; position: absolute"></div>
     </div>
 
     <!-- contextmenu : 차트 메뉴 -->
