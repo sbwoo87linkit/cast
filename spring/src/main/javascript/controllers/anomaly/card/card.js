@@ -14,8 +14,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
      */
     $scope.chartTypes = anomalyOpts.CHART_TYPES;
     $scope.errorMsg = '';
-    $scope.result = {};
-    $scope.result.heatmapScaleMode = 'map';
+    $scope.card.isRowScale = false;
+    $scope.card.chartType = 'heatmap';
+    $scope.card.rowIndex = -1;
+    $scope.card.valueIndex = -1;
 
     /**
      * variables
@@ -162,6 +164,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     $scope.$on('anomaly.card.abort.all', function() {
         abortJob();
     });
+
+    $scope.changeHeatmapScaleMode = function(isScaleMode) { 
+        // to result ctrl 
+        $scope.$broadcast('anomaly.card.changeHeatmapScaleMode', isScaleMode)};
 }
 
 module.exports = CardCtrl;
