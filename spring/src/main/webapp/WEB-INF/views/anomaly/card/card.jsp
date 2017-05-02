@@ -94,7 +94,7 @@
             <li ng-click="changeOptions($index)">
                 <a href="javascript:;"><i class="mu-icon-img option"></i><spring:message code="anomaly.change_option" /></a>
             </li>
-            <li ng-click="copyCard($index)">
+            <li ng-click="copyCard($index, cards[$index])">
                 <a href="javascript:;"><i class="mu-icon-img copy"></i><spring:message code="copy" /></a>
             </li>
             <li ng-click="restartJob($index)">

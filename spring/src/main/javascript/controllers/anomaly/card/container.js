@@ -6,8 +6,8 @@ var uuidV1 = require('uuid/v1');
 /**
  * Controller
  */
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'anomaly', 'util'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly, util) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'anomaly', 'popupLayerStore', 'util'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly, popupLayerStore, util) {
     // var MAX_COL = 3;
     /**
      * scope
@@ -92,6 +92,34 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     // function splitCard(card) {
     //
     // };
+
+    var closeLayer = function(index) {
+        var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
+
+        if (layer) {
+            popupLayerStore.get('anomaly.layer.cardmenu_' + index).closeEl();
+        }
+    };
+
+    // 카드 복사
+    $scope.copyCard = function(index, card) {
+        console.log(card)
+        var cardList = $scope.cards;
+        card = _.cloneDeep(card);
+        var titleKey = 'adeOptions.title';
+
+        // 카드 복사시 아이디 부여
+        card.id = uuidV1();
+
+        card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
+
+        cardList.push(card);
+        $timeout(function () {
+            $scope.$broadcast('anomaly.card.data_loaded', card.data);
+        })
+
+        closeLayer(index);
+    };
 
 
     // 카드 분리

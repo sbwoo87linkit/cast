@@ -65,11 +65,11 @@ function ResultCtrl($scope, $timeout, util) {
 
     $scope.splitClick = function () {
 
-        _.times(3, function (i) {
-            // console.log(i);
-            //
-            // // closeLayer(index);
+        var card = _.cloneDeep($scope.card);
+        console.log(card);
+        _.times(card.data.fields.values.length, function (i) {
             var card = _.cloneDeep($scope.card);
+            // call function in containter controller
             $scope.splitCard($scope.$index, card);
         })
     }
