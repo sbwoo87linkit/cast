@@ -8,6 +8,7 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
+require('highcharts-ng');
 
 require('./constants');
 require('./directives');
@@ -27,6 +28,7 @@ angular.module('shermanApp', [
         'ui.mobius',
         'ui.router',
         'agGrid',
+        'highcharts-ng',
 
         'sherman.constants',
         'sherman.controllers',
