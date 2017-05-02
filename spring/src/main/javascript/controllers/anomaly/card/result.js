@@ -27,10 +27,7 @@ function ResultCtrl($scope, $timeout, util) {
      *
      * scope
      */
-    $scope.result.chartType = null; //'heatmap' or 'line'
-    $scope.result.heatMapcolorMode = 'row' // 'map' or 'row'
-    $scope.result.rowIndex = -1;
-    $scope.result.valueIndex = -1;
+
 
     /**
      * 이벤트
@@ -39,6 +36,7 @@ function ResultCtrl($scope, $timeout, util) {
         // 차트 데이터 수신
         // 추가된 카드의 size를 인식하도록 $timeout으로 차트를 그린다
         $timeout(function () {
+
             renderChart(data);
         })
     });
@@ -61,6 +59,11 @@ function ResultCtrl($scope, $timeout, util) {
         }
     });
 
+    $scope.$on('anomaly.card.changeHeatmapScaleMode', function (event, isRowScale) { 
+        console.log('anomaly.card.changeHeatmapScaleMode', isRowScale)
+        $timeout(renderChart($scope.card.data, isRowScale)); 
+    });
+
     // $scope.$watch('card.data', function () {
     //     if ($scope.card.data.isEnd) {
     //         // setTimeout(switchChart);
@@ -77,7 +80,9 @@ function ResultCtrl($scope, $timeout, util) {
         var card = _.cloneDeep($scope.card);
         _.times(card.data.fields.values.length, function (i) {
             var card = _.cloneDeep($scope.card);
-            // function in containter
+            card.data.valueIndex = i;
+            card.data.chartType = 'line';
+            // from container Ctrl
             $scope.splitCard($scope.$index, card);
         })
     }
@@ -98,39 +103,26 @@ function ResultCtrl($scope, $timeout, util) {
         $('.popup').css('display', 'none');
     }
 
-
-
-
     /**
      *
      * function
      */
 
+    function renderChart(data, isRowScale) {
+        console.log(data.chartType, data.rowIndex, data.valueIndex);
+        data = transformToHeatmapData(data, isRowScale);
 
-
-
-
-    function renderChart(data) {
-        data = transformToHeatmapData(data);
-        if ($scope.result.heatMapcolorMode === 'row') {
-
-        }
         var id = 'container_' + $scope.$index;
         renderHeatmapChart(id, data);
 
     }
-
-    // function transformToHeatmapData(data) {
-    //
-    //     return data;
-    // }
 
     function renderLineChart() {
 
 
     }
 
-    function transformToHeatmapData(data, isScaleMode) {
+    function transformToHeatmapData(data, isRowScale) {
 
         // console.log(data);
 
@@ -240,7 +232,7 @@ function ResultCtrl($scope, $timeout, util) {
             return strToDate(d);
         })
 
-        if (isScaleMode) {
+        if (isRowScale) {
             for (var y = 0; y < heatmap.yAxisData.length; y++) {
 
                 // 행의 최대값 구하기
@@ -448,7 +440,7 @@ function ResultCtrl($scope, $timeout, util) {
                                 // 기본 정의 이벤트의 동작을 막아준다.
                                 event.preventDefault();
 
-                                $scope.rowIndex = rowIndex;
+                                $scope.card.data.rowIndex = rowIndex;
                                 $scope.$apply();
                                 showPopup('popup', event);
                             }
@@ -460,7 +452,7 @@ function ResultCtrl($scope, $timeout, util) {
                                 // 기본 정의 이벤트의 동작을 막아준다.
                                 event.preventDefault();
 
-                                $scope.rowIndex = rowIndex;
+                                $scope.card.data.rowIndex = rowIndex;
                                 $scope.$apply();
                                 showPopup('popup', event);
                             },

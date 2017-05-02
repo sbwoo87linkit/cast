@@ -8,7 +8,7 @@
                 {{card.adeOptions.title}}
             </span>
             <div class="mu-hgroup fr">
-                <label ng-if="app.chartType === 'heatmap'">scale mode <input type="checkbox" ng-model="result.heatmapScaleMode" ng-change="changeHeatmapScaleMode()"> </label>
+                <label ng-if="card.chartType == 'heatmap'">scale mode <input type="checkbox" ng-model="card.isRowScale" ng-change="changeHeatmapScaleMode(card.isRowScale)"> </label>
                 <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only" ng-click="card.isMaxSize=!card.isMaxSize;resetRows();"><i class="mu-icon-img" ng-class="{ true: 'collapse', false: 'expand' }[!!(card.isMaxSize)]"></i></button>
                 <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only" ng-click="" ng-disabled="card.state.running" popup-layer-area="anomaly.layer.cardmenu_{{$index}}"><i class="mu-icon-img more"></i></button>
             </div>
