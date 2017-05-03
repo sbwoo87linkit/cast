@@ -33,31 +33,19 @@ function ResultCtrl($scope, $timeout, util) {
      * 이벤트
      */
     $scope.$on('anomaly.card.data_loaded', function(event, data) {
-        // 차트 데이터 수신
-        // 추가된 카드의 size를 인식하도록 $timeout으로 차트를 그린다
-
-
-        // console.log('data_loaded', $scope.cards);
-        // $timeout(function () {
-        //     if (data.rowIndex != undefined || (data.fields.keys.length === 0 && data.fields.values.length === 1)) {
-        //         data.chartType = 'line';
-        //     } else {
-        //         data.chartType = 'heatmap';
-        //     }
-        //     renderChart(data);
-        // })
-
     });
+
     $scope.$on('anomaly.card.changeChart', function (event, type) {
-        // 차트 교체 처리
     });
 
     $scope.$on('anomaly.card.resizeChart', function (event, size, elCard) {
         // 차트 사이즈 변경 처리
         try {
-            var container = $('#container_' + $scope.$index);
-            var chart = container.highcharts();
-            chart.reflow();
+            $('#chart_' + $scope.$index).highcharts().setSize(
+                size.width - 22,
+                $('.anomalyBlank').height() - 70,
+                false
+            );
         } catch (err) {
             // do noting
         }

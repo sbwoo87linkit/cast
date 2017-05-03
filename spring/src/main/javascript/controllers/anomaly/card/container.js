@@ -10,79 +10,6 @@ ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'se
 function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, anomaly, popupLayerStore, util) {
 
 
-    /**
-     *
-     *  Highcharts-ng Test
-     */
-
-    var opts = {
-        chart: {
-            type: 'heatmap',
-            marginTop: 0,
-            marginBottom: 0
-        },
-        colorAxis: {
-            min: 0,
-            minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
-        },
-
-        legend: ''
-    };
-
-    $scope.i = 0;
-
-
-
-    $scope.items = [];
-    // $scope.items.push(item);
-    // $scope.items.push(item);
-
-
-    $scope.removeItem = function (index) {
-        $scope.items.splice(index, 1);
-    }
-
-    var i = 0;
-
-    $scope.addItem = function () {
-        i++;
-        var item = {
-            n: 'name_' + i,
-            cfg: {
-                options: opts,
-                series: [{
-                    data: [[0, 0, 1], [0, 1, 0 + i], [1, 0, 3], [1, 1, 1]],
-                    dataLabels: {
-                        enabled: true,
-                        color: '#000000'
-                    }
-                },],
-                title: ' ',
-                xAxis: {categories: ['1/10', '1/11']},
-                yAxis: {categories: ['TV', 'RADIO']}
-            }
-        };
-
-        console.log(i);
-        $scope.items.push(item);
-    }
-
-
-    /**
-     *
-     * test - end
-     */
-
-
-
-
-
-
-
-
-
-
     // var MAX_COL = 3;
     /**
      * scope
@@ -107,20 +34,24 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     /**
      * 이벤트
      */
+
+    window.onresize = function(event) {
+        var HEIGHT = $('.anomalyBlank').height() - 70;
+        $('.chart').each(function() {
+            $(this).highcharts().setSize(
+                $(this).parent().width(),
+                HEIGHT,
+                false
+            );
+        })
+    };
+
     $scope.$on('anomaly.card.add', function (event, adeOptions) {
         addCard(adeOptions);
     });
     $scope.$on('anomaly.card.copy', function (event, card) {
         copyCard(card);
     });
-
-    $scope.$on('$viewContentLoaded',
-        function () {
-            // vm.highChartConfig.getChartObj().reflow();
-            console.log('content loaded....')
-        }
-    );
-
 
     /**
      *   init
@@ -147,28 +78,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
      */
     function addCard(options) {
 
-        console.log(options)
-        // return;
-
-        var card2 = {
-            // index: $scope.cards.length,
-            id: _cardId,
-            chartType: 'heatmap',
-            isMaxSize: false,
-            state: {
-                // 실행 상태로 추가
-                running: true,
-                success: false,
-                error: false,
-                current: 0,
-                total: 1
-            },
-            adeOptions: options,
-            data: {}
-        };
-
-
-        i++;
         var card = {
             id: _cardId,
             chartType: 'heatmap',
@@ -183,51 +92,18 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
             },
             adeOptions: options,
             data: {}
-
-            // cfg: {
-            //     options: {
-            //         chart: {
-            //             type: 'heatmap',
-            //             marginTop: 0,
-            //             marginBottom: 0
-            //         },
-            //         colorAxis: {
-            //             min: 0,
-            //             minColor: '#FFFFFF',
-            //             maxColor: Highcharts.getOptions().colors[0]
-            //         },
-            //
-            //         legend: ''
-            //     },
-            //     series: [{
-            //         data: [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]],
-            //         dataLabels: {
-            //             enabled: true,
-            //             color: '#000000'
-            //         }
-            //     },],
-            //     title: ' ',
-            //     xAxis: {categories: ['1/10', '1/11']},
-            //     yAxis: {categories: ['TV', 'RADIO']}
-            // }
         };
-
-
 
         $scope.cards.push(card);
 
         $timeout(function () {
             $scope.$broadcast('anomaly.card.run.' + card.id);
-        }, 10);
+        });
     }
 
     function copyCard(card) {
         $scope.cards.push(card);
     }
-
-    // function splitCard(card) {
-    //
-    // };
 
     var closeLayer = function (index) {
         var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
@@ -250,9 +126,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
         card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
 
         cardList.push(card);
-        // $timeout(function () {
-        //     $scope.$broadcast('anomaly.card.data_loaded', card.data);
-        // })
 
         closeLayer(index);
     };
