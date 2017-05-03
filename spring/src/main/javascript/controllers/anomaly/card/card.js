@@ -20,6 +20,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
      */
     var card,
         anomalyObj = null,
+        HIGHLIGHT_WIDTH = 5,
         HEIGHT = $('.anomalyBlank').height() - 70,
         WIDTH = $('.anomalyBlank').width() - 20;
 
@@ -71,13 +72,20 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
                 var cfg;
 
-                if ((data.fields.keys.length === 0 && data.fields.values.length === 1)) {
-                    // line chart
-                    cfg = transformToLineData(data);
+                if (card.chartType === null) {
+                    if ((data.fields.keys.length === 0 && data.fields.values.length === 1)) {
+                        card.chartType = 'line';
+                    } else {
+                        card.chartType = 'heatmap';
+                    }
                 } else {
-                    // heatmap chart
-                    cfg = transformToHeatmapData(data, false);
+                    if (card.chartType === 'line') {
+                        cfg = transformToLineData(data);
+                    } else  {
+                        cfg = transformToHeatmapData(data, false);
+                    }
                 }
+
 
                 card.data = data;
 
@@ -441,6 +449,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]];
         }
 
+        var rowIndex = -1;
+
         var cfg = {
             options: {
                 chart: {
@@ -456,7 +466,57 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     maxColor: Highcharts.getOptions().colors[0]
                 },
 
-                legend: ''
+                legend: '',
+                plotOptions: {
+                    series: {
+                        states: {
+                            hover: {
+                                enabled: false
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false,
+                            events: {
+                                contextmenu: function (event) {
+                                    // 기본 정의 이벤트의 동작을 막아준다.
+                                    event.preventDefault();
+
+                                    $scope.card.data.rowIndex = rowIndex;
+                                    $scope.$apply();
+                                    showPopup('popup', event);
+                                }
+                            }
+                        },
+                        point: {
+                            events: {
+                                contextmenu: function (event) {
+                                    // 기본 정의 이벤트의 동작을 막아준다.
+                                    event.preventDefault();
+
+                                    $scope.card.data.rowIndex = rowIndex;
+                                    $scope.$apply();
+                                    showPopup('popup', event);
+                                },
+
+                                mouseOver: function () {
+                                    var chart = this.series.chart;
+                                    rowIndex = this.y;
+                                    resetHighlight(chart);
+                                    for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
+                                        var index = this.y + i * chart.yAxis[0].categories.length;
+                                        chart.series[0].data[index].update({borderWidth: HIGHLIGHT_WIDTH}, false);
+                                    }
+                                    chart.redraw();
+                                },
+
+                                mouseOut: function () {
+                                    var chart = this.series.chart;
+                                    resetHighlight(chart);
+                                }
+                            }
+                        }
+                    }
+                }
             },
             series: [{
                 data: data,
@@ -511,6 +571,15 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         return Date.UTC(year, month, day, hour, min, sec);
     }
 
+    function resetHighlight(chart) {
+        for (var i = 0; i < chart.series[0].data.length; i++) {
+            chart.series[0].data[i].update({borderWidth: 1}, false);
+        }
+        chart.redraw();
+    }
+
+
+
 
     /**
      * 버튼 이벤트
@@ -557,11 +626,110 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     $scope.$on('anomaly.card.abort.all', function () {
         abortJob();
     });
-
+    $scope.$on('anomaly.card.resizeChart', function (event, size, elCard) {
+        // 차트 사이즈 변경 처리
+        try {
+            $('#chart_' + $scope.$index).highcharts().setSize(
+                size.width - 22,
+                size.height - 70,
+                false
+            );
+        } catch (err) {
+            // do noting
+        }
+    });
+    // Row Scaled 히트맵 컬러
     $scope.changeHeatmapScaleMode = function (isScaleMode) {
-
         $scope.cards[$scope.$index].cfg = transformToHeatmapData(card.data, isScaleMode);
     };
+
+    //
+    // $scope.splitClick = function () {
+    //
+    //     var card = _.cloneDeep($scope.card);
+    //     console.log('splitClick', card.data.fields.values.length);
+    //     _.times(card.data.fields.values.length, function (i) {
+    //
+    //         var card = _.cloneDeep($scope.card);
+    //         card.data.valueIndex = i;
+    //         card.data.chartType = 'line';
+    //         // from container Ctrl
+    //         $scope.splitCard($scope.$index, card);
+    //     })
+    // }
+    //
+
+
+
+
+    // 카드 분리
+    $scope.splitCard = function (rowIndex) {
+
+        var card = _.cloneDeep($scope.card);
+        _.times(card.data.fields.values.length, function (i) {
+
+            var card = _.cloneDeep($scope.card);
+            console.log('popup splitClick', i)
+            card.valueIndex = i;
+            card.rowIndex = rowIndex;
+            // to container Ctrl (parent - parent CTRL)
+
+            // $scope.splitCard($scope.$index, card);
+
+            var cardList = $scope.cards;
+            // var card = _.cloneDeep($scope.card);
+            var titleKey = 'adeOptions.title';
+
+            // 카드 분리시 아이디 부여
+            card.id = uuidV1();
+
+            // Target 차트는 항상 라인차트임
+            card.chartType = 'line';
+            card.cfg = transformToLineData(card.data, card.rowIndex, card.valueIndex );
+
+
+            card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
+
+            cardList.push(card);
+            // $timeout(function () {
+            //     console.log('broadcast......')
+            //     $scope.$broadcast('anomaly.card.data_loaded', card.data);
+            // })
+
+
+
+        })
+    }
+
+    $(document, '.popup-hide').on("click", function(){
+        hidePopup();
+    });
+
+    function showPopup(id, e) {
+        hidePopup();
+        var el = $('#'+id+$scope.$index);
+        el.css('display', 'block');
+        el.css('left', e.clientX + 'px');
+        el.css('top', e.clientY + 'px');
+    }
+
+    function hidePopup() {
+        $('.popup').css('display', 'none');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
 
 module.exports = CardCtrl;
