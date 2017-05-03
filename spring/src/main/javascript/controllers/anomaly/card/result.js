@@ -35,15 +35,18 @@ function ResultCtrl($scope, $timeout, util) {
     $scope.$on('anomaly.card.data_loaded', function(event, data) {
         // 차트 데이터 수신
         // 추가된 카드의 size를 인식하도록 $timeout으로 차트를 그린다
-        console.log('data_loaded', $scope.cards);
-        $timeout(function () {
-            if (data.rowIndex != undefined || (data.fields.keys.length === 0 && data.fields.values.length === 1)) {
-                data.chartType = 'line';
-            } else {
-                data.chartType = 'heatmap';
-            }
-            renderChart(data);
-        })
+
+
+        // console.log('data_loaded', $scope.cards);
+        // $timeout(function () {
+        //     if (data.rowIndex != undefined || (data.fields.keys.length === 0 && data.fields.values.length === 1)) {
+        //         data.chartType = 'line';
+        //     } else {
+        //         data.chartType = 'heatmap';
+        //     }
+        //     renderChart(data);
+        // })
+
     });
     $scope.$on('anomaly.card.changeChart', function (event, type) {
         // 차트 교체 처리
@@ -64,6 +67,34 @@ function ResultCtrl($scope, $timeout, util) {
         // console.log('anomaly.card.changeHeatmapScaleMode', isRowScale)
         // $timeout(renderChart($scope.card.data, isRowScale)); 
     });
+
+
+    $scope.$on('$viewContentLoaded',
+        function () {
+            // vm.highChartConfig.getChartObj().reflow();
+            console.log('content loaded....')
+        }
+    );
+
+    $scope.$watch('$viewContentLoaded', function()
+    {
+        // $timeout(function () {
+
+        //     var container = $('#container_' + $scope.$index);
+        //     var chart = $('#chart_' + $scope.$index);
+        //
+        //     // reflow not works
+        //     // chart.highcharts().reflow();
+        //
+        //     chart.highcharts().setSize(
+        //         container.width(),
+        //         310,
+        //         false
+        //     );
+        //
+        // }, 2000)
+    });
+
 
     /**
      *
