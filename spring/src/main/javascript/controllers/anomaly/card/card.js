@@ -18,9 +18,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     /**
      * variables
      */
-    var anomalyObj = null,
-        HEIGHT = 310,
-        WIDTH = 443;
+    var card,
+        anomalyObj = null,
+        HEIGHT = $('.anomalyBlank').height() - 70,
+        WIDTH = $('.anomalyBlank').width() - 20;
 
 
     /**
@@ -50,6 +51,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     /**
      * function
      */
+    var card;
     var runJob = function () {
         var params = _.cloneDeep($scope.card);
 
@@ -58,7 +60,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
         anomalyObj = anomalyAgent.anomaly(params);
 
-        var card = $scope.card;
+        card = $scope.card;
 
         card.state.running = true;
         card.state.success = false;
@@ -67,74 +69,15 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         anomalyObj
             .success(function (data) {
 
-                // debugger;
                 var cfg;
 
                 if ((data.fields.keys.length === 0 && data.fields.values.length === 1)) {
                     // line chart
-                    cfg = {
-                        options: {
-                            chart: {
-                                type: 'line',
-                                marginTop: 0,
-                                marginBottom: 0,
-                                width: WIDTH,
-                                height: HEIGHT
-                            },
-                            legend: ''
-                        },
-                        series: [{
-                            name: 'Installation',
-                            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                        }, {
-                            name: 'Manufacturing',
-                            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                        }, {
-                            name: 'Sales & Distribution',
-                            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                        }, {
-                            name: 'Project Development',
-                            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                        }, {
-                            name: 'Other',
-                            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                        }],
-                        title: ' ',
-                        // xAxis: {categories: ['1/10', '1/11']},
-                        // yAxis: {categories: ['TV', 'RADIO']}
-                    };
+                    cfg = transformToLineData(data);
                 } else {
                     // heatmap chart
-                    cfg = {
-                        options: {
-                            chart: {
-                                type: 'heatmap',
-                                marginTop: 0,
-                                marginBottom: 0,
-                                width: WIDTH,
-                                height: HEIGHT
-                            },
-                            colorAxis: {
-                                min: 0,
-                                minColor: '#FFFFFF',
-                                maxColor: Highcharts.getOptions().colors[0]
-                            },
-
-                            legend: ''
-                        },
-                        series: [{
-                            data: [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]],
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000'
-                            }
-                        },],
-                        title: ' ',
-                        xAxis: {categories: ['1/10', '1/11']},
-                        yAxis: {categories: ['TV', 'RADIO']}
-                    };
+                    cfg = transformToHeatmapData(data, false);
                 }
-
 
                 card.data = data;
 
@@ -190,6 +133,385 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
     };
 
+    function transformToHeatmapData2(data, isRowScale) {
+
+        // console.log(data);
+
+        var delimiter = ', ',
+            timeFieldName = data.fields.time_fields[0],
+            scoreFieldName = data.fields.score[0];
+
+        var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
+
+        var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
+
+        var keyIndexes = [];
+        _.forEach(data.fields.keys, function (key) {
+            keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
+        });
+        keyIndexes = keyIndexes.reverse();
+
+        var keys = [];
+        _.forEach(keyIndexes, function (index) {
+            var arr = [];
+            _.forEach(data.results, function (result) {
+                arr.push(result[index]);
+            });
+            keys.push(_.uniq(arr));
+        });
+
+        var yAxisLabels = [];
+        _.forEach(keys, function (item, i) {
+            if (i === 0) {
+                _.forEach(item, function (item2) {
+                    yAxisLabels.push(item2);
+                });
+            } else {
+                var arr = [];
+                _.forEach(yAxisLabels, function (item2) {
+                    _.forEach(item, function (item3) {
+                        arr.push(item2 + delimiter + item3);
+                    });
+                });
+                yAxisLabels = arr;
+            }
+        });
+
+        // heatmap 데이터 구조
+        var heatmap = {};
+        heatmap.xAxisData = [];
+        heatmap.yAxisData = [];
+        heatmap.scoreData = [];
+
+        var uclIndexes = [], lclIndexes = [], varianceIndexes = [], lineChartData = [];
+        _.forEach(data.fields.values, function (d, i) {
+            lineChartData.push([]);
+            uclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.ucl[i]}))
+            lclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.lcl[i]}))
+            varianceIndexes.push(_.findIndex(data.fields.all, {name: data.fields.variance[i]}))
+        })
+
+
+        _.forEach(data.results, function (result) {
+            heatmap.xAxisData.push(result[timeFieldIndex]);
+        });
+        heatmap.xAxisData = _.uniq(heatmap.xAxisData);
+
+        heatmap.yAxisData = yAxisLabels;
+        /*
+         "results": [
+         ["20100101000000", "holloke01", 1,  1, 0,   0,   0,   0,   1,   1,   1,   1,   null, null,  null],
+         ["20100101000000", "adamssp01", 1,  1, 0,   0,   0,   0,   0,   0,   1,   1,   1,    "N1_L","N1_L"],
+         ["20100101000000", "cldrivi01", 5,  5, 7,   7,   3,   3,   4.5, 4.5, 3.5, 3.5, 0.14, null,  null],
+         ["20100102000000", "holloke01", 1,  1, null,null,null,null,null,null,null,null,2,   "F1",   "F1"],
+         ["20100102000000", "adamssp01", 11, 11,10.1,10.1,3.3, 3.3, 5.5, 5.5, 4.5, 4.5, 3.22, "S1_U","S1_U"],
+         ["20100102000000", "cldrivi01", 5,  5, 5.1, 5.1, 4.2, 4.2, 3.5, 3.5, 4,   4,   1.37, null,  null],
+         ["20100103000000", "holloke01", 3,  3, 3.3, 3.3, 0.5, 0.5, 2,   2,   2.1, 2.1, 0.45, null,  null],
+         ["20100103000000", "adamssp01", 9,  9, 10.5,10.5,1.1, 1.1, 6,   6,   5.3, 5.3, 2.56, null,  null],
+         ["20100103000000", "cldrivi01", 3,  3, 5.1, 5.1, 2.4, 2.4, 3.2, 3.2, 4.4, 4.4, 0.74, null,  null]
+         ]
+
+         */
+
+        _.forEach(heatmap.xAxisData, function (time, i) {
+            _.forEach(heatmap.yAxisData, function (label, j) {
+                var temp = label.split(delimiter),
+                    condition = {},
+                    item,
+                    value;
+
+                condition[timeFieldIndex] = time;
+
+                _.forEach(keyIndexes, function (index, i) {
+                    condition[index] = temp[i];
+                });
+
+                item = _.find(data.results, condition);
+                if (item) {
+                    value = item[scoreFieldIndex];
+                } else {
+                    value = null;
+                }
+                heatmap.scoreData.push([i, j, value]);
+            });
+
+        });
+
+
+        // Datetime 포맷 UTC 변경
+        heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+            return strToDate(d);
+        })
+
+        if (isRowScale) {
+            for (var y = 0; y < heatmap.yAxisData.length; y++) {
+
+                // 행의 최대값 구하기
+                var arr = [];
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    arr.push(heatmap.scoreData[index][2]);
+                }
+                var max = Math.max.apply(Math, arr);
+
+                // Row Scaled(Row independent) Color 적용
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    var value = heatmap.scoreData[index][2];
+                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                }
+            }
+        }
+        return heatmap;
+
+    }
+
+    function transformToLineData(data, isRowScale) {
+        var cfg = {
+            options: {
+                chart: {
+                    type: 'line',
+                    marginTop: 0,
+                    marginBottom: 0,
+                    width: WIDTH,
+                    height: HEIGHT
+                },
+                legend: ''
+            },
+            series: [{
+                name: 'Installation',
+                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+            }, {
+                name: 'Manufacturing',
+                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+            }, {
+                name: 'Sales & Distribution',
+                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+            }, {
+                name: 'Project Development',
+                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+            }, {
+                name: 'Other',
+                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+            }],
+            title: ' ',
+            // xAxis: {categories: ['1/10', '1/11']},
+            // yAxis: {categories: ['TV', 'RADIO']}
+        };
+
+        return cfg;
+    }
+
+    function transformToHeatmapData(data, isRowScale) {
+
+        // console.log(data);
+
+        var delimiter = ', ',
+            timeFieldName = data.fields.time_fields[0],
+            scoreFieldName = data.fields.score[0];
+
+        var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
+
+        var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
+
+        var keyIndexes = [];
+        _.forEach(data.fields.keys, function (key) {
+            keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
+        });
+        keyIndexes = keyIndexes.reverse();
+
+        var keys = [];
+        _.forEach(keyIndexes, function (index) {
+            var arr = [];
+            _.forEach(data.results, function (result) {
+                arr.push(result[index]);
+            });
+            keys.push(_.uniq(arr));
+        });
+
+        var yAxisLabels = [];
+        _.forEach(keys, function (item, i) {
+            if (i === 0) {
+                _.forEach(item, function (item2) {
+                    yAxisLabels.push(item2);
+                });
+            } else {
+                var arr = [];
+                _.forEach(yAxisLabels, function (item2) {
+                    _.forEach(item, function (item3) {
+                        arr.push(item2 + delimiter + item3);
+                    });
+                });
+                yAxisLabels = arr;
+            }
+        });
+
+        // heatmap 데이터 구조
+        var heatmap = {};
+        heatmap.xAxisData = [];
+        heatmap.yAxisData = [];
+        heatmap.scoreData = [];
+
+        var uclIndexes = [], lclIndexes = [], varianceIndexes = [], lineChartData = [];
+        _.forEach(data.fields.values, function (d, i) {
+            lineChartData.push([]);
+            uclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.ucl[i]}))
+            lclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.lcl[i]}))
+            varianceIndexes.push(_.findIndex(data.fields.all, {name: data.fields.variance[i]}))
+        })
+
+
+        _.forEach(data.results, function (result) {
+            heatmap.xAxisData.push(result[timeFieldIndex]);
+        });
+        heatmap.xAxisData = _.uniq(heatmap.xAxisData);
+
+        heatmap.yAxisData = yAxisLabels;
+        /*
+         "results": [
+         ["20100101000000", "holloke01", 1,  1, 0,   0,   0,   0,   1,   1,   1,   1,   null, null,  null],
+         ["20100101000000", "adamssp01", 1,  1, 0,   0,   0,   0,   0,   0,   1,   1,   1,    "N1_L","N1_L"],
+         ["20100101000000", "cldrivi01", 5,  5, 7,   7,   3,   3,   4.5, 4.5, 3.5, 3.5, 0.14, null,  null],
+         ["20100102000000", "holloke01", 1,  1, null,null,null,null,null,null,null,null,2,   "F1",   "F1"],
+         ["20100102000000", "adamssp01", 11, 11,10.1,10.1,3.3, 3.3, 5.5, 5.5, 4.5, 4.5, 3.22, "S1_U","S1_U"],
+         ["20100102000000", "cldrivi01", 5,  5, 5.1, 5.1, 4.2, 4.2, 3.5, 3.5, 4,   4,   1.37, null,  null],
+         ["20100103000000", "holloke01", 3,  3, 3.3, 3.3, 0.5, 0.5, 2,   2,   2.1, 2.1, 0.45, null,  null],
+         ["20100103000000", "adamssp01", 9,  9, 10.5,10.5,1.1, 1.1, 6,   6,   5.3, 5.3, 2.56, null,  null],
+         ["20100103000000", "cldrivi01", 3,  3, 5.1, 5.1, 2.4, 2.4, 3.2, 3.2, 4.4, 4.4, 0.74, null,  null]
+         ]
+
+         */
+
+        _.forEach(heatmap.xAxisData, function (time, i) {
+            _.forEach(heatmap.yAxisData, function (label, j) {
+                var temp = label.split(delimiter),
+                    condition = {},
+                    item,
+                    value;
+
+                condition[timeFieldIndex] = time;
+
+                _.forEach(keyIndexes, function (index, i) {
+                    condition[index] = temp[i];
+                });
+
+                item = _.find(data.results, condition);
+                if (item) {
+                    value = item[scoreFieldIndex];
+                } else {
+                    value = null;
+                }
+                heatmap.scoreData.push([i, j, value]);
+            });
+
+        });
+
+
+        // Datetime 포맷 UTC 변경
+        heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+            return strToDate(d);
+        })
+
+        if (isRowScale) {
+            for (var y = 0; y < heatmap.yAxisData.length; y++) {
+
+                // 행의 최대값 구하기
+                var arr = [];
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    arr.push(heatmap.scoreData[index][2]);
+                }
+                var max = Math.max.apply(Math, arr);
+
+                // Row Scaled(Row independent) Color 적용
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    var value = heatmap.scoreData[index][2];
+                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                }
+            }
+        }
+        // return heatmap;
+
+        var data = [];
+        if (isRowScale) {
+            data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 3]];
+        } else {
+            //TODO color 표기로 변경
+            data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]];
+        }
+
+        var cfg = {
+            options: {
+                chart: {
+                    type: 'heatmap',
+                    marginTop: 0,
+                    marginBottom: 0,
+                    width: WIDTH,
+                    height: HEIGHT
+                },
+                colorAxis: {
+                    min: 0,
+                    minColor: '#FFFFFF',
+                    maxColor: Highcharts.getOptions().colors[0]
+                },
+
+                legend: ''
+            },
+            series: [{
+                data: data,
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000'
+                }
+            },],
+            title: ' ',
+            xAxis: {categories: ['1/10', '1/11']},
+            yAxis: {categories: ['TV', 'RADIO']}
+        };
+
+        return cfg;
+
+    }
+
+    function getPointColor(value, max) {
+
+        if (value === null || isNaN(parseFloat(value))) {
+            return '#f7f7f7';
+            // value = 0;
+        }
+        if (max === null || isNaN(parseFloat(max))) {
+            max = 0;
+        }
+        var color1 = '96C3F0';
+        var color2 = 'FFFFFF';
+        var ratio = value / max;
+        if (isNaN(parseFloat(ratio))) {
+            ratio = 0;
+        }
+        var hex = function (x) {
+            x = x.toString(16);
+            return (x.length == 1) ? '0' + x : x;
+        };
+
+        var r = Math.ceil(parseInt(color1.substring(0, 2), 16) * ratio + parseInt(color2.substring(0, 2), 16) * (1 - ratio));
+        var g = Math.ceil(parseInt(color1.substring(2, 4), 16) * ratio + parseInt(color2.substring(2, 4), 16) * (1 - ratio));
+        var b = Math.ceil(parseInt(color1.substring(4, 6), 16) * ratio + parseInt(color2.substring(4, 6), 16) * (1 - ratio));
+
+        return '#' + hex(r) + hex(g) + hex(b);
+    }
+
+    function strToDate(dateString) {
+        var year = dateString.substr(0, 4);
+        var month = Number(dateString.substr(4, 2)) - 1;
+        var day = dateString.substr(6, 2);
+        var hour = dateString.substr(8, 2);
+        var min = dateString.substr(10, 2);
+        var sec = dateString.substr(12, 2);
+        return Date.UTC(year, month, day, hour, min, sec);
+    }
+
+
     /**
      * 버튼 이벤트
      */
@@ -204,7 +526,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
     };
 
-
     // 다시 실행
     $scope.restartJob = function (index) {
         runJob();
@@ -213,10 +534,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     // 카드 삭제
     $scope.removeCard = function (index) {
-        console.log(JSON.stringify($scope.cards));
-        console.log('removeCard', index)
         $scope.cards.splice(index, 1);
-        console.log(JSON.stringify($scope.cards));
 
         closeLayer(index);
     };
@@ -241,8 +559,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     });
 
     $scope.changeHeatmapScaleMode = function (isScaleMode) {
-        // to result ctrl 
-        $scope.$broadcast('anomaly.card.changeHeatmapScaleMode', isScaleMode)
+
+        $scope.cards[$scope.$index].cfg = transformToHeatmapData(card.data, isScaleMode);
     };
 }
 

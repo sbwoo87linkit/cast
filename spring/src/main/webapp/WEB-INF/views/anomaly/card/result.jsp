@@ -29,7 +29,7 @@
 
             <!--<div id="container_{{$index}}" style="height: 100%; width: 100%; position: absolute"></div>-->
             <!--<highchart config="card.cfg" style="height: 100%; width: 100%; position: absolute"></highchart>-->
-            <highchart id="chart_{{$index}}" config="card.cfg" style=""></highchart>
+            <highchart class="chart" id="chart_{{$index}}" config="card.cfg" style=""></highchart>
             <!--<ng-view>-->
             <!--<highchart config="card.cfg" style="position: absolute; width: 100%; height: 100%"></highchart>-->
             <!--</ng-view>-->
