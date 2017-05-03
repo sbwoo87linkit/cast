@@ -141,6 +141,79 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     };
 
     function transformToLineData(data, isRowScale) {
+
+
+        Highcharts.chart(id, {
+
+            credits: {enabled: false},
+            chart: {
+                type: 'line',
+                // height: CONTAINER_HEIGHT,
+                marginTop: 0,
+                events: {
+                    load: function () {
+                    }
+                }
+            },
+
+            title: {
+                text: null
+            },
+
+            subtitle: {
+                text: null
+            },
+
+            xAxis: {
+                categories: data.categories,
+                type: 'datetime',
+                labels: {
+                    // format: '{value:%Y.%m.%d %H:%M:%S}',
+                    format: '{value:%m/%d %M:%S}',
+                }
+            },
+
+            yAxis: {
+                enabled: false,
+                title: {
+                    text: null
+                }
+            },
+
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+
+            tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
+                formatter: function () {
+                    return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x) + '<br>'
+                        + '<b>시리즈: </b>' + this.series.name + '<br>'
+                        + '<b>값: </b>' + this.y;
+                },
+                hideDelay: 0
+            },
+
+            legend: {
+                enabled: false,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            exporting: {
+                enabled: false
+            },
+
+            series: data.series
+        });
+
         var cfg = {
             options: {
                 chart: {
@@ -521,6 +594,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             // do noting
         }
     });
+
     // Row Scaled 히트맵 컬러
     $scope.changeHeatmapScaleMode = function (isScaleMode) {
         $scope.cards[$scope.$index].cfg = transformToHeatmapData(card.data, isScaleMode);
