@@ -74,7 +74,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
             cfg: {
                 options: opts,
                 series: [{
-                    data: [[0, 0, 1 + i], [0, 1, 5 + i], [1, 0, 3 + i], [1, 1, 1 + i]],
+                    data: [[0, 0, 1], [0, 1, 0 + i], [1, 0, 3], [1, 1, 1]],
                     dataLabels: {
                         enabled: true,
                         color: '#000000'
