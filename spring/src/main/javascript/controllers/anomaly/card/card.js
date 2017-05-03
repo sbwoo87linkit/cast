@@ -78,14 +78,13 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     } else {
                         card.chartType = 'heatmap';
                     }
-                } else {
-                    if (card.chartType === 'line') {
-                        cfg = transformToLineData(data);
-                    } else  {
-                        cfg = transformToHeatmapData(data, false);
-                    }
                 }
 
+                if (card.chartType === 'line') {
+                    cfg = transformToLineData(data);
+                } else {
+                    cfg = transformToHeatmapData(data, false);
+                }
 
                 card.data = data;
 
@@ -441,13 +440,13 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
         // return heatmap;
 
-        var data = [];
-        if (isRowScale) {
-            data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 3]];
-        } else {
-            //TODO color 표기로 변경
-            data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]];
-        }
+        // var data = [];
+        // if (isRowScale) {
+        //     data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 3]];
+        // } else {
+        //     //TODO color 표기로 변경
+        //     data = [[0, 0, 1], [0, 1, 0], [1, 0, 3], [1, 1, 1]];
+        // }
 
         var rowIndex = -1;
 
@@ -460,13 +459,23 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     width: WIDTH,
                     height: HEIGHT
                 },
+                credits: {enabled: false},
                 colorAxis: {
                     min: 0,
                     minColor: '#FFFFFF',
                     maxColor: Highcharts.getOptions().colors[0]
                 },
 
-                legend: '',
+                // legend: ' ',
+                legend: {
+                    enabled: false,
+                    align: 'right',
+                    layout: 'vertical',
+                    margin: 0,
+                    verticalAlign: 'top',
+                    y: 25,
+                    symbolHeight: 280
+                },
                 plotOptions: {
                     series: {
                         states: {
@@ -518,16 +527,50 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     }
                 }
             },
+            tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
+                formatter: function () {
+                    return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]) + '<br>'
+                        + '<b>키: </b>' + this.series.yAxis.categories[this.point.y] + '<br>'
+                        + '<b>score: </b>' + this.point.value;
+                },
+                hideDelay: 0
+            },
+
+            title: null,
             series: [{
-                data: data,
+                name: 'score',
+                borderWidth: 1,
+                borderColor: Highcharts.getOptions().colors[0],
+                data: heatmap.scoreData,
                 dataLabels: {
                     enabled: true,
                     color: '#000000'
                 }
             },],
-            title: ' ',
-            xAxis: {categories: ['1/10', '1/11']},
-            yAxis: {categories: ['TV', 'RADIO']}
+            xAxis: {
+                categories: heatmap.xAxisData,
+                title: 'Datetime',
+                type: 'datetime',
+                labels: {
+                    format: '{value:%m/%d %M:%S}',
+                }
+            },
+            yAxis: {
+                categories: heatmap.yAxisData,
+                title: null,
+                labels: {
+                    style: {
+                        color: 'black'
+                    }
+                }
+            },
+            exporting: {
+                enabled: false
+            }
+
         };
 
         return cfg;
@@ -577,9 +620,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
         chart.redraw();
     }
-
-
-
 
     /**
      * 버튼 이벤트
@@ -660,8 +700,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     //
 
 
-
-
     // 카드 분리
     $scope.splitCard = function (rowIndex) {
 
@@ -669,15 +707,9 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         _.times(card.data.fields.values.length, function (i) {
 
             var card = _.cloneDeep($scope.card);
-            console.log('popup splitClick', i)
             card.valueIndex = i;
             card.rowIndex = rowIndex;
-            // to container Ctrl (parent - parent CTRL)
-
-            // $scope.splitCard($scope.$index, card);
-
             var cardList = $scope.cards;
-            // var card = _.cloneDeep($scope.card);
             var titleKey = 'adeOptions.title';
 
             // 카드 분리시 아이디 부여
@@ -685,29 +717,29 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
             // Target 차트는 항상 라인차트임
             card.chartType = 'line';
-            card.cfg = transformToLineData(card.data, card.rowIndex, card.valueIndex );
 
+            // rowIndex와 valueIndex 기준 차트데이터 변환
+            card.cfg = transformToLineData(card.data, card.rowIndex, card.valueIndex);
 
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
 
             cardList.push(card);
-            // $timeout(function () {
-            //     console.log('broadcast......')
-            //     $scope.$broadcast('anomaly.card.data_loaded', card.data);
-            // })
-
-
 
         })
     }
 
-    $(document, '.popup-hide').on("click", function(){
+    /**
+     * 팝업 제어
+     */
+
+    // 문서 또는 popup-hide 클래스 엘리먼트 클릭시 팝업 닫기
+    $(document, '.popup-hide').on("click", function () {
         hidePopup();
     });
 
     function showPopup(id, e) {
         hidePopup();
-        var el = $('#'+id+$scope.$index);
+        var el = $('#' + id + $scope.$index);
         el.css('display', 'block');
         el.css('left', e.clientX + 'px');
         el.css('top', e.clientY + 'px');
@@ -718,18 +750,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     }
 
 
-
-
-
-
-
-
-
-
-
-
 }
-
 
 
 module.exports = CardCtrl;
