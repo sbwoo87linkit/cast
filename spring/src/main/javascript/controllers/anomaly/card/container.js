@@ -36,11 +36,10 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
      */
 
     window.onresize = function(event) {
-        var HEIGHT = $('.anomalyBlank').height() - 70;
         $('.chart').each(function() {
             $(this).highcharts().setSize(
                 $(this).parent().width(),
-                HEIGHT,
+                $('.anomalyBlank').height() - 70,
                 false
             );
         })
@@ -117,7 +116,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
 
     // 카드 복사
     $scope.copyCard = function (index, card) {
-        console.log(card)
         var cardList = $scope.cards;
         card = _.cloneDeep(card);
         var titleKey = 'adeOptions.title';
