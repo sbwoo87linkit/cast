@@ -80,7 +80,9 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
 
         var card = {
             id: _cardId,
-            chartType: 'heatmap',
+            chartType: null,//'heatmap',
+            valueIndex: null,
+            keyIndex: null,
             isMaxSize: false,
             state: {
                 // 실행 상태로 추가
@@ -131,23 +133,26 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
     };
 
 
-    // 카드 분리
-    $scope.splitCard = function (index, card) {
-        var cardList = $scope.cards;
-        // var card = _.cloneDeep($scope.card);
-        var titleKey = 'adeOptions.title';
-
-        // 카드 복사시 아이디 부여
-        card.id = uuidV1();
-
-        card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
-
-        cardList.push(card);
-        $timeout(function () {
-            console.log('broadcast......')
-            $scope.$broadcast('anomaly.card.data_loaded', card.data);
-        })
-    };
+    // // 카드 분리
+    // $scope.splitCard = function (index, card) {
+    //     var cardList = $scope.cards;
+    //     // var card = _.cloneDeep($scope.card);
+    //     var titleKey = 'adeOptions.title';
+    //
+    //     // 카드 분리시 아이디 부여
+    //     card.id = uuidV1();
+    //
+    //     // Target 차트는 항상 라인차트임
+    //     card.chartType = 'line';
+    //
+    //     card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
+    //
+    //     cardList.push(card);
+    //     // $timeout(function () {
+    //     //     console.log('broadcast......')
+    //     //     $scope.$broadcast('anomaly.card.data_loaded', card.data);
+    //     // })
+    // };
 
 }
 

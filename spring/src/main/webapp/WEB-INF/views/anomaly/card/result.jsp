@@ -45,19 +45,6 @@
 
         </div>
 
-        <!-- contextmenu : 차트 메뉴 -->
-        <ul id="popup{{$index}}" class="popup">
-            <li>
-                <a href="" ng-click="splitClick(rowIndex)">카드 분리</a>
-            </li>
-            <li>
-                <a href="">검색</a>
-            </li>
-            <li>
-                <a href="">피벗</a>
-            </li>
-        </ul>
-        <!-- //contextmenu : 차트 메뉴 -->
 
     </div>
 

@@ -17,6 +17,21 @@
         <%@ include file="./result.jsp"%>
     </div>
 
+    <!-- contextmenu : 차트 메뉴 -->
+    <ul id="popup{{$index}}" class="popup">
+        <li>
+            <a href="" ng-click="splitCard(rowIndex)">카드 분리</a>
+        </li>
+        <li>
+            <a href="">검색</a>
+        </li>
+        <li>
+            <a href="">피벗</a>
+        </li>
+    </ul>
+    <!-- //contextmenu : 차트 메뉴 -->
+
+
     <!-- tooltip: 카드 설정 정보 -->
     <div class="mu-tooltip pivotTooltip" mu-tooltip="anomaly.card_info_{{$index}}">
         <div class="arrow"></div>
