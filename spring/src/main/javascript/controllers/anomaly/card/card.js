@@ -141,35 +141,39 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     function transformToLineData(card) {
 
-        console.log(card)
+        if (card.rowIndex === null) {
+            var data = card.data;
+            // filed name 정의
+            var timeFieldName = data.fields.time_fields[0],
+                uclFieldName = data.fields.ucl[0],
+                lclFieldName = data.fields.lcl[0],
+                varianceFieldName = data.fields.variance[0];
 
-        var data = card.data;
+            // 차트 데이터 구조
+            var lineChartData = {};
+            lineChartData.categories = [];
+            lineChartData.series = [];
+            lineChartData.series.push({name: uclFieldName, data: []});
+            lineChartData.series.push({name: lclFieldName, data: []});
+            lineChartData.series.push({name: varianceFieldName, data: []});
 
-        // filed name 정의
-        var timeFieldName = data.fields.time_fields[0],
-            uclFieldName = data.fields.ucl[0],
-            lclFieldName = data.fields.lcl[0],
-            varianceFieldName = data.fields.variance[0];
+            // results 데이터를 차트데이터로 변환
+            _.forEach(data.results, function (r) {
+                var index = _.findIndex(data.fields.all, {name: timeFieldName})
+                lineChartData.categories.push(strToDate(r[index]));
+                _.forEach(lineChartData.series, function (s) {
+                    index = _.findIndex(data.fields.all, {name: s.name})
+                    s.data.push(r[index]);
+                });
+            })
 
-        // 차트 데이터 구조
-        var lineChartData = {};
-        lineChartData.categories = [];
-        lineChartData.series = [];
-        lineChartData.series.push({name: uclFieldName, data: []});
-        lineChartData.series.push({name: lclFieldName, data: []});
-        lineChartData.series.push({name: varianceFieldName, data: []});
+            return configLineChart(lineChartData, WIDTH, HEIGHT);
+        } else {
+            console.log(card)
 
-        // results 데이터를 차트데이터로 변환
-        _.forEach(data.results, function (r) {
-            var index = _.findIndex(data.fields.all, {name: timeFieldName})
-            lineChartData.categories.push(strToDate(r[index]));
-            _.forEach(lineChartData.series, function (s) {
-                index = _.findIndex(data.fields.all, {name: s.name})
-                s.data.push(r[index]);
-            });
-        })
 
-        return configLineChart(lineChartData, WIDTH, HEIGHT);
+        }
+
 
     }
 
@@ -232,10 +236,13 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             // yAxis: {categories: ['TV', 'RADIO']}
         };
 
+        console.log(cfg)
         return cfg;
     }
 
     function transformToHeatmapData(card, isRowScale) {
+
+        console.log(JSON.stringify(card.data))
 
         var data = card.data;
         var delimiter = ', ',
