@@ -10,8 +10,8 @@ module.exports = {
 
     // keyFields: [],
     keyFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
-    // valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
-    valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }, { field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
+    valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
+    // valFields: [{ field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }, { field: { name: 'HR', type: 'NUMBER' }, func: 'sum' }],
     model: 'SPC',
 
     min: 0,
