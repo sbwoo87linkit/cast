@@ -95,10 +95,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     }
 
                     if (card.chartType === 'line') {
-                        cfg = transformToLineData(card);
+                        cfg = transformToChartData(card);
                     } else {
                         // 최초실행시 row scale : false
-                        cfg = transformToHeatmapData(card, false);
+                        cfg = transformToChartData(card, false);
                     }
                     card.cfg = cfg;
                 }
@@ -139,8 +139,217 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
     };
 
+    function transformToChartData(card, isRowScale) {
+
+        console.log(card.rowIndex, card.rowCategory, card.valueIndex, card)
+
+        var data = card.data,
+            valueIndex;
+
+        if (card.rowIndex === null) {
+            valueIndex = 0;
+        } else {
+            valueIndex = card.valueIndex;
+        }
+        console.log(JSON.stringify(data))
+
+
+        // var valueFieldName = data.fields.values[card.valueIndex];
+
+        // debugger
+
+        var delimiter = ', ';
+        var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
+        var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
+        var keyIndexes = [];
+        _.forEach(data.fields.keys, function (key) {
+            keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
+        });
+        keyIndexes = keyIndexes.reverse();
+
+        var keys = [];
+        _.forEach(keyIndexes, function (index) {
+            var arr = [];
+            _.forEach(data.results, function (result) {
+                arr.push(result[index]);
+            });
+            keys.push(_.uniq(arr));
+        });
+
+        var yAxisLabels = [];
+        _.forEach(keys, function (item, i) {
+            if (i === 0) {
+                _.forEach(item, function (item2) {
+                    yAxisLabels.push(item2);
+                });
+            } else {
+                var arr = [];
+                _.forEach(yAxisLabels, function (item2) {
+                    _.forEach(item, function (item3) {
+                        arr.push(item2 + delimiter + item3);
+                    });
+                });
+                yAxisLabels = arr;
+            }
+        });
+
+        // heatmap 데이터 구조
+        var heatmap = {};
+        heatmap.xAxisData = [];
+        heatmap.yAxisData = [];
+        heatmap.scoreData = [];
+
+        _.forEach(data.results, function (result) {
+            heatmap.xAxisData.push(result[timeFieldIndex]);
+        });
+        heatmap.xAxisData = _.uniq(heatmap.xAxisData);
+
+        heatmap.yAxisData = yAxisLabels;
+
+        _.forEach(heatmap.xAxisData, function (time, i) {
+            _.forEach(heatmap.yAxisData, function (label, j) {
+                var temp = label.split(delimiter),
+                    condition = {},
+                    item,
+                    value;
+
+                condition[timeFieldIndex] = time;
+
+                _.forEach(keyIndexes, function (index, i) {
+                    condition[index] = temp[i];
+                });
+
+                item = _.find(data.results, condition);
+                if (item) {
+                    value = item[scoreFieldIndex];
+                } else {
+                    value = null;
+                }
+                heatmap.scoreData.push([i, j, value]);
+
+            });
+
+        });
+
+
+
+
+        if (isRowScale) {
+            for (var y = 0; y < heatmap.yAxisData.length; y++) {
+
+                // 행의 최대값 구하기
+                var arr = [];
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    arr.push(heatmap.scoreData[index][2]);
+                }
+                var max = Math.max.apply(Math, arr);
+
+                // Row Scaled(Row independent) Color 적용
+                for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                    var index = (x * heatmap.yAxisData.length) + y;
+                    var value = heatmap.scoreData[index][2];
+                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                }
+            }
+        }
+
+
+        // debugger
+
+        if (card.chartType === 'heatmap') {
+            // Datetime 포맷 UTC 변경
+            heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+                return strToDate(d);
+            })
+
+
+            return configHeatmapChart(heatmap);
+
+        } else {
+
+
+            // Line chart
+            var lineChartData = {};
+            lineChartData.series = [];
+            lineChartData.categories = [];
+
+            lineChartData.series.push({name: data.fields.ucl[valueIndex], data: []})
+            lineChartData.series.push({name: data.fields.lcl[valueIndex], data: []})
+            lineChartData.series.push({name: data.fields.variance[valueIndex], data: []})
+
+            var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[valueIndex]});
+            var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[valueIndex]});
+            var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[valueIndex]});
+
+            _.forEach(heatmap.yAxisData, function (label, i) {
+                if (label === card.rowCategory) {
+                    _.forEach(heatmap.xAxisData, function (time, i) {
+                        // console.log(label, time)
+                        var temp = label.split(delimiter),
+                            condition = {},
+                            item,
+                            ucl,
+                            lcl,
+                            variance;
+                        // value;
+
+                        condition[timeFieldIndex] = time;
+                        // debugger
+                        // console.log(keyIndexes)
+                        _.forEach(keyIndexes, function (index, i) {
+                            condition[index] = temp[i];
+                        });
+
+                        item = _.find(data.results, condition);
+                        // console.log(item)
+
+                        //console.log(uclIndex, lclIndex, varianceIndex);
+                        if (item) {
+                            // value = item[scoreFieldIndex];
+                            ucl = item[uclIndex];
+                            lcl = item[lclIndex];
+                            variance = item[varianceIndex];
+                        } else {
+                            // value = null;
+                            ucl = null;
+                            lcl = null;
+                            variance = null;
+                        }
+
+                        lineChartData.series[0].data.push(ucl)
+                        lineChartData.series[1].data.push(lcl)
+                        lineChartData.series[2].data.push(variance)
+
+                    })
+                }
+            })
+
+            console.log(lineChartData.series)
+
+            // console.log(lineChartData.seriesData);
+            // Datetime 포맷 UTC 변경
+            heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+                return strToDate(d);
+            })
+
+
+
+            lineChartData.categories = heatmap.xAxisData;
+
+            console.log(lineChartData);
+
+            return configLineChart(lineChartData);
+
+        }
+
+
+
+    }
+
     function transformToLineData(card) {
 
+        // debugger
         if (card.rowIndex === null) {
             var data = card.data;
             // filed name 정의
@@ -169,31 +378,26 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             console.log(lineChartData);
             console.log(JSON.stringify(lineChartData));
 
-            return configLineChart(lineChartData, WIDTH, HEIGHT);
+            return configLineChart(lineChartData);
         } else {
             console.log(card.rowIndex, card.rowCategory, card.valueIndex, card)
 
+            var data = card.data,
+                valueIndex;
 
-            var data = card.data;
+            if (card.rowIndex === null) {
+                valueIndex = 0;
+            } else {
+                valueIndex = card.valueIndex;
+            }
             console.log(JSON.stringify(data))
 
 
             // var valueFieldName = data.fields.values[card.valueIndex];
 
-            var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[card.valueIndex]});
-            var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[card.valueIndex]});
-            var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[card.valueIndex]});
-            console.log(uclIndex, lclIndex, varianceIndex);
-
-
-            var delimiter = ', ',
-                timeFieldName = data.fields.time_fields[0],
-                scoreFieldName = data.fields.score[0];
-
+            var delimiter = ', ';
             var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
-
             var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
-
             var keyIndexes = [];
             _.forEach(data.fields.keys, function (key) {
                 keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
@@ -231,17 +435,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             heatmap.xAxisData = [];
             heatmap.yAxisData = [];
             heatmap.scoreData = [];
-            var lineChartData = {};
-            lineChartData.series = [];
-
-            // var uclIndexes = [], lclIndexes = [], varianceIndexes = [], lineChartData = [];
-            // _.forEach(data.fields.values, function (d, i) {
-            //     lineChartData.push([]);
-            //     uclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.ucl[i]}))
-            //     lclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.lcl[i]}))
-            //     varianceIndexes.push(_.findIndex(data.fields.all, {name: data.fields.variance[i]}))
-            // })
-
 
             _.forEach(data.results, function (result) {
                 heatmap.xAxisData.push(result[timeFieldIndex]);
@@ -276,38 +469,36 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             });
 
 
-            // _.forEach(heatmap.yAxisData, function (item, i){
-            //     console.log(item)
-            // })
-            // _.forEach(heatmap.xAxisData, function (time, i){
-            //     console.log(time)
-            // })
+            debugger
 
-            /*
-             var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[card.valueIndex]});
-             var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[card.valueIndex]});
-             var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[card.valueIndex]});
+            if (card.chartType === 'heatmap') {
 
-             */
+            }
 
+            // Line chart
+            var lineChartData = {};
+            lineChartData.series = [];
+            lineChartData.categories = [];
 
+            lineChartData.series.push({name: data.fields.ucl[valueIndex], data: []})
+            lineChartData.series.push({name: data.fields.lcl[valueIndex], data: []})
+            lineChartData.series.push({name: data.fields.variance[valueIndex], data: []})
 
-            lineChartData.series.push({name:data.fields.ucl[card.valueIndex], data:[ ]})
-            lineChartData.series.push({name:data.fields.lcl[card.valueIndex], data:[ ]})
-            lineChartData.series.push({name:data.fields.variance[card.valueIndex], data:[ ]})
+            var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[valueIndex]});
+            var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[valueIndex]});
+            var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[valueIndex]});
 
-
-            _.forEach(heatmap.yAxisData, function (label, i){
+            _.forEach(heatmap.yAxisData, function (label, i) {
                 if (label === card.rowCategory) {
-                    _.forEach(heatmap.xAxisData, function (time, i){
-                        console.log(label, time)
+                    _.forEach(heatmap.xAxisData, function (time, i) {
+                        // console.log(label, time)
                         var temp = label.split(delimiter),
                             condition = {},
                             item,
                             ucl,
                             lcl,
-                            variance,
-                            value;
+                            variance;
+                        // value;
 
                         condition[timeFieldIndex] = time;
                         // debugger
@@ -321,12 +512,12 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
                         //console.log(uclIndex, lclIndex, varianceIndex);
                         if (item) {
-                            value = item[scoreFieldIndex];
+                            // value = item[scoreFieldIndex];
                             ucl = item[uclIndex];
                             lcl = item[lclIndex];
                             variance = item[varianceIndex];
                         } else {
-                            value = null;
+                            // value = null;
                             ucl = null;
                             lcl = null;
                             variance = null;
@@ -354,14 +545,14 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
             console.log(lineChartData);
 
-            return configLineChart(lineChartData, WIDTH, HEIGHT);
+            return configLineChart(lineChartData);
 
         }
 
 
     }
 
-    function configLineChart(lineChartData, WIDTH, HEIGHT) {
+    function configLineChart(lineChartData) {
         var cfg = {
             options: {
                 chart: {
@@ -541,11 +732,13 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             }
         }
 
-        return configHeatmapChart(heatmap, WIDTH, HEIGHT);
+        return configHeatmapChart(heatmap);
 
     }
 
-    function configHeatmapChart(heatmap, WIDTH, HEIGHT) {
+    function configHeatmapChart(heatmap) {
+
+        // debugger
 
         var rowIndex = -1;
         var chart = null;
@@ -785,7 +978,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     // Row Scaled 히트맵 컬러
     $scope.changeHeatmapScaleMode = function (isScaleMode) {
-        $scope.cards[$scope.$index].cfg = transformToHeatmapData(card.data, isScaleMode);
+        $scope.cards[$scope.$index].cfg = transformToChartData(card, isScaleMode);
     };
 
     // 카드 분리
@@ -808,7 +1001,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             card.chartType = 'line';
 
             // rowIndex와 valueIndex 기준 차트데이터 변환
-            card.cfg = transformToLineData(card);
+            card.cfg = transformToChartData(card);
 
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
 
