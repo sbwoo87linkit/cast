@@ -35,16 +35,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
      * 이벤트
      */
 
-    window.onresize = function(event) {
-        $('.chart').each(function() {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $('.anomalyBlank').height() - 70,
-                false
-            );
-        })
-    };
-
     $scope.$on('anomaly.card.add', function (event, adeOptions) {
         addCard(adeOptions);
     });

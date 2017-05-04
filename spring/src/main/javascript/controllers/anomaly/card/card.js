@@ -24,7 +24,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         HEIGHT = $('.anomalyBlank').height() - 70,
         WIDTH = $('.anomalyBlank').width() - 20;
 
-
     /**
      * 차트 부분
      */
@@ -141,8 +140,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     function transformToChartData(card, isRowScale) {
 
-        console.log(card.rowIndex, card.rowCategory, card.valueIndex, card)
-
         var data = card.data,
             valueIndex;
 
@@ -151,12 +148,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         } else {
             valueIndex = card.valueIndex;
         }
-        console.log(JSON.stringify(data))
-
-
-        // var valueFieldName = data.fields.values[card.valueIndex];
-
-        // debugger
 
         var delimiter = ', ';
         var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
@@ -231,325 +222,100 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
         });
 
-
-
-
-        if (isRowScale) {
-            for (var y = 0; y < heatmap.yAxisData.length; y++) {
-
-                // 행의 최대값 구하기
-                var arr = [];
-                for (var x = 0; x < heatmap.xAxisData.length; x++) {
-                    var index = (x * heatmap.yAxisData.length) + y;
-                    arr.push(heatmap.scoreData[index][2]);
-                }
-                var max = Math.max.apply(Math, arr);
-
-                // Row Scaled(Row independent) Color 적용
-                for (var x = 0; x < heatmap.xAxisData.length; x++) {
-                    var index = (x * heatmap.yAxisData.length) + y;
-                    var value = heatmap.scoreData[index][2];
-                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
-                }
-            }
-        }
-
-
-        // debugger
-
         if (card.chartType === 'heatmap') {
             // Datetime 포맷 UTC 변경
             heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
                 return strToDate(d);
             })
 
+            if (isRowScale) {
+                for (var y = 0; y < heatmap.yAxisData.length; y++) {
 
+                    // 행의 최대값 구하기
+                    var arr = [];
+                    for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                        var index = (x * heatmap.yAxisData.length) + y;
+                        arr.push(heatmap.scoreData[index][2]);
+                    }
+                    var max = Math.max.apply(Math, arr);
+
+                    // Row Scaled(Row independent) Color 적용
+                    for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                        var index = (x * heatmap.yAxisData.length) + y;
+                        var value = heatmap.scoreData[index][2];
+                        heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                    }
+                }
+            }
             return configHeatmapChart(heatmap);
 
         } else {
 
-
             // Line chart
             var lineChartData = {};
             lineChartData.series = [];
             lineChartData.categories = [];
 
-            lineChartData.series.push({name: data.fields.ucl[valueIndex], data: []})
-            lineChartData.series.push({name: data.fields.lcl[valueIndex], data: []})
-            lineChartData.series.push({name: data.fields.variance[valueIndex], data: []})
+            lineChartData.series.push({name: data.fields.ucl[valueIndex], color:Highcharts.getOptions().colors[0], data: []})
+            lineChartData.series.push({name: data.fields.lcl[valueIndex], color:Highcharts.getOptions().colors[1], data: []})
+            lineChartData.series.push({name: data.fields.variance[valueIndex], color:Highcharts.getOptions().colors[2], data: []})
 
             var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[valueIndex]});
             var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[valueIndex]});
             var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[valueIndex]});
 
-            _.forEach(heatmap.yAxisData, function (label, i) {
-                if (label === card.rowCategory) {
-                    _.forEach(heatmap.xAxisData, function (time, i) {
-                        // console.log(label, time)
-                        var temp = label.split(delimiter),
-                            condition = {},
-                            item,
-                            ucl,
-                            lcl,
-                            variance;
-                        // value;
+            if (data.fields.keys.length > 0) {
 
-                        condition[timeFieldIndex] = time;
-                        // debugger
-                        // console.log(keyIndexes)
-                        _.forEach(keyIndexes, function (index, i) {
-                            condition[index] = temp[i];
-                        });
+                _.forEach(heatmap.yAxisData, function (label, i) {
+                    if (label === card.rowCategory) {
+                        _.forEach(heatmap.xAxisData, function (time, i) {
+                            var temp = label.split(delimiter),
+                                condition = {},
+                                item,
+                                ucl,
+                                lcl,
+                                variance;
 
-                        item = _.find(data.results, condition);
-                        // console.log(item)
+                            condition[timeFieldIndex] = time;
+                            _.forEach(keyIndexes, function (index, i) {
+                                condition[index] = temp[i];
+                            });
 
-                        //console.log(uclIndex, lclIndex, varianceIndex);
-                        if (item) {
-                            // value = item[scoreFieldIndex];
-                            ucl = item[uclIndex];
-                            lcl = item[lclIndex];
-                            variance = item[varianceIndex];
-                        } else {
-                            // value = null;
-                            ucl = null;
-                            lcl = null;
-                            variance = null;
-                        }
-
-                        lineChartData.series[0].data.push(ucl)
-                        lineChartData.series[1].data.push(lcl)
-                        lineChartData.series[2].data.push(variance)
-
-                    })
-                }
-            })
-
-            console.log(lineChartData.series)
-
-            // console.log(lineChartData.seriesData);
-            // Datetime 포맷 UTC 변경
-            heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
-                return strToDate(d);
-            })
-
-
-
-            lineChartData.categories = heatmap.xAxisData;
-
-            console.log(lineChartData);
-
-            return configLineChart(lineChartData);
-
-        }
-
-
-
-    }
-
-    function transformToLineData(card) {
-
-        // debugger
-        if (card.rowIndex === null) {
-            var data = card.data;
-            // filed name 정의
-            var timeFieldName = data.fields.time_fields[0],
-                uclFieldName = data.fields.ucl[0],
-                lclFieldName = data.fields.lcl[0],
-                varianceFieldName = data.fields.variance[0];
-
-            // 차트 데이터 구조
-            var lineChartData = {};
-            lineChartData.categories = [];
-            lineChartData.series = [];
-            lineChartData.series.push({name: uclFieldName, data: []});
-            lineChartData.series.push({name: lclFieldName, data: []});
-            lineChartData.series.push({name: varianceFieldName, data: []});
-
-            // results 데이터를 차트데이터로 변환
-            _.forEach(data.results, function (r) {
-                var index = _.findIndex(data.fields.all, {name: timeFieldName})
-                lineChartData.categories.push(strToDate(r[index]));
-                _.forEach(lineChartData.series, function (s) {
-                    index = _.findIndex(data.fields.all, {name: s.name})
-                    s.data.push(r[index]);
-                });
-            })
-            console.log(lineChartData);
-            console.log(JSON.stringify(lineChartData));
-
-            return configLineChart(lineChartData);
-        } else {
-            console.log(card.rowIndex, card.rowCategory, card.valueIndex, card)
-
-            var data = card.data,
-                valueIndex;
-
-            if (card.rowIndex === null) {
-                valueIndex = 0;
-            } else {
-                valueIndex = card.valueIndex;
-            }
-            console.log(JSON.stringify(data))
-
-
-            // var valueFieldName = data.fields.values[card.valueIndex];
-
-            var delimiter = ', ';
-            var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
-            var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
-            var keyIndexes = [];
-            _.forEach(data.fields.keys, function (key) {
-                keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
-            });
-            keyIndexes = keyIndexes.reverse();
-
-            var keys = [];
-            _.forEach(keyIndexes, function (index) {
-                var arr = [];
-                _.forEach(data.results, function (result) {
-                    arr.push(result[index]);
-                });
-                keys.push(_.uniq(arr));
-            });
-
-            var yAxisLabels = [];
-            _.forEach(keys, function (item, i) {
-                if (i === 0) {
-                    _.forEach(item, function (item2) {
-                        yAxisLabels.push(item2);
-                    });
-                } else {
-                    var arr = [];
-                    _.forEach(yAxisLabels, function (item2) {
-                        _.forEach(item, function (item3) {
-                            arr.push(item2 + delimiter + item3);
-                        });
-                    });
-                    yAxisLabels = arr;
-                }
-            });
-
-            // heatmap 데이터 구조
-            var heatmap = {};
-            heatmap.xAxisData = [];
-            heatmap.yAxisData = [];
-            heatmap.scoreData = [];
-
-            _.forEach(data.results, function (result) {
-                heatmap.xAxisData.push(result[timeFieldIndex]);
-            });
-            heatmap.xAxisData = _.uniq(heatmap.xAxisData);
-
-            heatmap.yAxisData = yAxisLabels;
-
-            _.forEach(heatmap.xAxisData, function (time, i) {
-                _.forEach(heatmap.yAxisData, function (label, j) {
-                    var temp = label.split(delimiter),
-                        condition = {},
-                        item,
-                        value;
-
-                    condition[timeFieldIndex] = time;
-
-                    _.forEach(keyIndexes, function (index, i) {
-                        condition[index] = temp[i];
-                    });
-
-                    item = _.find(data.results, condition);
-                    if (item) {
-                        value = item[scoreFieldIndex];
-                    } else {
-                        value = null;
+                            item = _.find(data.results, condition);
+                            if (item) {
+                                ucl = item[uclIndex];
+                                lcl = item[lclIndex];
+                                variance = item[varianceIndex];
+                            } else {
+                                ucl = null;
+                                lcl = null;
+                                variance = null;
+                            }
+                            lineChartData.series[0].data.push(ucl);
+                            lineChartData.series[1].data.push(lcl);
+                            lineChartData.series[2].data.push(variance);
+                        })
                     }
-                    heatmap.scoreData.push([i, j, value]);
-
-                });
-
-            });
-
-
-            debugger
-
-            if (card.chartType === 'heatmap') {
-
+                })
+                // Datetime 포맷 UTC 변경
+                heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
+                    return strToDate(d);
+                })
+            } else {
+                var timeFieldName = data.fields.time_fields[0];//
+                // results 데이터를 차트데이터로 변환
+                _.forEach(data.results, function (r) {
+                    var index = _.findIndex(data.fields.all, {name: timeFieldName})
+                    lineChartData.categories.push(strToDate(r[index]));
+                    _.forEach(lineChartData.series, function (s) {
+                        index = _.findIndex(data.fields.all, {name: s.name})
+                        s.data.push(r[index]);
+                    });
+                })
             }
-
-            // Line chart
-            var lineChartData = {};
-            lineChartData.series = [];
-            lineChartData.categories = [];
-
-            lineChartData.series.push({name: data.fields.ucl[valueIndex], data: []})
-            lineChartData.series.push({name: data.fields.lcl[valueIndex], data: []})
-            lineChartData.series.push({name: data.fields.variance[valueIndex], data: []})
-
-            var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[valueIndex]});
-            var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[valueIndex]});
-            var varianceIndex = _.findIndex(data.fields.all, {name: data.fields.variance[valueIndex]});
-
-            _.forEach(heatmap.yAxisData, function (label, i) {
-                if (label === card.rowCategory) {
-                    _.forEach(heatmap.xAxisData, function (time, i) {
-                        // console.log(label, time)
-                        var temp = label.split(delimiter),
-                            condition = {},
-                            item,
-                            ucl,
-                            lcl,
-                            variance;
-                        // value;
-
-                        condition[timeFieldIndex] = time;
-                        // debugger
-                        // console.log(keyIndexes)
-                        _.forEach(keyIndexes, function (index, i) {
-                            condition[index] = temp[i];
-                        });
-
-                        item = _.find(data.results, condition);
-                        // console.log(item)
-
-                        //console.log(uclIndex, lclIndex, varianceIndex);
-                        if (item) {
-                            // value = item[scoreFieldIndex];
-                            ucl = item[uclIndex];
-                            lcl = item[lclIndex];
-                            variance = item[varianceIndex];
-                        } else {
-                            // value = null;
-                            ucl = null;
-                            lcl = null;
-                            variance = null;
-                        }
-
-                        lineChartData.series[0].data.push(ucl)
-                        lineChartData.series[1].data.push(lcl)
-                        lineChartData.series[2].data.push(variance)
-
-                    })
-                }
-            })
-
-            console.log(lineChartData.series)
-
-            // console.log(lineChartData.seriesData);
-
-
-            // Datetime 포맷 UTC 변경
-            heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
-                return strToDate(d);
-            })
-
             lineChartData.categories = heatmap.xAxisData;
-
-            console.log(lineChartData);
-
             return configLineChart(lineChartData);
-
         }
-
-
     }
 
     function configLineChart(lineChartData) {
@@ -611,134 +377,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             // yAxis: {categories: ['TV', 'RADIO']}
         };
 
-        console.log(cfg)
         return cfg;
     }
 
-    function transformToHeatmapData(card, isRowScale) {
-
-        // console.log(JSON.stringify(card.data))
-
-        var data = card.data;
-        var delimiter = ', ',
-            timeFieldName = data.fields.time_fields[0],
-            scoreFieldName = data.fields.score[0];
-
-        var timeFieldIndex = _.findIndex(data.fields.all, {name: data.fields.time_fields[0]});
-
-        var scoreFieldIndex = _.findIndex(data.fields.all, {name: data.fields.score[0]});
-
-        var keyIndexes = [];
-        _.forEach(data.fields.keys, function (key) {
-            keyIndexes.push(_.findIndex(data.fields.all, {name: key}));
-        });
-        keyIndexes = keyIndexes.reverse();
-
-        var keys = [];
-        _.forEach(keyIndexes, function (index) {
-            var arr = [];
-            _.forEach(data.results, function (result) {
-                arr.push(result[index]);
-            });
-            keys.push(_.uniq(arr));
-        });
-
-        var yAxisLabels = [];
-        _.forEach(keys, function (item, i) {
-            if (i === 0) {
-                _.forEach(item, function (item2) {
-                    yAxisLabels.push(item2);
-                });
-            } else {
-                var arr = [];
-                _.forEach(yAxisLabels, function (item2) {
-                    _.forEach(item, function (item3) {
-                        arr.push(item2 + delimiter + item3);
-                    });
-                });
-                yAxisLabels = arr;
-            }
-        });
-
-        // heatmap 데이터 구조
-        var heatmap = {};
-        heatmap.xAxisData = [];
-        heatmap.yAxisData = [];
-        heatmap.scoreData = [];
-
-        var uclIndexes = [], lclIndexes = [], varianceIndexes = [], lineChartData = [];
-        _.forEach(data.fields.values, function (d, i) {
-            lineChartData.push([]);
-            uclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.ucl[i]}))
-            lclIndexes.push(_.findIndex(data.fields.all, {name: data.fields.lcl[i]}))
-            varianceIndexes.push(_.findIndex(data.fields.all, {name: data.fields.variance[i]}))
-        })
-
-
-        _.forEach(data.results, function (result) {
-            heatmap.xAxisData.push(result[timeFieldIndex]);
-        });
-        heatmap.xAxisData = _.uniq(heatmap.xAxisData);
-
-        heatmap.yAxisData = yAxisLabels;
-
-        _.forEach(heatmap.xAxisData, function (time, i) {
-            _.forEach(heatmap.yAxisData, function (label, j) {
-                var temp = label.split(delimiter),
-                    condition = {},
-                    item,
-                    value;
-
-                condition[timeFieldIndex] = time;
-
-                _.forEach(keyIndexes, function (index, i) {
-                    condition[index] = temp[i];
-                });
-
-                item = _.find(data.results, condition);
-                if (item) {
-                    value = item[scoreFieldIndex];
-                } else {
-                    value = null;
-                }
-                heatmap.scoreData.push([i, j, value]);
-            });
-
-        });
-
-
-        // Datetime 포맷 UTC 변경
-        heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
-            return strToDate(d);
-        })
-
-        if (isRowScale) {
-            for (var y = 0; y < heatmap.yAxisData.length; y++) {
-
-                // 행의 최대값 구하기
-                var arr = [];
-                for (var x = 0; x < heatmap.xAxisData.length; x++) {
-                    var index = (x * heatmap.yAxisData.length) + y;
-                    arr.push(heatmap.scoreData[index][2]);
-                }
-                var max = Math.max.apply(Math, arr);
-
-                // Row Scaled(Row independent) Color 적용
-                for (var x = 0; x < heatmap.xAxisData.length; x++) {
-                    var index = (x * heatmap.yAxisData.length) + y;
-                    var value = heatmap.scoreData[index][2];
-                    heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
-                }
-            }
-        }
-
-        return configHeatmapChart(heatmap);
-
-    }
-
     function configHeatmapChart(heatmap) {
-
-        // debugger
 
         var rowIndex = -1;
         var chart = null;
@@ -773,8 +415,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     minColor: '#FFFFFF',
                     maxColor: Highcharts.getOptions().colors[0]
                 },
-
-                // legend: ' ',
                 legend: {
                     enabled: false,
                     align: 'right',
@@ -849,7 +489,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     enabled: true,
                     color: '#000000'
                 }
-            },],
+            }],
             xAxis: {
                 categories: heatmap.xAxisData,
                 title: 'Datetime',
@@ -943,6 +583,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         $scope.cards.splice(index, 1);
 
         closeLayer(index);
+
+        resizeAll();
     };
 
     // 요청 취소
@@ -953,6 +595,21 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     /**
      * 이벤트
      */
+
+    function resizeAll() {
+        $('.chart').each(function() {
+            $(this).highcharts().setSize(
+                $(this).parent().width(),
+                $('.anomalyBlank').height() - 70,
+                false
+            );
+        })
+    }
+
+    window.onresize = function(event) {
+        resizeAll();
+    };
+
     $scope.$on('anomaly.card.update.' + $scope.card.id, function (event, adeOptions) {
         // update options
         _.assign($scope.card.adeOptions, adeOptions);
@@ -978,7 +635,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     // Row Scaled 히트맵 컬러
     $scope.changeHeatmapScaleMode = function (isScaleMode) {
-        $scope.cards[$scope.$index].cfg = transformToChartData(card, isScaleMode);
+        $scope.cards[$scope.$index].cfg = transformToChartData($scope.card, isScaleMode);
     };
 
     // 카드 분리
@@ -1002,12 +659,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
             // rowIndex와 valueIndex 기준 차트데이터 변환
             card.cfg = transformToChartData(card);
-
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
-
             cardList.push(card);
-            // console.log(JSON.stringify(cardList))
-
         })
     }
 
@@ -1031,9 +684,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     function hidePopup() {
         $('.popup').css('display', 'none');
     }
-
-
 }
-
 
 module.exports = CardCtrl;
