@@ -141,7 +141,8 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
     function transformToLineData(card) {
 
-        debugger
+        console.log(card)
+
         var data = card.data;
 
         // filed name 정의
@@ -168,7 +169,11 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             });
         })
 
+        return configLineChart(lineChartData, WIDTH, HEIGHT);
 
+    }
+
+    function configLineChart(lineChartData, WIDTH, HEIGHT) {
         var cfg = {
             options: {
                 chart: {
@@ -345,7 +350,14 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             }
         }
 
+        return configHeatmapChart(heatmap, WIDTH, HEIGHT);
+
+    }
+
+    function configHeatmapChart(heatmap, WIDTH, HEIGHT) {
+
         var rowIndex = -1;
+        var chart = null;
 
         var cfg = {
             options: {
@@ -402,6 +414,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                                     // 기본 정의 이벤트의 동작을 막아준다.
                                     event.preventDefault();
 
+                                    $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
                                     $scope.rowIndex = rowIndex;
                                     $scope.$apply();
                                     showPopup('popup', event);
@@ -414,13 +427,15 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                                     // 기본 정의 이벤트의 동작을 막아준다.
                                     event.preventDefault();
 
+                                    //var chart = this.series.chart;
+                                    $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
                                     $scope.rowIndex = rowIndex;
                                     $scope.$apply();
                                     showPopup('popup', event);
                                 },
 
                                 mouseOver: function () {
-                                    var chart = this.series.chart;
+                                    chart = this.series.chart;
                                     rowIndex = this.y;
                                     resetHighlight(chart);
                                     for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
@@ -431,7 +446,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                                 },
 
                                 mouseOut: function () {
-                                    var chart = this.series.chart;
+                                    chart = this.series.chart;
                                     resetHighlight(chart);
                                 }
                             }
@@ -583,7 +598,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     };
 
     // 카드 분리
-    $scope.splitCard = function (rowIndex) {
+    $scope.splitCard = function (rowIndex, rowCategory) {
 
         var card = _.cloneDeep($scope.card);
         _.times(card.data.fields.values.length, function (i) {
@@ -591,6 +606,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             var card = _.cloneDeep($scope.card);
             card.valueIndex = i;
             card.rowIndex = rowIndex;
+            card.rowCategory = rowCategory;
             var cardList = $scope.cards;
             var titleKey = 'adeOptions.title';
 
@@ -601,7 +617,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             card.chartType = 'line';
 
             // rowIndex와 valueIndex 기준 차트데이터 변환
-            card.cfg = transformToLineData(card, rowIndex, i);
+            card.cfg = transformToLineData(card);
 
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
 
