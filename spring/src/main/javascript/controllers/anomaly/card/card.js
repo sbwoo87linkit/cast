@@ -70,25 +70,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         anomalyObj
             .success(function (data) {
 
-                var cfg;
-
-                if (card.chartType === null) {
-                    if ((data.fields.keys.length === 0 && data.fields.values.length === 1)) {
-                        card.chartType = 'line';
-                    } else {
-                        card.chartType = 'heatmap';
-                    }
-                }
-
-                if (card.chartType === 'line') {
-                    cfg = transformToLineData(data);
-                } else {
-                    cfg = transformToHeatmapData(data, false);
-                }
-
                 card.data = data;
-
-                card.cfg = cfg;
 
                 card.state.current = data.status.current;
                 card.state.total = data.status.total;
@@ -102,6 +84,23 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     card.state.total = 1;
 
                     $scope.$broadcast('anomaly.card.data_loaded', data);
+
+                    var cfg;
+                    if (card.chartType === null) {
+                        if ((data.fields.keys.length === 0 && data.fields.values.length === 1)) {
+                            card.chartType = 'line';
+                        } else {
+                            card.chartType = 'heatmap';
+                        }
+                    }
+
+                    if (card.chartType === 'line') {
+                        cfg = transformToLineData(card);
+                    } else {
+                        // 최초실행시 row scale : false
+                        cfg = transformToHeatmapData(card, false);
+                    }
+                    card.cfg = cfg;
                 }
             })
             .error(function (error) {
@@ -140,79 +139,35 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
     };
 
-    function transformToLineData(data, isRowScale) {
+    function transformToLineData(card) {
 
+        debugger
+        var data = card.data;
 
-        Highcharts.chart(id, {
+        // filed name 정의
+        var timeFieldName = data.fields.time_fields[0],
+            uclFieldName = data.fields.ucl[0],
+            lclFieldName = data.fields.lcl[0],
+            varianceFieldName = data.fields.variance[0];
 
-            credits: {enabled: false},
-            chart: {
-                type: 'line',
-                // height: CONTAINER_HEIGHT,
-                marginTop: 0,
-                events: {
-                    load: function () {
-                    }
-                }
-            },
+        // 차트 데이터 구조
+        var lineChartData = {};
+        lineChartData.categories = [];
+        lineChartData.series = [];
+        lineChartData.series.push({name: uclFieldName, data: []});
+        lineChartData.series.push({name: lclFieldName, data: []});
+        lineChartData.series.push({name: varianceFieldName, data: []});
 
-            title: {
-                text: null
-            },
+        // results 데이터를 차트데이터로 변환
+        _.forEach(data.results, function (r) {
+            var index = _.findIndex(data.fields.all, {name: timeFieldName})
+            lineChartData.categories.push(strToDate(r[index]));
+            _.forEach(lineChartData.series, function (s) {
+                index = _.findIndex(data.fields.all, {name: s.name})
+                s.data.push(r[index]);
+            });
+        })
 
-            subtitle: {
-                text: null
-            },
-
-            xAxis: {
-                categories: data.categories,
-                type: 'datetime',
-                labels: {
-                    // format: '{value:%Y.%m.%d %H:%M:%S}',
-                    format: '{value:%m/%d %M:%S}',
-                }
-            },
-
-            yAxis: {
-                enabled: false,
-                title: {
-                    text: null
-                }
-            },
-
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-
-            tooltip: {
-                enabled: true,
-                useHTML: true,
-                backgroundColor: 'white',
-                formatter: function () {
-                    return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x) + '<br>'
-                        + '<b>시리즈: </b>' + this.series.name + '<br>'
-                        + '<b>값: </b>' + this.y;
-                },
-                hideDelay: 0
-            },
-
-            legend: {
-                enabled: false,
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-
-            exporting: {
-                enabled: false
-            },
-
-            series: data.series
-        });
 
         var cfg = {
             options: {
@@ -223,34 +178,61 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     width: WIDTH,
                     height: HEIGHT
                 },
-                legend: ''
+                tooltip: {
+                    enabled: true,
+                    useHTML: true,
+                    backgroundColor: 'white',
+                    formatter: function () {
+                        return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x) + '<br>'
+                            + '<b>시리즈: </b>' + this.series.name + '<br>'
+                            + '<b>값: </b>' + this.y;
+                    },
+                    hideDelay: 0
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false,
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                // legend: ''
+                exporting: {
+                    enabled: false
+                },
             },
-            series: [{
-                name: 'Installation',
-                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-            }, {
-                name: 'Manufacturing',
-                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-            }, {
-                name: 'Sales & Distribution',
-                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-            }, {
-                name: 'Project Development',
-                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-            }, {
-                name: 'Other',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-            }],
+            series: lineChartData.series,
             title: ' ',
-            // xAxis: {categories: ['1/10', '1/11']},
+            xAxis: {
+                categories: lineChartData.categories,
+                type: 'datetime',
+                labels: {
+                    format: '{value:%m/%d %M:%S}',
+                }
+
+            },
+            yAxis: {
+                enabled: false,
+                title: {
+                    text: null
+                }
+            },
+
             // yAxis: {categories: ['TV', 'RADIO']}
         };
 
         return cfg;
     }
 
-    function transformToHeatmapData(data, isRowScale) {
+    function transformToHeatmapData(card, isRowScale) {
 
+        var data = card.data;
         var delimiter = ', ',
             timeFieldName = data.fields.time_fields[0],
             scoreFieldName = data.fields.score[0];
@@ -420,7 +402,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                                     // 기본 정의 이벤트의 동작을 막아준다.
                                     event.preventDefault();
 
-                                    $scope.card.data.rowIndex = rowIndex;
+                                    $scope.rowIndex = rowIndex;
                                     $scope.$apply();
                                     showPopup('popup', event);
                                 }
@@ -432,7 +414,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                                     // 기본 정의 이벤트의 동작을 막아준다.
                                     event.preventDefault();
 
-                                    $scope.card.data.rowIndex = rowIndex;
+                                    $scope.rowIndex = rowIndex;
                                     $scope.$apply();
                                     showPopup('popup', event);
                                 },
@@ -619,11 +601,12 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             card.chartType = 'line';
 
             // rowIndex와 valueIndex 기준 차트데이터 변환
-            card.cfg = transformToLineData(card.data, card.rowIndex, card.valueIndex);
+            card.cfg = transformToLineData(card, rowIndex, i);
 
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
 
             cardList.push(card);
+            // console.log(JSON.stringify(cardList))
 
         })
     }
