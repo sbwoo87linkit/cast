@@ -20,7 +20,7 @@
     <!-- contextmenu : 차트 메뉴 -->
     <ul id="popup{{$index}}" class="popup">
         <li>
-            <a href="" ng-click="splitCard(rowIndex, rowCategory)">카드 분리 - {{rowIndex}} - {{rowCategory}}</a>
+            <a href="" ng-click="splitCard(rowIndex, rowCategory)">카드 분리</a>
         </li>
         <li>
             <a href="">검색</a>
