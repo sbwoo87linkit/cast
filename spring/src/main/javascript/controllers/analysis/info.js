@@ -7,6 +7,8 @@
  */
 TopInfoCtrl.$inject = ['$scope', '$state', 'dataModel', 'searchCond', 'popupLayerStore'];
 function TopInfoCtrl($scope, $state, dataModel, searchCond, popupLayerStore) {
+
+
     /**
      *   variables
      */
@@ -78,6 +80,8 @@ function TopInfoCtrl($scope, $state, dataModel, searchCond, popupLayerStore) {
     /**
     *   functions
     */
+
+
 }
 
 module.exports = TopInfoCtrl;
