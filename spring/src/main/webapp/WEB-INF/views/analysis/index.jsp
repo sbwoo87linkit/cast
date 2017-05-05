@@ -6,5 +6,12 @@
         <%@ include file="./info.jsp"%>
     </div>
 
+    <div class="mu-row" style="height: 100%">
+        <!-- 메인 작업화면 -->
+        <%@ include file="./main.jsp"%>
+    </div>
+
     <!-- ... -->
+
+
 </section>
