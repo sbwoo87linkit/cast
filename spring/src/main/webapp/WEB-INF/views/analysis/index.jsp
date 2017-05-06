@@ -1,44 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<style>
-    .mu-row.main {
-        height: calc(100% - 50px);
-    }
-
-    .area-side {
-        width: 20%;
-        float: left;
-        height: calc(100% - 0px);
-        margin-right: 1px;
-        /*padding: 30px;*/
-        padding-top: 10px;
-        border-right: 1px solid #d0d0d0;
-        overflow-y: scroll;
-    }
-
-    .area-main {
-        width: calc(80% - 1px);
-        float: right;
-        height: calc(100% - 0px);
-        padding: 0px;
-        overflow-y: scroll;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    h1 {
-        height: auto;
-    }
-
-    .mu-tab {
-        margin-top: 0px !important;
-    }
-
-</style>
-
 <section ng-controller="analysis.MainCtrl">
     <div class="mu-row pivotHead">
         <!-- 정보 출력/버튼 컨트롤 -->
@@ -79,9 +41,19 @@
                 </div>
             </div>
         </div>
+        isWaiting {{isWaiting}} - {{$id}}
         <div class="area-main">
             <!--main content-->
             <%@ include file="./main.jsp"%>
+        </div>
+        <div class="chart-overlay" ng-if="isWaiting">
+            <div id="container" ng-if="analysis.chart.type==='차트 유형 선택'" style="height: 100%; width: 100%;">
+                <div id="content">
+                    <!--<i class="mu-icon ex" style="font-size: 1.2em; margin-right:10px; "></i>-->
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                    <span style="font-size:2.4em">결과를 기다리는 중 ......</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>

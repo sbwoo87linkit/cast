@@ -54,16 +54,10 @@
 
 
 
+
 /* --------------------- */
 /* anomaly - sangbum Woo */
 /* --------------------- */
-
-.chart {
-    /*position:absolute;*/
-    /*width:100% !important;*/
-    /*height:100% !important;*/
-    /*margin: 0 auto*/
-}
 
 .heatmap-chart {
     border : 1px solid transparent;
@@ -91,29 +85,147 @@ svg>text {
 #flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }
 #report { padding: 7px 0px 7px 10px; }
 
+/* --------------------- */
+/* analysis - sangbum Woo */
+/* --------------------- */
 
-/* New Popup 메뉴*/
-.popup {
-    position: fixed;
-    display: none;
-    border: 1px solid #d0d0d0;
-    box-shadow: 0px 0px 7px 0px #d5d5d5;
-    background: #fff;
-    padding:0px;
-    z-index: 10001;
-    list-style-type: none;
-    margin: 0; /* required for show popup at mouse point */
+/*index.jsp*/
+
+.mu-row.main {
+    height: calc(100% - 50px);
 }
 
-.popup a {
-    display: block;
-    padding: 10px 15px;
-    color : #000;
-    text-decoration: none;
+.area-side {
+    width: 20%;
+    float: left;
+    height: calc(100% - 0px);
+    margin-right: 1px;
+    /*padding: 30px;*/
+    padding-top: 10px;
+    border-right: 1px solid #d0d0d0;
+    overflow-y: scroll;
 }
 
-.popup a:hover {
-    /* text-decoration: none; */
+.area-main {
+    width: calc(80% - 1px);
+    float: right;
+    height: calc(100% - 0px);
+    padding: 0px;
+    overflow-y: scroll;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    height: auto;
+}
+
+.mu-tab {
+    margin-top: 0px !important;
+}
+
+.chart-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+    background: rgba(0, 0, 0, 0.5);;
+    top: 0;
     color: #fff;
-    background:#2d93ec;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mu-icon-100-img{display:inline-block;width:100px;height:100px;background:url("../images/chart/icon_chart_100.png") no-repeat 0 0;margin:0;}
+.mu-icon-100-img.none{background-position:0 0;}
+.mu-icon-100-img.line{background-position:-100px 0;}
+.mu-icon-100-img.plot{background-position:-200px 0;}
+.mu-icon-100-img.motion{background-position:-300px 0;}
+.mu-icon-100-img.histogram{background-position:-400px 0;}
+.mu-icon-100-img.bar{background-position:-500px 0;}
+.mu-icon-100-img.pie{background-position:-600px 0;}
+.mu-icon-100-img.shanky{background-position:-700px 0;}
+.mu-icon-100-img.heatmap{background-position:-800px 0;}
+.mu-icon-100-img.outlier{background-position:-900px 0;}
+
+.mu-icon-20-img{display:inline-block;width:20px; vertical-align:middle; height:20px;background:url("../images/chart/icon_chart_20.png") no-repeat 0 0;margin:0;}
+.mu-icon-20-img.none{background-position:0 0;}
+.mu-icon-20-img.line{background-position:-20px 0;}
+.mu-icon-20-img.plot{background-position:-40px 0;}
+.mu-icon-20-img.motion{background-position:-60px 0;}
+.mu-icon-20-img.histogram{background-position:-80px 0;}
+.mu-icon-20-img.bar{background-position:-100px 0;}
+.mu-icon-20-img.pie{background-position:-120px 0;}
+.mu-icon-20-img.shanky{background-position:-140px 0;}
+.mu-icon-20-img.heatmap{background-position:-160px 0;}
+.mu-icon-20-img.outlier{background-position:-180px 0;}
+
+
+.header {
+    height:40px;
+    margin: 3px;
+}
+.main-container {
+    height: calc(100% - 50px);
+    /*background: #e5e5e5;*/
+    padding:5px;
+}
+.blank {
+
+    height: 100%;
+    background: pink;
+    border: 3px dotted #9d9d9d;
+}
+.chart-main {
+    /*position: absolute;*/
+    height: 100%;
+    width: 100%;
+}
+.main-overlay {
+    height: 100%;
+    background: blue;
+}
+.chart-change-cell {
+    height:130px;
+    margin:5px;
+    padding: 5px;
+    border: 2px solid #ddd;
+    /*background: powderblue;*/
+}
+.chart-change-cell:hover {
+    cursor: pointer;
+    border: 2px solid deeppink;
+}
+
+
+#container {
+    /*color: white;*/
+    /*background: #ffbd17;*/
+    width: 400px;
+    height: 260px;
+    border: 2px dotted #9d9d9d ;
+    border-radius: 10px;
+}
+
+#content {
+    /*background: #06c;*/
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
