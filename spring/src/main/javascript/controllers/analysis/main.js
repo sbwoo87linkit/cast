@@ -5,8 +5,8 @@
 /**
  * Controller
  */
-MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder'];
-function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder) {
+MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder', 'popupLayerStore', '$timeout'];
+function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, popupLayerStore, $timeout) {
     /**
      *   init
      */
@@ -55,20 +55,62 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder) 
 
      */
 
-    $scope.selOptions = [
-        {type: '분석 유형 선택', icon: '', isSelected: true, description:'description' },
-        {type:'Line plot', icon:'Line plot', description:'description'},
-        {type:'Scatter plot', icon:'Scatter plot', description:'description'},
-        {type:'Motion', icon:'Motion', description:'description'},
-        {type:'Histogram', icon:'Histogram', description:'description'},
-        {type:'Bar chart', icon:'Bar chart', description:'description'},
-        {type:'Pie chart', icon:'Pie chart', description:'description'},
-        {type:'Shanky', icon:'Shanky', description:'description'},
-        {type:'Heatmap', icon:'Heatmap', description:'description'},
-        {type:'Outlier', icon:'Outlier', description:'description'},
+    // {type: '분석 유형 선택', icon: '', isSelected: true, description:'description' },
+
+    // 시계열 : 라인 플로트 모션
+    // 분포 : 히스토 바 파이
+    // 관계형 : 샹키 히트맵
+    // 이상치 : 아웃터
+    $scope.chartGroups = [
+        { name:'시계열', items : [
+            {type:'Line plot', icon:'Line plot', description:'Line plot description'},
+            {type:'Scatter plot', icon:'Scatter plot', description:'Scatter plot description'},
+            {type:'Motion', icon:'Motion', description:'Motion description'}
+        ]},
+        { name:'분포', items : [
+            {type:'Histogram', icon:'Histogram', description:'Histogram description'},
+            {type:'Bar chart', icon:'Bar chart', description:'Bar chart description'},
+            {type:'Pie chart', icon:'Pie chart', description:'Pie chartdescription'}
+        ]},
+        { name:'관계형', items : [
+            {type:'Shanky', icon:'Shanky', description:'Shanky description'},
+            {type:'Heatmap', icon:'Heatmap', description:'Heatmap description'},
+        ]},
+        { name:'이상치', items : [
+            {type:'Outlier', icon:'Outlier', description:'Outlier description'},
+        ]}
     ];
 
-    $scope.selModel = {};
+
+    $scope.analysis = {};
+    // 선택한 차트유형
+    $scope.analysis.chart = {type:'차트 유형 선택', icon:'Outlier', description:'description'};
+    // $scope.analysis.chart = {};
+
+    $scope.changeChart = function (chart) {
+        $scope.analysis.chart = chart;
+        popupLayerStore.get('analysis.chart.change').closeEl();
+    }
+
+    var showTimer, hideTimer;
+    $scope.showDescription = function (chart) {
+        // 분석유형선택 팝업 차트유형 마우스오버된 차트
+        $timeout.cancel(hideTimer);
+        showTimer = $timeout(function () {
+            $scope.analysis.tempChart = chart;
+        }, 300)
+    }
+
+    $scope.hideDescription = function () {
+        $timeout.cancel(showTimer);
+        hideTimer = $timeout(function () {
+            $scope.analysis.tempChart = null;
+        }, 300)
+    }
+
+
+
+
     $scope.$watch('selModel.type', function (type) {
         console.log('(selectbox) watch:', type);
     });
@@ -76,6 +118,8 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder) 
     $scope.changeOption = function (model) {
         console.log('(selectbox) change:', model.type);
     };
+
+    $scope.chartType=null;
 
 
 
