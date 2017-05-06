@@ -14,7 +14,8 @@
             <i class="mu-icon-img searchWord"></i><span ng-bind="query"></span>
         </button>
     </div>
-    <div class="mu-hgroup fr">
+    {{$id}} - {{isWaiting}}
+    <div class="mu-hgroup">
         <button type="button" class="mu-btn mu-btn-icon" ng-click="execute()"><i class="mu-icon-img anomaly"></i><span>실행</span></button>
     </div>
 

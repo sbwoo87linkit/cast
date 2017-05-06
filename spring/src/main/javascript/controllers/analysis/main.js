@@ -5,8 +5,8 @@
 /**
  * Controller
  */
-MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder', 'popupLayerStore', '$timeout'];
-function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, popupLayerStore, $timeout) {
+MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder', 'popupLayerStore', '$timeout', 'dataModel'];
+function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, popupLayerStore, $timeout, dataModel) {
     /**
      *   init
      */
@@ -17,6 +17,12 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
         searchCond.clean();
         anomalyAgent.cancelAllRequest();
     });
+
+
+    var data = dataModel.get();
+
+    console.log(data)
+    // debugger;
 
     $scope.fieldList = [
         {"name": "FTS_PARTITION_TIME", "type": "TIMESTAMP"},
@@ -63,28 +69,28 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
     // 이상치 : 아웃터
     $scope.chartGroups = [
         { name:'시계열', items : [
-            {type:'Line plot', icon:'Line plot', description:'Line plot description'},
-            {type:'Scatter plot', icon:'Scatter plot', description:'Scatter plot description'},
-            {type:'Motion', icon:'Motion', description:'Motion description'}
+            {type:'Line plot', icon:'line', description:'Line plot description'},
+            {type:'Scatter plot', icon:'plot', description:'Scatter plot description'},
+            {type:'Motion', icon:'motion', description:'Motion description'}
         ]},
         { name:'분포', items : [
-            {type:'Histogram', icon:'Histogram', description:'Histogram description'},
-            {type:'Bar chart', icon:'Bar chart', description:'Bar chart description'},
-            {type:'Pie chart', icon:'Pie chart', description:'Pie chartdescription'}
+            {type:'Histogram', icon:'histogram', description:'Histogram description'},
+            {type:'Bar chart', icon:'bar', description:'Bar chart description'},
+            {type:'Pie chart', icon:'pie', description:'Pie chartdescription'}
         ]},
         { name:'관계형', items : [
-            {type:'Shanky', icon:'Shanky', description:'Shanky description'},
-            {type:'Heatmap', icon:'Heatmap', description:'Heatmap description'},
+            {type:'Shanky', icon:'shanky', description:'Shanky description'},
+            {type:'Heatmap', icon:'heatmap', description:'Heatmap description'},
         ]},
         { name:'이상치', items : [
-            {type:'Outlier', icon:'Outlier', description:'Outlier description'},
+            {type:'Outlier', icon:'outlier', description:'Outlier description'},
         ]}
     ];
 
 
     $scope.analysis = {};
     // 선택한 차트유형
-    $scope.analysis.chart = {type:'차트 유형 선택', icon:'Outlier', description:'description'};
+    $scope.analysis.chart = {type:'차트 유형 선택', icon:'none', description:'select chart'};
     // $scope.analysis.chart = {};
 
     $scope.changeChart = function (chart) {
@@ -92,20 +98,17 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
         popupLayerStore.get('analysis.chart.change').closeEl();
     }
 
-    var showTimer, hideTimer;
+    var hideTimer;
     $scope.showDescription = function (chart) {
         // 분석유형선택 팝업 차트유형 마우스오버된 차트
         $timeout.cancel(hideTimer);
-        showTimer = $timeout(function () {
-            $scope.analysis.tempChart = chart;
-        }, 300)
+        $scope.analysis.tempChart = chart;
     }
 
     $scope.hideDescription = function () {
-        $timeout.cancel(showTimer);
         hideTimer = $timeout(function () {
             $scope.analysis.tempChart = null;
-        }, 300)
+        }, 500)
     }
 
 
@@ -121,6 +124,8 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
 
     $scope.chartType=null;
 
+    // $scope.analysis = {};
+    // $scope.analysis.isWaiting = true;
 
 
 }
