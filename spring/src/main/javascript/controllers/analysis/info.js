@@ -33,16 +33,6 @@ function TopInfoCtrl($scope, $state, dataModel, searchCond, popupLayerStore) {
 
         $state.go('analysis_choose_data');
     };
-
-    $scope.execute = function () {
-        // debugger
-        $scope.isWaiting = !$scope.isWaiting;
-        console.log('execute', $scope.isWaiting)
-    }
-
-    $scope.cancel = function () {
-        $scope.isWaiting = false;
-    }
     /**
     *   events
     */
