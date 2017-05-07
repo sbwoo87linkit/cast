@@ -2,16 +2,18 @@
 .mu-popup-menu > li {
     cursor: pointer;
 }
+
 /* 검색 */
 .mu-icon.flag:before {
     content: "\f024";
 }
+
 /* 검색어 추천 */
 .searchAssistant .highlight {
-    color:#2d93ec;
+    color: #2d93ec;
 }
-/* 피벗 */
 
+/* 피벗 */
 
 /* 검색어 자동 완성 */
 .history-bgcolor {
@@ -20,51 +22,193 @@
 
 /* Mobius 임의 수정 */
 /* tooltip */
-.mu-tooltip.top-left{margin-top:-10px}
-.mu-tooltip.top-left > .arrow{left:16px;bottom:-11px;margin-left:-11px;border-bottom-width:0;border-top-color:#ccc}
-.mu-tooltip.top-left > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
-.mu-tooltip.top-right{margin-top:-10px}
-.mu-tooltip.top-right > .arrow{right:16px;bottom:-11px;margin-right:-11px;border-bottom-width:0;border-top-color:#ccc}
-.mu-tooltip.top-right > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
-.mu-tooltip.bottom-left{margin-top:10px}
-.mu-tooltip.bottom-left > .arrow{left:16px;top:-11px;margin-left:-11px;border-top-width:0;border-bottom-color:#ccc}
-.mu-tooltip.bottom-left > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
-.mu-tooltip.bottom-right{margin-top:10px}
-.mu-tooltip.bottom-right > .arrow{right:16px;top:-11px;margin-right:-11px;border-top-width:0;border-bottom-color:#ccc}
-.mu-tooltip.bottom-right > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
-.mu-tooltip.left-top{margin-left:-10px}
-.mu-tooltip.left-top > .arrow{right:-11px;top:16px;margin-top:-11px;border-right-width:0;border-left-color:#ccc}
-.mu-tooltip.left-top > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
-.mu-tooltip.left-bottom{margin-left:-10px}
-.mu-tooltip.left-bottom > .arrow{right:-11px;bottom:16px;margin-bottom:-11px;border-right-width:0;border-left-color:#ccc}
-.mu-tooltip.left-bottom > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
-.mu-tooltip.right-top{margin-left:13px}
-.mu-tooltip.right-top > .arrow{left:-11px;top:16px;margin-top:-11px;border-left-width:0;border-right-color:#ccc}
-.mu-tooltip.right-top > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
-.mu-tooltip.right-bottom{margin-left:13px}
-.mu-tooltip.right-bottom > .arrow{left:-11px;bottom:16px;margin-bottom:-11px;border-left-width:0;border-right-color:#ccc}
-.mu-tooltip.right-bottom > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
+.mu-tooltip.top-left {
+    margin-top: -10px
+}
+
+.mu-tooltip.top-left > .arrow {
+    left: 16px;
+    bottom: -11px;
+    margin-left: -11px;
+    border-bottom-width: 0;
+    border-top-color: #ccc
+}
+
+.mu-tooltip.top-left > .arrow:after {
+    content: "";
+    bottom: 1px;
+    margin-left: -10px;
+    border-bottom-width: 0;
+    border-top-color: #fff
+}
+
+.mu-tooltip.top-right {
+    margin-top: -10px
+}
+
+.mu-tooltip.top-right > .arrow {
+    right: 16px;
+    bottom: -11px;
+    margin-right: -11px;
+    border-bottom-width: 0;
+    border-top-color: #ccc
+}
+
+.mu-tooltip.top-right > .arrow:after {
+    content: "";
+    bottom: 1px;
+    margin-left: -10px;
+    border-bottom-width: 0;
+    border-top-color: #fff
+}
+
+.mu-tooltip.bottom-left {
+    margin-top: 10px
+}
+
+.mu-tooltip.bottom-left > .arrow {
+    left: 16px;
+    top: -11px;
+    margin-left: -11px;
+    border-top-width: 0;
+    border-bottom-color: #ccc
+}
+
+.mu-tooltip.bottom-left > .arrow:after {
+    content: "";
+    top: 1px;
+    margin-left: -10px;
+    border-top-width: 0;
+    border-bottom-color: #fff
+}
+
+.mu-tooltip.bottom-right {
+    margin-top: 10px
+}
+
+.mu-tooltip.bottom-right > .arrow {
+    right: 16px;
+    top: -11px;
+    margin-right: -11px;
+    border-top-width: 0;
+    border-bottom-color: #ccc
+}
+
+.mu-tooltip.bottom-right > .arrow:after {
+    content: "";
+    top: 1px;
+    margin-left: -10px;
+    border-top-width: 0;
+    border-bottom-color: #fff
+}
+
+.mu-tooltip.left-top {
+    margin-left: -10px
+}
+
+.mu-tooltip.left-top > .arrow {
+    right: -11px;
+    top: 16px;
+    margin-top: -11px;
+    border-right-width: 0;
+    border-left-color: #ccc
+}
+
+.mu-tooltip.left-top > .arrow:after {
+    content: "";
+    right: 1px;
+    bottom: -10px;
+    border-right-width: 0;
+    border-left-color: #fff
+}
+
+.mu-tooltip.left-bottom {
+    margin-left: -10px
+}
+
+.mu-tooltip.left-bottom > .arrow {
+    right: -11px;
+    bottom: 16px;
+    margin-bottom: -11px;
+    border-right-width: 0;
+    border-left-color: #ccc
+}
+
+.mu-tooltip.left-bottom > .arrow:after {
+    content: "";
+    right: 1px;
+    bottom: -10px;
+    border-right-width: 0;
+    border-left-color: #fff
+}
+
+.mu-tooltip.right-top {
+    margin-left: 13px
+}
+
+.mu-tooltip.right-top > .arrow {
+    left: -11px;
+    top: 16px;
+    margin-top: -11px;
+    border-left-width: 0;
+    border-right-color: #ccc
+}
+
+.mu-tooltip.right-top > .arrow:after {
+    content: "";
+    left: 1px;
+    bottom: -10px;
+    border-left-width: 0;
+    border-right-color: #fff
+}
+
+.mu-tooltip.right-bottom {
+    margin-left: 13px
+}
+
+.mu-tooltip.right-bottom > .arrow {
+    left: -11px;
+    bottom: 16px;
+    margin-bottom: -11px;
+    border-left-width: 0;
+    border-right-color: #ccc
+}
+
+.mu-tooltip.right-bottom > .arrow:after {
+    content: "";
+    left: 1px;
+    bottom: -10px;
+    border-left-width: 0;
+    border-right-color: #fff
+}
 
 /* 데이터 모델 */
-.dm-field-type-width { width: 113px !important; }
-.dm-time-width { width: 170px !important; }
-.dm-table-width { width: 270px !important; }
-.dm-option-width { width: 85% !important; }
+.dm-field-type-width {
+    width: 113px !important;
+}
 
+.dm-time-width {
+    width: 170px !important;
+}
 
+.dm-table-width {
+    width: 270px !important;
+}
 
-
+.dm-option-width {
+    width: 85% !important;
+}
 
 /* --------------------- */
 /* anomaly - sangbum Woo */
 /* --------------------- */
 
 .heatmap-chart {
-    border : 1px solid transparent;
+    border: 1px solid transparent;
 }
 
 .heatmap-chart.row:hover {
-    border : 1px solid red;
+    border: 1px solid red;
 }
 
 .highcharts-container, .heatmap-chart {
@@ -73,46 +217,22 @@
 
 /*Heatmap tooltip 제어*/
 svg {
-    overflow:visible;
+    overflow: visible;
 }
 
 /*svg overflow visible로 인해 보여지는 Heatmap range text 숨김*/
-svg>text {
-    display:none;
-}
+/*svg>text {*/
+/*display:none;*/
+/*}*/
 
-
-#flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }
-#report { padding: 7px 0px 7px 10px; }
+/*#flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }*/
+/*#report { padding: 7px 0px 7px 10px; }*/
 
 /* --------------------- */
 /* analysis - sangbum Woo */
 /* --------------------- */
 
 /*index.jsp*/
-
-.mu-row.main {
-    height: calc(100% - 50px);
-}
-
-.area-side {
-    width: 20%;
-    float: left;
-    height: calc(100% - 0px);
-    margin-right: 1px;
-    /*padding: 30px;*/
-    padding-top: 10px;
-    border-right: 1px solid #d0d0d0;
-    overflow-y: scroll;
-}
-
-.area-main {
-    width: calc(80% - 1px);
-    float: right;
-    height: calc(100% - 0px);
-    padding: 0px;
-    overflow-y: scroll;
-}
 
 * {
     box-sizing: border-box;
@@ -126,6 +246,116 @@ h1 {
     margin-top: 0px !important;
 }
 
+.mu-icon-100-img {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url("../images/chart/icon_chart_100.png") no-repeat 0 0;
+    margin: 0;
+}
+
+.mu-icon-100-img.none {
+    background-position: 0 0;
+}
+
+.mu-icon-100-img.line {
+    background-position: -100px 0;
+}
+
+.mu-icon-100-img.plot {
+    background-position: -200px 0;
+}
+
+.mu-icon-100-img.motion {
+    background-position: -300px 0;
+}
+
+.mu-icon-100-img.histogram {
+    background-position: -400px 0;
+}
+
+.mu-icon-100-img.bar {
+    background-position: -500px 0;
+}
+
+.mu-icon-100-img.pie {
+    background-position: -600px 0;
+}
+
+.mu-icon-100-img.shanky {
+    background-position: -700px 0;
+}
+
+.mu-icon-100-img.heatmap {
+    background-position: -800px 0;
+}
+
+.mu-icon-100-img.outlier {
+    background-position: -900px 0;
+}
+
+.mu-icon-20-img {
+    display: inline-block;
+    width: 20px;
+    vertical-align: middle;
+    height: 20px;
+    background: url("../images/chart/icon_chart_20.png") no-repeat 0 0;
+    margin: 0;
+}
+
+.mu-icon-20-img.none {
+    background-position: 0 0;
+}
+
+.mu-icon-20-img.line {
+    background-position: -20px 0;
+}
+
+.mu-icon-20-img.plot {
+    background-position: -40px 0;
+}
+
+.mu-icon-20-img.motion {
+    background-position: -60px 0;
+}
+
+.mu-icon-20-img.histogram {
+    background-position: -80px 0;
+}
+
+.mu-icon-20-img.bar {
+    background-position: -100px 0;
+}
+
+.mu-icon-20-img.pie {
+    background-position: -120px 0;
+}
+
+.mu-icon-20-img.shanky {
+    background-position: -140px 0;
+}
+
+.mu-icon-20-img.heatmap {
+    background-position: -160px 0;
+}
+
+.mu-icon-20-img.outlier {
+    background-position: -180px 0;
+}
+
+.chart-change-cell {
+    height: 130px;
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid #ddd;
+    /*background: powderblue;*/
+}
+
+.chart-change-cell:hover {
+    cursor: pointer;
+    border: 2px solid #2d93ec;
+}
+
 .chart-overlay {
     position: absolute;
     width: 100%;
@@ -136,92 +366,48 @@ h1 {
     color: #fff;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.mu-icon-100-img{display:inline-block;width:100px;height:100px;background:url("../images/chart/icon_chart_100.png") no-repeat 0 0;margin:0;}
-.mu-icon-100-img.none{background-position:0 0;}
-.mu-icon-100-img.line{background-position:-100px 0;}
-.mu-icon-100-img.plot{background-position:-200px 0;}
-.mu-icon-100-img.motion{background-position:-300px 0;}
-.mu-icon-100-img.histogram{background-position:-400px 0;}
-.mu-icon-100-img.bar{background-position:-500px 0;}
-.mu-icon-100-img.pie{background-position:-600px 0;}
-.mu-icon-100-img.shanky{background-position:-700px 0;}
-.mu-icon-100-img.heatmap{background-position:-800px 0;}
-.mu-icon-100-img.outlier{background-position:-900px 0;}
-
-.mu-icon-20-img{display:inline-block;width:20px; vertical-align:middle; height:20px;background:url("../images/chart/icon_chart_20.png") no-repeat 0 0;margin:0;}
-.mu-icon-20-img.none{background-position:0 0;}
-.mu-icon-20-img.line{background-position:-20px 0;}
-.mu-icon-20-img.plot{background-position:-40px 0;}
-.mu-icon-20-img.motion{background-position:-60px 0;}
-.mu-icon-20-img.histogram{background-position:-80px 0;}
-.mu-icon-20-img.bar{background-position:-100px 0;}
-.mu-icon-20-img.pie{background-position:-120px 0;}
-.mu-icon-20-img.shanky{background-position:-140px 0;}
-.mu-icon-20-img.heatmap{background-position:-160px 0;}
-.mu-icon-20-img.outlier{background-position:-180px 0;}
-
-
-.header {
-    height:40px;
-    margin: 3px;
+.analysis-container {
+    height: calc(100% + 50px);
 }
-.main-container {
-    height: calc(100% - 50px);
-    /*background: #e5e5e5;*/
-    padding:5px;
-}
-.blank {
 
+.analysis-filter {
+    float: left;
     height: 100%;
-    background: pink;
-    border: 3px dotted #9d9d9d;
-}
-.chart-main {
-    /*position: absolute;*/
-    height: 100%;
-    width: 100%;
-}
-.main-overlay {
-    height: 100%;
-    background: blue;
-}
-.chart-change-cell {
-    height:130px;
-    margin:5px;
-    padding: 5px;
-    border: 2px solid #ddd;
-    /*background: powderblue;*/
-}
-.chart-change-cell:hover {
-    cursor: pointer;
-    border: 2px solid deeppink;
+    overflow: scroll;
+    width: 20%;
+    border-right: 1px solid #ccc;
 }
 
+.analysis-chart {
+    height: 100%;
+    overflow: scroll;
+}
 
-#container {
-    /*color: white;*/
-    /*background: #ffbd17;*/
-    width: 400px;
-    height: 260px;
-    border: 2px dotted #9d9d9d ;
+.analysis-chart-header {
+    height: 30px;
+}
+
+.analysis-chart-main {
+    height: calc(100% - 40px);
+    /*border: 3px dotted #ccc;*/
+    /*border-radius: 10px;*/
+    margin: 5px;
+}
+
+.analysis-chart-none {
+    height: 100%;
+    border: 3px dotted #ccc;
     border-radius: 10px;
+    margin: 5px;
 }
 
-#content {
+.analysis-chart-header .mu-selectbox .mu-list {
+    width: 700px !important;
+    max-height: 900px !important;
+    padding: 10px;
+}
+
+.center {
     /*background: #06c;*/
     position: relative;
     float: left;
@@ -229,3 +415,25 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
