@@ -10,58 +10,20 @@ ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'se
 function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel) {
 
 
-
-
-    var model = dataModel.get();
-    $scope.fields = model.fields.selected;
-
-    //
-    // console.log(data)
-    // // debugger;
-    //
-    // $scope.fieldList = [
-    //     {"name": "FTS_PARTITION_TIME", "type": "TIMESTAMP"},
-    //     {"name": "ENB_ID", "type": "NUMBER"},
-    //     {"name": "CELLL_ID", "type": "NUMBER"},
-    //     {"name": "IMSI", "type": "NUMBER"},
-    //     {"name": "ATTEMPT_TIME", "type": "TIMESTAMP"},
-    //     {"name": "DISCON_TIME", "type": "TIMESTAMP"},
-    //     {"name": "CQI", "type": "NUMBER"},
-    //     {"name": "TA", "type": "NUMBER"},
-    //     {"name": "RSRP", "type": "NUMBER"},
-    //     {"name": "RSRQ", "type": "NUMBER"},
-    //     {"name": "UE_TX_POWER", "type": "NUMBER"},
-    //     {"name": "CALL_RELEASE_CAUSE", "type": "TEXT"},
-    //     {"name": "PRB", "type": "NUMBER"}
-    // ]
-
-    $scope.templates = [
-        {name: 'template1.html', url: 'template1.html'},
-        {name: 'template2.html', url: 'template2.html'}
-    ];
-    $scope.template = $scope.templates[0];
-
-
-    /*
-
-     {type:'Line plot', icon:'Line plot'},
-     {type:'Scatter plot', icon:'Scatter plot'},
-     {type:'Motion', icon:'Motion'},
-     {type:'Histogram', icon:'Histogram'},
-     {type:'Bar chart', icon:'Bar chart'},
-     {type:'Pie chart', icon:'Pie chart'},
-     {type:'Shanky', icon:'Shanky'},
-     {type:'Heatmap', icon:'Heatmap'},
-     {type:'Outlier', icon:'Outlier'},
-
+    /**
+     * 데이터 로드
      */
 
-    // {type: '분석 유형 선택', icon: '', isSelected: true, description:'description' },
+    var model = dataModel.get();
+    $scope.fieldList = model.fields.selected;
 
-    // 시계열 : 라인 플로트 모션
-    // 분포 : 히스토 바 파이
-    // 관계형 : 샹키 히트맵
-    // 이상치 : 아웃터
+
+    /**
+     *  Scope 변수
+     */
+
+    $scope.analysis = {};
+
     $scope.chartGroups = [
         { name:'시계열', items : [
             {type:'Line plot', icon:'line', description:'Line plot description'},
@@ -82,15 +44,23 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         ]}
     ];
 
-
-    $scope.analysis = {};
     // 선택한 차트유형
     $scope.analysis.chart = {type:'차트 유형 선택', icon:'none', description:'select chart'};
-    // $scope.analysis.chart = {};
+
+    // TODO 차트 유형 변경에 따른 레이아웃/컨트롤러 설정
+    $scope.templates = [
+        {name: 'template1.html', url: 'template1.html'},
+        {name: 'template2.html', url: 'template2.html'}
+    ];
+    $scope.template = $scope.templates[0];
+
+    /**
+     *
+     * Function
+     */
 
     $scope.changeChart = function (chart) {
         $scope.analysis.chart = chart;
-        popupLayerStore.get('analysis.chart.change').closeEl();
     }
 
     var hideTimer;
@@ -105,23 +75,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
             $scope.analysis.tempChart = null;
         }, 500)
     }
-
-
-
-
-    $scope.$watch('selModel.type', function (type) {
-        console.log('(selectbox) watch:', type);
-    });
-
-    $scope.changeOption = function (model) {
-        console.log('(selectbox) change:', model.type);
-    };
-
-    $scope.chartType=null;
-
-    // $scope.analysis = {};
-    // $scope.analysis.isWaiting = true;
-
 
 }
 
