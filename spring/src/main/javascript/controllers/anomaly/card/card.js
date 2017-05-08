@@ -53,7 +53,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     /**
      * function
      */
-    var card;
     var runJob = function () {
         var params = _.cloneDeep($scope.card);
 
@@ -228,7 +227,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             // Datetime 포맷 UTC 변경
             heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
                 return strToDate(d);
-            })
+            });
 
             if (isRowScale) {
                 for (var y = 0; y < heatmap.yAxisData.length; y++) {
@@ -245,7 +244,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     for (var x = 0; x < heatmap.xAxisData.length; x++) {
                         var index = (x * heatmap.yAxisData.length) + y;
                         var value = heatmap.scoreData[index][2];
-                        heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)}
+                        heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)};
                     }
                 }
             }
@@ -258,9 +257,9 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             lineChartData.series = [];
             lineChartData.categories = [];
 
-            lineChartData.series.push({name: data.fields.ucl[valueIndex], color:Highcharts.getOptions().colors[0], data: []})
-            lineChartData.series.push({name: data.fields.lcl[valueIndex], color:Highcharts.getOptions().colors[1], data: []})
-            lineChartData.series.push({name: data.fields.variance[valueIndex], color:Highcharts.getOptions().colors[2], data: []})
+            lineChartData.series.push({name: data.fields.ucl[valueIndex], color:Highcharts.getOptions().colors[0], data: []});
+            lineChartData.series.push({name: data.fields.lcl[valueIndex], color:Highcharts.getOptions().colors[1], data: []});
+            lineChartData.series.push({name: data.fields.variance[valueIndex], color:Highcharts.getOptions().colors[2], data: []});
 
             var uclIndex = _.findIndex(data.fields.all, {name: data.fields.ucl[valueIndex]});
             var lclIndex = _.findIndex(data.fields.all, {name: data.fields.lcl[valueIndex]});
@@ -268,9 +267,9 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
 
             if (data.fields.keys.length > 0) {
 
-                _.forEach(heatmap.yAxisData, function (label, i) {
+                _.forEach(heatmap.yAxisData, function (label) {
                     if (label === card.rowCategory) {
-                        _.forEach(heatmap.xAxisData, function (time, i) {
+                        _.forEach(heatmap.xAxisData, function (time) {
                             var temp = label.split(delimiter),
                                 condition = {},
                                 item,
@@ -296,24 +295,24 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                             lineChartData.series[0].data.push(ucl);
                             lineChartData.series[1].data.push(lcl);
                             lineChartData.series[2].data.push(variance);
-                        })
+                        });
                     }
-                })
+                });
                 // Datetime 포맷 UTC 변경
                 heatmap.xAxisData = _.map(heatmap.xAxisData, function (d) {
                     return strToDate(d);
-                })
+                });
             } else {
                 var timeFieldName = data.fields.time_fields[0];//
                 // results 데이터를 차트데이터로 변환
                 _.forEach(data.results, function (r) {
-                    var index = _.findIndex(data.fields.all, {name: timeFieldName})
+                    var index = _.findIndex(data.fields.all, {name: timeFieldName});
                     lineChartData.categories.push(strToDate(r[index]));
                     _.forEach(lineChartData.series, function (s) {
-                        index = _.findIndex(data.fields.all, {name: s.name})
+                        index = _.findIndex(data.fields.all, {name: s.name});
                         s.data.push(r[index]);
                     });
-                })
+                });
             }
             lineChartData.categories = heatmap.xAxisData;
             return configLineChart(lineChartData);
@@ -335,9 +334,11 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     useHTML: true,
                     backgroundColor: 'white',
                     formatter: function () {
-                        return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x) + '<br>'
-                            + '<b>시리즈: </b>' + this.series.name + '<br>'
-                            + '<b>값: </b>' + this.y;
+                        return [
+                            '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
+                            '<b>시리즈: </b>' + this.series.name,
+                            '<b>값: </b>' + this.y
+                        ].join('<br>');
                     },
                     hideDelay: 0
                 },
@@ -404,9 +405,11 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     useHTML: true,
                     backgroundColor: 'white',
                     formatter: function () {
-                        return '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]) + '<br>'
-                            + '<b>키: </b>' + this.series.yAxis.categories[this.point.y] + '<br>'
-                            + '<b>score: </b>' + this.point.value;
+                        return [
+                            '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]),
+                            '<b>키: </b>' + this.series.yAxis.categories[this.point.y],
+                            '<b>score: </b>' + this.point.value
+                        ].join('<br>');
                     },
                     hideDelay: 0
                 },
@@ -533,7 +536,7 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         }
         var hex = function (x) {
             x = x.toString(16);
-            return (x.length == 1) ? '0' + x : x;
+            return (x.length === 1) ? '0' + x : x;
         };
 
         var r = Math.ceil(parseInt(color1.substring(0, 2), 16) * ratio + parseInt(color2.substring(0, 2), 16) * (1 - ratio));
@@ -605,10 +608,10 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                 $('.anomalyBlank').height() - 70,
                 false
             );
-        })
+        });
     }
 
-    window.onresize = function(event) {
+    window.onresize = function() {
         resizeAll();
     };
 
@@ -663,15 +666,15 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             card.cfg = transformToChartData(card);
             card.adeOptions.title = util.getCopyTitle(cardList, titleKey, card.adeOptions.title);
             cardList.push(card);
-        })
-    }
+        });
+    };
 
     /**
      * 팝업 제어
      */
 
     // 문서 또는 popup-hide 클래스 엘리먼트 클릭시 팝업 닫기
-    $(document, '.popup-hide').on("click", function () {
+    $(document, '.popup-hide').on('click', function () {
         hidePopup();
     });
 
