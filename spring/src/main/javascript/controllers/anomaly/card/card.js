@@ -4,6 +4,8 @@
  */
 var _ = require('lodash');
 var uuidV1 = require('uuid/v1');
+
+var Highcharts = require('highcharts');
 /**
  * Controller
  */

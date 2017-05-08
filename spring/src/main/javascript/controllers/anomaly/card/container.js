@@ -66,7 +66,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
      * functions
      */
     function addCard(options) {
-
         var card = {
             id: _cardId,
             chartType: null,//'heatmap',
@@ -82,7 +81,8 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, a
                 total: 1
             },
             adeOptions: options,
-            data: {}
+            data: {},
+            cfg: {}
         };
 
         $scope.cards.push(card);
