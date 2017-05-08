@@ -8,6 +8,7 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
+var angularDragula = require('angularjs-dragula/angular-dragula');
 
 var Highcharts = require('highcharts');
 require('highcharts/modules/heatmap')(Highcharts);
@@ -30,6 +31,8 @@ angular.module('shermanApp', [
         'ngRoute',
         'ngResource',
         'ngCookies',
+        angularDragula(angular),
+
         'ui.mobius',
         'ui.router',
         'agGrid',
