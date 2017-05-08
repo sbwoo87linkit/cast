@@ -32,6 +32,7 @@ var LIB_LIST = [
     'angular-resource',
     'angular-route',
     'angular-ui-router',
+    'angularjs-dragula/angular-dragula',
     'async',
     'd3',
     'highcharts',
@@ -66,7 +67,7 @@ var MESSAGE_PATH = 'spring/src/main/resources/message';
 var SYSTEM_PROP_PATH = 'spring/src/main/resources-dev/property/system.properties';
 
 /**
- * 서버 제시작 제외 항목(폴더 및 파일)
+ * 서버 재시작 제외 항목(폴더 및 파일)
  */
 var SERVER_IGNORE_PATH = [
     'spring/',
