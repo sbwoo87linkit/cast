@@ -8,7 +8,12 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
-// require('highcharts-ng');
+
+var Highcharts = require('highcharts');
+require('highcharts/modules/heatmap')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts-custom-events')(Highcharts);
+require('highcharts-ng');
 
 require('./constants');
 require('./directives');
