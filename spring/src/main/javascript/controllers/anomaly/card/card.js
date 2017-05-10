@@ -247,7 +247,23 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                         heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)};
                     }
                 }
+            } else {
+                // 테이블 전체의 최대값 구하기
+                var max = 0;
+                for (var i=0; i < heatmap.scoreData.length; i ++) {
+                    if (heatmap.scoreData[i][2] > max) {
+                        max = heatmap.scoreData[i][2];
+                    }
+                }
+                for (var y = 0; y < heatmap.yAxisData.length; y++) {
+                    for (var x = 0; x < heatmap.xAxisData.length; x++) {
+                        var index = (x * heatmap.yAxisData.length) + y;
+                        var value = heatmap.scoreData[index][2];
+                        heatmap.scoreData[index] = {x: x, y: y, value: value, color: getPointColor(value, max)};
+                    }
+                }
             }
+            // console.log(heatmap)
             return configHeatmapChart(heatmap);
 
         } else {
@@ -322,43 +338,43 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
     function configLineChart(lineChartData) {
         var cfg = {
             options: {
-                chart: {
-                    type: 'line',
-                    marginTop: 0,
-                    marginBottom: 0,
-                    width: WIDTH,
-                    height: HEIGHT
+            },
+            chart: {
+                type: 'line',
+                marginTop: 0,
+                marginBottom: 0,
+                width: WIDTH,
+                height: HEIGHT
+            },
+            tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
+                formatter: function () {
+                    return [
+                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
+                        '<b>시리즈: </b>' + this.series.name,
+                        '<b>값: </b>' + this.y
+                    ].join('<br>');
                 },
-                tooltip: {
-                    enabled: true,
-                    useHTML: true,
-                    backgroundColor: 'white',
-                    formatter: function () {
-                        return [
-                            '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
-                            '<b>시리즈: </b>' + this.series.name,
-                            '<b>값: </b>' + this.y
-                        ].join('<br>');
-                    },
-                    hideDelay: 0
-                },
-                plotOptions: {
-                    line: {
-                        dataLabels: {
-                            enabled: true
-                        }
+                hideDelay: 0
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
                     }
-                },
-                legend: {
-                    enabled: false,
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                // legend: ''
-                exporting: {
-                    enabled: false
-                },
+                }
+            },
+            legend: {
+                enabled: false,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            // legend: ''
+            exporting: {
+                enabled: false
             },
             series: lineChartData.series,
             title: ' ',
@@ -389,95 +405,96 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
         var chart = null;
 
         var cfg = {
-            options: {
-                chart: {
-                    type: 'heatmap',
-                    marginTop: 0,
-                    marginBottom: 0,
-                    width: WIDTH,
-                    height: HEIGHT
-                },
-                exporting: {
-                    enabled: false
-                },
-                tooltip: {
-                    enabled: true,
-                    useHTML: true,
-                    backgroundColor: 'white',
-                    formatter: function () {
-                        return [
-                            '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]),
-                            '<b>키: </b>' + this.series.yAxis.categories[this.point.y],
-                            '<b>score: </b>' + this.point.value
-                        ].join('<br>');
-                    },
-                    hideDelay: 0
-                },
-
-                credits: {enabled: false},
+            // options: {
+            // },
+            chart: {
+                type: 'heatmap',
+                marginTop: 0,
+                marginBottom: 0,
+                width: WIDTH,
+                height: HEIGHT,
                 colorAxis: {
                     min: 0,
                     minColor: '#FFFFFF',
-                    maxColor: Highcharts.getOptions().colors[0]
+                    maxColor: Highcharts.getOptions().colors[0] //'#96C3F0'
                 },
-                legend: {
-                    enabled: false,
-                    align: 'right',
-                    layout: 'vertical',
-                    margin: 0,
-                    verticalAlign: 'top',
-                    y: 25,
-                    symbolHeight: 280
+            },
+
+            exporting: {
+                enabled: false
+            },
+            tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
+                formatter: function () {
+                    return [
+                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.series.xAxis.categories[this.point.x]),
+                        '<b>키: </b>' + this.series.yAxis.categories[this.point.y],
+                        '<b>score: </b>' + this.point.value
+                    ].join('<br>');
                 },
-                plotOptions: {
-                    series: {
-                        states: {
-                            hover: {
-                                enabled: false
+                hideDelay: 0
+            },
+
+            credits: {enabled: false},
+            legend: {
+                enabled: false,
+                align: 'right',
+                layout: 'vertical',
+                margin: 0,
+                verticalAlign: 'top',
+                y: 25,
+                symbolHeight: 280
+            },
+            plotOptions: {
+                series: {
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false,
+                        events: {
+                            contextmenu: function (event) {
+                                // 기본 정의 이벤트의 동작을 막아준다.
+                                event.preventDefault();
+
+                                $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
+                                $scope.rowIndex = rowIndex;
+                                $scope.$apply();
+                                showPopup('popup', event);
                             }
-                        },
-                        dataLabels: {
-                            enabled: false,
-                            events: {
-                                contextmenu: function (event) {
-                                    // 기본 정의 이벤트의 동작을 막아준다.
-                                    event.preventDefault();
+                        }
+                    },
+                    point: {
+                        events: {
+                            contextmenu: function (event) {
+                                // 기본 정의 이벤트의 동작을 막아준다.
+                                event.preventDefault();
 
-                                    $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
-                                    $scope.rowIndex = rowIndex;
-                                    $scope.$apply();
-                                    showPopup('popup', event);
+                                //var chart = this.series.chart;
+                                $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
+                                $scope.rowIndex = rowIndex;
+                                $scope.$apply();
+                                showPopup('popup', event);
+                            },
+
+                            mouseOver: function () {
+                                chart = this.series.chart;
+                                rowIndex = this.y;
+                                resetHighlight(chart);
+                                for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
+                                    var index = this.y + i * chart.yAxis[0].categories.length;
+                                    chart.series[0].data[index].update({borderWidth: HIGHLIGHT_WIDTH}, false);
                                 }
-                            }
-                        },
-                        point: {
-                            events: {
-                                contextmenu: function (event) {
-                                    // 기본 정의 이벤트의 동작을 막아준다.
-                                    event.preventDefault();
+                                chart.redraw();
+                            },
 
-                                    //var chart = this.series.chart;
-                                    $scope.rowCategory = chart.yAxis[0].categories[rowIndex];
-                                    $scope.rowIndex = rowIndex;
-                                    $scope.$apply();
-                                    showPopup('popup', event);
-                                },
-
-                                mouseOver: function () {
-                                    chart = this.series.chart;
-                                    rowIndex = this.y;
-                                    resetHighlight(chart);
-                                    for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
-                                        var index = this.y + i * chart.yAxis[0].categories.length;
-                                        chart.series[0].data[index].update({borderWidth: HIGHLIGHT_WIDTH}, false);
-                                    }
-                                    chart.redraw();
-                                },
-
-                                mouseOut: function () {
-                                    chart = this.series.chart;
-                                    resetHighlight(chart);
-                                }
+                            mouseOut: function () {
+                                chart = this.series.chart;
+                                resetHighlight(chart);
                             }
                         }
                     }
@@ -485,6 +502,25 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
             },
 
             title: null,
+
+
+
+            colorAxis: {
+                min: 0,
+                minColor: '#FFFFFF',
+                maxColor: Highcharts.getOptions().colors[0]
+            },
+
+
+            // colorAxis: {
+            //     min: 0,
+            //     minColor: '#FFFFFF',
+            //     // maxColor: Highcharts.getOptions().colors[0] //96C3F0
+            //     maxColor: '#96C3F0'
+            //
+            // },
+
+
             series: [{
                 name: 'score',
                 borderWidth: 1,
