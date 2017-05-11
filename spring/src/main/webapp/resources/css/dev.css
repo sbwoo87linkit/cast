@@ -259,7 +259,27 @@ svg>text {
     /*border: 3px dotted #ccc;*/
     /*border-radius: 10px;*/
     margin: 5px;
+
+    position:relative; z-index:0 !important;
+    position:static !important;
+
+    transform:translateZ(0) !important;
+    will-change: transform !important;
 }
+
+.my-item {
+    height: calc(100% - 40px);
+    /*border: 3px dotted #ccc;*/
+    /*border-radius: 10px;*/
+    margin: 5px;
+
+    position:relative; z-index:0 !important;
+    position:static !important;
+
+    transform:translateZ(0) !important;
+    will-change: transform !important;
+}
+
 
 .analysis-chart-none {
     height: 100%;
@@ -285,32 +305,38 @@ svg>text {
 
 
 
+/*
+
+Drag test
+ */
 
 
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+.gu-hide {
+    display: none !important;
+}
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.drag-item {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid red;
+    margin: 5px;
+}

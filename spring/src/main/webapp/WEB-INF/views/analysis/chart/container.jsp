@@ -68,22 +68,32 @@
 
 
         </div>
-        <div class="analysis-chart-main">
+        <div class="analysis-chart-main" style="position: static; -webkit-transform: translateZ(0)">
 
             <!-- 차트유형 선택 않음 -->
-            <div class="analysis-chart-none" ng-if="analysis.chart.icon === 'none'">
-                <div class="center">
-                    <span style="font-size:2.4em">차트 유형을 선택해 주세요.</span>
-                </div>
-            </div>
+            <!--<div class="analysis-chart-none" ng-if="analysis.chart.icon === 'none'">-->
+                <!--<div class="center">-->
+                    <!--<span style="font-size:2.4em">차트 유형을 선택해 주세요.</span>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <!--차트영역-->
             <div>
 
+                <div class='mu-row'>
+                    <div class='mu-col mu-col-6' dragula='"first-bag"'>
+                        <div class="drag-item">You can move these elements between these two containers</div>
+                        <div class="drag-item">Moving them anywhere else isn't quite possible</div>
+                        <div class="drag-item">There's also the possibility of moving elements around in the same container, changing their position</div>
+                    </div>
+                    <div class='mu-col mu-col-6' dragula='"first-bag"'>
+                        <div class="drag-item">This is the default use case. You only need to specify the containers you want to use</div>
+                        <div class="drag-item">More interactive use cases lie ahead</div>
+                        <div class="drag-item">Make sure to check out the <a href='https://github.com/bevacqua/dragula#readme'>documentation on GitHub!</a></div>
+                    </div>
+                </div>
 
             </div>
-
-
 
 
 
