@@ -5,8 +5,8 @@
 /**
  * Controller
  */
-MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder', 'dragulaService'];
-function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, dragulaService) {
+MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder'];
+function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder) {
     /**
      *   init
      */

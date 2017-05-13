@@ -16,119 +16,8 @@ var uuidV1 = require('uuid/v1');
 
  */
 
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragulaService'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragulaService) {
-
-
-
-
-
-    //
-    //
-    // $scope.dragoverCallback = function(index, external, type, callback) {
-    //     $scope.logListEvent('dragged over', index, external, type);
-    //     // Invoke callback to origin for container types.
-    //     if (type == 'container' && !external) {
-    //         console.log('Container being dragged contains ' + callback() + ' items');
-    //     }
-    //     return index < 10; // Disallow dropping in the third row.
-    // };
-    //
-    // $scope.dropCallback = function(index, item, external, type) {
-    //     $scope.logListEvent('dropped at', index, external, type);
-    //     // Return false here to cancel drop. Return true if you insert the item yourself.
-    //     return item;
-    // };
-    //
-    // $scope.logEvent = function(message) {
-    //     console.log(message);
-    // };
-    //
-    // $scope.logListEvent = function(action, index, external, type) {
-    //     var message = external ? 'External ' : '';
-    //     message += type + ' element was ' + action + ' position ' + index;
-    //     console.log(message);
-    // };
-    //
-    // // Initialize model
-    // $scope.model = [[], []];
-    // var id = 10;
-    // angular.forEach(['all', 'move', 'copy', 'link', 'copyLink', 'copyMove'], function(effect, i) {
-    //     var container = {items: [], effectAllowed: effect};
-    //     for (var k = 0; k < 7; ++k) {
-    //         container.items.push({label: effect + ' ' + id++, effectAllowed: effect});
-    //     }
-    //     $scope.model[i % $scope.model.length].push(container);
-    // });
-    // console.log($scope.model)
-    //
-    // $scope.$watch('model', function(model) {
-    //     $scope.modelAsJson = angular.toJson(model, true);
-    // }, true);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $scope.model = [generateList(1), generateList(2)];
-
-    $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
-        // Copy the item from source to target.
-        targetList.splice(targetIndex, 0, srcList[srcIndex]);
-        // Remove the item from the source, possibly correcting the index first.
-        // We must do this immediately, otherwise ng-repeat complains about duplicates.
-        if (srcList == targetList && targetIndex <= srcIndex) srcIndex++;
-        srcList.splice(srcIndex, 1);
-        // By returning true from dnd-drop we signalize we already inserted the item.
-        return true;
-    };
-
-    function generateList(id) {
-        return ['A', 'B', 'C'].map(function(letter) {
-            // angular-drag-and-drop-lists usually serializes the objects to drag, thus we
-            // can not transfer functions on the objects. However, as this fiddle uses dnd-callback
-            // to move the objects directly without serialization, we can use a function reference
-            // on the item here.
-            return {
-                labelFunc: function(index) {
-                    return "Item " + id + letter + " at index " + index;
-                }
-            };
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope) {
 
 
     /**
@@ -138,6 +27,49 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     var model = dataModel.get();
     $scope.fieldList = model.fields.selected;
 
+    $scope.outlier_top = [];
+
+
+    /**
+     * Drag & Drop setup
+     */
+
+    var containerLeft = document.querySelector('#containerLeft'),
+        containerRight = document.querySelector('#containerRight');
+
+    function accepts(el, target, source) {
+        if (source === containerLeft || source === target) {
+
+            // limit 1
+            console.log(target)
+            if ($scope.outlier_top.length < 1) {
+                // console.log('aaaa')
+                return true;
+            }
+        } else {
+            console.log('bbbb')
+        }
+
+    }
+
+    dragularService([containerLeft], {
+        containersModel: [$scope.fieldList],
+        copy: true,
+        //move only from left to right
+        accepts: accepts
+    });
+
+    dragularService([containerRight], {
+        containersModel: [$scope.outlier_top],
+        removeOnSpill: true,
+        //move only from left to right
+        accepts: accepts,
+        moves: function (el, source, handle, sibling) {
+            // return handle.classList.contains('dragula-handle');
+            console.log('moves')
+        },
+    });
+
 
     /**
      *  Scope 변수
@@ -146,27 +78,40 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.analysis = {};
 
     $scope.chartGroups = [
-        { name:'시계열', items : [
-            {type:'Line plot', icon:'line', description:'Line plot description'},
-            {type:'Scatter plot', icon:'plot', description:'Scatter plot description'},
-            {type:'Motion', icon:'motion', description:'Motion description'}
-        ]},
-        { name:'분포', items : [
-            {type:'Histogram', icon:'histogram', description:'Histogram description'},
-            {type:'Bar chart', icon:'bar', description:'Bar chart description'},
-            {type:'Pie chart', icon:'pie', description:'Pie chartdescription'}
-        ]},
-        { name:'관계형', items : [
-            {type:'Shanky', icon:'shanky', description:'Shanky description'},
-            {type:'Heatmap', icon:'heatmap', description:'Heatmap description'},
-        ]},
-        { name:'이상치', items : [
-            {type:'Outlier', icon:'outlier', description:'Outlier description'},
-        ]}
+        {
+            name: '시계열', items: [
+            {type: 'Line plot', icon: 'line', description: 'Line plot description'},
+            {type: 'Scatter plot', icon: 'plot', description: 'Scatter plot description'},
+            {type: 'Motion', icon: 'motion', description: 'Motion description'}
+        ]
+        },
+        {
+            name: '분포', items: [
+            {type: 'Histogram', icon: 'histogram', description: 'Histogram description'},
+            {type: 'Bar chart', icon: 'bar', description: 'Bar chart description'},
+            {type: 'Pie chart', icon: 'pie', description: 'Pie chartdescription'}
+        ]
+        },
+        {
+            name: '관계형', items: [
+            {type: 'Shanky', icon: 'shanky', description: 'Shanky description'},
+            {type: 'Heatmap', icon: 'heatmap', description: 'Heatmap description'},
+        ]
+        },
+        {
+            name: '이상치', items: [
+            {type: 'Outlier', icon: 'outlier', description: 'Outlier description'},
+        ]
+        }
     ];
 
+
     // 선택한 차트유형
-    $scope.analysis.chart = {type:'차트 유형 선택', icon:'none', description:'select chart'};
+    $scope.analysis.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
+
+
+    // TODO test init
+    $scope.analysis.chart = $scope.chartGroups[3].items[0];
 
     // TODO 차트 유형 변경에 따른 레이아웃/컨트롤러 설정
     $scope.templates = [
@@ -196,6 +141,140 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
             $scope.analysis.tempChart = null;
         }, 500)
     }
+
+    /**
+     * Outlier - histogram
+     */
+
+    var outLierOptions = {
+        chart: {
+            type: 'bar'
+        },
+        series: [{
+            data: [10, 15, 12, 8, 7]
+        }],
+        title: {
+            text: 'Hello'
+        },
+        func: function (chart) {
+            $scope.$evalAsync(function () {
+                chart.reflow();
+                //The below is an event that will trigger all instances of charts to reflow
+                //$scope.$broadcast('highchartsng.reflow');
+            });
+        },
+    };
+
+    // chart data binding
+    $scope.outlierHistogramChart = {
+        options: outLierOptions
+    }
+
+    var closeLayer = function (index) {
+        var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
+
+        if (layer) {
+            popupLayerStore.get('anomaly.layer.cardmenu_' + index).closeEl();
+        }
+    };
+
+    $scope.saveHistogramChart = function () {
+        // console.log($scope.outlierHistogramChart.options.getChartObj())
+        var chart  = $scope.outlierHistogramChart.options.getChartObj();
+        chart.exportChart({
+            // type: 'application/pdf'
+            type: 'image/png'
+        });
+
+        popupLayerStore.get('outlier.histogram').closeEl();
+
+    }
+
+    $scope.restartJob = function () {
+        // console.log($scope.outlierHistogramChart.options.getChartObj())
+        // var chart  = $scope.outlierHistogramChart.options.getChartObj();
+        // chart.exportChart({
+        //     // type: 'application/pdf'
+        //     type: 'image/png'
+        // });
+        $scope.outlierHistogramChart = {
+            options: null
+        }
+
+        $timeout(function () {
+            $scope.outlierHistogramChart = {
+                options: outLierOptions
+            }
+
+        }, 500)
+
+
+
+
+        popupLayerStore.get('outlier.histogram').closeEl();
+
+    }
+
+    /**
+     * 기술통계량
+     */
+
+    $scope.techStatic = [
+        {outlier:'레코드수', techStatics: 9817, recordCounts: 9617},
+        {outlier:'MIN', techStatics: 28.00, recordCounts: 50},
+        {outlier:'1st(25%) 사분위수', techStatics: 88.00, recordCounts: 2150},
+        {outlier:'중간값50%)', techStatics: 104.00, recordCounts: 1261},
+        {outlier:'평균', techStatics: 2584, recordCounts: null},
+        {outlier:'3rd(75%) 사분위수', techStatics: 107.00, recordCounts: 1371},
+        {outlier:'MAX', techStatics: 65535.00, recordCounts: 386},
+        {outlier:'NA의수', techStatics: null, recordCounts: null}
+    ]
+
+    $scope.techStaticKeys = [
+        { map: 'outlier', title: 'OUTLIER' },
+        { map: 'techStatics', title: '기술통계량' },
+        { map: 'recordCounts', title: '해댱되는 레코드수' }
+    ];
+
+
+    $scope.data = [
+        { no: 0, firstName: 'Pierre', lastName: 'Dupont', age: 55, email: 'PierreDupont@whatever.com', balance: 1161.783 },
+        { no: 1, firstName: 'Pol', lastName: 'Delcourt', age: 22, email: 'PolDelcourt@whatever.com', balance: 486.463 },
+        { no: 2, firstName: 'Pol', lastName: 'Delcourt', age: 86, email: 'PolDelcourt@whatever.com', balance: 284.3417 },
+        { no: 3, firstName: 'Robert', lastName: 'Delcourt', age: 79, email: 'RobertDelcourt@whatever.com', balance: 2651.324 },
+        { no: 4, firstName: 'Jacques', lastName: 'Germain', age: 56, email: 'JacquesGermain@whatever.com', balance: 1276.765 }
+    ];
+
+    // $scope.dataKeys = ['no', 'firstName', 'lastName', 'age', 'email', 'balance'];
+    $scope.dataKeys = [
+        { map: 'no', title: 'No' },
+        { map: 'firstName', title: 'First name' },
+        { map: 'lastName', title: 'Last name' },
+        { map: 'age', title: 'Age' },
+        { map: 'email', title: 'Email' },
+        { map: 'balance', title: 'Balance' }
+    ];
+
+    /**
+     *  이상치
+     */
+
+    $scope.outlier = [
+        {TA:'레코드수', techStatics: 33219, recordCounts: 33219},
+        {TA:'MIN', techStatics: 2.00, recordCounts: 77},
+        {TA:'1st(25%) 사분위수', techStatics: 13.00, recordCounts: 17710},
+        {TA:'중간값50%)', techStatics: 15.00, recordCounts: 27929},
+        {TA:'평균', techStatics: 91.56, recordCounts: null},
+        {TA:'3rd(75%) 사분위수', techStatics: 17.00, recordCounts: 76487},
+        {TA:'MAX', techStatics: 65535.00, recordCounts: 386},
+        {TA:'NA의수', techStatics: 47, recordCounts: 47}
+    ]
+
+    $scope.outlierKeys = [
+        { map: 'TA', title: 'TA' },
+        { map: 'techStatics', title: '기술통계량' },
+        { map: 'recordCounts', title: '해댱되는 레코드수' }
+    ];
 
 }
 

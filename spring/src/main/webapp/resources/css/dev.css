@@ -255,7 +255,8 @@ svg>text {
 }
 
 .analysis-chart-main {
-    height: calc(100% - 40px);
+    height: calc(100% - 40px) !important;
+    /*height: 100% !important;*/
     /*border: 3px dotted #ccc;*/
     /*border-radius: 10px;*/
     margin: 5px;
@@ -310,33 +311,236 @@ svg>text {
 Drag test
  */
 
-
 .gu-mirror {
     position: fixed !important;
     margin: 0 !important;
     z-index: 9999 !important;
     opacity: 0.8;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
 }
+
 .gu-hide {
     display: none !important;
 }
+
 .gu-unselectable {
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
     -ms-user-select: none !important;
     user-select: none !important;
 }
+
 .gu-transit {
-    opacity: 0.2;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-    filter: alpha(opacity=20);
+    /*opacity: 0.9;*/
+    border: 1px solid red;
+    margin: 10px;
+    padding: 10px;
+
 }
 
-.drag-item {
-    text-align: left;
+.gh-fork {
+    position: fixed;
+    top: 0;
+    right: 0;
+    border: 0;
+    z-index: 10000;
+}
+
+
+/* dragular-specific example page styles */
+
+.wrapper {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    min-height: 26px;
+}
+
+.containerVertical {
+    display: table-cell;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 50%;
+}
+
+.containerHorizontal {
+    display: table-row;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.containerHorizontal div {
+    border-spacing: 5px;
+    display: table-cell;
+    margin: 10px;
     padding: 10px;
-    border: 1px solid red;
-    margin: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.width25 {
+    width: 25%;
+}
+
+.containerVertical:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.containerVertical:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.containerVertical pre {
+    border: 0;
+    background-color: transparent;
+}
+
+label b{
+    color: darkorange;
+}
+
+/*
+ * note that styling gu-mirror directly is a bad practice because it's too generic.
+ * you're better off giving the draggable elements a unique class and styling that directly!
+ */
+
+.containerVertical div,
+.gu-mirror {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.gu-unselectable {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.containerVertical .ex-moved {
+    background-color: #e74c3c;
+}
+
+.handle {
+    padding: 0 5px;
+    margin-right: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: move;
+}
+
+.custom-green-mirror {
+    background-color: #56AB1C;
+    margin: 10px;
+    padding: 10px;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+    opacity: 0.8;
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+}
+
+.containerVertical.width25.gu-over-active.gu-over-accept {
+    background-color: green !important;
+}
+
+.containerVertical.width25.gu-over-active.gu-over-decline {
+    background-color: red !important;
+}
+
+pre.gu-over-active.gu-over-decline {
+    background-color: yellow !important;
+}
+
+div.limitBox {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.cursorDefault {
+    cursor: default !important;
+}
+
+.exampleRow {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.exampleCell {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.exampleRow,
+.exampleCell {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.tableRow {
+    display: table-row;
+    min-height: 20px;
+}
+
+.chart-full {
+    /*position: absolute;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+}
+
+
+
+/*.mu-table-row td {*/
+    /*background: blue;*/
+/*}*/
+
+td, th {
+    border: 1px solid #fff !important;
+    padding: 0.5rem;
+    /*text-align: left;*/
+    vertical-align: middle !important;
+}
+
+
+.mu-grid thead > tr > th {
+    background:#4677b0 !important;
+    color: #fff;
+}
+
+.mu-grid tbody > tr > td {
+    background:inherit !important;
+    text-align: right;
+}
+
+.mu-grid tbody > tr > td:first-child {
+    /*background:inherit !important;*/
+    text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #c9d2e2 !important;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e6eaf2 !important;
 }
