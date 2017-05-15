@@ -29,7 +29,7 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
                 status : 'completed'
             }
             $scope.$broadcast('analysis.outlier.data_loaded', data);
-        }, 500)
+        }, 100)
 
     }
 }

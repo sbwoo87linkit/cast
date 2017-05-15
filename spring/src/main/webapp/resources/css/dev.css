@@ -587,3 +587,41 @@ outlier table
     /*overflow: visible;*/
     border: 1px solid #999;
 }
+
+.outlier-chart-container {
+    margin: 20px;
+    height: 300px;
+    /*border:1px solid red;*/
+}
+
+
+.outlier-chart-container .mu-panel {
+    height: 100%;
+}
+
+.outlier-chart-container .mu-panel-body {
+    position: relative;
+    height: calc(100% - 35px);
+    /*border: 1px solid blueviolet;*/
+}
+
+
+
+/**
+filter
+ */
+
+/*.mu-slide-menu > li > a:hover {*/
+    /*!* background: #f1f1f1; *!*/
+    /*background: inherit !important;*/
+/*}*/
+
+.mu-slide-menu > li.active > a {
+    /* background: #f1f1f1; */
+    background: #ace1ec !important;
+}
+
+/*.mu-slide-menu > li.de-active > a {*/
+    /*!* background: #f1f1f1; *!*/
+    /*background: #fff !important;*/
+/*}*/
