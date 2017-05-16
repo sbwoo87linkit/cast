@@ -176,13 +176,13 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
     })
 
 
-    var closeLayer = function (index) {
-        var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
-
-        if (layer) {
-            popupLayerStore.get('anomaly.layer.cardmenu_' + index).closeEl();
-        }
-    };
+    // var closeLayer = function (index) {
+    //     var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
+    //
+    //     if (layer) {
+    //         popupLayerStore.get('anomaly.layer.cardmenu_' + index).closeEl();
+    //     }
+    // };
 
     $scope.export = function (item) {
 

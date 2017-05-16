@@ -11,18 +11,6 @@
     line plot
 
 
-    <button type="button" class="mu-btn mu-btn-icon" mu-tooltip-area="tt1" tooltip-trigger="click"><i class="mu-icon info"></i>click popup</button>
-
-    <!-- popup layer -->
-    <div class="mu-tooltip" mu-tooltip="tt1">
-        <div class="arrow"></div>
-        <div class="mu-tooltip-inner">
-            <span>Hello, World!!</span>
-            <button>button</button>
-        </div>
-    </div>
-
-
 
 
 

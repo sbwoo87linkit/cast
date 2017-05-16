@@ -16,8 +16,8 @@ var uuidV1 = require('uuid/v1');
 
  */
 
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope', '$filter'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope, $filter) {
 
 
     /**
@@ -27,7 +27,16 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     var model = dataModel.get();
     $scope.fieldList = model.fields.selected;
 
+    $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
+    $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
+
+    $scope.hasFilters = function(field) {
+        return field.filters && field.filters.length > 0 ? true : false;
+    }
+
+
     $scope.outlier_top = [];
+
 
 
     /**
@@ -119,6 +128,12 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     //  * Function
     //  */
     //
+
+    $scope.closeAllLayers = function () {
+        popupLayerStore.get('analysis.filter.add').closeEl();
+        popupLayerStore.get('analysis.filter.edit').closeEl();
+    }
+
     $scope.changeChart = function (chart) {
         console.log('changeChart', $scope.$id, chart)
         $scope.analysis.chart = chart;
@@ -126,7 +141,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     var hideTimer;
     $scope.showDescription = function (chart) {
-        console.log('showDescription')
         // 분석유형선택 팝업 차트유형 마우스오버된 차트
         $timeout.cancel(hideTimer);
         $scope.analysis.tempChart = chart;
@@ -138,8 +152,59 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         }, 500)
     }
 
-    $scope.clickItem = function (item) {
-        // console.log(item)
+    /**
+     * Filter selection
+     */
+
+
+    $scope.models = {"=":"=" ,">":">", ">=": ">=", "<=": "<=", "!=": "!="};
+    $scope.formData = {model: '>'};
+
+
+    // $scope.filterOptions = ['=', '>']
+
+    $scope.selectField = function (field) {
+        $scope.analysis.tempFilters = angular.copy(field.filters);
+        if (!$scope.analysis.tempFilters || $scope.analysis.tempFilters.length === 0) {
+            $scope.analysis.tempFilters = [];
+            $scope.analysis.tempFilters.push({key : '=', value: '' });
+        }
+    }
+
+    $scope.addTempFilter = function (inputFilter) {
+        $scope.analysis.tempFilters.push({key : '=', value: '' });
+    }
+
+    $scope.deleteTempFilter = function (index, tempFilter) {
+        console.log(index)
+        if ($scope.analysis.tempFilters.length === 1) {
+            tempFilter.value = '';
+            return;
+        }
+        $scope.analysis.tempFilters.splice(index, 1);
+    }
+
+    $scope.saveFilter = function (field, tempFilters) {
+        $scope.closeAllLayers();
+        console.log('saveFilter', field, tempFilters)
+        _.remove(tempFilters, function (filter) {
+            return filter.value === null || filter.value === '';
+        });
+        field.filters = angular.copy(tempFilters);
+    }
+
+
+
+
+    /**
+     * Filter tab
+     */
+
+    $scope.analysis.filter = {}
+
+    $scope.deleteFilter = function (index, filters) {
+        console.log(index, filters)
+        filters.splice(index, 1);
     }
 
 

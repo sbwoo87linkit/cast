@@ -23,7 +23,6 @@
 
                 </div>
                 <div class="mu-col mu-col-6">
-
                 </div>
             </div>
         </div>
@@ -45,7 +44,7 @@
                             <div class="arrow"></div>
                             <ul class="mu-popup-menu">
                                 <li ng-click="export('histogram')">
-                                    <a href="javascript:;"><i class="mu-icon-img trash"></i><spring:message code="save" /></a>
+                                    <a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>
                                 </li>
                                 <li ng-click="reload('histogram')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
@@ -88,7 +87,7 @@
                                 <li ng-click="export('techstatic')">
                                     <a ng-mousedown="techstatic_csv.generate()" ng-href="{{ techstatic_csv.link() }}"
                                        download="techstatic.csv">
-                                        <i class="mu-icon-img trash"></i><spring:message code="save" />
+                                        <i class="mu-icon-img saveas"></i><spring:message code="save" />
                                     </a>
                                 </li>
                                 <li ng-click="reload('techstatic')">
@@ -133,7 +132,7 @@
                             <div class="arrow"></div>
                             <ul class="mu-popup-menu">
                                 <li ng-click="export('timeseries')">
-                                    <a href="javascript:;"><i class="mu-icon-img trash"></i><spring:message code="save" /></a>
+                                    <a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>
                                 </li>
                                 <li ng-click="reload('timeseries')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
@@ -177,12 +176,12 @@
                                 <li ng-click="export('outlier')">
                                     <a ng-mousedown="outlier_csv.generate()" ng-href="{{ outlier_csv.link() }}"
                                        download="outlier.csv">
-                                        <i class="mu-icon-img trash"></i><spring:message code="save" />
+                                        <i class="mu-icon-img saveas"></i><spring:message code="save" />
                                     </a>
                                 </li>
 
                                 <!--<li ng-click="export('outlier')">-->
-                                <!--<a href="javascript:;"><i class="mu-icon-img trash"></i><spring:message code="save" /></a>-->
+                                <!--<a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>-->
                                 <!--</li>-->
                                 <li ng-click="reload('outlier')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
