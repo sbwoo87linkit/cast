@@ -157,9 +157,6 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
         <!--이상치(outlier)-->
         <div class="mu-col mu-col-5" style="text-align: left;padding-right: 0px">
@@ -179,10 +176,6 @@
                                         <i class="mu-icon-img saveas"></i><spring:message code="save" />
                                     </a>
                                 </li>
-
-                                <!--<li ng-click="export('outlier')">-->
-                                <!--<a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>-->
-                                <!--</li>-->
                                 <li ng-click="reload('outlier')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
                                 </li>
@@ -206,8 +199,6 @@
                     </div>
                 </div>
             </div>
-
-
 
         </div>
     </div>

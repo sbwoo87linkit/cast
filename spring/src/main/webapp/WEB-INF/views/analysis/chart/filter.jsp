@@ -275,57 +275,6 @@
                         <spring:message code="save" />
                     </button>
 
-                    <!--<table>-->
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--aaa-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--bbb-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--ccc-->
-                            <!--</td>-->
-
-                        <!--</tr>-->
-                    <!--</table>-->
-
-
-
-                    <!--<table class="mu-formbox">-->
-                        <!--<colgroup>-->
-                            <!--<col width="60">-->
-                            <!--<col width="80">-->
-                            <!--<col width="10">-->
-                        <!--</colgroup>-->
-                        <!--<tbody>-->
-                        <!--<tr ng-repeat="tempFilter in analysis.tempFilters">-->
-                            <!--<td>-->
-                                <!--<div class="mu-selectbox" mu-select-v2="" select-model="tempFilter.key">-->
-                                    <!--<button class="mu-value" title="{{models[tempFilter.key]}}">{{models[tempFilter.key]}}</button>-->
-                                    <!--<ul class="mu-list">-->
-                                        <!--<li ng-repeat="(value, name) in models" mu-option-v2="value" title="{{name}}">{{name}}</li>-->
-                                    <!--</ul>-->
-                                <!--</div>-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<input type="text" ng-change="$last && addTempFilter(analysis.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<button type="button"-->
-                                        <!--ng-click="deleteTempFilter($index, tempFilter)"-->
-                                        <!--class="mu-btn mu-btn-icon mu-btn-bg-non"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-                    <!--</table>-->
-                    <!--<button type="button"-->
-                            <!--ng-click="addTempFilter(analysis.tempFilters, inputFilter)"-->
-                            <!--style="background: #fff; border: 1px solid #ccc; padding: 3px"-->
-                            <!--class="mu-btn mu-btn-icon mu-btn-icon-only">-->
-                        <!--<i class="mu-icon-img add"></i>-->
-                    <!--</button>-->
-                    <!--<button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(analysis.selectedField, analysis.tempFilters)"><spring:message code="save" /></button>-->
                 </td>
             </tr>
             </tbody>

@@ -10,11 +10,7 @@ var uuidV1 = require('uuid/v1');
 OutlierCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope'];
 function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope) {
 
-    console.log('outlier')
-
     $scope.$on('analysis.outlier.data_loaded', function (event, data) {
-        console.log('event received', data);
-
         // 히스토그램
         $scope.histogram = {
             options: {
@@ -176,14 +172,6 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
     })
 
 
-    // var closeLayer = function (index) {
-    //     var layer = popupLayerStore.get('anomaly.layer.cardmenu_' + index);
-    //
-    //     if (layer) {
-    //         popupLayerStore.get('anomaly.layer.cardmenu_' + index).closeEl();
-    //     }
-    // };
-
     $scope.export = function (item) {
 
         // Table CSV 저장은 mu-grid 내장 export 기능 이용
@@ -206,7 +194,6 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
     }
 
     $scope.reload = function (item) {
-        // console.log('reload... ', item)
         popupLayerStore.get(item).closeEl();
     }
 

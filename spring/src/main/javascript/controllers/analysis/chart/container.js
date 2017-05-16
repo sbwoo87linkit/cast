@@ -48,17 +48,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     function accepts(el, target, source) {
         if (source === containerLeft || source === target) {
-
             // limit 1
-            console.log(target)
             if ($scope.outlier_top.length < 1) {
-                // console.log('aaaa')
                 return true;
             }
-        } else {
-            console.log('bbbb')
         }
-
     }
 
     dragularService([containerLeft], {
@@ -75,8 +69,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         accepts: accepts,
         moves: function (el, source, handle, sibling) {
             // return handle.classList.contains('dragula-handle');
-            console.log('moves')
-        },
+        }
     });
 
 
@@ -135,7 +128,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
-        console.log('changeChart', $scope.$id, chart)
         $scope.analysis.chart = chart;
     }
 
@@ -176,7 +168,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.deleteTempFilter = function (index, tempFilter) {
-        console.log(index)
         if ($scope.analysis.tempFilters.length === 1) {
             tempFilter.value = '';
             return;
@@ -186,7 +177,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     $scope.saveFilter = function (field, tempFilters) {
         $scope.closeAllLayers();
-        console.log('saveFilter', field, tempFilters)
         _.remove(tempFilters, function (filter) {
             return filter.value === null || filter.value === '';
         });
@@ -203,7 +193,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.analysis.filter = {}
 
     $scope.deleteFilter = function (index, filters) {
-        console.log(index, filters)
         filters.splice(index, 1);
     }
 

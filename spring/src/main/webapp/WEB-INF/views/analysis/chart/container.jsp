@@ -5,43 +5,9 @@
         <%@ include file="filter.jsp"%>
     </div>
 
-
     <div class="analysis-chart">
 
-    <!--
-         <div class="mu-row analysis-chart-header" style="padding: 3px">
-            <div class="mu-col mu-col-4">
-                <%@ include file="choose_chart.jsp"%>
-            </div>
-            <div class="mu-col mu-col-8">
-                <div class="mu-row">
-                    <div class="mu-col mu-col-3">
-                        대상필드 {{$id}}
-                    </div>
-                    <div class="mu-col mu-col-3">
-                        <div class='wrapper'>
-                            <div class='tableRow'>
-                                <div id="containerRight" class='containerVertical'>
-                                    <div ng-repeat="field in outlier_top track by $index"
-                                         ng-dblclick="outlier_top.splice($index, 1)">{{field.name}}-{{$id}}</div>
-                                    <span ng-show="outlier_top.length == 0" class="dragular-none">없음</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="mu-col mu-col-6">
-                        {{$id}}-{{outlier_top}}
-                    </div>
-                </div>
-            </div>
-        </div><
-        -->
-
         <div class="mu-row analysis-chart-main">
-            <!--<div>-->
-                <!--{{$id}} - {{analysis.chart}}-->
-            <!--</div>-->
 
             <!--#############################-->
             <!--none-->
@@ -114,17 +80,6 @@
             </div>
         </div>
 
-        <!--<div class="analysis-chart-header" style="padding: 5px">-->
-
-
-
-        <!--</div>-->
-        <!---->
-        <!---->
-        <!--<div class="analysis-chart-main">-->
-
-
-        <!--</div>-->
     </div>
 </div>
 
