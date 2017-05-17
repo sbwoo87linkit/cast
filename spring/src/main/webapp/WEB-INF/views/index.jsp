@@ -6,12 +6,16 @@
 <body ng-controller="MainCtrl" style="background-color: #FFFFFF; min-height: 240px;">
     <%@ include file="./header.jsp"%>
 
+
+
     <div class="mu-container mu-scroll-h" ui-view></div>
     <iris-alert></iris-alert>
     <iris-confirm></iris-confirm>
 
     <!-- <%@ include file="./footer.jsp"%> -->
 
+
     <%@ include file="./scripts.jsp"%>
+
 </body>
 </html>

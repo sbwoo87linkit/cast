@@ -8,6 +8,14 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
+var angularDragula = require('angularjs-dragula/angular-dragula');
+require('dragular');
+
+var Highcharts = require('highcharts');
+require('highcharts/modules/heatmap')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts-custom-events')(Highcharts);
+require('highcharts-ng');
 
 require('./constants');
 require('./directives');
@@ -24,9 +32,14 @@ angular.module('shermanApp', [
         'ngRoute',
         'ngResource',
         'ngCookies',
+
+        // angularDragula(angular),
+        'dragularModule',
+
         'ui.mobius',
         'ui.router',
         'agGrid',
+        'highcharts-ng',
 
         'sherman.constants',
         'sherman.controllers',

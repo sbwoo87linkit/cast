@@ -8,6 +8,8 @@ var moment = require('moment');
  */
 ChooseDataCtrl.$inject = ['$scope', '$state', 'errorHandler', 'dataModelAgent', 'searchCond', 'dataModel', 'paramBuilder'];
 function ChooseDataCtrl($scope, $state, errorHandler, dataModelAgent, searchCond, dataModel, paramBuilder) {
+
+
     /**
     *
     */

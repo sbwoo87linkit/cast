@@ -12,9 +12,14 @@
     "angular-resource": "^1.6.1",
     "angular-route": "^1.6.1",
     "angular-ui-router": "^0.4.2",
+
+    "dragular": "^4.4.1",
+
     "async": "^2.1.4",
     "d3": "^3.5.17",
     "highcharts": "^5.0.10",
+    "highcharts-custom-events": "^2.0.15",
+    "highcharts-ng": "^1.1.0",
     "is_js": "^0.9.0",
     "jquery": "~1.12.x",
     "jquery-ui": "~1.10.x",
