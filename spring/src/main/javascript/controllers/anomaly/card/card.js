@@ -263,7 +263,6 @@ function CardCtrl($scope, $timeout, $element, anomalyAgent, searchCond, dataMode
                     }
                 }
             }
-            // console.log(heatmap)
             return configHeatmapChart(heatmap);
 
         } else {

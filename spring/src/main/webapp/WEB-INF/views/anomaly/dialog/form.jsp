@@ -86,7 +86,6 @@
                             <li ng-repeat="(value, name) in models" mu-option-v2="value" title="{{name}}">{{name}}</li>
                         </ul>
                     </div>
-
                     <label><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
                     <!-- text tooltip -->
                     <div class="mu-tooltip" style="z-index: 30;" mu-tooltip="anomaly.ttip.model">

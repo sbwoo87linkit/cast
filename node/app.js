@@ -24,6 +24,7 @@ var api = require('./routes/api');
 var common = require('./routes/common');
 var search = require('./routes/search');
 var anomaly = require('./routes/anomaly');
+var adv = require('./routes/adv');
 var report = require('./routes/report');
 var dataModel = require('./routes/data-model');
 /**
@@ -69,6 +70,7 @@ app.use('/common', common);
 
 app.use('/search', search);
 app.use('/ade', anomaly);
+app.use('/adv', adv);
 
 app.use('/report', report);
 app.use('/datamodel', dataModel);

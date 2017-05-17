@@ -2,18 +2,16 @@
 .mu-popup-menu > li {
     cursor: pointer;
 }
-
 /* 검색 */
 .mu-icon.flag:before {
     content: "\f024";
 }
-
 /* 검색어 추천 */
 .searchAssistant .highlight {
-    color: #2d93ec;
+    color:#2d93ec;
 }
-
 /* 피벗 */
+
 
 /* 검색어 자동 완성 */
 .history-bgcolor {
@@ -22,193 +20,51 @@
 
 /* Mobius 임의 수정 */
 /* tooltip */
-.mu-tooltip.top-left {
-    margin-top: -10px
-}
-
-.mu-tooltip.top-left > .arrow {
-    left: 16px;
-    bottom: -11px;
-    margin-left: -11px;
-    border-bottom-width: 0;
-    border-top-color: #ccc
-}
-
-.mu-tooltip.top-left > .arrow:after {
-    content: "";
-    bottom: 1px;
-    margin-left: -10px;
-    border-bottom-width: 0;
-    border-top-color: #fff
-}
-
-.mu-tooltip.top-right {
-    margin-top: -10px
-}
-
-.mu-tooltip.top-right > .arrow {
-    right: 16px;
-    bottom: -11px;
-    margin-right: -11px;
-    border-bottom-width: 0;
-    border-top-color: #ccc
-}
-
-.mu-tooltip.top-right > .arrow:after {
-    content: "";
-    bottom: 1px;
-    margin-left: -10px;
-    border-bottom-width: 0;
-    border-top-color: #fff
-}
-
-.mu-tooltip.bottom-left {
-    margin-top: 10px
-}
-
-.mu-tooltip.bottom-left > .arrow {
-    left: 16px;
-    top: -11px;
-    margin-left: -11px;
-    border-top-width: 0;
-    border-bottom-color: #ccc
-}
-
-.mu-tooltip.bottom-left > .arrow:after {
-    content: "";
-    top: 1px;
-    margin-left: -10px;
-    border-top-width: 0;
-    border-bottom-color: #fff
-}
-
-.mu-tooltip.bottom-right {
-    margin-top: 10px
-}
-
-.mu-tooltip.bottom-right > .arrow {
-    right: 16px;
-    top: -11px;
-    margin-right: -11px;
-    border-top-width: 0;
-    border-bottom-color: #ccc
-}
-
-.mu-tooltip.bottom-right > .arrow:after {
-    content: "";
-    top: 1px;
-    margin-left: -10px;
-    border-top-width: 0;
-    border-bottom-color: #fff
-}
-
-.mu-tooltip.left-top {
-    margin-left: -10px
-}
-
-.mu-tooltip.left-top > .arrow {
-    right: -11px;
-    top: 16px;
-    margin-top: -11px;
-    border-right-width: 0;
-    border-left-color: #ccc
-}
-
-.mu-tooltip.left-top > .arrow:after {
-    content: "";
-    right: 1px;
-    bottom: -10px;
-    border-right-width: 0;
-    border-left-color: #fff
-}
-
-.mu-tooltip.left-bottom {
-    margin-left: -10px
-}
-
-.mu-tooltip.left-bottom > .arrow {
-    right: -11px;
-    bottom: 16px;
-    margin-bottom: -11px;
-    border-right-width: 0;
-    border-left-color: #ccc
-}
-
-.mu-tooltip.left-bottom > .arrow:after {
-    content: "";
-    right: 1px;
-    bottom: -10px;
-    border-right-width: 0;
-    border-left-color: #fff
-}
-
-.mu-tooltip.right-top {
-    margin-left: 13px
-}
-
-.mu-tooltip.right-top > .arrow {
-    left: -11px;
-    top: 16px;
-    margin-top: -11px;
-    border-left-width: 0;
-    border-right-color: #ccc
-}
-
-.mu-tooltip.right-top > .arrow:after {
-    content: "";
-    left: 1px;
-    bottom: -10px;
-    border-left-width: 0;
-    border-right-color: #fff
-}
-
-.mu-tooltip.right-bottom {
-    margin-left: 13px
-}
-
-.mu-tooltip.right-bottom > .arrow {
-    left: -11px;
-    bottom: 16px;
-    margin-bottom: -11px;
-    border-left-width: 0;
-    border-right-color: #ccc
-}
-
-.mu-tooltip.right-bottom > .arrow:after {
-    content: "";
-    left: 1px;
-    bottom: -10px;
-    border-left-width: 0;
-    border-right-color: #fff
-}
+.mu-tooltip.top-left{margin-top:-10px}
+.mu-tooltip.top-left > .arrow{left:16px;bottom:-11px;margin-left:-11px;border-bottom-width:0;border-top-color:#ccc}
+.mu-tooltip.top-left > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
+.mu-tooltip.top-right{margin-top:-10px}
+.mu-tooltip.top-right > .arrow{right:16px;bottom:-11px;margin-right:-11px;border-bottom-width:0;border-top-color:#ccc}
+.mu-tooltip.top-right > .arrow:after{content:"";bottom:1px;margin-left:-10px;border-bottom-width:0;border-top-color:#fff}
+.mu-tooltip.bottom-left{margin-top:10px}
+.mu-tooltip.bottom-left > .arrow{left:16px;top:-11px;margin-left:-11px;border-top-width:0;border-bottom-color:#ccc}
+.mu-tooltip.bottom-left > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
+.mu-tooltip.bottom-right{margin-top:10px}
+.mu-tooltip.bottom-right > .arrow{right:16px;top:-11px;margin-right:-11px;border-top-width:0;border-bottom-color:#ccc}
+.mu-tooltip.bottom-right > .arrow:after{content:"";top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#fff}
+.mu-tooltip.left-top{margin-left:-10px}
+.mu-tooltip.left-top > .arrow{right:-11px;top:16px;margin-top:-11px;border-right-width:0;border-left-color:#ccc}
+.mu-tooltip.left-top > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
+.mu-tooltip.left-bottom{margin-left:-10px}
+.mu-tooltip.left-bottom > .arrow{right:-11px;bottom:16px;margin-bottom:-11px;border-right-width:0;border-left-color:#ccc}
+.mu-tooltip.left-bottom > .arrow:after{content:"";right:1px;bottom:-10px;border-right-width:0;border-left-color:#fff}
+.mu-tooltip.right-top{margin-left:13px}
+.mu-tooltip.right-top > .arrow{left:-11px;top:16px;margin-top:-11px;border-left-width:0;border-right-color:#ccc}
+.mu-tooltip.right-top > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
+.mu-tooltip.right-bottom{margin-left:13px}
+.mu-tooltip.right-bottom > .arrow{left:-11px;bottom:16px;margin-bottom:-11px;border-left-width:0;border-right-color:#ccc}
+.mu-tooltip.right-bottom > .arrow:after{content:"";left:1px;bottom:-10px;border-left-width:0;border-right-color:#fff}
 
 /* 데이터 모델 */
-.dm-field-type-width {
-    width: 113px !important;
-}
+.dm-field-type-width { width: 113px !important; }
+.dm-time-width { width: 170px !important; }
+.dm-table-width { width: 270px !important; }
+.dm-option-width { width: 85% !important; }
 
-.dm-time-width {
-    width: 170px !important;
-}
 
-.dm-table-width {
-    width: 270px !important;
-}
 
-.dm-option-width {
-    width: 85% !important;
-}
+
 
 /* --------------------- */
 /* anomaly - sangbum Woo */
 /* --------------------- */
 
 .heatmap-chart {
-    border: 1px solid transparent;
+    border : 1px solid transparent;
 }
 
 .heatmap-chart.row:hover {
-    border: 1px solid red;
+    border : 1px solid red;
 }
 
 .highcharts-container, .heatmap-chart {
@@ -217,81 +73,92 @@
 
 /*Heatmap tooltip 제어*/
 svg {
-    overflow: visible;
+    overflow:visible;
 }
 
 /*svg overflow visible로 인해 보여지는 Heatmap range text 숨김*/
-/*svg>text {*/
-/*display:none;*/
-/*}*/
-
-/*#flash { color: #000000; background-color: rgb(90, 200, 90); display: none; height: 30px; width: calc(100% + 10px); }*/
-/*#report { padding: 7px 0px 7px 10px; }*/
-
-/* --------------------- */
-/* analysis - sangbum Woo */
-/* --------------------- */
-
-/*index.jsp*/
-
-* {
-    box-sizing: border-box;
+svg>text {
+    display:none;
 }
 
-h1 {
-    height: auto;
+/* New Popup 메뉴*/
+.popup {
+    position: fixed;
+    display: none;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0px 0px 7px 0px #d5d5d5;
+    background: #fff;
+    padding:0px;
+    z-index: 10001;
+    list-style-type: none;
+    margin: 0; /* required for show popup at mouse point */
 }
+
+.popup a {
+    display: block;
+    padding: 10px 15px;
+    color : #000;
+    text-decoration: none;
+}
+
+.popup a:hover {
+    /* text-decoration: none; */
+    color: #fff;
+    background:#2d93ec;
+}
+
+
 
 .mu-tab {
     margin-top: 0px !important;
 }
 
-.mu-icon-100-img {
+.mu-icon-50-img {
     display: inline-block;
-    width: 100px;
-    height: 100px;
-    background: url("../images/chart/icon_chart_100.png") no-repeat 0 0;
+    width: 50px;
+    height: 50px;
+    background: url("../images/chart/icon_chart_50.png") no-repeat 0 0;
     margin: 0;
 }
 
-.mu-icon-100-img.none {
+.mu-icon-50-img.none {
     background-position: 0 0;
 }
 
-.mu-icon-100-img.line {
+.mu-icon-50-img.line {
+    background-position: -50px 0;
+}
+
+.mu-icon-50-img.plot {
     background-position: -100px 0;
 }
 
-.mu-icon-100-img.plot {
+.mu-icon-50-img.motion {
+    background-position: -150px 0;
+}
+
+.mu-icon-50-img.histogram {
     background-position: -200px 0;
 }
 
-.mu-icon-100-img.motion {
+.mu-icon-50-img.bar {
+    background-position: -250px 0;
+}
+
+.mu-icon-50-img.pie {
     background-position: -300px 0;
 }
 
-.mu-icon-100-img.histogram {
+.mu-icon-50-img.shanky {
+    background-position: -350px 0;
+}
+
+.mu-icon-50-img.heatmap {
     background-position: -400px 0;
 }
 
-.mu-icon-100-img.bar {
-    background-position: -500px 0;
-}
-
-.mu-icon-100-img.pie {
-    background-position: -600px 0;
-}
-
-.mu-icon-100-img.shanky {
-    background-position: -700px 0;
-}
-
-.mu-icon-100-img.heatmap {
-    background-position: -800px 0;
-}
-
-.mu-icon-100-img.outlier {
-    background-position: -900px 0;
+.mu-icon-50-img.outlier {
+    background-position: -450px 0;
 }
 
 .mu-icon-20-img {
@@ -344,7 +211,7 @@ h1 {
 }
 
 .chart-change-cell {
-    height: 130px;
+    height: 80px;
     margin: 5px;
     padding: 5px;
     border: 2px solid #ddd;
@@ -388,11 +255,32 @@ h1 {
 }
 
 .analysis-chart-main {
+    height: calc(100% - 40px) !important;
+    /*height: 100% !important;*/
+    /*border: 3px dotted #ccc;*/
+    /*border-radius: 10px;*/
+    margin: 5px;
+
+    position:relative; z-index:0 !important;
+    position:static !important;
+
+    transform:translateZ(0) !important;
+    will-change: transform !important;
+}
+
+.my-item {
     height: calc(100% - 40px);
     /*border: 3px dotted #ccc;*/
     /*border-radius: 10px;*/
     margin: 5px;
+
+    position:relative; z-index:0 !important;
+    position:static !important;
+
+    transform:translateZ(0) !important;
+    will-change: transform !important;
 }
+
 
 .analysis-chart-none {
     height: 100%;
@@ -401,9 +289,10 @@ h1 {
     margin: 5px;
 }
 
-.analysis-chart-header .mu-selectbox .mu-list {
-    width: 700px !important;
-    max-height: 900px !important;
+.chart-chooser .mu-list {
+    width: 400px !important;
+    max-height: 400px !important;
+    /*height: 300px;*/
     padding: 10px;
 }
 
@@ -418,22 +307,334 @@ h1 {
 
 
 
+/*
+
+Drag test
+ */
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+}
+
+.gu-hide {
+    display: none !important;
+}
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+.gu-transit {
+    /*opacity: 0.9;*/
+    border: 2px solid red;
+    /*z-index: 99999;*/
+    background: #fff;
+    /*margin: 10px;*/
+    padding: 0px;
+
+}
+
+.gh-fork {
+    position: fixed;
+    top: 0;
+    right: 0;
+    border: 0;
+    z-index: 10000;
+}
+
+
+/* dragular-specific example page styles */
+
+.wrapper {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    min-height: 26px;
+}
+
+.dragular-none {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    padding: 3px;
+    display: block;
+    border: 2px dotted #999;
+    /*background: deeppink;*/
+
+}
+
+.containerVertical {
+    display: table-cell;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 50%;
+}
+
+.containerHorizontal {
+    display: table-row;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.containerHorizontal div {
+    border-spacing: 5px;
+    display: table-cell;
+    margin: 0px;
+    padding: 3px;
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.width25 {
+    width: 25%;
+}
+
+.containerVertical:nth-child(odd) {
+    /*background-color: rgba(0, 0, 0, 0.2);*/
+}
+
+.containerVertical:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.containerVertical pre {
+    border: 0;
+    background-color: transparent;
+}
+
+label b{
+    color: darkorange;
+}
+
+/*
+ * note that styling gu-mirror directly is a bad practice because it's too generic.
+ * you're better off giving the draggable elements a unique class and styling that directly!
+ */
+
+.containerVertical div,
+.gu-mirror {
+    margin: 0px;
+    padding: 3px;
+    /*background-color: rgba(0, 0, 0, 0.2);*/
+    border: 1px solid #000;
+    -webkit-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.gu-unselectable {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.containerVertical .ex-moved {
+    background-color: #e74c3c;
+}
+
+.handle {
+    padding: 0 5px;
+    margin-right: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: move;
+}
+
+.custom-green-mirror {
+    background-color: #56AB1C;
+    margin: 10px;
+    padding: 10px;
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+    opacity: 0.8;
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+}
+
+.containerVertical.width25.gu-over-active.gu-over-accept {
+    background-color: green !important;
+}
+
+.containerVertical.width25.gu-over-active.gu-over-decline {
+    background-color: red !important;
+}
+
+pre.gu-over-active.gu-over-decline {
+    background-color: yellow !important;
+}
+
+div.limitBox {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.cursorDefault {
+    cursor: default !important;
+}
+
+.exampleRow {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.exampleCell {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.exampleRow,
+.exampleCell {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: move;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.tableRow {
+    display: table-row;
+    min-height: 20px;
+}
+
+.chart-full {
+    /*position: absolute;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+}
+
+
+/**
+outlier table
+ */
+
+
+.outlier td, .outlier th {
+    border: 1px solid #fff !important;
+    padding: 0.5rem;
+    /*text-align: left;*/
+    vertical-align: middle !important;
+    /*background: red !important;*/
+}
+
+.outlier .mu-grid thead > tr > th {
+    background:#4677b0 !important;
+    color: #fff;
+}
+
+.outlier .mu-grid tbody > tr > td {
+    background:inherit !important;
+    text-align: right;
+}
+
+.outlier .mu-grid tbody > tr > td:first-child {
+    /*background:inherit !important;*/
+    text-align: left;
+}
+
+.outlier tbody tr:nth-child(odd) {
+    background-color: #c9d2e2 !important;
+    /*background-color: red !important;*/
+}
+
+.outlier tbody tr:nth-child(even) {
+    background-color: #e6eaf2 !important;
+}
+
+
+.anomalyCard .mu-panel-head .mu-btn {
+    color: #505050;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    height: 25px;
+    padding: 0;
+}
+
+.outlier .mu-panel > .mu-panel-head {
+    border: 0;
+    text-align: left;
+    text-indent: 0;
+    padding: 8px 0px 6px;
+}
+
+
+.outlier .mu-panel .mu-btn {
+    /*position: relative;*/
+    /*background: transparent;*/
+    /*border: 1px solid transparent;*/
+    /*height: 23px;*/
+    /*overflow: visible;*/
+    border: 1px solid #999;
+}
+
+.outlier-chart-container {
+    margin: 20px;
+    height: 300px;
+    /*border:1px solid red;*/
+}
+
+
+.outlier-chart-container .mu-panel {
+    height: 100%;
+}
+
+.outlier-chart-container .mu-panel-body {
+    position: relative;
+    height: calc(100% - 35px);
+    /*border: 1px solid blueviolet;*/
+}
 
 
 
+/**
+filter
+ */
+
+
+.mu-slide-menu > li.active > a {
+    /* background: #f1f1f1; */
+    background: #ace1ec !important;
+}
 
 
 
+/*
+save icon override
+ */
+.mu-popup-menu .mu-icon-img.saveas{
+    background:url("../images/common/icon_search.png") no-repeat 0 0 !important;
+    background-position:-460px 0 !important;
+}
 
 
+/*
+필터수정 테이블 override
+ */
+.mu-grid, .mu-formbox tbody > tr > td {
+    border: 0px !important;
+}
 
-
-
-
-
-
-
-
-
-
-
+.pivotTooltip .mu-formbox .mu-selectbox  {
+    margin: 0 !important;
+}
