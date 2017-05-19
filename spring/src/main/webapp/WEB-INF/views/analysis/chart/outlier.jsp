@@ -46,7 +46,7 @@
                                 <li ng-click="export('histogram')">
                                     <a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>
                                 </li>
-                                <li ng-click="reload('histogram')">
+                                <li ng-click="reload('histogram', 'adv-histogram')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
                                 </li>
                             </ul>
@@ -90,7 +90,7 @@
                                         <i class="mu-icon-img saveas"></i><spring:message code="save" />
                                     </a>
                                 </li>
-                                <li ng-click="reload('techstatic')">
+                                <li ng-click="reload('techstatic', 'adv-summary')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
                                 </li>
                             </ul>
@@ -134,7 +134,7 @@
                                 <li ng-click="export('timeseries')">
                                     <a href="javascript:;"><i class="mu-icon-img saveas"></i><spring:message code="save" /></a>
                                 </li>
-                                <li ng-click="reload('timeseries')">
+                                <li ng-click="reload('timeseries', 'adv-scatter')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
                                 </li>
                             </ul>
@@ -176,7 +176,7 @@
                                         <i class="mu-icon-img saveas"></i><spring:message code="save" />
                                     </a>
                                 </li>
-                                <li ng-click="reload('outlier')">
+                                <li ng-click="reload('outlier', 'adv-outlier')">
                                     <a href="javascript:;"><i class="mu-icon-img rerun"></i><spring:message code="anomaly.retry" /></a>
                                 </li>
                             </ul>

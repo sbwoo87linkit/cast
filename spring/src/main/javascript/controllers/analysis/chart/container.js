@@ -25,6 +25,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
      */
 
     var model = dataModel.get();
+    $scope.analysis.datamodel_id = model.id;
     $scope.fieldList = model.fields.selected;
 
     $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
@@ -77,7 +78,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
      *  Scope 변수
      */
 
-    $scope.analysis = {};
+    // $scope.analysis = {}; // MainCtrl에서 defien
 
     $scope.chartGroups = [
         {
@@ -128,6 +129,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
+        $scope.analysis.isReayToExecute = false;
         $scope.analysis.chart = chart;
     }
 
