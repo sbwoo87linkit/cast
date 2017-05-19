@@ -12,9 +12,11 @@ advAgent.$inject = ['$rootScope', '$http', '$filter', '$log', '$q'];
 function advAgent($rootScope, $http, $filter, $log, $q) {
 
 
-    // this.cancelAllRequest = function () {
-    //     cancelAllRequest();
-    // };
+    this.cancelAllRequests = function (requests) {
+        _.forEach(requests, function (request) {
+            return $http.delete('adv/' + request.service + '/jobs/' + request.id + '/close');
+        })
+    };
 
     this.getId = function (service, data) {
         return $http.post('adv/' + service + '/jobs', data);  //returns promise

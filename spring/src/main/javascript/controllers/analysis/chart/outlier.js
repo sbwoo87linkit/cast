@@ -14,51 +14,42 @@ OutlierCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'sear
 function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope, advAgent) {
 
     /**
-     * TODO DELETE TEST FUNCTION
-     */
-    $scope.outlier_top.push({"name": "DATE", "type": "TEXT", "option": null, "filters": []});
-
-    /**
      * Event
      */
 
     $scope.$on('analysis.execute', function () {
-        // $scope.request('adv-histogram');
-        // $scope.request('adv-scatter');
-        // $scope.request('adv-summary');
-        // $scope.request('adv-outlier');
 
-
+        $scope.analysis.isWaiting = true;
         async.parallel([
             function(callback) {
-                // getEventSid(searchParams, callback);
                 $scope.request('adv-histogram', callback);
             },
-            // function(callback) {
-            //     // NOTE: 시간 필드가 없으면 요청하지 말아야하나, total_count를 얻기 위해 요청
-            //     getTimelineSid(searchParams, callback);
-            // },
-            // function(callback) {
-            //     getStatsSid(searchParams, callback);
-            // },
-            // function(callback) {
-            //     getFiguresSid(searchParams, callback);
-            // }
-        ], function(error) {
-            if (error) {
-                // abortAll(null);
-                // $rootScope.$broadcast('search.result.error', error);
+            function(callback) {
+                $scope.request('adv-scatter', callback);
+            },
+            function(callback) {
+                $scope.request('adv-summary', callback);
+            },
+            function(callback) {
+                $scope.request('adv-outlier', callback);
+            },
+        ], function(error, result) {
+            $scope.analysis.isWaiting = false;
+            if (!error) {
+                // success. clear requests
+                result = [];
+            } else {
+                // error. candel requests and clear requests
+                advAgent.cancelAllRequests(result);
+                result = [];
             }
-
-            console.log('END......')
         });
-
 
     })
 
     $scope.reload = function (item, service) {
         popupLayerStore.get(item).closeEl();
-        $scope.request(service)
+        $scope.request(service, null)
     }
 
     /**
@@ -66,10 +57,7 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
      * Function
      */
 
-    // Cancel에 필요한 sid
-    $scope.requestSids = [];
-
-    $scope.request = function (service) {
+    $scope.request = function (service, callback) {
         var data = {
             q: "*",
             datamodel_id: $scope.analysis.datamodel_id,
@@ -77,25 +65,24 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         }
 
         advAgent.getId(service, data).then(function (d) {
-            advAgent.getData(service, d.data.sid).then(function (d) {
-                // console.log(service, d)
-                transformData(service, d);
+            advAgent.getData(service, d.data.sid).then(function (d1) {
+                renderChart(service, d1);
+                if(callback) {
+                    callback(null, {id: d.data.sid, service: service})
+                }
             });
         });
     }
 
-    function transformData(service, d) {
+    function renderChart(service, d) {
 
-
-        // histogram
+        // 히스토그램
         if (service === 'adv-histogram') {
-            // 히스토그램
 
             var data = d.data.results;
             _.forEach(data, function (item) {
                 item[0] = strToDate(item[0])
             });
-
 
             $scope.histogram = {
                 options: {
@@ -359,45 +346,6 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         var sec = dateString.substr(12, 2);
         return Date.UTC(year, month, day, hour, min, sec);
     }
-
-
-    /**
-     * Get histogram data out of xy data
-     * @param   {Array} data  Array of tuples [x, y]
-     * @param   {Number} step Resolution for the histogram
-     * @returns {Array}       Histogram data
-     */
-    function histogram(data, step) {
-        var histo = {},
-            x,
-            i,
-            arr = [];
-
-        // Group down
-        for (i = 0; i < data.length; i++) {
-            x = Math.floor(data[i][0] / step) * step;
-            if (!histo[x]) {
-                histo[x] = 0;
-            }
-            histo[x]++;
-        }
-
-        // Make the histo group into an array
-        for (x in histo) {
-            if (histo.hasOwnProperty((x))) {
-                arr.push([parseFloat(x), histo[x]]);
-            }
-        }
-
-        // Finally, sort the array
-        arr.sort(function (a, b) {
-            return a[0] - b[0];
-        });
-
-        return arr;
-    }
-
-
 }
 
 module.exports = OutlierCtrl;
