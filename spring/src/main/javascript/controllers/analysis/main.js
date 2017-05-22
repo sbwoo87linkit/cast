@@ -5,8 +5,15 @@
 /**
  * Controller
  */
-MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'searchCond', 'paramBuilder', '$timeout'];
-function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, $timeout) {
+MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'advAgent', 'searchCond', 'paramBuilder', '$timeout'];
+function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, paramBuilder, $timeout) {
+    /**
+     * Scope variable
+     */
+
+    $scope.analysis = {};
+
+
     /**
      *   init
      */
@@ -18,19 +25,8 @@ function MainCtrl($scope, $stateParams, anomalyAgent, searchCond, paramBuilder, 
         anomalyAgent.cancelAllRequest();
     });
 
-
-    $scope.toggleExectute = function () {
-
-        $scope.isWaiting = true;
-
-        $timeout(function () {
-            $scope.isWaiting = false;
-            var data = {
-                status : 'completed'
-            }
-            $scope.$broadcast('analysis.outlier.data_loaded', data);
-        }, 100)
-
+    $scope.toggleExecute = function () {
+        $scope.$broadcast('analysis.execute')
     }
 }
 

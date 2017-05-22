@@ -8,7 +8,7 @@ var DELAY_MS = 500;
  *   modules
  */
 var path = require('path');
-// var _ = require('lodash');
+var _ = require('lodash');
 var uuidV1 = require('uuid/v1');
 
 var express = require('express');
@@ -49,6 +49,7 @@ router.get('/adv-histogram/jobs/:sid', function(req, res) {
 
     if (!sessions[sid]) {
         return res.sendStatus(404);
+        // return res.send('sessions not found 404');
     }
 
     var body = sessions[sid].body;

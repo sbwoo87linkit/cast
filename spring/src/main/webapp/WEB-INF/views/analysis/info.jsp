@@ -16,8 +16,9 @@
     </div>
 
     <div class="mu-hgroup fr">
+        <!--<button>chart {{analysis.chart.type}}</button>-->
 
-        <button type="button" class="mu-btn mu-btn-icon" ng-click="toggleExectute()"><i class="mu-icon-img anomaly"></i><span>{{ isWaiting == true ? '중지' : '실행' }}</span></button>
+        <button type="button" ng-disabled="!analysis.isReadyToExecute" class="mu-btn mu-btn-icon" ng-click="toggleExecute()"><i class="mu-icon-img anomaly"></i><span>{{ isWaiting == true ? '중지' : '실행' }}</span></button>
     </div>
 
     <!-- 팝업 레이어: 시간 설정 -->

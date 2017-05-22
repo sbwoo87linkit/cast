@@ -7,37 +7,26 @@ var uuidV1 = require('uuid/v1');
  * Controller
  */
 
-/*
-
-
- ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragulaService'];
- function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragulaService) {
-
-
- */
-
 ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope', '$filter'];
 function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope, $filter) {
-
 
     /**
      * 데이터 로드
      */
 
     var model = dataModel.get();
+    $scope.analysis.datamodel_id = model.id;
     $scope.fieldList = model.fields.selected;
 
-    $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
-    $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
+    // TODO test filer setup
+    // $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
+    // $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
 
     $scope.hasFilters = function(field) {
         return field.filters && field.filters.length > 0 ? true : false;
     }
 
-
     $scope.outlier_top = [];
-
-
 
     /**
      * Drag & Drop setup
@@ -77,8 +66,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
      *  Scope 변수
      */
 
-    $scope.analysis = {};
-
     $scope.chartGroups = [
         {
             name: '시계열', items: [
@@ -113,8 +100,8 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.analysis.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
 
 
-    // TODO test init
-    $scope.analysis.chart = $scope.chartGroups[3].items[0];
+    // TODO test chart type init
+    // $scope.analysis.chart = $scope.chartGroups[3].items[0];
 
     // /**
     //  *
@@ -128,6 +115,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
+        $scope.analysis.isReayToExecute = false;
         $scope.analysis.chart = chart;
     }
 
@@ -151,9 +139,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     $scope.models = {"=":"=" ,">":">", ">=": ">=", "<=": "<=", "!=": "!="};
     $scope.formData = {model: '>'};
-
-
-    // $scope.filterOptions = ['=', '>']
 
     $scope.selectField = function (field) {
         $scope.analysis.tempFilters = angular.copy(field.filters);
@@ -183,9 +168,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         field.filters = angular.copy(tempFilters);
     }
 
-
-
-
     /**
      * Filter tab
      */
@@ -195,8 +177,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.deleteFilter = function (index, filters) {
         filters.splice(index, 1);
     }
-
-
 }
 
 module.exports = ContainerCtrl;

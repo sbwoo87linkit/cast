@@ -1,9 +1,9 @@
 <div style="position: absolute; width: 20%; height:28px; border-bottom: 1px solid #ddd"></div>
 <ul class="mu-tab" mu-tabset="ts2">
-    <li mu-tab-item="" tab-activated="false">
+    <li mu-tab-item="" tab-activated="true">
         <a href="javascript:;">필드</a>
     </li>
-    <li mu-tab-item="" tab-activated="true">
+    <li mu-tab-item="" tab-activated="false">
         <a href="javascript:;">필터</a>
     </li>
 </ul>

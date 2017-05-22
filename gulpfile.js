@@ -32,6 +32,7 @@ var LIB_LIST = [
     'angular-resource',
     'angular-route',
     'angular-ui-router',
+    'angularjs-dragula/angular-dragula',
     'async',
     'd3',
     'dragular',
