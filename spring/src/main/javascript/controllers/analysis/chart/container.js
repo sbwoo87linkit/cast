@@ -101,7 +101,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
 
     // TODO test chart type init
-    // $scope.analysis.chart = $scope.chartGroups[3].items[0];
+    $scope.analysis.chart = $scope.chartGroups[0].items[0];
 
     // /**
     //  *

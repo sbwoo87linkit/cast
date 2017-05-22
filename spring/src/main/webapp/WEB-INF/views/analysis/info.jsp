@@ -13,6 +13,7 @@
             popup-layer-area="analysis.prop.query" layer-offset="{left: 2}" layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">
             <i class="mu-icon-img searchWord"></i><span ng-bind="query"></span>
         </button>
+        <button>a{{$id}}</button>
     </div>
 
     <div class="mu-hgroup fr">

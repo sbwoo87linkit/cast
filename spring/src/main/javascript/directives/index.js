@@ -17,5 +17,7 @@ module.exports = angular.module('sherman.directives', [])
     .directive('datetimePicker', require('./datetime.js'))
     .directive('timePicker', require('./timepicker.js'))
 
+    .directive('ngDraggable', require('./draggable.js'))
+
     .directive('fieldList', require('./pivot/fieldList.js'))
     ;

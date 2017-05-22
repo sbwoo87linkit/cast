@@ -638,3 +638,16 @@ save icon override
 .pivotTooltip .mu-formbox .mu-selectbox  {
     margin: 0 !important;
 }
+
+
+.analysis-container .mu-btn {
+    /*background: white !important;*/
+    /*color: dodgerblue;*/
+    padding: 5px;
+}
+
+.mu-tooltip.bottom-left.chart-option{
+    margin-top:0px !important;
+}
+
+
