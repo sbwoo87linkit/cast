@@ -63,6 +63,11 @@ function Config($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/anomaly?q&d&t.start&t.end&auto_add&display',
             templateUrl: '/views/anomaly/index.html'
         })
+        // 테스트
+        .state('test', {
+            url: '/test',
+            templateUrl: '/views/test/index.html'
+        })
         ;
 }
 /**
