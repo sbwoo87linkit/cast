@@ -8,7 +8,8 @@ require('angular-route');
 require('angular-resource');
 require('angular-ui-router');
 require('angular-cookies');
-require('dragular');
+
+require('angular-drag-and-drop-lists');
 
 var Highcharts = require('highcharts');
 require('highcharts/modules/heatmap')(Highcharts);
@@ -32,7 +33,7 @@ angular.module('shermanApp', [
         'ngResource',
         'ngCookies',
 
-        'dragularModule',
+        'dndLists',
 
         'ui.mobius',
         'ui.router',

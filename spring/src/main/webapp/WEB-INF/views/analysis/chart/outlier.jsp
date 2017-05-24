@@ -10,18 +10,35 @@
                 <div class="mu-col mu-col-3" style="text-align: right; padding-right: 10px;">
                     <span style="display: inline-block; margin-top: 6px">대상필드</span>
                 </div>
-                <div class="mu-col mu-col-3">
-                    <div class='wrapper'>
-                        <div class='tableRow'>
-                            <div id="containerRight" class='containerVertical'>
-                                <span ng-show="outlier_top.length == 0" class="dragular-none">없음</span>
-                                <div ng-repeat="field in outlier_top track by $index"
-                                     ng-dblclick="outlier_top.splice($index, 1)">{{field.name}}</div>
-                            </div>
-                        </div>
-                    </div>
+                <!--<div class="mu-col mu-col-3">-->
+                    <!--<div class='wrapper'>-->
+                        <!--<div class='tableRow'>-->
+                            <!--<div id="containerRight" class='containerVertical'>-->
+                                <!--<span ng-show="outlier_top.length == 0" class="dragular-none">없음</span>-->
+                                <!--<div ng-repeat="field in outlier_top track by $index"-->
+                                     <!--ng-dblclick="outlier_top.splice($index, 1)">{{field.name}}</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
+                <!--</div>-->
+
+                <div class="mu-col mu-col-3">
+                    <ul dnd-list="outlier_top"
+                        dnd-drop="callback({targetList: list, targetIndex: index})"
+                        style="min-height:30px; border:1px solid red">
+                        <li ng-repeat="item in outlier_top track by $index"
+                            dnd-draggable="item"
+                            dnd-moved="outlier_top.splice($index, 1)"
+                            dnd-effect-allowed="copyMove"
+                            dnd-selected="models.selected = item"
+                            ng-class="{'selected': models.selected === item}"
+                            draggable="true">{{item.name}}</li>
+                    </ul>
                 </div>
+
+
+
                 <div class="mu-col mu-col-6">
                 </div>
             </div>

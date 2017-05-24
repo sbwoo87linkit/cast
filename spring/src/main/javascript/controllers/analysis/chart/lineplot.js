@@ -7,24 +7,15 @@ var uuidV1 = require('uuid/v1');
  * Controller
  */
 
-LineplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope'];
-function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope) {
+LineplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope'];
+function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope) {
 
-    console.log('lineplotCtrl')
+    console.log('lineplotCtrl');
+
+    $scope.option = 'TEST';
 
 
-    $scope.dragOptions = {
-        start: function(e) {
-            console.log("STARTING");
-        },
-        drag: function(e) {
-            console.log("DRAGGING");
-        },
-        stop: function(e) {
-            console.log("STOPPING");
-        },
-        container: 'container'
-    }
+
 
 }
 

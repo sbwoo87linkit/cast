@@ -7,8 +7,8 @@ var uuidV1 = require('uuid/v1');
  * Controller
  */
 
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', 'dragularService', '$rootScope', '$filter'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, dragularService, $rootScope, $filter) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', '$filter'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, $filter) {
 
     /**
      * 데이터 로드
@@ -18,7 +18,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.analysis.datamodel_id = model.id;
     $scope.fieldList = model.fields.selected;
 
-    // TODO test filer setup
+    // TODO filer setup for test purpose only
     // $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
     // $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
 
@@ -28,38 +28,24 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     $scope.outlier_top = [];
 
-    /**
-     * Drag & Drop setup
-     */
+    // /**
+    //  * Drag & Drop setup
+    //  */
+    //
 
-    var containerLeft = document.querySelector('#containerLeft'),
-        containerRight = document.querySelector('#containerRight');
 
-    function accepts(el, target, source) {
-        if (source === containerLeft || source === target) {
-            // limit 1
-            if ($scope.outlier_top.length < 1) {
-                return true;
+    $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
+
+        if (targetIndex != undefined) {
+            targetList.push(srcList[srcIndex]);
+            if (targetList.length > 1) {
+                targetList.splice(0, 1);
             }
+
         }
     }
 
-    dragularService([containerLeft], {
-        containersModel: [$scope.fieldList],
-        copy: true,
-        //move only from left to right
-        accepts: accepts
-    });
 
-    dragularService([containerRight], {
-        containersModel: [$scope.outlier_top],
-        removeOnSpill: true,
-        //move only from left to right
-        accepts: accepts,
-        moves: function (el, source, handle, sibling) {
-            // return handle.classList.contains('dragula-handle');
-        }
-    });
 
 
     /**
@@ -101,7 +87,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
 
     // TODO test chart type init
-    $scope.analysis.chart = $scope.chartGroups[0].items[0];
+    $scope.analysis.chart = $scope.chartGroups[3].items[0];
 
     // /**
     //  *
@@ -177,6 +163,14 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.deleteFilter = function (index, filters) {
         filters.splice(index, 1);
     }
+
+
+
+
+
+
+
+
 }
 
 module.exports = ContainerCtrl;

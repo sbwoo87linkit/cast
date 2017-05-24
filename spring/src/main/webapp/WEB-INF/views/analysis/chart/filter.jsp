@@ -15,8 +15,38 @@
         <!--side menu</p>-->
         <h5 class="mu-title tc" style="padding: 10px;">Event Object의 개수 <span class="mu-badge">{{fieldList.length}}</span>
         </h5>
-        <ul class="mu-slide-menu" id="containerLeft" class='containerVertical' style="margin-bottom: 100px">
-            <li ng-repeat="field in fieldList" ng-class="field.name === analysis.selectedField.name ? 'active' : '' ">
+
+        <!--<ul class="mu-slide-menu"-->
+            <!--dnd-list="fieldList"-->
+            <!--dnd-drop="callback({targetList: list, targetIndex: index})"-->
+            <!--dnd-allowed-types="'man'">-->
+            <!--<li ng-repeat="field in fieldList" ng-class="field.name === analysis.selectedField.name ? 'active' : '' "-->
+                <!--dnd-callback="onDrop(fieldList, $index, outlier_top, targetIndex)"-->
+                <!--dnd-draggable="field"-->
+                <!--dnd-selected="models.selected = field"-->
+                <!--ng-class="{'selected': models.selected === field}"-->
+                <!--draggable="true">-->
+                <!--<a href="" ng-click="analysis.selectedField = field;selectField(field)"-->
+                   <!--popup-layer-area="analysis.fieldList.add" layer-offset="{left: 2}"-->
+                   <!--layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">-->
+                    <!--<i class="mu-icon-img"-->
+                       <!--ng-class="{ TEXT: 'at', NUMBER: 'number', TIMESTAMP: 'time' }[field.type]"></i>-->
+                    <!--<span ng-bind="field.name"></span>-->
+                    <!--<span ng-show="field.filters.length > 0" class="mu-badge fr" style="margin:5px; background: #2d93ec">F</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+
+        <ul class="mu-slide-menu"
+            dnd-list="fieldList"
+            dnd-drop="callback()"
+        >
+            <li ng-repeat="field in fieldList" ng-class="field.name === analysis.selectedField.name ? 'active' : '' "
+                dnd-callback="onDrop(fieldList, $index, outlier_top, targetIndex)"
+                dnd-draggable="field"
+                dnd-selected="models.selected = field"
+                ng-class="{'selected': models.selected === field}">
                 <a href="" ng-click="analysis.selectedField = field;selectField(field)"
                    popup-layer-area="analysis.fieldList.add" layer-offset="{left: 2}"
                    layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">
@@ -27,6 +57,9 @@
                 </a>
             </li>
         </ul>
+
+
+
 
     </div>
 
