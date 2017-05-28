@@ -14,7 +14,14 @@ module.exports = angular.module('sherman.services', [])
     .service('commonAgent', require('./agent/common.js'))
     .service('searchAgent', require('./agent/search.js'))
     .service('anomalyAgent', require('./agent/anomaly.js'))
+
+    .service('utility', require('./agent/utility.js'))
     .service('advAgent', require('./agent/adv.js'))
+    .service('advLineplotAgent', require('./agent/advLineplot.js'))
+
+
+
+
     .service('reportAgent', require('./agent/report.js'))
     .service('dataModelAgent', require('./agent/data-model.js'))
 

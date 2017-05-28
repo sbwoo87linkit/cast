@@ -20,6 +20,12 @@ var histogram = require(path.join(DATA_PATH, 'histogram.json'));
 var scatter = require(path.join(DATA_PATH, 'scatter.json'));
 var summary = require(path.join(DATA_PATH, 'summary.json'));
 var outlier = require(path.join(DATA_PATH, 'outlier.json'));
+
+var lineplot = require(path.join(DATA_PATH, 'lineplot2.json'));
+
+
+
+
 /**
  *   variables
  */
@@ -262,6 +268,101 @@ router.delete('/adv-outlier/jobs/:sid/close', function(req, res) {
 
     res.send({ message: 'OK' });
 });
+
+
+/**
+ * TODO:  TEST DATA for dev  ---- sbwoo ----
+ */
+
+
+
+
+// lineplot
+router.post('/adv2-lineplot/jobs', function(req, res) {
+    var body = req.body;
+    if (!body.datamodel_id || !body.target_field) {
+        return res.status(400).send({
+            type: 'Invalid parameter',
+            message: 'This was failed because...'
+        });
+    }
+
+    var sid = uuidV1();
+    sessions[sid] = {
+        body: body,
+        index: 1 // 1~MAX
+    };
+
+    res.send({ sid: sid });
+});
+router.get('/adv2-lineplot/jobs/:sid', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    var body = sessions[sid].body;
+    var index = sessions[sid].index;
+    var isEnd = (index === MAX_SPLIT_NUM);
+    var data = _.cloneDeep(lineplot);
+
+    data.status = {
+        'current': index,
+        'total': MAX_SPLIT_NUM
+    };
+    data.isEnd = isEnd;
+
+    if (!isEnd) {
+        sessions[sid].index = (index + 1);
+    }
+
+    // var getOnce = (body.getOnce) ? body.getOnce : false;
+    var noDelay = (body.noDelay) ? body.noDelay : false;
+    var delay = ((noDelay) ? 0 : DELAY_MS);
+    setTimeout(function() {
+        res.send(data);
+    }, delay);
+});
+router.delete('/adv2-lineplot/jobs/:sid/close', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    delete sessions[sid];
+
+    res.send({ message: 'OK' });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  *   functions
  */

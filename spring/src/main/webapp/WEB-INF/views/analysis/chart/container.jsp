@@ -10,52 +10,52 @@
         <div class="mu-row analysis-chart-main">
 
             <!--none-->
-            <div ng-if="analysis.chart.icon === 'none'" class="full-height">
+            <div ng-if="adv.chart.icon === 'none'" class="full-height">
                 <%@ include file="none.jsp"%>
             </div>
 
             <!--Line plot-->
-            <div ng-show="analysis.chart.type === 'Line plot'" class="full-height">
+            <div ng-if="adv.chart.type === 'Line plot'" class="full-height">
                 <%@ include file="lineplot.jsp"%>
             </div>
 
             <!--Scatter plot-->
-            <div ng-show="analysis.chart.type === 'Scatter plot'" class="full-height">
+            <div ng-if="adv.chart.type === 'Scatter plot'" class="full-height">
                 Scatter plot
             </div>
 
             <!--Motion-->
-            <div ng-show="analysis.chart.type === 'Motion'" class="full-height">
+            <div ng-if="adv.chart.type === 'Motion'" class="full-height">
                 Motion
             </div>
 
             <!--Histogram-->
-            <div ng-show="analysis.chart.type === 'Histogram'" class="full-height">
+            <div ng-if="adv.chart.type === 'Histogram'" class="full-height">
                 Histogram
             </div>
 
             <!--Bar chart-->
-            <div ng-show="analysis.chart.type === 'Bar chart'" class="full-height">
+            <div ng-if="adv.chart.type === 'Bar chart'" class="full-height">
                 Bar chart
             </div>
 
             <!--Pie chart-->
-            <div ng-show="analysis.chart.type === 'Pie chart'" class="full-height">
+            <div ng-if="adv.chart.type === 'Pie chart'" class="full-height">
                 Pie chart
             </div>
 
             <!--Shanky-->
-            <div ng-show="analysis.chart.type === 'Shanky'" class="full-height">
+            <div ng-if="adv.chart.type === 'Shanky'" class="full-height">
                 Shanky
             </div>
 
             <!--Heatmap-->
-            <div ng-show="analysis.chart.type === 'Heatmap'" class="full-height">
+            <div ng-if="adv.chart.type === 'Heatmap'" class="full-height">
                 Heatmap
             </div>
 
             <!--Outlier-->
-            <div ng-show="analysis.chart.type === 'Outlier'" class="full-height">
+            <div ng-if="adv.chart.type === 'Outlier'" class="full-height">
                 <%@ include file="outlier.jsp"%>
             </div>
         </div>

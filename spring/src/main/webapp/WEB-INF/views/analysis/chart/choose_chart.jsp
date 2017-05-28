@@ -2,8 +2,8 @@
      style="width:100%"
      select-items="selOptions" select-change="changeOption($model)">
     <button style="width: 100%" class="mu-value">
-        <i class="mu-icon-20-img" ng-class="analysis.chart.icon"></i>
-        {{analysis.chart.type}}
+        <i class="mu-icon-20-img" ng-class="adv.chart.icon"></i>
+        {{adv.chart.type}}
     </button>
     <ul class="mu-list">
 
@@ -20,11 +20,11 @@
                 </div>
             </div>
         </div>
-        <div ng-if="analysis.tempChart" style="margin-top: 10px" class="tl">
+        <div ng-if="adv.tempChart" style="margin-top: 10px" class="tl">
             <p>설명</p>
             <hr>
             <div style="">
-                {{analysis.tempChart.description}}
+                {{adv.tempChart.description}}
             </div>
         </div>
     </ul>

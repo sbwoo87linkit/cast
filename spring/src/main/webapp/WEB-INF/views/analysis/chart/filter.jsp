@@ -12,43 +12,15 @@
     <!--필드목록 탭-->
     <div class="mu-tabCont" mu-tab-contents="">
 
-        <!--side menu</p>-->
-        <h5 class="mu-title tc" style="padding: 10px;">Event Object의 개수 <span class="mu-badge">{{fieldList.length}}</span>
+        <h5 ui-draggable="isCountFieldDraggable(adv.chart.type)" class="mu-title tc" style="padding: 10px;" drag="adv.fieldCount">{{ adv.fieldCount.name }} <span class="mu-badge">{{fieldList.length}}</span>
         </h5>
 
-        <!--<ul class="mu-slide-menu"-->
-            <!--dnd-list="fieldList"-->
-            <!--dnd-drop="callback({targetList: list, targetIndex: index})"-->
-            <!--dnd-allowed-types="'man'">-->
-            <!--<li ng-repeat="field in fieldList" ng-class="field.name === analysis.selectedField.name ? 'active' : '' "-->
-                <!--dnd-callback="onDrop(fieldList, $index, outlier_top, targetIndex)"-->
-                <!--dnd-draggable="field"-->
-                <!--dnd-selected="models.selected = field"-->
-                <!--ng-class="{'selected': models.selected === field}"-->
-                <!--draggable="true">-->
-                <!--<a href="" ng-click="analysis.selectedField = field;selectField(field)"-->
-                   <!--popup-layer-area="analysis.fieldList.add" layer-offset="{left: 2}"-->
-                   <!--layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">-->
-                    <!--<i class="mu-icon-img"-->
-                       <!--ng-class="{ TEXT: 'at', NUMBER: 'number', TIMESTAMP: 'time' }[field.type]"></i>-->
-                    <!--<span ng-bind="field.name"></span>-->
-                    <!--<span ng-show="field.filters.length > 0" class="mu-badge fr" style="margin:5px; background: #2d93ec">F</span>-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-
-
-        <ul class="mu-slide-menu"
-            dnd-list="fieldList"
-            dnd-drop="callback()"
-        >
-            <li ng-repeat="field in fieldList" ng-class="field.name === analysis.selectedField.name ? 'active' : '' "
-                dnd-callback="onDrop(fieldList, $index, outlier_top, targetIndex)"
-                dnd-draggable="field"
-                dnd-selected="models.selected = field"
-                ng-class="{'selected': models.selected === field}">
-                <a href="" ng-click="analysis.selectedField = field;selectField(field)"
-                   popup-layer-area="analysis.fieldList.add" layer-offset="{left: 2}"
+        <ul class="mu-slide-menu">
+            <li ng-repeat="field in fieldList" style="background: red" ng-class="field.name === adv.selectedField.name ? 'active' : '' "
+                ui-draggable="true"
+                drag="field">
+                <a href="" ng-click="adv.selectedField = field;selectField(field)"
+                   popup-layer-area="adv.fieldList.add" layer-offset="{left: 2}"
                    layer-open="openedQueryLayer()" layer-close="closedQueryLayer()">
                     <i class="mu-icon-img"
                        ng-class="{ TEXT: 'at', NUMBER: 'number', TIMESTAMP: 'time' }[field.type]"></i>
@@ -57,10 +29,6 @@
                 </a>
             </li>
         </ul>
-
-
-
-
     </div>
 
     <!--필터 탭-->
@@ -75,8 +43,8 @@
                                 <input type="text" class="mu-input" readonly="readonly"
                                        value="{{field.name}} {{filter.key}} {{filter.value}}">
                                 <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only"
-                                        ng-click=" analysis.selectedField = field; selectField(field)"
-                                        popup-layer-area="analysis.filter.edit"
+                                        ng-click=" adv.selectedField = field; selectField(field)"
+                                        popup-layer-area="adv.filter.edit"
                                         layer-open="showLayer('key_field', keyField, $index)">
                                     <i class="mu-icon-img modify"></i>
                                 </button>
@@ -90,8 +58,8 @@
                 </div>
             </div>
 
-            <button type="button" ng-click="analysis.filter.isShowForm=false"
-                    popup-layer-area="analysis.filter.add" layer-offset="{left: 2}"
+            <button type="button" ng-click="adv.filter.isShowForm=false"
+                    popup-layer-area="adv.filter.add" layer-offset="{left: 2}"
                     style="background: #fff; border: 1px solid #ccc; padding: 3px" class="mu-btn mu-btn-icon mu-btn-icon-only">
                 <i class="mu-icon-img add"></i> 추가 <i style="margin-left: 30px; color: black" class="mu-icon down"></i>
             </button>
@@ -100,10 +68,10 @@
 </div>
 
 <!-- 팝업 레이어: 필드리스트 추가 -->
-<div class="mu-tooltip right-top" style="width: 360px;" popup-layer="analysis.fieldList.add">
+<div class="mu-tooltip right-top" style="width: 360px;" popup-layer="adv.fieldList.add">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner">
-        <span class="title">{{analysis.selectedField.name}}</span>
+        <span class="title">{{adv.selectedField.name}}</span>
         <div class="mu-item-group">
             <table class="mu-formbox mu-formbox-vertical">
                 <colgroup>
@@ -112,7 +80,7 @@
                     <col width="10">
                 </colgroup>
                 <tbody>
-                <tr ng-repeat="tempFilter in analysis.tempFilters">
+                <tr ng-repeat="tempFilter in adv.tempFilters">
                     <td>
                         <div class="mu-selectbox" mu-select-v2="" select-model="tempFilter.key">
                             <button class="mu-value" title="{{models[tempFilter.key]}}">{{models[tempFilter.key]}}</button>
@@ -122,7 +90,7 @@
                         </div>
                     </td>
                     <td>
-                        <input type="text" ng-change="$last && addTempFilter(analysis.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
+                        <input type="text" ng-change="$last && addTempFilter(adv.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
                     </td>
                     <td>
                         <button type="button"
@@ -132,35 +100,35 @@
                 </tr>
                 </tbody>
             </table>
-            <!--<button ng-click="addTempFilter(analysis.tempFilters, inputFilter)" style="padding-top: 5px; margin-top: 5px; margin-left: 10px;"><i class="mu-icon add"></i></button>-->
+            <!--<button ng-click="addTempFilter(adv.tempFilters, inputFilter)" style="padding-top: 5px; margin-top: 5px; margin-left: 10px;"><i class="mu-icon add"></i></button>-->
             <button type="button"
-                    ng-click="addTempFilter(analysis.tempFilters, inputFilter)"
+                    ng-click="addTempFilter(adv.tempFilters, inputFilter)"
                     style="background: #fff; border: 1px solid #ccc; padding: 3px"
                     class="mu-btn mu-btn-icon mu-btn-icon-only">
                 <i class="mu-icon-img add"></i>
             </button>
         </div>
         <div class="mu-item-group" style="padding-top: 10px;height: 30px;">
-            <button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(analysis.selectedField, analysis.tempFilters)"><spring:message code="save" /></button>
+            <button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(adv.selectedField, adv.tempFilters)"><spring:message code="save" /></button>
         </div>
     </div>
 </div>
 
 <!-- 팝업 레이어: 필터 추가 -->
-<div class="mu-tooltip pivotTooltip right-top" style="width: 360px;" popup-layer="analysis.filter.add">
+<div class="mu-tooltip pivotTooltip right-top" style="width: 360px;" popup-layer="adv.filter.add">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner" style="margin: 0; padding: 0">
         <div class="mu-item-group">
 
             <!--필터추가 - 1단계 - 필드목록-->
-            <table class="mu-formbox mu-slide-menu" ng-show="!analysis.filter.isShowForm">
+            <table class="mu-formbox mu-slide-menu" ng-show="!adv.filter.isShowForm">
                 <tbody>
                 <tr>
                     <th>필드</th>
                     <td>
                         <ul>
                             <li ng-repeat="field in fieldList">
-                                <a href="" ng-click="analysis.filter.isShowForm=true; analysis.selectedField = field; selectField(field)">
+                                <a href="" ng-click="adv.filter.isShowForm=true; adv.selectedField = field; selectField(field)">
                                     <i class="mu-icon-img at" ng-class="{ TEXT: 'at', NUMBER: 'number', TIMESTAMP: 'time' }[field.type]"></i>
                                     <span ng-bind="field.name" class="ng-binding">DATE</span>
                                 </a>
@@ -175,16 +143,16 @@
             </table>
 
             <!--필터추가 - 2단계 - 필터조건 선택-->
-            <table class="mu-formbox" ng-show="analysis.filter.isShowForm" style="margin: 0">
+            <table class="mu-formbox" ng-show="adv.filter.isShowForm" style="margin: 0">
                 <thead>
                 <tr>
                     <th>
                         <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only"
-                                ng-click="analysis.filter.isShowForm = false; prevForm('val_field')">
+                                ng-click="adv.filter.isShowForm = false; prevForm('val_field')">
                             <i class="mu-icon-img arrow-prev"></i>
                         </button>
                     </th>
-                    <td ng-bind="analysis.selectedField.name"></td>
+                    <td ng-bind="adv.selectedField.name"></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -199,7 +167,7 @@
                                 <col width="10">
                             </colgroup>
                             <tbody>
-                            <tr ng-repeat="tempFilter in analysis.tempFilters">
+                            <tr ng-repeat="tempFilter in adv.tempFilters">
                                 <td>
                                     <div class="mu-selectbox" mu-select-v2="" select-model="tempFilter.key">
                                         <button class="mu-value" title="{{models[tempFilter.key]}}">{{models[tempFilter.key]}}</button>
@@ -209,7 +177,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" ng-change="$last && addTempFilter(analysis.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
+                                    <input type="text" ng-change="$last && addTempFilter(adv.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
                                 </td>
                                 <td>
                                     <button type="button"
@@ -221,7 +189,7 @@
                         </table>
 
                         <button type="button"
-                                ng-click="addTempFilter(analysis.tempFilters, inputFilter)"
+                                ng-click="addTempFilter(adv.tempFilters, inputFilter)"
                                 style="margin-left: 20px; background: #fff; border: 1px solid #ccc; padding: 3px"
                                 class="mu-btn mu-btn-icon mu-btn-icon-only">
                             <i class="mu-icon-img add"></i>
@@ -236,7 +204,7 @@
                     <th></th>
                     <td>
                         <div class="mu-item-group tr" style="padding-top: 10px;height: 30px;">
-                            <button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(analysis.selectedField, analysis.tempFilters)"><spring:message code="save" /></button>
+                            <button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(adv.selectedField, adv.tempFilters)"><spring:message code="save" /></button>
                         </div>
                     </td>
                 </tr>
@@ -248,7 +216,7 @@
 </div>
 
 <!-- 팝업 레이어: 필터 수정 -->
-<div class="mu-tooltip pivotTooltip right-top" style="width: 360px;" popup-layer="analysis.filter.edit">
+<div class="mu-tooltip pivotTooltip right-top" style="width: 360px;" popup-layer="adv.filter.edit">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner" style="margin: 0; padding: 0;">
 
@@ -261,7 +229,7 @@
                         <i class="mu-icon-img arrow-prev"></i>
                     </button>
                 </th>
-                <td ng-bind="analysis.selectedField.name"></td>
+                <td ng-bind="adv.selectedField.name"></td>
             </tr>
             </thead>
             <tbody>
@@ -271,7 +239,7 @@
                 <td>
 
                     <table class="mu-grid">
-                        <tr ng-repeat="tempFilter in analysis.tempFilters">
+                        <tr ng-repeat="tempFilter in adv.tempFilters">
                             <td>
                                 <div class="mu-selectbox" mu-select-v2="" select-model="tempFilter.key">
                                     <button class="mu-value" title="{{models[tempFilter.key]}}">{{models[tempFilter.key]}}</button>
@@ -281,7 +249,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="text" ng-change="$last && addTempFilter(analysis.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
+                                <input type="text" ng-change="$last && addTempFilter(adv.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
                             </td>
                             <td>
                                 <button type="button"
@@ -293,7 +261,7 @@
                         <tr>
                             <td colspan="3" class="tl vt">
                                 <button type="button"
-                                        ng-click="addTempFilter(analysis.tempFilters, inputFilter)"
+                                        ng-click="addTempFilter(adv.tempFilters, inputFilter)"
                                         style="background: #fff; border: 1px solid #ccc; padding: 3px"
                                         class="mu-btn mu-btn-icon mu-btn-icon-only">
                                     <i class="mu-icon-img add"></i>
@@ -304,7 +272,7 @@
                     </table>
 
                     <button class="mu-btn btnApply fr" type="button"
-                            ng-click="saveFilter(analysis.selectedField, analysis.tempFilters)">
+                            ng-click="saveFilter(adv.selectedField, adv.tempFilters)">
                         <spring:message code="save" />
                     </button>
 

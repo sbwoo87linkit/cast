@@ -10,31 +10,15 @@
                 <div class="mu-col mu-col-3" style="text-align: right; padding-right: 10px;">
                     <span style="display: inline-block; margin-top: 6px">대상필드</span>
                 </div>
-                <!--<div class="mu-col mu-col-3">-->
-                    <!--<div class='wrapper'>-->
-                        <!--<div class='tableRow'>-->
-                            <!--<div id="containerRight" class='containerVertical'>-->
-                                <!--<span ng-show="outlier_top.length == 0" class="dragular-none">없음</span>-->
-                                <!--<div ng-repeat="field in outlier_top track by $index"-->
-                                     <!--ng-dblclick="outlier_top.splice($index, 1)">{{field.name}}</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</div>-->
 
                 <div class="mu-col mu-col-3">
-                    <ul dnd-list="outlier_top"
-                        dnd-drop="callback({targetList: list, targetIndex: index})"
-                        style="min-height:30px; border:1px solid red">
-                        <li ng-repeat="item in outlier_top track by $index"
-                            dnd-draggable="item"
-                            dnd-moved="outlier_top.splice($index, 1)"
-                            dnd-effect-allowed="copyMove"
-                            dnd-selected="models.selected = item"
-                            ng-class="{'selected': models.selected === item}"
-                            draggable="true">{{item.name}}</li>
-                    </ul>
+                    <div ui-on-Drop="onDrop($event, $data)" class="drop-container">
+                        <div class="feild bx-none" ng-if="!adv.targetField">없음</div>
+                        <div class="feild" ng-if="adv.targetField">
+                            {{adv.targetField.name}}
+                            <button type="button" class="close fr" ng-click="clearTargetField()"></button>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -73,7 +57,7 @@
 
                         <div ng-if="!histogram" style="width: 100%; height: 100%; border: 1px solid #999;">
                             <div class="center">
-                                <span style="font-size:1.2em">no data</span>
+                                <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                             </div>
                         </div>
 

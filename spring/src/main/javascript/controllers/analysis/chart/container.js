@@ -15,8 +15,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
      */
 
     var model = dataModel.get();
-    $scope.analysis.datamodel_id = model.id;
+    $scope.adv.datamodel_id = model.id;
     $scope.fieldList = model.fields.selected;
+
+    $scope.adv.fieldCount = {"name":"Event Object의 개수","type":"TEXT","option":null};
+
 
     // TODO filer setup for test purpose only
     // $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
@@ -34,23 +37,13 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     //
 
 
-    $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
-
-        if (targetIndex != undefined) {
-            targetList.push(srcList[srcIndex]);
-            if (targetList.length > 1) {
-                targetList.splice(0, 1);
-            }
-
-        }
-    }
-
-
 
 
     /**
      *  Scope 변수
      */
+
+    // $scope.adv = {};
 
     $scope.chartGroups = [
         {
@@ -83,11 +76,9 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
 
     // 선택한 차트유형
-    $scope.analysis.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
-
-
+    $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
-    $scope.analysis.chart = $scope.chartGroups[3].items[0];
+    $scope.adv.chart = $scope.chartGroups[0].items[0];
 
     // /**
     //  *
@@ -101,22 +92,33 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
-        $scope.analysis.isReayToExecute = false;
-        $scope.analysis.chart = chart;
+        $scope.adv.isReayToExecute = false;
+        $scope.adv.chart = chart;
     }
 
     var hideTimer;
     $scope.showDescription = function (chart) {
         // 분석유형선택 팝업 차트유형 마우스오버된 차트
         $timeout.cancel(hideTimer);
-        $scope.analysis.tempChart = chart;
+        $scope.adv.tempChart = chart;
     }
 
     $scope.hideDescription = function () {
         hideTimer = $timeout(function () {
-            $scope.analysis.tempChart = null;
+            $scope.adv.tempChart = null;
         }, 500)
     }
+
+
+    $scope.isCountFieldDraggable = function (chartType) {
+        var draggable = false;
+        if (chartType === 'Line plot') {
+            draggable = true;
+        }
+
+        return draggable;
+    }
+
 
     /**
      * Filter selection
@@ -127,23 +129,23 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.formData = {model: '>'};
 
     $scope.selectField = function (field) {
-        $scope.analysis.tempFilters = angular.copy(field.filters);
-        if (!$scope.analysis.tempFilters || $scope.analysis.tempFilters.length === 0) {
-            $scope.analysis.tempFilters = [];
-            $scope.analysis.tempFilters.push({key : '=', value: '' });
+        $scope.adv.tempFilters = angular.copy(field.filters);
+        if (!$scope.adv.tempFilters || $scope.adv.tempFilters.length === 0) {
+            $scope.adv.tempFilters = [];
+            $scope.adv.tempFilters.push({key : '=', value: '' });
         }
     }
 
     $scope.addTempFilter = function (inputFilter) {
-        $scope.analysis.tempFilters.push({key : '=', value: '' });
+        $scope.adv.tempFilters.push({key : '=', value: '' });
     }
 
     $scope.deleteTempFilter = function (index, tempFilter) {
-        if ($scope.analysis.tempFilters.length === 1) {
+        if ($scope.adv.tempFilters.length === 1) {
             tempFilter.value = '';
             return;
         }
-        $scope.analysis.tempFilters.splice(index, 1);
+        $scope.adv.tempFilters.splice(index, 1);
     }
 
     $scope.saveFilter = function (field, tempFilters) {
@@ -158,15 +160,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
      * Filter tab
      */
 
-    $scope.analysis.filter = {}
+    $scope.adv.filter = {}
 
     $scope.deleteFilter = function (index, filters) {
         filters.splice(index, 1);
     }
-
-
-
-
 
 
 

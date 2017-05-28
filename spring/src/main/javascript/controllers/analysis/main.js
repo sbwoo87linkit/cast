@@ -5,14 +5,14 @@
 /**
  * Controller
  */
-MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'advAgent', 'searchCond', 'paramBuilder', '$timeout'];
-function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, paramBuilder, $timeout) {
+MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'advAgent', 'searchCond', 'paramBuilder', '$timeout', 'popupBox'];
+function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, paramBuilder, $timeout, popupBox) {
     /**
      * Scope variable
      */
 
-    $scope.analysis = {};
-
+    $scope.adv = {};
+    $scope.adv.isReadyToExecute = false;
 
     /**
      *   init
@@ -26,7 +26,9 @@ function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, para
     });
 
     $scope.toggleExecute = function () {
-        $scope.$broadcast('analysis.execute')
+        // console.log('$scope.adv.isReadyToExecute', $scope.adv.isReadyToExecute);
+
+        $scope.$broadcast('adv.execute')
     }
 }
 

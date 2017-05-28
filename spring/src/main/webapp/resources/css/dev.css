@@ -639,7 +639,6 @@ save icon override
     margin: 0 !important;
 }
 
-
 .analysis-container .mu-btn {
     /*background: white !important;*/
     /*color: dodgerblue;*/
@@ -667,13 +666,13 @@ save icon override
     height: 100%    ;
 }
 
-.main-container .mu-col-1 {
-    background: pink !important;
-}
+/*.main-container .mu-col-1 {*/
+    /*background: pink !important;*/
+/*}*/
 
-.main-container .mu-col-11 {
-    background: lightgoldenrodyellow !important;
-}
+/*.main-container .mu-col-11 {*/
+    /*background: lightgoldenrodyellow !important;*/
+/*}*/
 
 .mu-row.chart-row {
     height: calc(100% - 56px);
@@ -786,116 +785,35 @@ save icon override
 
 /***************************** Dropzone Styling *****************************/
 
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.advancedDemo .dropzone ul[dnd-list] {
-    min-height: 42px;
-    margin: 0px;
-    padding-left: 0px;
+
+.drop-container {
+    /*height: 25px;*/
+    line-height: 25px;
+    border: 1px solid #999;
+    height: 100%;
 }
 
-.advancedDemo .dropzone li {
-    display: block;
+.drop-container.on-drag-hover    {
+    border: 1px solid red;
 }
 
-/**
- * Reduce opacity of elements during the drag operation. This allows the user
- * to see where he is dropping his element, even if the element is huge. The
- * .dndDragging class is automatically set during the drag operation.
- */
-.advancedDemo .dropzone .dndDragging {
-    opacity: 0.7;
+.on-dragging {
+    /*background: pink !important;*/
 }
 
-/**
- * The dndDraggingSource class will be applied to the source element of a drag
- * operation.
- */
-.advancedDemo .dropzone .dndDraggingSource {
-    opacity: 0.5;
-}
-
-/**
- * An element with .dndPlaceholder class will be added as child of the dnd-list
- * while the user is dragging over it.
- */
-.advancedDemo .dropzone .dndPlaceholder {
-    background-color: #ddd !important;
-    display: block;
-    min-height: 42px;
-}
-
-/***************************** Element type specific styles *****************************/
-
-.advancedDemo .dropzone .itemlist {
-    min-height: 120px !important;
-}
-
-.advancedDemo .dropzone .itemlist > li {
-    background-color: #337ab7;
-    border: none;
-    border-radius: .25em;
-    color: #fff;
-    float: left;
-    font-weight: 700;
+.field.axis {
     height: 50px;
-    margin: 5px;
-    padding: 3px;
-    text-align: center;
-    width: 80px;
+    text-wrap: none;
+    background: pink;
+    overflow: hidden;
 }
 
-.advancedDemo .dropzone .container-element {
-    margin: 10px;
+.chart-table {
+    height:100% !important;
+    width:100% !important;
+    margin-right: 100px;
 }
 
-
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.simpleDemo ul[dnd-list] {
-    min-height: 42px;
-    padding-left: 0px;
-}
-
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.simpleDemo ul[dnd-list] .dndDraggingSource {
-    display: none;
-}
-
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.simpleDemo ul[dnd-list] .dndPlaceholder {
-    background-color: #ddd;
-    display: block;
-    min-height: 42px;
-}
-
-.simpleDemo ul[dnd-list] li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-}
-
-/**
- * Show selected elements in green
- */
-.simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
+.chart-cell {
+    min-height: 170px;
 }

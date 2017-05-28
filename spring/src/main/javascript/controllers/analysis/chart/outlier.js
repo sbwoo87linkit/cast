@@ -10,16 +10,32 @@ var async = require('async');
  * Controller
  */
 
-OutlierCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'advAgent'];
-function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, advAgent) {
+OutlierCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'advAgent', 'popupBox'];
+function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, advAgent, popupBox) {
 
     /**
      * Event
      */
 
-    $scope.$on('analysis.execute', function () {
+    $scope.onDrop = function ($event, $data) {
+        $scope.adv.targetField = _.cloneDeep($data);
+    };
 
-        $scope.analysis.isWaiting = true;
+    $scope.clearTargetField = function () {
+        $scope.adv.targetField = null;
+    }
+
+    $scope.$on('adv.execute', function () {
+
+        if (!$scope.adv.targetField) {
+            var msg = '대상 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+            popupBox.alert(msg, function clickedOk() {
+                // something...
+            });
+            return false;
+        }
+
+        $scope.adv.isWaiting = true;
         async.parallel([
             function(callback) {
                 $scope.request('adv-histogram', callback);
@@ -34,12 +50,12 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
                 $scope.request('adv-outlier', callback);
             },
         ], function(error, result) {
-            $scope.analysis.isWaiting = false;
+            $scope.adv.isWaiting = false;
             if (!error) {
                 // success. clear requests
                 result = [];
             } else {
-                // error. candel requests and clear requests
+                // error. cancel requests and clear requests
                 advAgent.cancelAllRequests(result);
                 result = [];
             }
@@ -60,8 +76,8 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
     $scope.request = function (service, callback) {
         var data = {
             q: "*",
-            datamodel_id: $scope.analysis.datamodel_id,
-            target_field: $scope.outlier_top[0]
+            datamodel_id: $scope.adv.datamodel_id,
+            target_field: $scope.adv.targetField
         }
 
         advAgent.getId(service, data).then(function (d) {
@@ -308,15 +324,6 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         }
     }
 
-    // drop 체크하여 실행버튼 Toggle
-    $scope.$watch('outlier_top', function (newValue, oldValue) {
-        if ($scope.outlier_top.length > 0) {
-            $scope.analysis.isReadyToExecute = true;
-        } else {
-            $scope.analysis.isReadyToExecute = false;
-        }
-    }, true);
-
     $scope.export = function (item) {
 
         // Table CSV 저장은 mu-grid 내장 export 기능 이용
@@ -346,6 +353,7 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         var sec = dateString.substr(12, 2);
         return Date.UTC(year, month, day, hour, min, sec);
     }
+
 }
 
 module.exports = OutlierCtrl;
