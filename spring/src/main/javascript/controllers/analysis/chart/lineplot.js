@@ -16,7 +16,56 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
 
 
     /**
-     * Event
+     *
+     * yAxisField
+     */
+
+    $scope.yAxisField = {}
+
+    $scope.yAxisField.summaryMethods = [
+        { text: '합계', value: 'sum', isSelected: true },
+        { text: '개수', value: 'count' },
+        { text: '평균', value: 'average' },
+        { text: '쵀대', value: 'max' },
+        { text: '최소', value: 'min' },
+        { text: '표준편차', value: 'standardDeviation' },
+        { text: '중간값', value: 'mean' },
+        { text: '개별 값 나열', value: 'iterate' }
+    ];
+
+    $scope.yAxisField.summaryMethodSelected = {};
+
+    $scope.yAxisField.fills = [
+        { text: '채우지않음', value: 'not_fill', isSelected: true },
+        { text: '앞-뒤 평균', value: 'average' },
+        { text: '앞의 값', value: 'front_value' },
+        { text: '뒤의 값', value: 'rear_value' },
+        { text: '0', value: 'zero' },
+        { text: '사용자지정', value: 'userDefined' },
+    ];
+
+    $scope.yAxisField.fillSelected = {};
+
+    $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
+        field.summaryMethod = summaryMethod.value;
+
+        if (fill.value === 'userDefined') {
+            if (userDefinedValue) {
+                popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
+                field.fill = userDefinedValue;
+            } else {
+                popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {})
+            }
+        } else {
+            popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
+            field.fill = fill.value;
+        }
+    }
+
+
+    /**
+     *
+     * timeField
      */
 
     $scope.timeField = {}
@@ -43,16 +92,6 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         }
     }
 
-    $scope.$watch('selModel.value', function (value) {
-        $log.info('(selectbox) watch:', value);
-    });
-
-    $scope.changeOption = function (model) {
-        $log.info('(selectbox) change:', model.value);
-    };
-
-
-
 
     // $scope.summaryTimes = {"10sec":"10초" ,"1min":"1분", "5min": "5분", "userDefined": "사용자정의"};
     $scope.models = {"10초":"10초" ,"1분":"1분", "5분": "5분", "사용자정의": "사용자정의"};
@@ -67,28 +106,19 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         $scope.dlgOffset = {};
         $scope.dlgOffset.top = (btnOffset.top + $btn.height() + 10);
         $scope.dlgOffset.left = (btnOffset.left);
-        // console.log($('.mu-dialog'))
-        // $timeout(function () {
-        //     $('.mu-dialog').css('top', $scope.dlgOffset.top + 'px');
-        //     $('.mu-dialog').css('left', $scope.dlgOffset.left + 'px');
-        // })
         $scope.$root.$broadcast('dialog.open.' + 'dialog');
-        // $document.bind('click', _docClickListener);
 
     }
 
     $scope.onDropGroupField = function ($event, $data) {
         $scope.adv.groupField = _.cloneDeep($data);
-        // $scope.adv.isReadyToExecute = true;
     };
 
     $scope.clearGroupField = function () {
         $scope.adv.groupField = null;
-        // $scope.adv.isReadyToExecute = false;
     }
 
     $scope.onDropTimeField = function ($event, $data) {
-        console.log($data)
         if ($data.type != 'TIMESTAMP') {
             popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
                 return false;
@@ -96,29 +126,15 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         } else {
             $scope.adv.timeField = _.cloneDeep($data);
         }
-        // $scope.adv.isReadyToExecute = true;
     };
 
     $scope.clearTimeField = function () {
         $scope.adv.timeField = null;
-        // $scope.adv.isReadyToExecute = false;
-        // adv.timeField.setting
         popupLayerStore.get('adv.timeField.setting').closeEl();
-
     }
 
     $scope.$on('adv.execute', function () {
-
-        //console.log('-----------', advLineplotAgent.getId());
-        // $scope.request('adv2-lineplot', null);
-
         var msg = null;
-        // if (!$scope.adv.groupField) {
-        //     msg = '그룹 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-        //     popupBox.alert(msg, function clickedOk() {
-        //     });
-        //     return false;
-        // }
 
         if (!$scope.adv.timeField) {
             msg = '타입 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
@@ -139,14 +155,11 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
             return false;
         }
 
-        console.log($scope.adv)
-
         $scope.adv.isWaiting = true;
         async.forEachOf($scope.adv.chartData, function (item, index, callback) {
             $scope.request('adv2-lineplot', index, callback);
         }, function (err) {
             $scope.adv.isWaiting = false;
-            if (err) console.error(err.message);
         })
     })
 
@@ -170,17 +183,12 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
 
     var renderChart = function (service, d, rowIndex) {
 
-        // console.log('render chart', service, d, rowIndex)
         var data = d.data.results;
         _.forEach(data, function (item) {
             item[0] = utility.strToDate(item[0])
         });
 
         var height = $('#container_' + rowIndex).height()
-
-        // height = 168;
-        console.log('height ', height)
-
 
         // 차트를 생성후 overwrite 하면 chart object를 찾을수 없음. Chart 생성후에는 Series Data만 갱신
         if ($scope.adv.chartData[rowIndex].config === undefined) {
@@ -247,21 +255,15 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
             // $scope.adv.chartData[rowIndex].config.height = height;
             var chart = $scope.adv.chartData[rowIndex].config.getChartObj();
             $timeout(function () {
-                console.log(chart.containerWidth, height)
                 chart.setSize(chart.containerWidth, height, true);
                 chart.hasUserSize = null;
             })
         }
     }
 
-
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
-
     $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
-
     $scope.adv.chartData = [{axis: {"name": "Event Object의 개수", "type": "TEXT", "option": null}}]
-    // $scope.adv.chartData = [{}]
-
 
     $scope.addRow = function () {
 
@@ -287,34 +289,25 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
     }
 
     $scope.onDropAxisField = function ($event, $data, $index) {
-        console.log($data, $index)
-        // // $scope.adv.groupField = _.cloneDeep($data);
-        // // $scope.adv.isReadyToExecute = true;
         $scope.adv.chartData[$index].axis = _.cloneDeep($data);
-
         // TODO : drop 후 popup layer open
         // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-
     };
 
     $scope.clearAxisField = function ($index) {
         $scope.adv.chartData[$index].axis = null;
-        // Drop clear 후, popup 닫기
+        // TODO : drop 후 popup layer open
         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
     }
 
 
     window.onresize = function () {
-        console.log('window.onresize....')
         resizeAll();
     };
 
 
     function resizeAll() {
         $('.chart').each(function () {
-
-            console.log('resize ', $(this).parent().width(), $(this).parent().height());
-
             $(this).highcharts().setSize(
                 $(this).parent().width(),
                 $(this).parent().height(),
@@ -333,8 +326,6 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         })
 
     }
-
-
 }
 
 module.exports = LineplotCtrl;

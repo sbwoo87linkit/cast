@@ -86,7 +86,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
-        console.log(chart)
         $scope.adv.isReayToExecute = false;
         $scope.adv.chart = chart;
     }

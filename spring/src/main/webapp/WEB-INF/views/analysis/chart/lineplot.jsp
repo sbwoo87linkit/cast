@@ -60,9 +60,9 @@
                     </colgroup>
                     <tr ng-repeat="field in adv.chartData">
                         <td>
-                            <div ui-on-Drop="onDropAxisField($event, $data, $index)"
+                            <div ui-on-Drop="onDropAxisField($event, $data, $index)" class="drop-container"
                                  ng-style="{'min-height' : adv.chartOpts.opts.normal.minHeight - 4 + 'px'}"
-                                 style="height:100%; border:1px solid #999;"
+                                 style="height:100%;"
                                  >
                                 <div ng-if="!field.axis"
                                      style="height: 100%">
@@ -81,7 +81,7 @@
                                     <div>
                                         <button> > </button>
                                     </div>
-                                    <div style="height: calc(100% - 40px); position: relative">
+                                    <div style="height: calc(100% - 50px); position: relative">
                                         <div style="position: absolute;top: 50%; left: 50%;
                                         -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
                                         transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
@@ -96,50 +96,47 @@
                             </div>
 
                             <!-- 팝업 레이어: Axis Field 설정 -->
-                            <div class="mu-tooltip right-top" style="width: 360px;" popup-layer="adv.axisField.setting_{{$index}}">
+                            <div class="mu-tooltip right-top" style="width: 365px;" popup-layer="adv.axisField.setting_{{$index}}">
                                 <div class="arrow"></div>
+
                                 <div class="mu-tooltip-inner">
+
                                     <span class="title">{{field.axis.name}}</span>
-                                    <div class="mu-item-group">
-                                        <table class="mu-formbox mu-formbox-vertical">
-                                            <colgroup>
-                                                <col width="80">
-                                                <col width="100">
-                                                <col width="10">
-                                            </colgroup>
-                                            <tbody>
-                                            <tr ng-repeat="tempFilter in adv.tempFilters">
-                                                <td>
-                                                    <div class="mu-selectbox" mu-select-v2="" select-model="tempFilter.key">
-                                                        <button class="mu-value" title="{{models[tempFilter.key]}}">{{models[tempFilter.key]}}</button>
-                                                        <ul class="mu-list">
-                                                            <li ng-repeat="(value, name) in models" mu-option-v2="value" title="{{name}}">{{name}}</li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input type="text" ng-change="$last && addTempFilter(adv.tempFilters, inputFilter)" ng-model="tempFilter.value" class="mu-input mu-input-default">
-                                                </td>
-                                                <td>
-                                                    <button type="button"
-                                                            ng-click="deleteTempFilter($index, tempFilter)"
-                                                            class="mu-btn mu-btn-icon mu-btn-bg-non"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <!--<button ng-click="addTempFilter(adv.tempFilters, inputFilter)" style="padding-top: 5px; margin-top: 5px; margin-left: 10px;"><i class="mu-icon add"></i></button>-->
-                                        <button type="button"
-                                                ng-click="addTempFilter(adv.tempFilters, inputFilter)"
-                                                style="background: #fff; border: 1px solid #ccc; padding: 3px"
-                                                class="mu-btn mu-btn-icon mu-btn-icon-only">
-                                            <i class="mu-icon-img add"></i>
-                                        </button>
+                                    <!-- selectbox: 모델 -->
+                                    <div class="mu-search-item timeRelative">
+                                        <div class="mu-item-group">
+                                            <label>Summary 방식:</label>
+                                            <div class="mu-selectbox" mu-select="sb1" select-model="yAxisField.summaryMethodSelected"
+                                                 select-items="yAxisField.summaryMethods" select-change="changeOption($model)">
+                                                <button class="mu-value">{{$model.text}}</button>
+                                                <ul class="mu-list">
+                                                    <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="mu-item-group">
+                                            <label>빠진값 채우기:</label>
+                                            <div class="mu-selectbox" mu-select="sb1" select-model="yAxisField.fillSelected"
+                                                 select-items="yAxisField.fills" select-change="changeOption($model)">
+                                                <button class="mu-value">{{$model.text}}</button>
+                                                <ul class="mu-list">
+                                                    <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
+                                                </ul>
+                                            </div>
+                                            <input ng-if="yAxisField.fillSelected.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
+                                                   ng-model="yAxisField.fillValue">
+                                        </div>
                                     </div>
+
                                     <div class="mu-item-group" style="padding-top: 10px;height: 30px;">
-                                        <button class="mu-btn btnApply fr" type="button" ng-click="saveFilter(adv.selectedField, adv.tempFilters)"><spring:message code="save" /></button>
+                                        <button class="mu-btn btnApply fr" type="button"
+                                                ng-click="saveYAxisFieldOption(field, $index, yAxisField.summaryMethodSelected, yAxisField.fillSelected, yAxisField.fillValue)">
+                                            <spring:message code="save" /></button>
                                     </div>
                                 </div>
+
+
+
                             </div>
                             <!-- // 팝업 레이어: Axis Field 설정 -->
 
@@ -193,7 +190,8 @@
                                 <div class="mu-search-item timeRelative">
                                     <div class="mu-item-group">
                                         <label>Summary 시간단위:</label>
-                                        <div class="mu-selectbox" mu-select="sb1" select-model="timeField.summaryTimeSelected" select-items="timeField.summaryTimes" select-change="changeOption($model)">
+                                        <div class="mu-selectbox" mu-select="sb1" select-model="timeField.summaryTimeSelected"
+                                             select-items="timeField.summaryTimes" select-change="changeOption($model)">
                                             <button class="mu-value">{{$model.text}}</button>
                                             <ul class="mu-list">
                                                 <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
@@ -201,7 +199,7 @@
                                         </div>
                                         <input ng-if="timeField.summaryTimeSelected.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
                                                ng-model="timeField.summaryTime">
-                                        <label ng-if="selModel.value==='userDefined'" ><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
+                                        <label ng-if="timeField.summaryTimeSelected.value==='userDefined'" ><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
                                         <!-- text tooltip -->
                                         <div class="mu-tooltip" style="z-index: 30;" mu-tooltip="anomaly.ttip.model">
                                             <div class="arrow"></div>

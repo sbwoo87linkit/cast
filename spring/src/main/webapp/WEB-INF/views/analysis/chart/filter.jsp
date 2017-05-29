@@ -15,7 +15,7 @@
     <div class="mu-tabCont" mu-tab-contents="">
 
         <h5 ui-draggable="true" class="mu-title tc" style="padding: 10px;" drag="adv.fieldCount">
-            {{ adv.fieldCount.name }}bb
+            {{ adv.fieldCount.name }}
             <span class="mu-badge">{{fieldList.length}}</span>
         </h5>
 

@@ -12,7 +12,7 @@ function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, para
      */
 
     $scope.adv = {};
-    $scope.adv.isReadyToExecute = false;
+    // $scope.adv.isReadyToExecute = false;
 
     /**
      *   init
