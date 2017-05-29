@@ -31,19 +31,9 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
 
     $scope.outlier_top = [];
 
-    // /**
-    //  * Drag & Drop setup
-    //  */
-    //
-
-
-
-
     /**
      *  Scope 변수
      */
-
-    // $scope.adv = {};
 
     $scope.chartGroups = [
         {
@@ -74,11 +64,15 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         }
     ];
 
-
     // 선택한 차트유형
     $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
     $scope.adv.chart = $scope.chartGroups[0].items[0];
+
+    // 각 필드 옵션을 저장
+    $scope.adv.fieldOption = {};
+    $scope.adv.fieldOption.timeField = {};
+
 
     // /**
     //  *
@@ -92,6 +86,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
     $scope.changeChart = function (chart) {
+        console.log(chart)
         $scope.adv.isReayToExecute = false;
         $scope.adv.chart = chart;
     }
@@ -110,14 +105,14 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     }
 
 
-    $scope.isCountFieldDraggable = function (chartType) {
-        var draggable = false;
-        if (chartType === 'Line plot') {
-            draggable = true;
-        }
-
-        return draggable;
-    }
+    // $scope.isCountFieldDraggable = function (chartType) {
+    //     var draggable = false;
+    //     if (chartType === 'Line plot') {
+    //         draggable = true;
+    //     }
+    //
+    //     return draggable;
+    // }
 
 
     /**

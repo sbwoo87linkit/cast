@@ -226,11 +226,14 @@ function ChartOptionCtrl($scope, $timeout, $stateParams, $document,
         {res: '범례'},
     ];
 
+    console.log($scope.adv.chart);
+
     $scope.activeTabSet = 'defaultTab';
     $scope.dlgOffset = {
         left: 20,
         top: 0
     };
+
     // $scope.overlayFields = [];
     // NOTE: 추후 작업용
     // [

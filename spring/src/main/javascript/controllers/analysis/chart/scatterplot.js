@@ -9,38 +9,37 @@ var async = require('async');
  * Controller
  */
 
-LineplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advLineplotAgent', '$log',
+ScatterplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advLineplotAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAgent, $log,
+function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
+
+    console.log('ScatterplotCtrl........')
 
     /**
      * Event
      */
 
-    $scope.timeField = {}
 
-    $scope.timeField.summaryTimes = [
+    $scope.selOptions = [
         { text: '10초', value: '10sec', isSelected: true },
         { text: '1분', value: '1min' },
         { text: '5분', value: '5min' },
         { text: '사용자정의', value: 'userDefined' },
     ];
-    $scope.timeField.summaryTimeSelected = {};
 
-    $scope.saveTimeFieldOption = function (model, userDefinedValue) {
-        if (model.value === 'userDefined') {
-            if (userDefinedValue) {
-                popupLayerStore.get('adv.timeField.setting').closeEl();
-                $scope.adv.fieldOption.timeField.summaryTime = userDefinedValue;
-            } else {
-                popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {})
-            }
+    $scope.selModel = {};
+
+    $scope.saveXAxisOption = function (model, userDefinedValue) {
+
+        if (model.value === 'userDefined' && !userDefinedValue) {
+            popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {})
         } else {
             popupLayerStore.get('adv.timeField.setting').closeEl();
-            $scope.adv.fieldOption.timeField.summaryTime = model.value;
         }
+        console.log(model, userDefinedValue);
+
     }
 
     $scope.$watch('selModel.value', function (value) {
@@ -337,4 +336,4 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
 
 }
 
-module.exports = LineplotCtrl;
+module.exports = ScatterplotCtrl;

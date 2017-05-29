@@ -16,6 +16,10 @@
             <i class="mu-icon-img"></i>
         </button>
     </div>
+
+
+
+
     <!-- 탭 (기본) -->
     <div class="mu-dialog-body" ng-show="activeTabSet === 'defaultTab'">
         <!-- 탭 목록 (좌측) -->
@@ -34,7 +38,7 @@
                     </colgroup>
                     <tbody>
                     <!-- Null 값 -->
-                    <tr ng-show="adv.chart.type='Line plot' || chartType === 'spline' || chartType === 'area'">
+                    <tr ng-show="adv.chart.type=== 'Line plot' || chartType === 'spline' || chartType === 'area'">
                         <th>
                             <spring:message code="chart.normal.null_values" />
                         </th>
@@ -488,6 +492,18 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- 탭 (pie 차트) -->
     <div class="mu-dialog-body" ng-show="activeTabSet === 'PieTab'">
         <!-- 탭 목록 (좌측) -->

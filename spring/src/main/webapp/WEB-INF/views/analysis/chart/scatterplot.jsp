@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<div ng-controller="analysis.chart.LineplotCtrl" class="full-height"
+<div ng-controller="analysis.chart.ScatterplotCtrl" class="full-height"
      xmlns:spring="http://www.w3.org/1999/XSL/Transform">
+
     <div class="mu-row">
         <div class="mu-col mu-col-4">
             <%@ include file="choose_chart.jsp"%>
@@ -63,7 +64,7 @@
                             <div ui-on-Drop="onDropAxisField($event, $data, $index)"
                                  ng-style="{'min-height' : adv.chartOpts.opts.normal.minHeight - 4 + 'px'}"
                                  style="height:100%; border:1px solid #999;"
-                                 >
+                            >
                                 <div ng-if="!field.axis"
                                      style="height: 100%">
                                     <div style="height: calc(100% - 0px); position: relative">
@@ -193,14 +194,14 @@
                                 <div class="mu-search-item timeRelative">
                                     <div class="mu-item-group">
                                         <label>Summary 시간단위:</label>
-                                        <div class="mu-selectbox" mu-select="sb1" select-model="timeField.summaryTimeSelected" select-items="timeField.summaryTimes" select-change="changeOption($model)">
+                                        <div class="mu-selectbox" mu-select="sb1" select-model="selModel" select-items="selOptions" select-change="changeOption($model)">
                                             <button class="mu-value">{{$model.text}}</button>
                                             <ul class="mu-list">
                                                 <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
                                             </ul>
                                         </div>
-                                        <input ng-if="timeField.summaryTimeSelected.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                                               ng-model="timeField.summaryTime">
+                                        <input ng-if="selModel.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="adv.xAxisSummary">
+                                        <!--<div class="timeView ng-binding" ng-bind="choosedDate(relval.start, relStart.value)">2017/05/21 00:00:00</div>-->
                                         <label ng-if="selModel.value==='userDefined'" ><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
                                         <!-- text tooltip -->
                                         <div class="mu-tooltip" style="z-index: 30;" mu-tooltip="anomaly.ttip.model">
@@ -214,7 +215,7 @@
                                 </div>
 
                                 <div class="mu-item-group" style="padding-top: 10px;height: 30px;">
-                                    <button class="mu-btn btnApply fr" type="button" ng-click="saveTimeFieldOption(timeField.summaryTimeSelected, timeField.summaryTime)"><spring:message code="save" /></button>
+                                    <button class="mu-btn btnApply fr" type="button" ng-click="saveXAxisOption(selModel, adv.xAxisSummary)"><spring:message code="save" /></button>
                                 </div>
                             </div>
                         </div>

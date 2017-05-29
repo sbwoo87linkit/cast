@@ -21,7 +21,7 @@
 
             <!--Scatter plot-->
             <div ng-if="adv.chart.type === 'Scatter plot'" class="full-height">
-                Scatter plot
+                <%@ include file="scatterplot.jsp"%>
             </div>
 
             <!--Motion-->

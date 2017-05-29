@@ -18,6 +18,7 @@ module.exports = angular.module('sherman.controllers.analysis', [])
 
     .controller('analysis.chart.OutlierCtrl', require('./chart/outlier.js'))
     .controller('analysis.chart.LineplotCtrl', require('./chart/lineplot.js'))
+    .controller('analysis.chart.ScatterplotCtrl', require('./chart/scatterplot.js'))
 
 
     // .controller('anomaly.card.ContainerCtrl', require('./card/container.js'))

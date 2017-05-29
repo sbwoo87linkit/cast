@@ -1,4 +1,5 @@
 <div style="position: absolute; width: 20%; height:28px; border-bottom: 1px solid #ddd"></div>
+
 <ul class="mu-tab" mu-tabset="ts2">
     <li mu-tab-item="" tab-activated="true">
         <a href="javascript:;">필드</a>
@@ -7,12 +8,15 @@
         <a href="javascript:;">필터</a>
     </li>
 </ul>
+
 <div class="mu-tab-body" mu-tabset="ts2">
 
     <!--필드목록 탭-->
     <div class="mu-tabCont" mu-tab-contents="">
 
-        <h5 ui-draggable="isCountFieldDraggable(adv.chart.type)" class="mu-title tc" style="padding: 10px;" drag="adv.fieldCount">{{ adv.fieldCount.name }} <span class="mu-badge">{{fieldList.length}}</span>
+        <h5 ui-draggable="true" class="mu-title tc" style="padding: 10px;" drag="adv.fieldCount">
+            {{ adv.fieldCount.name }}bb
+            <span class="mu-badge">{{fieldList.length}}</span>
         </h5>
 
         <ul class="mu-slide-menu">
@@ -29,6 +33,7 @@
                 </a>
             </li>
         </ul>
+
     </div>
 
     <!--필터 탭-->
@@ -65,6 +70,7 @@
             </button>
         </div>
     </div>
+
 </div>
 
 <!-- 팝업 레이어: 필드리스트 추가 -->
