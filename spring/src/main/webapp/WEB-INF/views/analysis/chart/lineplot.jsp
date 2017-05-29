@@ -59,7 +59,7 @@
                         <col width="50px">
                     </colgroup>
                     <tr ng-repeat="field in adv.chartData">
-                        <td>
+                        <td ng-dblclick="removeRow($index)">
                             <div ui-on-Drop="onDropAxisField($event, $data, $index)" class="drop-container"
                                  ng-style="{'min-height' : adv.chartOpts.opts.normal.minHeight - 4 + 'px'}"
                                  style="height:100%;"

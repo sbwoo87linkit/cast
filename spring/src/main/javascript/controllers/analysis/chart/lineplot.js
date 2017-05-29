@@ -9,17 +9,26 @@ var async = require('async');
  * Controller
  */
 
-LineplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advLineplotAgent', '$log',
+LineplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAgent, $log,
+function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
     /**
-     *
-     * yAxisField
+     * Scope variable
      */
 
+    // Event Object의 개수 행을 추가
+    $scope.adv.chartData = [{axis: {"name": "Event Object의 개수", "type": "TEXT", "option": null}}]
+
+    // group drop field
+    $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+
+    // time drop field
+    $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
+
+    // yAxisField 팝업레이어 옵션
     $scope.yAxisField = {}
 
     $scope.yAxisField.summaryMethods = [
@@ -62,11 +71,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         }
     }
 
-
-    /**
-     *
-     * timeField
-     */
+    // timeField 팝업레이어 옵션
 
     $scope.timeField = {}
 
@@ -76,6 +81,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         { text: '5분', value: '5min' },
         { text: '사용자정의', value: 'userDefined' },
     ];
+
     $scope.timeField.summaryTimeSelected = {};
 
     $scope.saveTimeFieldOption = function (model, userDefinedValue) {
@@ -92,22 +98,20 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         }
     }
 
+    /**
+     *  Drop 필드 제어
+     */
 
-    // $scope.summaryTimes = {"10sec":"10초" ,"1min":"1분", "5min": "5분", "userDefined": "사용자정의"};
-    $scope.models = {"10초":"10초" ,"1분":"1분", "5분": "5분", "사용자정의": "사용자정의"};
-    $scope.formData.model = "5분"
+    $scope.onDropAxisField = function ($event, $data, $index) {
+        $scope.adv.chartData[$index].axis = _.cloneDeep($data);
+        // TODO : drop 후 popup layer open
+        // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+    };
 
-
-    $scope.setDialogOptions = function (_btnShowDlgID) {
-
-        var $btn = $('#' + _btnShowDlgID);
-        var btnOffset = $btn.offset();
-
-        $scope.dlgOffset = {};
-        $scope.dlgOffset.top = (btnOffset.top + $btn.height() + 10);
-        $scope.dlgOffset.left = (btnOffset.left);
-        $scope.$root.$broadcast('dialog.open.' + 'dialog');
-
+    $scope.clearAxisField = function ($index) {
+        $scope.adv.chartData[$index].axis = null;
+        // TODO : drop 후 popup layer open
+        popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
     }
 
     $scope.onDropGroupField = function ($event, $data) {
@@ -133,6 +137,59 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
+    /**
+     * 행 추가 삭제 리사이즈 제어
+     */
+
+    $scope.addRow = function () {
+
+        // TODO : TEST PURPOSE ONLY -
+        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
+        // TODO : UNCOMMENT FOR SERVICE
+        // $scope.adv.chartData.push({});
+
+        _.forEach($scope.adv.chartData, function (row, index) {
+            var container = $('#container_' + index);
+            if (row.config) {
+                var chart = row.config.getChartObj();
+                $timeout(function () {
+                    chart.setSize(chart.containerWidth, container.height(), true);
+                })
+            }
+        })
+    }
+
+    $scope.removeRow = function ($index) {
+        $scope.adv.chartData.splice($index, 1);
+    }
+
+    window.onresize = function () {
+        resizeAll();
+    };
+
+    function resizeAll() {
+        $('.chart').each(function () {
+            $(this).highcharts().setSize(
+                $(this).parent().width(),
+                $(this).parent().height(),
+                false
+            );
+        });
+        _.forEach($scope.adv.chartData, function (row, index) {
+            var container = $('#container_' + index);
+            if (row.config) {
+                var chart = row.config.getChartObj();
+                $timeout(function () {
+                    chart.setSize(container.width(), container.height(), true);
+                })
+            }
+        })
+    }
+
+    /**
+     * Data fetch and render chart
+     */
+
     $scope.$on('adv.execute', function () {
         var msg = null;
 
@@ -157,7 +214,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
 
         $scope.adv.isWaiting = true;
         async.forEachOf($scope.adv.chartData, function (item, index, callback) {
-            $scope.request('adv2-lineplot', index, callback);
+            $scope.request('adv-lineplot-dev', index, callback);
         }, function (err) {
             $scope.adv.isWaiting = false;
         })
@@ -170,8 +227,8 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        advLineplotAgent.getId(service, data).then(function (d) {
-            advLineplotAgent.getData(service, d.data.sid).then(function (d1) {
+        advAgent.getId(service, data).then(function (d) {
+            advAgent.getData(service, d.data.sid).then(function (d1) {
                 renderChart(service, d1, rowIndex);
                 if (callback) {
                     callback(null, {id: d.data.sid, service: service})
@@ -190,7 +247,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
 
         var height = $('#container_' + rowIndex).height()
 
-        // 차트를 생성후 overwrite 하면 chart object를 찾을수 없음. Chart 생성후에는 Series Data만 갱신
+        // 차트를 생성후 overwrite 하면 chart object를 찾을수 없음. Chart 생성후에는 Series data와 만 갱신
         if ($scope.adv.chartData[rowIndex].config === undefined) {
             $scope.adv.chartData[rowIndex].config = {
                 chart: {
@@ -198,14 +255,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
                     reflow: true,
                     height: height
                 },
-                series: [
-                    {
-                        data: [[1370131200000, 43934], [1370217600000, 23934], [1370304000000, 53934]]
-                    },
-                    {
-                        data: [[1370131200000, 23934], [1370217600000, 33934], [1370304000000, 13934]]
-                    }
-                ],
+                series: [{data : data}],
                 xAxis: {
                     type: 'datetime',
                     labels: {
@@ -244,14 +294,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
                 }
             }
         } else {
-            $scope.adv.chartData[rowIndex].config.series = [
-                {
-                    data: [[1370131200000, 13934], [1370217600000, 23934], [1370304000000, 53934]]
-                },
-                {
-                    data: [[1370131200000, 23934], [1370217600000, 33934], [1370304000000, 13934]]
-                }
-            ];
+            $scope.adv.chartData[rowIndex].config.series = [{data: data}];
             // $scope.adv.chartData[rowIndex].config.height = height;
             var chart = $scope.adv.chartData[rowIndex].config.getChartObj();
             $timeout(function () {
@@ -259,73 +302,8 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advLineplotAge
                 chart.hasUserSize = null;
             })
         }
-    }
-
-    $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
-    $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
-    $scope.adv.chartData = [{axis: {"name": "Event Object의 개수", "type": "TEXT", "option": null}}]
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        // TODO : Test purpose only
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    $scope.onDropAxisField = function ($event, $data, $index) {
-        $scope.adv.chartData[$index].axis = _.cloneDeep($data);
-        // TODO : drop 후 popup layer open
-        // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
     };
 
-    $scope.clearAxisField = function ($index) {
-        $scope.adv.chartData[$index].axis = null;
-        // TODO : drop 후 popup layer open
-        popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    }
-
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-
-    }
 }
 
 module.exports = LineplotCtrl;

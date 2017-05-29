@@ -21,7 +21,7 @@ var scatter = require(path.join(DATA_PATH, 'scatter.json'));
 var summary = require(path.join(DATA_PATH, 'summary.json'));
 var outlier = require(path.join(DATA_PATH, 'outlier.json'));
 
-var lineplot = require(path.join(DATA_PATH, 'lineplot2.json'));
+var lineplot_dev = require(path.join(DATA_PATH, 'lineplot_dev.json'));
 
 
 
@@ -271,14 +271,11 @@ router.delete('/adv-outlier/jobs/:sid/close', function(req, res) {
 
 
 /**
- * TODO:  TEST DATA for dev  ---- sbwoo ----
+ * TODO:  TEST DATA....
  */
 
-
-
-
-// lineplot
-router.post('/adv2-lineplot/jobs', function(req, res) {
+// lineplot_dev
+router.post('/adv-lineplot-dev/jobs', function(req, res) {
     var body = req.body;
     if (!body.datamodel_id || !body.target_field) {
         return res.status(400).send({
@@ -295,7 +292,7 @@ router.post('/adv2-lineplot/jobs', function(req, res) {
 
     res.send({ sid: sid });
 });
-router.get('/adv2-lineplot/jobs/:sid', function(req, res) {
+router.get('/adv-lineplot-dev/jobs/:sid', function(req, res) {
     var sid = req.params.sid;
 
     if (!sessions[sid]) {
@@ -305,7 +302,7 @@ router.get('/adv2-lineplot/jobs/:sid', function(req, res) {
     var body = sessions[sid].body;
     var index = sessions[sid].index;
     var isEnd = (index === MAX_SPLIT_NUM);
-    var data = _.cloneDeep(lineplot);
+    var data = _.cloneDeep(lineplot_dev);
 
     data.status = {
         'current': index,
@@ -324,7 +321,7 @@ router.get('/adv2-lineplot/jobs/:sid', function(req, res) {
         res.send(data);
     }, delay);
 });
-router.delete('/adv2-lineplot/jobs/:sid/close', function(req, res) {
+router.delete('/adv-lineplot-dev/jobs/:sid/close', function(req, res) {
     var sid = req.params.sid;
 
     if (!sessions[sid]) {
