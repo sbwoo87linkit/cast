@@ -67,7 +67,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     // 선택한 차트유형
     $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
-    $scope.adv.chart = $scope.chartGroups[0].items[2];
+    $scope.adv.chart = $scope.chartGroups[2].items[0];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};

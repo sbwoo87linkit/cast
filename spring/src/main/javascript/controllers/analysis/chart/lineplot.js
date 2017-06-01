@@ -212,10 +212,12 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
             return false;
         }
 
+        var service = 'adv-lineplot-dev';
         $scope.adv.isWaiting = true;
         async.forEachOf($scope.adv.chartData, function (item, index, callback) {
-            $scope.request('adv-lineplot-dev', index, callback);
+            $scope.request(service, index, callback);
         }, function (err) {
+            // 모든 Row Request가 완료
             $scope.adv.isWaiting = false;
         })
     })

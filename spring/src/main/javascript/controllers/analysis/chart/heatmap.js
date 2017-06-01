@@ -183,8 +183,10 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         }
 
         var service = 'adv-heatmap-dev';
+        $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
+                $scope.adv.isWaiting = false;
                 renderChart(service, d1);
             }, function (err) {
             });

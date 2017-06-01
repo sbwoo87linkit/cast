@@ -52,27 +52,7 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     };
     var chart = new MotionChart('#chart1', options);
 
-    console.log(chart);
-
     chart.duration(10000); // 10 sec
-
-    // console.log(chart);
-
-    d3.tsv("http://foxpro87.cafe24.com/data/motion_dev.tsv", function (error, data) {
-        // console.log(data);
-        var parseDate = d3.time.format('%Y').parse;
-        data.forEach(function (d) {
-            d.deaths = +d.deaths;
-            d.births = +d.births;
-            d.population = +d.population;
-            d.year = parseDate(d.year);
-        });
-
-        chart
-            .data(data)
-            .draw();
-
-    });
 
 
     // button click events
@@ -115,101 +95,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         chart.stop();
     };
 
-    // chart.data.tsv('/data/motion.tsv', function(err, data) {
-    //     if (err) {
-    //         alert(err);
-    //         return;
-    //     }
-    //
-    //     var parseDate = d3.time.format('%Y').parse;
-    //     data.forEach(function(d) {
-    //         d.deaths = +d.deaths;
-    //         d.births = +d.births;
-    //         d.population = +d.population;
-    //         d.year = parseDate(d.year);
-    //     });
-    //
-    //     chart
-    //         .data(data)
-    //         .draw();
-    // });
-
-    // var MotionChart = MobigenWebChart.chart.MotionChart;
-    //
-    // console.log(MotionChart);
-
-    //
-    // // sample-code-start:mc1
-    // var MotionChart = webchart.chart.MotionChart;
-    //
-    // // setting options
-
-    //
-    // // create instance
-    // var chart = new MotionChart('#chart1', options);
-    // chart.duration(10000); // 10 sec
-    //
-    // // load data
-    // webchart.data.tsv('/data/motion.tsv', function(err, data) {
-    //     if (err) {
-    //         alert(err);
-    //         return;
-    //     }
-    //
-    //     var parseDate = d3.time.format('%Y').parse;
-    //     data.forEach(function(d) {
-    //         d.deaths = +d.deaths;
-    //         d.births = +d.births;
-    //         d.population = +d.population;
-    //         d.year = parseDate(d.year);
-    //     });
-    //
-    //     chart
-    //         .data(data)
-    //         .draw();
-    // });
-    //
-    // // button click events
-    // d3.select('#btnPlay').on('click', function () {
-    //     chart.play();
-    // });
-    // d3.select('#btnPause').on('click', function () {
-    //     chart.pause();
-    // });
-    // d3.select('#btnResume').on('click', function () {
-    //     chart.resume();
-    // });
-    // d3.select('#btnStop').on('click', function () {
-    //     chart.stop();
-    // });
-    // // sample-code-end:mc1
-    //
-    // /**
-    //  *   button group
-    //  */
-    // $scope.currState = 'stop';
-    // $scope.isState = function (state) {
-    //     return $scope.currState === state;
-    // };
-    //
-    // $scope.play = function () {
-    //     $scope.currState = 'play';
-    //     chart.play();
-    // };
-    // $scope.pause = function () {
-    //     $scope.currState = 'pause';
-    //     chart.pause();
-    // };
-    // $scope.resume = function () {
-    //     $scope.currState = 'resume';
-    //     chart.resume();
-    // };
-    // $scope.stop = function () {
-    //     $scope.currState = 'stop';
-    //     chart.stop();
-    // };
-    //
-
 
     /**
      * Scope variable
@@ -217,6 +102,9 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     // group drop field
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+
+    // yAxis drop field
+    $scope.adv.yAxisField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
 
     // time drop field
     $scope.adv.timeField = _.find($scope.fieldList, function (x) {
@@ -427,63 +315,54 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         }
 
         var service = 'adv-motion-dev';
+        $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
+                // console.log(d1);
+                $scope.adv.isWaiting = false;
                 renderChart(service, d1);
             }, function (err) {
             });
         });
+
     })
 
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
+        // console.log(d.data.results);
 
-        $scope.config = {
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
-            },
-            series: data,
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    format: '{value:%m/%d}',
-                    // format: '{value:%H:%M:%S}',
-                }
-            },
-            title: {
-                text: null
-            },
-            legend: {
-                enabled: false
-            },
-            yAxis: {
-                title: {
-                    text: null
-                },
-                gridLineWidth: 1
-            },
+        // d3.tsv("http://foxpro87.cafe24.com/data/motion_dev.tsv", function (error, data) {
+        //     console.log(JSON.stringify(data));
+        //     var parseDate = d3.time.format('%Y').parse;
+        //     data.forEach(function (d) {
+        //         d.deaths = +d.deaths;
+        //         d.births = +d.births;
+        //         d.population = +d.population;
+        //         d.year = parseDate(d.year);
+        //     });
+        //
+        //     console.log(JSON.stringify(data))
+        //
+        //     chart
+        //         .data(data)
+        //         .draw();
+        //
+        // });
 
-            tooltip: {
-                enabled: true,
-                useHTML: true,
-                backgroundColor: 'white',
-                formatter: function () {
-                    return [
-                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
-                        '<b>시리즈: </b>' + this.series.name,
-                        '<b>값: </b>' + this.y
-                    ].join('<br>');
-                },
-                hideDelay: 0
-            },
-            exporting: {
-                enabled: false
-            }
-        }
+        var parseDate = d3.time.format('%Y').parse;
+        data.forEach(function (d) {
+            d.deaths = +d.deaths;
+            d.births = +d.births;
+            d.population = +d.population;
+            d.year = parseDate(d.year);
+        });
+
+        // console.log(JSON.stringify(data))
+
+        chart
+            .data(data)
+            .draw();
 
     };
 

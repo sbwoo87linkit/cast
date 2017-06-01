@@ -23,11 +23,11 @@ var outlier = require(path.join(DATA_PATH, 'outlier.json'));
 
 var lineplot_dev = require(path.join(DATA_PATH, 'lineplot_dev.json'));
 var scatterplot_dev = require(path.join(DATA_PATH, 'scatterplot_dev.json'));
-// var motion_dev = require(path.join(DATA_PATH, 'motion_dev.json'));
+var motion_dev = require(path.join(DATA_PATH, 'motion_dev.json'));
 var histogram_dev = require(path.join(DATA_PATH, 'histogram_dev.json'));
 var barchart_dev = require(path.join(DATA_PATH, 'barchart_dev.json'));
 var piechart_dev = require(path.join(DATA_PATH, 'piechart_dev.json'));
-// var sankey_dev = require(path.join(DATA_PATH, 'sankey_dev.json'));
+var sankey_dev = require(path.join(DATA_PATH, 'sankey_dev.json'));
 var heatmap_dev = require(path.join(DATA_PATH, 'heatmap_dev.json'));
 
 
@@ -400,6 +400,75 @@ router.delete('/adv-scatterplot-dev/jobs/:sid/close', function(req, res) {
     res.send({ message: 'OK' });
 });
 
+
+
+
+
+
+
+// motion_dev
+router.post('/adv-motion-dev/jobs', function(req, res) {
+    var body = req.body;
+    if (!body.datamodel_id || !body.target_field) {
+        return res.status(400).send({
+            type: 'Invalid parameter',
+            message: 'This was failed because...'
+        });
+    }
+
+    var sid = uuidV1();
+    sessions[sid] = {
+        body: body,
+        index: 1 // 1~MAX
+    };
+
+    res.send({ sid: sid });
+});
+router.get('/adv-motion-dev/jobs/:sid', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    var body = sessions[sid].body;
+    var index = sessions[sid].index;
+    var isEnd = (index === MAX_SPLIT_NUM);
+    var data = _.cloneDeep(motion_dev);
+
+    data.status = {
+        'current': index,
+        'total': MAX_SPLIT_NUM
+    };
+    data.isEnd = isEnd;
+
+    if (!isEnd) {
+        sessions[sid].index = (index + 1);
+    }
+
+    // var getOnce = (body.getOnce) ? body.getOnce : false;
+    var noDelay = (body.noDelay) ? body.noDelay : false;
+    var delay = ((noDelay) ? 0 : DELAY_MS);
+    setTimeout(function() {
+        res.send(data);
+    }, delay);
+});
+router.delete('/adv-motion-dev/jobs/:sid/close', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    delete sessions[sid];
+
+    res.send({ message: 'OK' });
+});
+
+
+
+
+
 // histogram_dev
 router.post('/adv-histogram-dev/jobs', function(req, res) {
     var body = req.body;
@@ -578,6 +647,75 @@ router.delete('/adv-piechart-dev/jobs/:sid/close', function(req, res) {
 
     res.send({ message: 'OK' });
 });
+
+
+
+
+
+
+// sankey_dev
+router.post('/adv-sankey-dev/jobs', function(req, res) {
+    var body = req.body;
+    if (!body.datamodel_id || !body.target_field) {
+        return res.status(400).send({
+            type: 'Invalid parameter',
+            message: 'This was failed because...'
+        });
+    }
+
+    var sid = uuidV1();
+    sessions[sid] = {
+        body: body,
+        index: 1 // 1~MAX
+    };
+
+    res.send({ sid: sid });
+});
+router.get('/adv-sankey-dev/jobs/:sid', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    var body = sessions[sid].body;
+    var index = sessions[sid].index;
+    var isEnd = (index === MAX_SPLIT_NUM);
+    var data = _.cloneDeep(sankey_dev);
+
+    data.status = {
+        'current': index,
+        'total': MAX_SPLIT_NUM
+    };
+    data.isEnd = isEnd;
+
+    if (!isEnd) {
+        sessions[sid].index = (index + 1);
+    }
+
+    // var getOnce = (body.getOnce) ? body.getOnce : false;
+    var noDelay = (body.noDelay) ? body.noDelay : false;
+    var delay = ((noDelay) ? 0 : DELAY_MS);
+    setTimeout(function() {
+        res.send(data);
+    }, delay);
+});
+router.delete('/adv-sankey-dev/jobs/:sid/close', function(req, res) {
+    var sid = req.params.sid;
+
+    if (!sessions[sid]) {
+        return res.sendStatus(404);
+    }
+
+    delete sessions[sid];
+
+    res.send({ message: 'OK' });
+});
+
+
+
+
+
 
 
 // heatmap_dev

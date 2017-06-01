@@ -184,17 +184,16 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-barchart-dev';
+        var service = 'adv-sankey-dev';
+        $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
 
                 $scope.isReady = true;
-
+                $scope.adv.isWaiting = false;
                 $timeout(function () {
                     renderChart(service, d1);
                 })
-
-
             }, function (err) {
             });
         });
@@ -211,6 +210,9 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     var renderChart = function (service, d, rowIndex) {
 
+        console.log(d.data.results)
+        var data = d.data.results;
+
         $scope.config.options = {
             width: $('#chart-container').width(),
             height: $('#chart-container').height(),
@@ -221,28 +223,8 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             margin: {top: 1, right: 1, bottom: 6, left: 1}
         };
         $scope.config.data = {
-            nodes: [
-                {'node': 0, 'name': 'Junior'},
-                {'node': 1, 'name': 'Mid Senior'},
-                {'node': 2, 'name': 'Senior'},
-                {'node': 3, 'name': 'Tech Lead'},
-                {'node': 4, 'name': 'CTO'},
-                {'node': 5, 'name': 'COO'},
-                {'node': 6, 'name': 'CEO'}
-            ],
-            links: [
-                {'source': 0, 'target': 1, 'value': 1000},
-                {'source': 0, 'target': 2, 'value': 200},
-                {'source': 0, 'target': 5, 'value': 10},
-                {'source': 1, 'target': 2, 'value': 500},
-                {'source': 1, 'target': 5, 'value': 2},
-                {'source': 2, 'target': 3, 'value': 200},
-                {'source': 2, 'target': 5, 'value': 50},
-                {'source': 3, 'target': 4, 'value': 100},
-                {'source': 3, 'target': 5, 'value': 125},
-                {'source': 4, 'target': 6, 'value': 100},
-                {'source': 5, 'target': 6, 'value': 100}
-            ]
+            nodes: data.nodes,
+            links: data.links
         };
 
     };
