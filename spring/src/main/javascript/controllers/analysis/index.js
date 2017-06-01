@@ -19,18 +19,9 @@ module.exports = angular.module('sherman.controllers.analysis', [])
     .controller('analysis.chart.OutlierCtrl', require('./chart/outlier.js'))
     .controller('analysis.chart.LineplotCtrl', require('./chart/lineplot.js'))
     .controller('analysis.chart.ScatterplotCtrl', require('./chart/scatterplot.js'))
-
-
-    // .controller('anomaly.card.ContainerCtrl', require('./card/container.js'))
-    // .controller('anomaly.card.CardCtrl', require('./card/card.js'))
-    // .controller('anomaly.card.ResultCtrl', require('./card/result.js'))
-    //
-    // .controller('anomaly.dialog.DialogCtrl', require('./dialog/dialog.js'))
-    // .controller('anomaly.dialog.FormCtrl', require('./dialog/form.js'))
-    // .controller('anomaly.dialog.layer.KeyFieldCtrl', require('./dialog/layer/key.js'))
-    // .controller('anomaly.dialog.layer.ValueFieldCtrl', require('./dialog/layer/value.js'))
-    //
-    // .controller('anomaly.dialog.layer.TimeComCtrl', require('./dialog/layer/time_com.js'))
-    // .controller('anomaly.dialog.layer.TimeRefCtrl', require('./dialog/layer/time_ref.js'))
-
-    ;
+    .controller('analysis.chart.MotionCtrl', require('./chart/motion.js'))
+    .controller('analysis.chart.HistogramCtrl', require('./chart/histogram.js'))
+    .controller('analysis.chart.BarchartCtrl', require('./chart/barchart.js'))
+    .controller('analysis.chart.PiechartCtrl', require('./chart/piechart.js'))
+    .controller('analysis.chart.SankeyCtrl', require('./chart/sankey.js'))
+    .controller('analysis.chart.HeatmapCtrl', require('./chart/heatmap.js'));

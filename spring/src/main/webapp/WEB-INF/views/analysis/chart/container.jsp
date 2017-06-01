@@ -26,32 +26,32 @@
 
             <!--Motion-->
             <div ng-if="adv.chart.type === 'Motion'" class="full-height">
-                Motion
+                <%@ include file="motion.jsp"%>
             </div>
 
             <!--Histogram-->
             <div ng-if="adv.chart.type === 'Histogram'" class="full-height">
-                Histogram
+                <%@ include file="histogram.jsp"%>
             </div>
 
             <!--Bar chart-->
             <div ng-if="adv.chart.type === 'Bar chart'" class="full-height">
-                Bar chart
+                <%@ include file="barchart.jsp"%>
             </div>
 
             <!--Pie chart-->
             <div ng-if="adv.chart.type === 'Pie chart'" class="full-height">
-                Pie chart
+                <%@ include file="piechart.jsp"%>
             </div>
 
             <!--Shanky-->
-            <div ng-if="adv.chart.type === 'Shanky'" class="full-height">
-                Shanky
+            <div ng-if="adv.chart.type === 'Sankey'" class="full-height">
+                <%@ include file="sankey.jsp"%>
             </div>
 
             <!--Heatmap-->
             <div ng-if="adv.chart.type === 'Heatmap'" class="full-height">
-                Heatmap
+                <%@ include file="heatmap.jsp"%>
             </div>
 
             <!--Outlier-->

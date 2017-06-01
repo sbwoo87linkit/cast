@@ -10,9 +10,9 @@ var async = require('async');
  * Controller
  */
 
-ScatterplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
+HeatmapCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
+function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
@@ -22,6 +22,9 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
     // group drop field
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+
+    // yAxis drop field
+    $scope.adv.yAxisField = {"name":"Event Object의 개수","type":"TEXT","option":null};
 
     // time drop field
     $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
@@ -147,55 +150,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     }
 
     /**
-     * 행 추가 삭제 리사이즈 제어
-     */
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-    }
-
-    /**
      * Data fetch and render chart
      */
 
@@ -228,7 +182,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-scatterplot-dev';
+        var service = 'adv-heatmap-dev';
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
                 renderChart(service, d1);
@@ -243,52 +197,62 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
         $scope.config = {
             chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
+                type: 'heatmap',
+                marginTop: 40,
+                marginBottom: 80,
+                plotBorderWidth: 1
             },
-            series: data,
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    format: '{value:%m/%d}',
-                    // format: '{value:%H:%M:%S}',
-                }
-            },
+
             title: {
-                text: null
+                text: 'Sales per employee per weekday'
             },
-            legend: {
-                enabled: false
+
+            xAxis: {
+                categories: data.xAxisCategories
             },
+
             yAxis: {
-                title: {
-                    text: null
-                },
-                gridLineWidth: 1
+                categories: data.yAxisCategories,
+                title: null
+            },
+
+            colorAxis: {
+                min: 0,
+                minColor: '#FFFFFF',
+                maxColor: Highcharts.getOptions().colors[0]
+            },
+
+            legend: {
+                align: 'right',
+                layout: 'vertical',
+                margin: 0,
+                verticalAlign: 'top',
+                y: 25,
+                symbolHeight: 280
             },
 
             tooltip: {
-                enabled: true,
-                useHTML: true,
-                backgroundColor: 'white',
                 formatter: function () {
-                    return [
-                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
-                        '<b>시리즈: </b>' + this.series.name,
-                        '<b>값: </b>' + this.y
-                    ].join('<br>');
-                },
-                hideDelay: 0
+                    return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
+                        this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+                }
             },
             exporting: {
                 enabled: false
-            }
+            },
+            series: [{
+                name: 'Sales per employee',
+                borderWidth: 1,
+                data: data.data,
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000'
+                }
+            }]
         }
 
     };
 
 }
 
-module.exports = ScatterplotCtrl;
+module.exports = HeatmapCtrl;

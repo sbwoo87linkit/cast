@@ -10,9 +10,9 @@ var async = require('async');
  * Controller
  */
 
-ScatterplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
+SankeyCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
+function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
@@ -22,6 +22,9 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
     // group drop field
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+
+    // yAxis drop field
+    $scope.adv.yAxisField = {"name":"Event Object의 개수","type":"TEXT","option":null};
 
     // time drop field
     $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
@@ -106,15 +109,16 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
      */
 
     $scope.onDropYAxisField = function ($event, $data) {
-        if ($data.name === 'Event Object의 개수') {
-            popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-                return false;
-            });
-        } else {
-            $scope.adv.yAxisField = _.cloneDeep($data);
-            // TODO : drop 후 popup layer open
-            // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-        }
+        // if ($data.name === 'Event Object의 개수') {
+        //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
+        //         return false;
+        //     });
+        // } else {
+        //     $scope.adv.yAxisField = _.cloneDeep($data);
+        //     // TODO : drop 후 popup layer open
+        //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+        // }
+        $scope.adv.yAxisField = _.cloneDeep($data);
     };
 
     $scope.clearAxisField = function ($index) {
@@ -146,54 +150,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
-    /**
-     * 행 추가 삭제 리사이즈 제어
-     */
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-    }
 
     /**
      * Data fetch and render chart
@@ -228,67 +184,87 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-scatterplot-dev';
+        var service = 'adv-barchart-dev';
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
-                renderChart(service, d1);
+
+                $scope.isReady = true;
+
+                $timeout(function () {
+                    renderChart(service, d1);
+                })
+
+
             }, function (err) {
             });
         });
     })
 
+    $scope.change = function () {
+        if ($scope.config.data) {
+            $scope.config.data.nodes.push({'node': 7, 'name': 'Chairman'});
+            $scope.config.data.links.push({'source': 6, 'target': 7, 'value': 50});
+        }
+    }
+
+    $scope.config = {};
+
     var renderChart = function (service, d, rowIndex) {
 
-        var data = d.data.results;
-
-        $scope.config = {
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
-            },
-            series: data,
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    format: '{value:%m/%d}',
-                    // format: '{value:%H:%M:%S}',
-                }
-            },
-            title: {
-                text: null
-            },
-            legend: {
-                enabled: false
-            },
-            yAxis: {
-                title: {
-                    text: null
-                },
-                gridLineWidth: 1
-            },
-
-            tooltip: {
-                enabled: true,
-                useHTML: true,
-                backgroundColor: 'white',
-                formatter: function () {
-                    return [
-                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
-                        '<b>시리즈: </b>' + this.series.name,
-                        '<b>값: </b>' + this.y
-                    ].join('<br>');
-                },
-                hideDelay: 0
-            },
-            exporting: {
-                enabled: false
-            }
-        }
+        $scope.config.options = {
+            width: $('#chart-container').width(),
+            height: $('#chart-container').height(),
+            nodeWidth: 15,
+            nodePadding: 10,
+            dynamicLinkColor: true,
+            trafficInLinks: false,
+            margin: {top: 1, right: 1, bottom: 6, left: 1}
+        };
+        $scope.config.data = {
+            nodes: [
+                {'node': 0, 'name': 'Junior'},
+                {'node': 1, 'name': 'Mid Senior'},
+                {'node': 2, 'name': 'Senior'},
+                {'node': 3, 'name': 'Tech Lead'},
+                {'node': 4, 'name': 'CTO'},
+                {'node': 5, 'name': 'COO'},
+                {'node': 6, 'name': 'CEO'}
+            ],
+            links: [
+                {'source': 0, 'target': 1, 'value': 1000},
+                {'source': 0, 'target': 2, 'value': 200},
+                {'source': 0, 'target': 5, 'value': 10},
+                {'source': 1, 'target': 2, 'value': 500},
+                {'source': 1, 'target': 5, 'value': 2},
+                {'source': 2, 'target': 3, 'value': 200},
+                {'source': 2, 'target': 5, 'value': 50},
+                {'source': 3, 'target': 4, 'value': 100},
+                {'source': 3, 'target': 5, 'value': 125},
+                {'source': 4, 'target': 6, 'value': 100},
+                {'source': 5, 'target': 6, 'value': 100}
+            ]
+        };
 
     };
 
+    window.onresize = function () {
+        // NOTE : Must call function because $scope.config.options is not defined yet.
+        resizeAll();
+    };
+
+    function resizeAll() {
+
+        var width = $('#chart-container').width();
+        var height = $('#chart-container').height();
+        // TODO : Find the reason why $timeout is needed.
+        $timeout(function () {
+            if ($scope.config.options) {
+                $scope.config.options.width = width;
+                $scope.config.options.height = height;
+            }
+        })
+    }
+
 }
 
-module.exports = ScatterplotCtrl;
+module.exports = SankeyCtrl;

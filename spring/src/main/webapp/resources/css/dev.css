@@ -149,7 +149,7 @@ svg>text {
     background-position: -300px 0;
 }
 
-.mu-icon-50-img.shanky {
+.mu-icon-50-img.sankey {
     background-position: -350px 0;
 }
 
@@ -816,4 +816,39 @@ save icon override
 
 .chart-cell {
     min-height: 170px;
+}
+
+.d3-slider-handle {
+    /*display: block !important;*/
+    line-height: 50px !important;
+    width: 50px !important;
+}
+
+.mu-motion-chart {
+    padding-bottom: 30px !important;
+}
+
+/**
+Sankey
+ */
+
+.node rect {
+    cursor: move;
+    fill-opacity: .9;
+    shape-rendering: crispEdges;
+}
+
+.node text {
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.link {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .2;
+}
+
+.link:hover {
+    stroke-opacity: .5;
 }

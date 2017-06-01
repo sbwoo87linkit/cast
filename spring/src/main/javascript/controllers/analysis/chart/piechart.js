@@ -1,4 +1,3 @@
-
 'use strict';
 /**
  *
@@ -10,9 +9,9 @@ var async = require('async');
  * Controller
  */
 
-ScatterplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
+PiechartCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
+function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
@@ -23,32 +22,37 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     // group drop field
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
 
+    // yAxis drop field
+    $scope.adv.yAxisField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
+
     // time drop field
-    $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
+    $scope.adv.timeField = _.find($scope.fieldList, function (x) {
+        return x.type === 'TIMESTAMP'
+    });
 
     // yAxisField 팝업레이어 옵션
     $scope.yAxisField = {}
 
     $scope.yAxisField.summaryMethods = [
-        { text: '합계', value: 'sum', isSelected: true },
-        { text: '개수', value: 'count' },
-        { text: '평균', value: 'average' },
-        { text: '쵀대', value: 'max' },
-        { text: '최소', value: 'min' },
-        { text: '표준편차', value: 'standardDeviation' },
-        { text: '중간값', value: 'mean' },
-        { text: '개별 값 나열', value: 'iterate' }
+        {text: '합계', value: 'sum', isSelected: true},
+        {text: '개수', value: 'count'},
+        {text: '평균', value: 'average'},
+        {text: '쵀대', value: 'max'},
+        {text: '최소', value: 'min'},
+        {text: '표준편차', value: 'standardDeviation'},
+        {text: '중간값', value: 'mean'},
+        {text: '개별 값 나열', value: 'iterate'}
     ];
 
     $scope.yAxisField.summaryMethodSelected = {};
 
     $scope.yAxisField.fills = [
-        { text: '채우지않음', value: 'not_fill', isSelected: true },
-        { text: '앞-뒤 평균', value: 'average' },
-        { text: '앞의 값', value: 'front_value' },
-        { text: '뒤의 값', value: 'rear_value' },
-        { text: '0', value: 'zero' },
-        { text: '사용자지정', value: 'userDefined' },
+        {text: '채우지않음', value: 'not_fill', isSelected: true},
+        {text: '앞-뒤 평균', value: 'average'},
+        {text: '앞의 값', value: 'front_value'},
+        {text: '뒤의 값', value: 'rear_value'},
+        {text: '0', value: 'zero'},
+        {text: '사용자지정', value: 'userDefined'},
     ];
 
     $scope.yAxisField.fillSelected = {};
@@ -60,13 +64,14 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
         if (fill.value === 'userDefined') {
             if (userDefinedValue) {
-                popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
+                popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
                 field.fill = userDefinedValue;
             } else {
-                popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {})
+                popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {
+                })
             }
         } else {
-            popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
+            popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
             field.fill = fill.value;
         }
     }
@@ -76,10 +81,10 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     $scope.timeField = {}
 
     $scope.timeField.summaryTimes = [
-        { text: '10초', value: '10sec', isSelected: true },
-        { text: '1분', value: '1min' },
-        { text: '5분', value: '5min' },
-        { text: '사용자정의', value: 'userDefined' },
+        {text: '10초', value: '10sec', isSelected: true},
+        {text: '1분', value: '1min'},
+        {text: '5분', value: '5min'},
+        {text: '사용자정의', value: 'userDefined'},
     ];
 
     $scope.timeField.summaryTimeSelected = {};
@@ -106,15 +111,16 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
      */
 
     $scope.onDropYAxisField = function ($event, $data) {
-        if ($data.name === 'Event Object의 개수') {
-            popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-                return false;
-            });
-        } else {
-            $scope.adv.yAxisField = _.cloneDeep($data);
-            // TODO : drop 후 popup layer open
-            // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-        }
+        // if ($data.name === 'Event Object의 개수') {
+        //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
+        //         return false;
+        //     });
+        // } else {
+        //     $scope.adv.yAxisField = _.cloneDeep($data);
+        //     // TODO : drop 후 popup layer open
+        //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+        // }
+        $scope.adv.yAxisField = _.cloneDeep($data);
     };
 
     $scope.clearAxisField = function ($index) {
@@ -146,54 +152,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
-    /**
-     * 행 추가 삭제 리사이즈 제어
-     */
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-    }
 
     /**
      * Data fetch and render chart
@@ -228,7 +186,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-scatterplot-dev';
+        var service = 'adv-piechart-dev';
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
                 renderChart(service, d1);
@@ -240,22 +198,26 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
+        console.log(data);
 
         $scope.config = {
             chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
             },
-            series: data,
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    format: '{value:%m/%d}',
-                    // format: '{value:%H:%M:%S}',
-                }
-            },
+            // series: [{
+            //     pointPadding: 0,
+            //     groupPadding: 0,
+            //     pointPlacement: 'between',
+            //     data: data,
+            // }],
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: data
+            }],
             title: {
                 text: null
             },
@@ -268,7 +230,13 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                 },
                 gridLineWidth: 1
             },
-
+            xAxis: {
+                type: 'datetime',
+                labels: {
+                    // format: '{value:%m/%d %H:%M:%S}',
+                    format: '{value:%H:%M:%S}',
+                }
+            },
             tooltip: {
                 enabled: true,
                 useHTML: true,
@@ -289,6 +257,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
     };
 
+
 }
 
-module.exports = ScatterplotCtrl;
+module.exports = PiechartCtrl;

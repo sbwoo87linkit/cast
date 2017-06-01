@@ -18,6 +18,9 @@ require('highcharts/modules/exporting')(Highcharts);
 require('highcharts-custom-events')(Highcharts);
 require('highcharts-ng');
 
+require('d3-plugins-sankey');
+
+
 require('./constants');
 require('./directives');
 require('./filters');
@@ -41,6 +44,8 @@ angular.module('shermanApp', [
         'ui.router',
         'agGrid',
         'highcharts-ng',
+
+        // 'ngsankey',
 
         'sherman.constants',
         'sherman.controllers',

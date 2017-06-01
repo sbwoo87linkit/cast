@@ -21,4 +21,7 @@ module.exports = angular.module('sherman.directives', [])
     .directive('droppable', require('./droppable.js'))
 
     .directive('fieldList', require('./pivot/fieldList.js'))
+
+    //ngSankey
+    .directive('ngSankey', require('./sankey.js'))
     ;

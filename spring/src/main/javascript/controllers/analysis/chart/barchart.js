@@ -10,11 +10,10 @@ var async = require('async');
  * Controller
  */
 
-ScatterplotCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
+BarchartCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
-function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
+function BarchartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                       searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
-
 
     /**
      * Scope variable
@@ -22,6 +21,9 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
     // group drop field
     $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+
+    // yAxis drop field
+    $scope.adv.yAxisField = {"name":"Event Object의 개수","type":"TEXT","option":null};
 
     // time drop field
     $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
@@ -106,15 +108,16 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
      */
 
     $scope.onDropYAxisField = function ($event, $data) {
-        if ($data.name === 'Event Object의 개수') {
-            popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-                return false;
-            });
-        } else {
-            $scope.adv.yAxisField = _.cloneDeep($data);
-            // TODO : drop 후 popup layer open
-            // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-        }
+        // if ($data.name === 'Event Object의 개수') {
+        //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
+        //         return false;
+        //     });
+        // } else {
+        //     $scope.adv.yAxisField = _.cloneDeep($data);
+        //     // TODO : drop 후 popup layer open
+        //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+        // }
+        $scope.adv.yAxisField = _.cloneDeep($data);
     };
 
     $scope.clearAxisField = function ($index) {
@@ -146,54 +149,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
-    /**
-     * 행 추가 삭제 리사이즈 제어
-     */
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-    }
 
     /**
      * Data fetch and render chart
@@ -228,7 +183,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-scatterplot-dev';
+        var service = 'adv-barchart-dev';
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
                 renderChart(service, d1);
@@ -240,22 +195,18 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
+        console.log(data);
 
         $scope.config = {
             chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
+                type: 'column'
             },
-            series: data,
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    format: '{value:%m/%d}',
-                    // format: '{value:%H:%M:%S}',
-                }
-            },
+            series: [{
+                pointPadding: 0,
+                groupPadding: 0,
+                pointPlacement: 'between',
+                data: data,
+            }],
             title: {
                 text: null
             },
@@ -268,7 +219,13 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                 },
                 gridLineWidth: 1
             },
-
+            xAxis: {
+                type: 'datetime',
+                labels: {
+                    // format: '{value:%m/%d %H:%M:%S}',
+                    format: '{value:%H:%M:%S}',
+                }
+            },
             tooltip: {
                 enabled: true,
                 useHTML: true,
@@ -289,6 +246,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
     };
 
+
 }
 
-module.exports = ScatterplotCtrl;
+module.exports = BarchartCtrl;
