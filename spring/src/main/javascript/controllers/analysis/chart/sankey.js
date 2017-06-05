@@ -192,6 +192,29 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 $scope.isReady = true;
                 $scope.adv.isWaiting = false;
                 $timeout(function () {
+                    var nodes = [];
+                    d1.data.nodes = [];
+                    d1.data.links = [];
+                    d1.data.results.forEach(function (d) {
+                        if (nodes.indexOf(d[0]) === -1) {
+                            nodes.push(d[0]);
+                        }
+
+                        if (nodes.indexOf(d[1]) === -1) {
+                            nodes.push(d[1]);
+                        }
+                    });
+
+                    // Sankey nodes
+                    nodes.forEach(function (d, i) {
+                        d1.data.nodes.push({'node': i, 'name' : d})
+                    })
+
+                    // Sankey links
+                    d1.data.results.forEach(function (d, i) {
+                        d1.data.links.push({'source' : nodes.indexOf(d[0]), 'target': nodes.indexOf(d[1]), 'value':+d[2]});
+                    });
+
                     renderChart(service, d1);
                 })
             }, function (err) {
@@ -199,19 +222,9 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         });
     })
 
-    $scope.change = function () {
-        if ($scope.config.data) {
-            $scope.config.data.nodes.push({'node': 7, 'name': 'Chairman'});
-            $scope.config.data.links.push({'source': 6, 'target': 7, 'value': 50});
-        }
-    }
-
     $scope.config = {};
 
     var renderChart = function (service, d, rowIndex) {
-
-        console.log(d.data.results)
-        var data = d.data.results;
 
         $scope.config.options = {
             width: $('#chart-container').width(),
@@ -223,14 +236,14 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             margin: {top: 1, right: 1, bottom: 6, left: 1}
         };
         $scope.config.data = {
-            nodes: data.nodes,
-            links: data.links
+            nodes: d.data.nodes,
+            links: d.data.links
         };
 
     };
 
     window.onresize = function () {
-        // NOTE : Must call function because $scope.config.options is not defined yet.
+        // NOTE : Must execute by calling a function because $scope.config.options is not defined yet.
         resizeAll();
     };
 

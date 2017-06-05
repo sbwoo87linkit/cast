@@ -1,35 +1,23 @@
 {
     "status": {
-        "current": 1,
-        "total": 58
+        "current": 10,
+        "total": 10
     },
     "fields": [
-        { "type": "NUMBER", "name": "FTS_PARTITION_TIME" },
-        { "type": "LONG", "name": "count(HR)" }
+        { "type": "TEXT", "name": "SOURCE" },
+        { "type": "TEXT", "name": "TARGET" },
+        { "type": "NUMBER", "name": "WEIGHT" }
     ],
-    "isEnd": false,
-    "results": {
-        "nodes": [
-            {"node": 0, "name": "Junior"},
-            {"node": 1, "name": "Mid Senior"},
-            {"node": 2, "name": "Senior"},
-            {"node": 3, "name": "Tech Lead"},
-            {"node": 4, "name": "CTO"},
-            {"node": 5, "name": "COO"},
-            {"node": 6, "name": "CEO_BOSS"}
-        ],
-        "links": [
-            {"source": 0, "target": 1, "value": 1000},
-            {"source": 0, "target": 2, "value": 200},
-            {"source": 0, "target": 5, "value": 10},
-            {"source": 1, "target": 2, "value": 500},
-            {"source": 1, "target": 5, "value": 2},
-            {"source": 2, "target": 3, "value": 200},
-            {"source": 2, "target": 5, "value": 50},
-            {"source": 3, "target": 4, "value": 100},
-            {"source": 3, "target": 5, "value": 125},
-            {"source": 4, "target": 6, "value": 100},
-            {"source": 5, "target": 6, "value": 100}
-        ]
-    }
+    "isEnd": true,
+    "results": [
+        [ "2014", "AL", 99 ],
+        [ "2015", "AL", 102 ],
+        [ "2014", "NL", 85 ],
+        [ "2015", "NL", 108 ],
+        [ "AL", "LAA", 106 ],
+        [ "AL", "SFA", 95 ],
+        [ "NL", "SFN", 94 ],
+        [ "NL", "ATL", 99 ],
+        [ "NL", "CIN", 95 ]
+    ]
 }
