@@ -30,4 +30,5 @@ module.exports = {
     },
     TICK_MAX_COUNT: 5,
     MAX_POINT_WIDTH: 40,
+    COLUMN_MAX_COUNT: 5
 };

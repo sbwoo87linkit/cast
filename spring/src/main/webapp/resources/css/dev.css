@@ -852,3 +852,15 @@ Sankey
 .link:hover {
     stroke-opacity: .5;
 }
+
+.eqi-container {
+    /*border: 1px solid #999;*/
+    display: flex;
+    justify-content: space-between;
+}
+.eqi-container div {
+    width: 150px;
+    /*height: 50px;*/
+    /*background: pink;*/
+}
+

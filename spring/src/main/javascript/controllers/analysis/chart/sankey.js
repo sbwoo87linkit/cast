@@ -1,4 +1,3 @@
-
 'use strict';
 /**
  *
@@ -13,7 +12,7 @@ var async = require('async');
 SankeyCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
     'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
 function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
-                      searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
+                    searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
     /**
@@ -21,57 +20,65 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
      */
 
     // group drop field
-    $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+    $scope.adv.weightField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
 
     // yAxis drop field
-    $scope.adv.yAxisField = {"name":"Event Object의 개수","type":"TEXT","option":null};
+    $scope.adv.weightField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
+
+    $scope.columns = []
+
+    $scope.adv.chartData = [
+        {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+        {"name": "PTIME", "type": "TEXT", "option": null},
+    ]
+
 
     // time drop field
-    $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
+    // $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
 
-    // yAxisField 팝업레이어 옵션
-    $scope.yAxisField = {}
+    // weightField 팝업레이어 옵션
+    $scope.weightField = {}
 
-    $scope.yAxisField.summaryMethods = [
-        { text: '합계', value: 'sum', isSelected: true },
-        { text: '개수', value: 'count' },
-        { text: '평균', value: 'average' },
-        { text: '쵀대', value: 'max' },
-        { text: '최소', value: 'min' },
-        { text: '표준편차', value: 'standardDeviation' },
-        { text: '중간값', value: 'mean' },
-        { text: '개별 값 나열', value: 'iterate' }
+    $scope.weightField.summaryMethods = [
+        {text: '합계', value: 'sum', isSelected: true},
+        {text: '개수', value: 'count'},
+        {text: '평균', value: 'average'},
+        {text: '최대', value: 'max'},
+        {text: '최소', value: 'min'},
+        {text: '표준편차', value: 'standardDeviation'},
+        {text: '중간값', value: 'mean'},
+        {text: '개별 값 나열', value: 'iterate'}
     ];
 
-    $scope.yAxisField.summaryMethodSelected = {};
+    $scope.weightField.summaryMethodSelected = {};
 
-    $scope.yAxisField.fills = [
-        { text: '채우지않음', value: 'not_fill', isSelected: true },
-        { text: '앞-뒤 평균', value: 'average' },
-        { text: '앞의 값', value: 'front_value' },
-        { text: '뒤의 값', value: 'rear_value' },
-        { text: '0', value: 'zero' },
-        { text: '사용자지정', value: 'userDefined' },
+    $scope.weightField.fills = [
+        {text: '채우지않음', value: 'not_fill', isSelected: true},
+        {text: '앞-뒤 평균', value: 'average'},
+        {text: '앞의 값', value: 'front_value'},
+        {text: '뒤의 값', value: 'rear_value'},
+        {text: '0', value: 'zero'},
+        {text: '사용자지정', value: 'userDefined'},
     ];
 
-    $scope.yAxisField.fillSelected = {};
+    $scope.weightField.fillSelected = {};
 
-    $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        console.log(summaryMethod, fill, userDefinedValue)
-        return;
-        field.summaryMethod = summaryMethod.value;
-
-        if (fill.value === 'userDefined') {
-            if (userDefinedValue) {
-                popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
-                field.fill = userDefinedValue;
-            } else {
-                popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {})
-            }
-        } else {
-            popupLayerStore.get('adv.axisField.setting_'+$index).closeEl();
-            field.fill = fill.value;
-        }
+    $scope.saveWeightFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
+        // console.log(summaryMethod, fill, userDefinedValue)
+        // field.summaryMethod = summaryMethod.value;
+        //
+        // if (fill.value === 'userDefined') {
+        //     if (userDefinedValue) {
+        //         popupLayerStore.get('adv.weightField.setting').closeEl();
+        //         field.fill = userDefinedValue;
+        //     } else {
+        //         popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {
+        //         })
+        //     }
+        // } else {
+        // }
+        popupLayerStore.get('adv.weightField.setting').closeEl();
+        // field.fill = fill.value;
     }
 
     // timeField 팝업레이어 옵션
@@ -79,10 +86,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.timeField = {}
 
     $scope.timeField.summaryTimes = [
-        { text: '10초', value: '10sec', isSelected: true },
-        { text: '1분', value: '1min' },
-        { text: '5분', value: '5min' },
-        { text: '사용자정의', value: 'userDefined' },
+        {text: '10초', value: '10sec', isSelected: true},
+        {text: '1분', value: '1min'},
+        {text: '5분', value: '5min'},
+        {text: '사용자정의', value: 'userDefined'},
     ];
 
     $scope.timeField.summaryTimeSelected = {};
@@ -104,35 +111,60 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
+    $scope.addXAxis = function () {
+        // console.log($index);
+        //arr.splice(index, 0, item)
+        $scope.adv.chartData.splice($scope.adv.chartData.length-1, 0, {});
+    }
+
+    $scope.deleteXAxisField = function ($index) {
+        console.log($index)
+        $scope.adv.chartData.splice($index, 1);
+    }
+
+    $scope.removeXAxisField = function ($index) {
+        console.log('remove', $index)
+        $scope.adv.chartData[$index] = {};
+    }
+
     /**
      *  Drop 필드 제어
      */
 
-    $scope.onDropYAxisField = function ($event, $data) {
+    // $scope.onDropAxisField = function ($event, $data, $index) {
+    //     $scope.adv.chartData[$index].axis = _.cloneDeep($data);
+    //     // TODO : drop 후 popup layer open
+    //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+    // };
+
+
+    $scope.onDropXAxisField = function ($event, $data, $index) {
         // if ($data.name === 'Event Object의 개수') {
         //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
         //         return false;
         //     });
         // } else {
-        //     $scope.adv.yAxisField = _.cloneDeep($data);
+        //     $scope.adv.weightField = _.cloneDeep($data);
         //     // TODO : drop 후 popup layer open
         //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
         // }
-        $scope.adv.yAxisField = _.cloneDeep($data);
+        // $scope.adv.weightField = _.cloneDeep($data);
+        console.log($event, $data, $index);
+        $scope.adv.chartData[$index] = _.cloneDeep($data);
     };
 
-    $scope.clearAxisField = function ($index) {
+    $scope.clearXAxisField = function ($index) {
         $scope.adv.chartData[$index].axis = null;
         // TODO : drop 후 popup layer open
         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
     }
 
-    $scope.onDropGroupField = function ($event, $data) {
-        $scope.adv.groupField = _.cloneDeep($data);
+    $scope.onDropWeightField = function ($event, $data) {
+        $scope.adv.weightField = _.cloneDeep($data);
     };
 
-    $scope.clearGroupField = function () {
-        $scope.adv.groupField = null;
+    $scope.clearWeightField = function () {
+        $scope.adv.weightField = null;
     }
 
     $scope.onDropTimeField = function ($event, $data) {
@@ -158,30 +190,30 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.$on('adv.execute', function () {
         var msg = null;
 
-        if (!$scope.adv.timeField) {
-            msg = '타입 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        // if (!$scope.adv.timeField) {
+        //     msg = '타입 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        //     popupBox.alert(msg, function clickedOk() {
+        //     });
+        //     return false;
+        // }
+
+        if (!$scope.adv.weightField) {
+            msg = '가중치 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        if (!$scope.adv.yAxisField) {
-            msg = 'y축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-            popupBox.alert(msg, function clickedOk() {
-            });
-            return false;
-        }
-
-        if (msg) {
-            popupBox.alert(msg, function clickedOk() {
-            });
-            return false;
-        }
+        // if (msg) {
+        //     popupBox.alert(msg, function clickedOk() {
+        //     });
+        //     return false;
+        // }
 
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
+            target_field: $scope.adv.weightField // TODO: 모델에 따라 변경 필요
         }
 
         var service = 'adv-sankey-dev';
@@ -207,12 +239,16 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
                     // Sankey nodes
                     nodes.forEach(function (d, i) {
-                        d1.data.nodes.push({'node': i, 'name' : d})
+                        d1.data.nodes.push({'node': i, 'name': d})
                     })
 
                     // Sankey links
                     d1.data.results.forEach(function (d, i) {
-                        d1.data.links.push({'source' : nodes.indexOf(d[0]), 'target': nodes.indexOf(d[1]), 'value':+d[2]});
+                        d1.data.links.push({
+                            'source': nodes.indexOf(d[0]),
+                            'target': nodes.indexOf(d[1]),
+                            'value': +d[2]
+                        });
                     });
 
                     renderChart(service, d1);
