@@ -16,4 +16,6 @@ module.exports = angular.module('sherman.factories', [])
     .factory('anomaly', require('./anomaly.js'))
     .factory('Report', require('./report.js'))
     .factory('dataModel', require('./dataModel.js'))
+
+    .factory('visualOpts', require('./visualOpts.js'))
     ;

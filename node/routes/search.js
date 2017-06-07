@@ -65,11 +65,14 @@ router.post('/history', function(req, res) {
 
     body.id = uuidV1();
     body.executeTime = moment().format(DEFAULT.DATE_FORMAT);
+    body.startDate = (body.startDate === null) ? body.startDate : (body.startDate + '');
+    body.endDate = (body.endDate === null) ? body.endDate : (body.endDate + '');
 
     historyList.data.push(body);
 
     res.send(body);
 });
+
 // 통계 정보 요청
 router.post('/iris-figures/jobs', function(req, res) {
     var sid = createSID();
@@ -197,9 +200,11 @@ router.get('/iris-search/jobs/:sid/export', function(req, res) {
         });
     }
 
-    return res.send({
-        message: 'ok'
-    });
+    setTimeout(function() {
+        return res.send({
+            message: 'ok'
+        });
+    }, DELAY_MS * 50); // 5 sec
 });
 // 검색 정보 요청 닫기
 router.delete('/iris-search/jobs/:sid/close', function(req, res) {

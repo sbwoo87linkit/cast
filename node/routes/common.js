@@ -101,7 +101,7 @@ router.get('/metadata', function (req, res) {
     setTimeout(function() {
         res.send({
             data: {
-                partition_num: (model.name.indexOf('APOLLO_ENB') === -1) ? 0 : 1000
+                partition_num: (model.name.indexOf('APOLLO_ENB') === -1) ? 0 : _.random(1000, 90000)
             }
         });
     }, DELAY_MS);

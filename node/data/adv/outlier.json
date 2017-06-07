@@ -1,37 +1,39 @@
 {
-    "status": {
-        "current": 1,
-        "total": 8
-    },
-    "fields": [
-        { "type": "NUMBER", "name": "TOTAL" },
-        { "type": "NUMBER", "name": "AVERAGE" },
-        { "type": "NUMBER", "name": "MEDIAN" },
-        { "type": "NUMBER", "name": "MEDIAN_COUNT" },
-        { "type": "NUMBER", "name": "MAX" },
-        { "type": "NUMBER", "name": "MAX_COUNT" },
-        { "type": "NUMBER", "name": "MIN" },
-        { "type": "NUMBER", "name": "MIN_COUNT" },
-        { "type": "NUMBER", "name": "Q1" },
-        { "type": "NUMBER", "name": "Q1_COUNT" },
-        { "type": "NUMBER", "name": "Q3" },
-        { "type": "NUMBER", "name": "Q3_COUNT" },
-        { "type": "NUMBER", "name": "NA" }
-    ],
-    "isEnd": false,
-    "results": [
-        332139,
-        91.56,
-        15.00,
-        27929,
-        65535.00,
-        386,
-        2.00,
-        77,
-        10.00,
-        17710,
-        17.00,
-        76487,
-        47
+  "status": {
+    "current": 1,
+    "total": 8
+  },
+  "fields": [
+    { "type": "NUMBER", "name": "TOTAL" },
+    { "type": "NUMBER", "name": "AVERAGE" },
+    { "type": "NUMBER", "name": "MEDIAN" },
+    { "type": "NUMBER", "name": "MEDIAN_COUNT" },
+    { "type": "NUMBER", "name": "MAX" },
+    { "type": "NUMBER", "name": "MAX_COUNT" },
+    { "type": "NUMBER", "name": "MIN" },
+    { "type": "NUMBER", "name": "MIN_COUNT" },
+    { "type": "NUMBER", "name": "Q1" },
+    { "type": "NUMBER", "name": "Q1_COUNT" },
+    { "type": "NUMBER", "name": "Q3" },
+    { "type": "NUMBER", "name": "Q3_COUNT" },
+    { "type": "NUMBER", "name": "NA" }
+  ],
+  "isEnd": false,
+  "results": [
+    [
+      332139,
+      91.56,
+      15.00,
+      27929,
+      65535.00,
+      386,
+      2.00,
+      77,
+      10.00,
+      17710,
+      17.00,
+      76487,
+      47
     ]
+  ]
 }

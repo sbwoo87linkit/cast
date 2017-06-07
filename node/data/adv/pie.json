@@ -1,0 +1,18 @@
+{
+  "status": {
+    "current": 1,
+    "total": 1
+  },
+  "fields": [
+    { "type": "LONG", "name": "ID" },
+    { "type": "REAL", "name": "sum(HR)" }
+  ],
+  "isEnd": true,
+  "results": [
+    [ 6, 23737.0 ],
+    [ 8, 448.0 ],
+    [ 2, 9.0 ],
+    [ 4, 647.0 ]
+  ],
+  "total_count": 3618
+}

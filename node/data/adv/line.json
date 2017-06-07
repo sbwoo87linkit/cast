@@ -1,0 +1,20 @@
+{
+  "status": {
+    "current": 1,
+    "total": 2
+  },
+  "fields": [
+    { "type": "TIMESTAMP", "name": "PTIME" },
+    { "type": "REAL", "name": "SANCHES" },
+    { "type": "REAL", "name": "PIAZZA" },
+    { "type": "REAL", "name": "RUIS" }
+  ],
+  "isEnd": false,
+  "results": [
+    [ "20160510181000", 1.0, 2.0, 3.0 ],
+    [ "20160510182000", 6.0, 8.0, 10.0 ],
+    [ "20160510183000", 9.0, 12.0, 33.0 ],
+    [ "20160510184000", 11.0, 0.0, 5.0 ]
+  ],
+  "total_count": 12
+}

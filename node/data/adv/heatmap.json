@@ -1,0 +1,20 @@
+{
+  "status": {
+    "current": 1,
+    "total": 2
+  },
+  "fields": [
+    { "type": "NUMBER", "name": "YEAR" },
+    { "type": "REAL", "name": "SANCHES" },
+    { "type": "REAL", "name": "PIAZZA" },
+    { "type": "REAL", "name": "RUIS" }
+  ],
+  "isEnd": false,
+  "results": [
+    [ 2017, 67, 11, 44 ],
+    [ 2016, 12, 42, 26 ],
+    [ 2015, 2, 75, 21 ],
+    [ 2014, 1, 65, 11 ],
+    [ 2013, 0, 41, 2 ]
+  ]
+}
