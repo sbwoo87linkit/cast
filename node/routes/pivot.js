@@ -130,9 +130,11 @@ router.get('/iris-pivot/jobs/:sid/export', function(req, res) {
         });
     }
 
-    return res.send({
-        message: 'ok'
-    });
+    setTimeout(function() {
+        return res.send({
+            message: 'ok'
+        });
+    }, DELAY_MS);
 });
 // 요청 중지
 router.delete('/iris-pivot/jobs/:sid/close', function(req, res) {

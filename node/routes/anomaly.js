@@ -3,7 +3,7 @@
  *   constant
  */
 var DATA_PATH = '../data/anomaly';
-var DELAY_MS = (50);
+var DELAY_MS = (500);
 /**
  *   modules
  */
@@ -20,6 +20,7 @@ var data_k0_v1 = require(path.join(DATA_PATH, 'data_k0_v1.json'));
 var data_k1_v1 = require(path.join(DATA_PATH, 'data_k1_v1.json'));
 var data_k1_v2 = require(path.join(DATA_PATH, 'data_k1_v2.json'));
 var data_k2_v1 = require(path.join(DATA_PATH, 'data_k2_v1.json'));
+var data_large = require(path.join(DATA_PATH, 'data_large.json'));
 /**
  *   variables
  */
@@ -28,12 +29,18 @@ var sessions = {};
 
 var makeData = function(sid, param) {
     var data = null;
+    var ade = param.ade;
+    var keys = ade.key;
+    var values = ade.values;
 
-    if (param.ade.key.length === 0) {
+    if (keys.length === 0) {
         data = _.cloneDeep(data_k0_v1);
     }
-    else if (param.ade.key.length <= 1) {
-        if (param.ade.values.length === 1) {
+    else if (keys.length <= 1) {
+        if (keys[0].name === 'HR' && _.isEqual(values[0], { name: 'HR', func: 'sum' })) {
+            data = _.cloneDeep(data_large);
+        }
+        else if (values.length === 1) {
             data = _.cloneDeep(data_k1_v1);
         }
         else {
@@ -41,7 +48,7 @@ var makeData = function(sid, param) {
         }
     }
     else {
-        // if (param.ade.values.length === 1) {
+        // if (values.length === 1) {
             data = _.cloneDeep(data_k2_v1);
         // }
         // else {}

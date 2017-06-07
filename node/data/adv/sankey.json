@@ -1,0 +1,23 @@
+{
+  "status": {
+    "current": 10,
+    "total": 10
+  },
+  "fields": [
+    { "type": "TEXT", "name": "SOURCE" },
+    { "type": "TEXT", "name": "TARGET" },
+    { "type": "NUMBER", "name": "WEIGHT" }
+  ],
+  "isEnd": true,
+  "results": [
+    [ "2014", "AL", 99 ],
+    [ "2015", "AL", 102 ],
+    [ "2014", "NL", 85 ],
+    [ "2015", "NL", 108 ],
+    [ "AL", "LAA", 106 ],
+    [ "AL", "SFA", 95 ],
+    [ "NL", "SFN", 94 ],
+    [ "NL", "ATL", 99 ],
+    [ "NL", "CIN", 95 ]
+  ]
+}
