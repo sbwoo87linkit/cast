@@ -74,7 +74,8 @@ function ngSankey($rootScope, $document) {
     return {
 
         restrict: 'E',
-        template: '<div id="' + id + '"><canvas></canvas><svg></svg></div>',
+        // template: '<div id="' + id + '"><canvas></canvas><svg></svg></div>',
+        template: '<div id="' + id + '"><svg></svg></div>',
         scope: {
             // config: '=',
             data: '=',

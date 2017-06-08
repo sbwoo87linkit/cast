@@ -219,12 +219,12 @@ function ChartOptionCtrl($scope, $timeout, $stateParams, $document,
         sizeMinSize: true
     };
 
-    $scope.tabs = [
-        {res: '일반'},
-        {res: 'X축'},
-        {res: 'Y축'},
-        {res: '범례'},
-    ];
+    if ($scope.adv.chart.type === 'Sankey') {
+        $scope.tabs = [
+            {res: '일반'},
+            {res: '컬럼'}
+        ];
+    }
 
     $scope.activeTabSet = 'defaultTab';
     $scope.dlgOffset = {

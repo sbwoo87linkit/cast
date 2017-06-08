@@ -45,6 +45,9 @@ router.post('/adv-:visualType/jobs', function(req, res) {
         });
     }
 
+    console.log(body)
+    console.log(body.target_field)
+
     if (body.target_field && body.target_field.indexOf('RAW') !== -1) {
         return res.status(400).send({
             message: 'unsupported operand type(s) for *: \'int\' and \'NoneType\'',
@@ -62,6 +65,7 @@ router.post('/adv-:visualType/jobs', function(req, res) {
 });
 router.get('/adv-:visualType/jobs/:sid', function(req, res) {
     var vType = req.params.visualType;
+    console.log('vType', vType)
     var sid = req.params.sid;
 
     if (!sessions[sid]) {

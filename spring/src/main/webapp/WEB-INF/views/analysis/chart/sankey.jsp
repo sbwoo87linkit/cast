@@ -12,6 +12,7 @@
             <div class="mu-row">
                 <div class="mu-col mu-col-3" style="padding-left: 20px; text-align: left" ng-controller="analysis.chart.ChartOptionCtrl">
 
+                    <!--{{adv.chartOpts.opts.normal.minHeight}}-->
                     <!--차트 옵션 버튼 및 다이얼로그-->
                     <%@ include file="./chart_option_dlg.jsp"%>
 
@@ -87,6 +88,7 @@
 
                     </div>
                     <div class="mu-col mu-col-8">
+                        <button ng-click="addColumnLabel()">add column label</button>
                     </div>
                 </div>
             </div>

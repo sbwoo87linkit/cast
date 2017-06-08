@@ -10,22 +10,22 @@ var async = require('async');
  */
 
 SankeyCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
-    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
+    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', 'CHART'];
 function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
-                    searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
-
+                    searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, CHART) {
 
     /**
      * Scope variable
      */
 
-    // group drop field
+    // chart option
+    $scope.config = {};
+
+    // 가종치 field
     $scope.adv.weightField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
 
-    // yAxis drop field
-    $scope.adv.weightField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
-
-    $scope.columns = []
+    // // yAxis drop field
+    // $scope.adv.weightField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
 
     $scope.adv.chartData = [
         {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
@@ -50,70 +50,18 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         {text: '개별 값 나열', value: 'iterate'}
     ];
 
-    $scope.weightField.summaryMethodSelected = {};
-
-    $scope.weightField.fills = [
-        {text: '채우지않음', value: 'not_fill', isSelected: true},
-        {text: '앞-뒤 평균', value: 'average'},
-        {text: '앞의 값', value: 'front_value'},
-        {text: '뒤의 값', value: 'rear_value'},
-        {text: '0', value: 'zero'},
-        {text: '사용자지정', value: 'userDefined'},
-    ];
-
-    $scope.weightField.fillSelected = {};
+    $scope.weightField.summaryMethodSelected = $scope.weightField.summaryMethods[0];
 
     $scope.saveWeightFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        // console.log(summaryMethod, fill, userDefinedValue)
-        // field.summaryMethod = summaryMethod.value;
-        //
-        // if (fill.value === 'userDefined') {
-        //     if (userDefinedValue) {
-        //         popupLayerStore.get('adv.weightField.setting').closeEl();
-        //         field.fill = userDefinedValue;
-        //     } else {
-        //         popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {
-        //         })
-        //     }
-        // } else {
-        // }
         popupLayerStore.get('adv.weightField.setting').closeEl();
-        // field.fill = fill.value;
-    }
-
-    // timeField 팝업레이어 옵션
-
-    $scope.timeField = {}
-
-    $scope.timeField.summaryTimes = [
-        {text: '10초', value: '10sec', isSelected: true},
-        {text: '1분', value: '1min'},
-        {text: '5분', value: '5min'},
-        {text: '사용자정의', value: 'userDefined'},
-    ];
-
-    $scope.timeField.summaryTimeSelected = {};
-
-    $scope.saveTimeFieldOption = function (model, userDefinedValue) {
-
-        $scope.summaryTimeErrMsg = null;
-        if (model.value === 'userDefined' && !userDefinedValue) {
-            $scope.summaryTimeErrMsg = '데이터를 입력하세요.';
-            return;
-        }
-
-        // // Number 테스트
-        // if ( isNaN(userDefinedValue) || !angular.isNumber(+userDefinedValue)) {
-        //     $scope.summaryTimeErrMsg = '숫자를 입력하세요.';
-        //     return;
-        // }
-
-        popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
     $scope.addXAxis = function () {
-        // console.log($index);
-        //arr.splice(index, 0, item)
+        if (CHART.COLUMN_MAX_COUNT === $scope.adv.chartData.length) {
+            popupBox.alert('더이상 컬럼을 추가할 수 없습니다.', function clickedOk() {
+            });
+            return false;
+        }
         $scope.adv.chartData.splice($scope.adv.chartData.length-1, 0, {});
     }
 
@@ -127,35 +75,58 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         $scope.adv.chartData[$index] = {};
     }
 
+    $scope.save = function () {
+        if (!$scope.config.data) {
+            popupBox.alert('차트데이터가 없습니다.', function clickedOk() {
+                return false;
+            });
+        } else {
+
+            // NOTE : http://techslides.com/save-svg-as-an-image 참조
+            var html = d3.select("svg")
+                .attr("version", 1.1)
+                .attr("xmlns", "http://www.w3.org/2000/svg")
+                .node().parentNode.innerHTML;
+
+            var encoded = btoa(unescape(encodeURIComponent(html)));
+            var imgsrc = 'data:image/svg+xml;base64,'+ encoded;
+            console.log(imgsrc);
+            var img = '<img src="'+imgsrc+'">';
+            d3.select("#svgdataurl").html(img);
+
+            var canvas = document.createElement('canvas'),
+                context = canvas.getContext("2d");
+            canvas.width = parseInt(d3.select("svg").style('width'));
+            canvas.height = parseInt(d3.select("svg").style('height'));
+            context.fillStyle = "white";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            var image = new Image;
+            image.src = imgsrc;
+            image.onload = function() {
+                context.drawImage(image, 0, 0);
+                var canvasdata = canvas.toDataURL("image/png");
+                var pngimg = '<img src="'+canvasdata+'">';
+                d3.select("#pngdataurl").html(pngimg);
+
+                var a = document.createElement("a");
+                a.download = "chart.png";
+                a.href = canvasdata;
+                a.click();
+            };
+        }
+    }
+
     /**
      *  Drop 필드 제어
      */
 
-    // $scope.onDropAxisField = function ($event, $data, $index) {
-    //     $scope.adv.chartData[$index].axis = _.cloneDeep($data);
-    //     // TODO : drop 후 popup layer open
-    //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-    // };
-
-
     $scope.onDropXAxisField = function ($event, $data, $index) {
-        // if ($data.name === 'Event Object의 개수') {
-        //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-        //         return false;
-        //     });
-        // } else {
-        //     $scope.adv.weightField = _.cloneDeep($data);
-        //     // TODO : drop 후 popup layer open
-        //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-        // }
-        // $scope.adv.weightField = _.cloneDeep($data);
-        console.log($event, $data, $index);
         $scope.adv.chartData[$index] = _.cloneDeep($data);
     };
 
     $scope.clearXAxisField = function ($index) {
         $scope.adv.chartData[$index].axis = null;
-        // TODO : drop 후 popup layer open
         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
     }
 
@@ -182,6 +153,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
+    $scope.addColumnLabel = function () {
+        console.log('addColumnLabel');
+    }
+
 
     /**
      * Data fetch and render chart
@@ -190,12 +165,17 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.$on('adv.execute', function () {
         var msg = null;
 
-        // if (!$scope.adv.timeField) {
-        //     msg = '타입 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-        //     popupBox.alert(msg, function clickedOk() {
-        //     });
-        //     return false;
-        // }
+        $scope.adv.chartData.forEach(function (obj) {
+            if(!obj.hasOwnProperty("name")){
+                msg = 'x축 입력값이 비어 있습니다.  Field를 Drag & drop 하세요';
+            }
+        })
+
+        if (msg) {
+            popupBox.alert(msg, function clickedOk() {
+            });
+            return false;
+        }
 
         if (!$scope.adv.weightField) {
             msg = '가중치 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
@@ -204,19 +184,16 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             return false;
         }
 
-        // if (msg) {
-        //     popupBox.alert(msg, function clickedOk() {
-        //     });
-        //     return false;
-        // }
-
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.weightField // TODO: 모델에 따라 변경 필요
+            // TODO: 모델에 따라 변경 필요
+            target_field: $scope.adv.chartData,
+            weight_field: [ $scope.adv.weightField ],
+            summary_method: $scope.weightField.summaryMethodSelected
         }
 
-        var service = 'adv-sankey-dev';
+        var service = 'adv-sankey';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
@@ -258,13 +235,16 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         });
     })
 
-    $scope.config = {};
 
     var renderChart = function (service, d, rowIndex) {
 
         $scope.config.options = {
             width: $('#chart-container').width(),
             height: $('#chart-container').height(),
+            // TDDO : Data lable show/hide
+            node: {showValue: true},
+            columnHeight: 20,
+            columnLabel: 'COLUMN LABEL TEST ......',
             nodeWidth: 15,
             nodePadding: 10,
             dynamicLinkColor: true,
@@ -275,7 +255,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             nodes: d.data.nodes,
             links: d.data.links
         };
-
     };
 
     window.onresize = function () {
@@ -284,7 +263,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     };
 
     function resizeAll() {
-
         var width = $('#chart-container').width();
         var height = $('#chart-container').height();
         // TODO : Find the reason why $timeout is needed.

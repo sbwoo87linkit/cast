@@ -310,6 +310,8 @@ d3.sankeyChart = function (data, options) {
     self.width = options.width;
     self.height = options.height;
     self.innerWidth = options.width - self.margin.left - self.margin.right;
+    // TODO : Column height 수정
+    // self.innerHeight = options.height - self.margin.top - self.margin.bottom - options.columnHeight;
     self.innerHeight = options.height - self.margin.top - self.margin.bottom;
     self.dynamicLinkColor = options.dynamicLinkColor ? options.dynamicLinkColor : false;
     self.staticLinkColor = options.staticLinkColor ? options.staticLinkColor : '#000';
@@ -424,7 +426,9 @@ d3.sankeyChart = function (data, options) {
                 'pointer-events': 'none',
                 'text-shadow': '0 1px 0 #fff'
             })
-            .text(d => self.nodeText(d))
+            // TODO: data label 표시
+            // .text(d => (self.nodeText(d) + ' : ' + `${self.format(d.value)}` ))
+            .text(d => (self.nodeText(d)))
         .filter(d => d.x < self.innerWidth / 2)
         .attr('x', 6 + sankey.nodeWidth())
             .attr('text-anchor', 'start');
@@ -510,9 +514,21 @@ d3.sankeyChart = function (data, options) {
         }
     };
 
-    self.initContainers();
+    self.renderColumnLabel = function () {
+        svg.append("text")
+            .attr("x", (self.width / 2))
+            .attr("y", 300)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("Value vs Date Graph");
+    }
+
+        self.initContainers();
     self.initCore();
     self.renderLinks();
+
+    // self.renderColumnLabel();
 
     self.renderNodes();
     if (self.trafficInLinks) {
