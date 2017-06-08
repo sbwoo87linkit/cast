@@ -14,6 +14,7 @@
     "angular-ui-router": "^0.4.2",
     "async": "^2.1.4",
     "d3": "^3.5.17",
+    "d3-sankey": "^0.6.0",
     "dragular": "^4.4.2",
     "highcharts": "^5.0.10",
     "highcharts-custom-events": "^2.0.15",

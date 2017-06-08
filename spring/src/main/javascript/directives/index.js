@@ -18,4 +18,6 @@ module.exports = angular.module('sherman.directives', [])
     .directive('timePicker', require('./timepicker.js'))
 
     .directive('fieldList', require('./pivot/fieldList.js'))
+
+    .directive('chartSankey', require('./chart/sankey.js'))
     ;
