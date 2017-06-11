@@ -24,6 +24,7 @@ function Sankey($window, DEFAULT) {
         var parentEl = element.parent();
         var width = parentEl.width();
         var height = parentEl.height();
+        // height = height - 30;
 
         var svg = d3.select(element.find('svg')[0])
             .attr('width', width)
@@ -55,7 +56,7 @@ function Sankey($window, DEFAULT) {
                 return;
             }
             setOptions(options);
-        });
+        }, true);
         scope.$watch('data', function (data) {
             if (!data) {
                 return;
@@ -69,18 +70,25 @@ function Sankey($window, DEFAULT) {
         });
         // 차트 사이즈 변경 처리
         function resizeAll() {
+            console.log('resizeAll....')
             width = parentEl.width();
             height = parentEl.height();
 
             svg
                 .attr('width', width)
                 .attr('height', height);
-            sankey
-                .extent([[1, 1], [width - 1, height - 6]]);
+
+            // sankey
+            //     .extent([[1, 1], [width - 1, height - 6]]);
+            setOptions();
 
             render(scope.data);
+
         }
         function onResizeWindow() {
+            if (!scope.data) {
+                return;
+            }
             $window.clearTimeout(_resizeTimer);
             _resizeTimer = $window.setTimeout(resizeAll, DEFAULT.RESIZE_INTERVAL);
         }
@@ -88,8 +96,33 @@ function Sankey($window, DEFAULT) {
         *   functions
         */
         function setOptions(options) {
-            // ...
+
+            console.log(scope.options);
+
+            d3.selectAll('.labels').remove();
+            if (scope.options.columnLabelShow) {
+
+                svg
+                    .append('g')
+                    .attr('class', 'labels')
+                    .append('text')
+                    .attr('x', (width / 2))
+                    .attr('y', height - 6)
+                    .attr('text-anchor', 'middle')  // start, middle, end
+                    .style('font-size', '16px')
+                    // .style('text-decoration', 'underline')
+                    .text(scope.options.columnLabelText);
+
+                sankey
+                    .extent([[1, 1], [width - 1, height - 6 - 16]]);
+
+            } else {
+                sankey
+                    .extent([[1, 1], [width - 1, height - 6]]);
+            }
+
         }
+
         // function clean() {
         //     svg.select('g.nodes').selectAll('*').remove();
         //     svg.select('g.links').selectAll('*').remove();
@@ -131,7 +164,17 @@ function Sankey($window, DEFAULT) {
                 .attr('y', function(d) { return (d.y1 + d.y0) / 2; })
                 .attr('dy', '0.35em')
                 .attr('text-anchor', 'end')
-                .text(function(d) { return d.name; })
+                // .text(function(d) { return d.name; })
+                .text(function(d) {
+                    // console.log(scope.options.dataLabelShow)
+                    if (scope.options.dataLabelShow==='all') {
+                        return d.name + ' : ' + valueFormatter(d.value);
+                        // console.log('TEXT....')
+                        // return d.name + '>>> aaa';
+                    } else {
+                        return d.name;
+                    }
+                })
               .filter(function(d) { return d.x0 < width / 2; })
                 .attr('x', function(d) { return d.x1 + 6; })
                 .attr('text-anchor', 'start');

@@ -153,10 +153,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
-    $scope.addColumnLabel = function () {
-        console.log('addColumnLabel');
-    }
-
 
     /**
      * Data fetch and render chart
@@ -228,7 +224,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                         });
                     });
 
-                    renderChart(service, d1);
+                    $scope.data = _.cloneDeep(d1.data);
+
+                    // renderChart(service, d1);
+                    renderChart()
                 })
             }, function (err) {
             });
@@ -236,43 +235,28 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     })
 
 
+    $scope.$watch('adv.chartOpts', function (options) {
+        console.log('chagned....222')
+        if ($scope.data) {
+            renderChart();
+        }
+    }, true);
+
     var renderChart = function (service, d, rowIndex) {
 
         $scope.config.options = {
-            width: $('#chart-container').width(),
-            height: $('#chart-container').height(),
-            // TDDO : Data lable show/hide
-            node: {showValue: true},
-            columnHeight: 20,
-            columnLabel: 'COLUMN LABEL TEST ......',
-            nodeWidth: 15,
-            nodePadding: 10,
-            dynamicLinkColor: true,
-            trafficInLinks: false,
-            margin: {top: 1, right: 1, bottom: 6, left: 1}
+            columnLabelText: $scope.adv.chartOpts.opts.xAxis.labels.text,
+            columnLabelShow: $scope.adv.chartOpts.opts.xAxis.labels.show,
+            dataLabelShow: $scope.adv.chartOpts.opts.normal.showValue
         };
+
         $scope.config.data = {
-            nodes: d.data.nodes,
-            links: d.data.links
+            nodes: $scope.data.nodes,
+            links: $scope.data.links
         };
     };
 
-    window.onresize = function () {
-        // NOTE : Must execute by calling a function because $scope.config.options is not defined yet.
-        resizeAll();
-    };
 
-    function resizeAll() {
-        var width = $('#chart-container').width();
-        var height = $('#chart-container').height();
-        // TODO : Find the reason why $timeout is needed.
-        $timeout(function () {
-            if ($scope.config.options) {
-                $scope.config.options.width = width;
-                $scope.config.options.height = height;
-            }
-        })
-    }
 
 }
 

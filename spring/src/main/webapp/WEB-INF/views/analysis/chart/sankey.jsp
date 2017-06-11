@@ -88,7 +88,6 @@
 
                     </div>
                     <div class="mu-col mu-col-8">
-                        <button ng-click="addColumnLabel()">add column label</button>
                     </div>
                 </div>
             </div>
@@ -107,17 +106,11 @@
 
                         </td>
                         <td>
-                            <div style="height:100%; width: 100%; border : 1px solid #999; text-align: left">
+                            <div style="position:absolute; top:0; left:0; bottom:0; right:0; border : 1px solid #999; text-align: left">
                                 <div ng-if="!isReady" class="center">
                                     <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                                 </div>
-                                <div id="chart-container" ng-if="isReady" style="position:relative; width:100%; height: 100%;">
-                                    <ng-sankey id="sankeyChart" options="config.options" data="config.data" style="width:100%; height: 100%;"></ng-sankey>
-                                </div>
-
-                                <!--<ng-sankey id="sankeyChart" options="config.options" data="config.data" style="width:100%; height: 100%;"></ng-sankey>-->
-
-
+                                <chart-sankey id="sankeyChart" options="config.options" data="config.data"></chart-sankey>
                             </div>
                         </td>
                     </tr>

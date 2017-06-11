@@ -33,39 +33,39 @@
             <div class="mu-col mu-col-11">
                 <div class="mu-row">
                     <div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">
-                        <span style="display: inline-block; margin-top: 6px">그룹</span>
+                        <span style="display: inline-block; margin-top: 6px">값</span>
                     </div>
                     <div class="mu-col mu-col-3">
 
-                        <div ui-on-Drop="onDropGroupField($event, $data)" class="drop-container">
-                            <div class="field bx-none" ng-if="!adv.groupField" style="">없음</div>
-                            <div class="field" ng-if="adv.groupField" popup-layer-area="adv.groupField.setting" layer-offset="{left: 2}">
+                        <div ui-on-Drop="onDropValueField($event, $data)" class="drop-container">
+                            <div class="field bx-none" ng-if="!adv.valueField" style="">없음</div>
+                            <div class="field" ng-if="adv.valueField" popup-layer-area="adv.valueField.setting" layer-offset="{left: 2}">
                                 <button class="fr"> > </button>
-                                <button type="button" class="close fl" ng-click="clearGroupField()"></button>
-                                <div>{{adv.groupField.name}}</div>
+                                <button type="button" class="close fl" ng-click="clearValueField()"></button>
+                                <div>{{adv.valueField.name}}</div>
                             </div>
                         </div>
 
                         <!-- 팝업 레이어: Group Field 설정 -->
-                        <div class="mu-tooltip bottom-right" style="width: 426px;" popup-layer="adv.groupField.setting">
+                        <div class="mu-tooltip bottom-right" style="width: 426px;" popup-layer="adv.valueField.setting">
                             <div class="arrow"></div>
                             <div class="mu-tooltip-inner">
 
-                                <span class="title">{{adv.groupField.name}}</span>
+                                <span class="title">{{adv.valueField.name}}</span>
                                 <!-- selectbox: 모델 -->
                                 <div class="mu-search-item timeRelative">
                                     <div class="mu-item-group">
-                                        <label>Summary 시간단위:</label>
-                                        <div class="mu-selectbox" mu-select="sb1" select-model="groupField.summaryTimeSelected"
-                                             select-items="groupField.summaryTimes" select-change="changeOption($model)">
+                                        <label>Summary 방식:</label>
+                                        <div class="mu-selectbox" mu-select="sb1" select-model="valueField.summaryMethodSelected"
+                                             select-items="valueField.summaryMethods" select-change="changeOption($model)">
                                             <button class="mu-value">{{$model.text}}</button>
                                             <ul class="mu-list">
                                                 <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
                                             </ul>
                                         </div>
-                                        <input ng-if="groupField.summaryTimeSelected.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                                               ng-model="groupField.summaryTime">
-                                        <label ng-if="groupField.summaryTimeSelected.value==='userDefined'" ><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
+                                        <input ng-if="valueField.summaryMethodSelected.value==='userDefined'" type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
+                                               ng-model="valueField.summaryTime">
+                                        <label ng-if="valueField.summaryMethodSelected.value==='userDefined'" ><i class="mu-icon-img help" style="cursor: pointer" mu-tooltip-area="anomaly.ttip.model" tooltip-placement="top" tooltip-trigger="click"></i></label>
                                         <!-- text tooltip -->
                                         <div class="mu-tooltip" style="z-index: 30;" mu-tooltip="anomaly.ttip.model">
                                             <div class="arrow"></div>
@@ -78,7 +78,7 @@
                                 </div>
 
                                 <div class="mu-item-group" style="padding-top: 10px;height: 30px;">
-                                    <button class="mu-btn btnApply fr" type="button" ng-click="saveTimeFieldOption(groupField.summaryTimeSelected, groupField.summaryTime)"><spring:message code="save" /></button>
+                                    <button class="mu-btn btnApply fr" type="button" ng-click="saveValueFieldOption(valueField.summaryMethodSelected, groupField.summaryTime)"><spring:message code="save" /></button>
                                 </div>
                             </div>
                         </div>

@@ -21,18 +21,19 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
      */
 
     // group drop field
-    $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+    $scope.adv.valueField = {"name":"Event Object의 개수","type":"TEXT","option":null};
 
     // yAxis drop field
-    $scope.adv.yAxisField = {"name":"Event Object의 개수","type":"TEXT","option":null};
+    $scope.adv.yAxisField = {"name": "DATE", "type": "TEXT", "option": null};
 
     // time drop field
     $scope.adv.timeField = _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' });
 
     // yAxisField 팝업레이어 옵션
+    $scope.valueField = {}
     $scope.yAxisField = {}
 
-    $scope.yAxisField.summaryMethods = [
+    $scope.valueField.summaryMethods = [
         { text: '합계', value: 'sum', isSelected: true },
         { text: '개수', value: 'count' },
         { text: '평균', value: 'average' },
@@ -43,7 +44,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         { text: '개별 값 나열', value: 'iterate' }
     ];
 
-    $scope.yAxisField.summaryMethodSelected = {};
+    $scope.valueField.summaryMethodSelected = {};
 
     $scope.yAxisField.fills = [
         { text: '채우지않음', value: 'not_fill', isSelected: true },
@@ -87,7 +88,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.timeField.summaryTimeSelected = {};
 
-    $scope.saveTimeFieldOption = function (model, userDefinedValue) {
+    $scope.saveValueOption = function (model, userDefinedValue) {
 
         $scope.summaryTimeErrMsg = null;
         if (model.value === 'userDefined' && !userDefinedValue) {
@@ -126,12 +127,12 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
     }
 
-    $scope.onDropGroupField = function ($event, $data) {
-        $scope.adv.groupField = _.cloneDeep($data);
+    $scope.onDropValueField = function ($event, $data) {
+        $scope.adv.valueField = _.cloneDeep($data);
     };
 
-    $scope.clearGroupField = function () {
-        $scope.adv.groupField = null;
+    $scope.clearValueField = function () {
+        $scope.adv.valueField = null;
     }
 
     $scope.onDropTimeField = function ($event, $data) {
@@ -179,10 +180,10 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
+            target_field: [$scope.adv.valueField] // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-heatmap-dev';
+        var service = 'adv-heatmap';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
@@ -197,6 +198,43 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var data = d.data.results;
 
+        console.log(d.data);
+
+        var yAxisCategories = [];
+        for (var i=1; i < d.data.fields.length; i++) {
+            yAxisCategories.push(d.data.fields[i].name)
+        }
+
+
+        var xAxisCategories = [];
+        var series = [];
+
+        d.data.results.forEach(function (row, i) {
+            // console.log(row);
+            row.forEach(function (item, j) {
+                console.log(item, j)
+                if (j === 0 ) {
+                    xAxisCategories.push(item);
+                } else {
+                    series.push([i, j-1, item])
+                }
+
+            })
+        })
+
+        // console.log('yAxisCategories', yAxisCategories);
+        // console.log('xAxisCategories', xAxisCategories);
+        // console.log('series', series);
+
+
+        // data = {
+        //     "xAxisCategories" : ["Alexander", "Marie", "Maximilian", "Sophia", "Lukas", "Maria", "Leon", "Anna", "Tim", "Laura"],
+        //     "yAxisCategories" : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        //     "data" : [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], [6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], [8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47], [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]]
+        // }
+
+
+
         $scope.config = {
             chart: {
                 type: 'heatmap',
@@ -210,11 +248,11 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             },
 
             xAxis: {
-                categories: data.xAxisCategories
+                categories: xAxisCategories
             },
 
             yAxis: {
-                categories: data.yAxisCategories,
+                categories: yAxisCategories,
                 title: null
             },
 
@@ -225,6 +263,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             },
 
             legend: {
+                enabled: false,
                 align: 'right',
                 layout: 'vertical',
                 margin: 0,
@@ -245,7 +284,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             series: [{
                 name: 'Sales per employee',
                 borderWidth: 1,
-                data: data.data,
+                data: series,
                 dataLabels: {
                     enabled: true,
                     color: '#000000'

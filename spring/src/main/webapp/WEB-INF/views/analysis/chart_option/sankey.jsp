@@ -34,29 +34,13 @@
                         <spring:message code="chart.show_data_values" />
                     </th>
                     <td>
-                        <div class="mu-btn-group" ng-init="adv.chartOpts.opts.normal.showValue = 'none'">
+                        <div class="mu-btn-group">
                             <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.normal.showValue === 'none'}"
                                     ng-click="adv.chartOpts.opts.normal.showValue = 'none'"><spring:message code="off" /></button>
                             <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.normal.showValue === 'all'}"
                                     ng-click="adv.chartOpts.opts.normal.showValue = 'all'"><spring:message code="on" /></button>
                             <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.normal.showValue === 'min.max'}"
                                     ng-click="adv.chartOpts.opts.normal.showValue = 'min.max'"><spring:message code="agg_func.min" />/<spring:message code="agg_func.max" /></button>
-                        </div>
-                    </td>
-                </tr>
-                <!-- 최소 높이 -->
-                <tr class="table-row">
-                    <th>
-                        최소 높이
-                    </th>
-                    <td>
-                        <div class="mu-item-group" ng-init="adv.chartOpts.opts.normal.minHeight=170">
-                            <input type="text" class="mu-input" ng-model="adv.chartOpts.opts.normal.minHeight" >
-                            <!--<div class="mu-checkbox">-->
-                            <!--<input type="checkbox" id="ckbXAxisTitle" ng-model="adv.chartOpts.opts.xAxis.title.isShow"-->
-                            <!--ng-click="changeXAxisTitle($event)">-->
-                            <!--<label for="ckbXAxisTitle"><spring:message code="pivot.show" /></label>-->
-                            <!--</div>-->
                         </div>
                     </td>
                 </tr>
@@ -77,33 +61,37 @@
                     </th>
                     <td>
                         <div class="mu-item-group">
-                            <input type="text" class="mu-input" placeholder="<spring:message code="optional" />" ng-model="adv.chartOpts.opts.xAxis.title.text">
+                            <input type="text" class="mu-input" placeholder="<spring:message code="optional" />" ng-model="adv.chartOpts.opts.xAxis.labels.text">
                             <div class="mu-checkbox">
-                                <input type="checkbox" id="ckbXAxisTitle" ng-model="adv.chartOpts.opts.xAxis.title.isShow"
-                                ">
+                                <input type="checkbox" id="ckbXAxisTitle" ng-model="adv.chartOpts.opts.xAxis.labels.show">
                                 <label for="ckbXAxisTitle"><spring:message code="pivot.show" /></label>
                             </div>
                         </div>
                     </td>
                 </tr>
-                <!-- 레이블 회전 -->
+                <!-- 정렬 -->
                 <tr>
                     <th>
-                        <spring:message code="pivot.labels_rotation" />
+                        정렬
                     </th>
                     <td>
-                        <div class="mu-btn-group" ng-init="adv.chartOpts.opts.xAxis.labels.rotation = -90">
-                            <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.xAxis.labels.rotation === -90}"
-                                    ng-click="adv.chartOpts.opts.xAxis.labels.rotation = -90">-90</button>
-                            <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.xAxis.labels.rotation === -45}"
-                                    ng-click="adv.chartOpts.opts.xAxis.labels.rotation = -45">-45</button>
-                            <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.xAxis.labels.rotation === 0}"
-                                    ng-click="adv.chartOpts.opts.xAxis.labels.rotation = 0">0</button>
-                            <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.xAxis.labels.rotation === 45}"
-                                    ng-click="adv.chartOpts.opts.xAxis.labels.rotation = 45">45</button>
-                            <button class="mu-btn" ng-class="{'active': adv.chartOpts.opts.xAxis.labels.rotation === 90}"
-                                    ng-click="adv.chartOpts.opts.xAxis.labels.rotation = 90">90</button>
+                        <!--기본값 오름차순 내림차순-->
+
+                        <div class="mu-selectbox" mu-select="sbOverlay" select-items="overlayFields" select-change="changeOverlayField('add', $model)">
+                            <button class="mu-value">{{$model.text}}</button>
+                            <ul class="mu-list">
+                                <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
+                            </ul>
                         </div>
+                        <div class="mu-item-group mu-input-btn" ng-repeat="field in adv.chartOpts.opts.overlay.fields">
+                            <input type="text" class="mu-input" readonly="readonly" value="{{field}}">
+                            <button type="button" class="mu-btn mu-btn-icon mu-btn-icon-only"
+                                    ng-click="changeOverlayField('remove', field)">
+                                <i class="mu-icon-img delete2"></i>
+                            </button>
+                        </div>
+
+
                     </td>
                 </tr>
                 <!-- NOTE: 추후 기능 구현 -->

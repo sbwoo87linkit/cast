@@ -26,25 +26,26 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         width: 600,
         height: 400,
         xAxis: {
-            map: 'deaths',
-            label: 'Deaths per 1000 people',
+            map: 'AB',
+            label: 'AB',
             grid: true
         },
         yAxis: {
-            map: 'births',
-            label: 'Births per 1000 people',
+            map: 'H',
+            label: 'H',
             grid: true
         },
         radius: {
-            map: 'population',
+            map: 'HR',
             range: [1, 80] // [min, max]
         },
         series: {
-            map: 'year'
+            map: 'PTIME'
         },
-        key: 'country',
+        key: 'PLAYERID',
         slider: {
             tickFormat: '%Y'
+            // tickFormat: '%Y%m%d%H%M%S'
         },
         lostData: {
             type: 'blur'
@@ -311,10 +312,10 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
+            target_field: [$scope.adv.groupField] // TODO: 모델에 따라 변경 필요
         }
 
-        var service = 'adv-motion-dev';
+        var service = 'adv-motion';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
@@ -330,40 +331,51 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
-        // console.log(d.data.results);
-
-        // d3.tsv("http://foxpro87.cafe24.com/data/motion_dev.tsv", function (error, data) {
-        //     console.log(JSON.stringify(data));
-        //     var parseDate = d3.time.format('%Y').parse;
-        //     data.forEach(function (d) {
-        //         d.deaths = +d.deaths;
-        //         d.births = +d.births;
-        //         d.population = +d.population;
-        //         d.year = parseDate(d.year);
-        //     });
-        //
-        //     console.log(JSON.stringify(data))
-        //
-        //     chart
-        //         .data(data)
-        //         .draw();
-        //
-        // });
 
         var parseDate = d3.time.format('%Y').parse;
+        // var parseDate = d3.time.format('%Y%m%d%H%M%S').parse;
+        var data = [];
+        d.data.results.forEach(function (item, i) {
+            // var arr = [];
+            var obj = {};
+            d.data.fields.forEach(function (field, j) {
+                // data.push({})
+                // arr.push()
+                if (field.type === 'TIMESTAMP') {
+                    // obj[field.name] = parseDate(utility.strToDate(item[j]));
+                    obj[field.name] = parseDate(item[j].substring(0, 4));
+                } else {
+                    obj[field.name] = item[j];
+                }
+            })
+            data.push(obj)
+        })
+
+
+        data = [
+            {"PTIME": "1974", "AB": 367, "H": 211, "PLAYERID": "Sanches", "HR": 10},
+            {"PTIME": "1975", "AB": 267, "H": 123, "PLAYERID": "Ruis", "HR": 20},
+            {"PTIME": "1976", "AB": 1367, "H": 1112, "PLAYERID": "Piazza", "HR": 98},
+            {"PTIME": "1977", "AB": 467, "H": 216, "PLAYERID": "Sanches", "HR": 15},
+            {"PTIME": "1978", "AB": 667, "H": 323, "PLAYERID": "Ruis", "HR": 40},
+            {"PTIME": "1979", "AB": 267, "H": 112, "PLAYERID": "Piazza", "HR": 9},
+            {"PTIME": "1980", "AB": 867, "H": 412, "PLAYERID": "Sanches", "HR": 30},
+            {"PTIME": "1981", "AB": 578, "H": 358, "PLAYERID": "Ruis", "HR": 60},
+            {"PTIME": "1982", "AB": 1157, "H": 1002, "PLAYERID": "Piazza", "HR": 140}
+        ]
+
         data.forEach(function (d) {
-            d.deaths = +d.deaths;
-            d.births = +d.births;
-            d.population = +d.population;
-            d.year = parseDate(d.year);
+            d.AB = +d.AB;
+            d.H = +d.H;
+            d.HR = +d.HR;
+            d.PTIME = parseDate(d.PTIME);
         });
 
-        // console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data))
 
         chart
             .data(data)
             .draw();
-
     };
 
 }
