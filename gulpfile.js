@@ -34,6 +34,7 @@ var LIB_LIST = [
     'angular-ui-router',
     'async',
     'd3',
+    'd3-sankey',
     'dragular',
     'highcharts',
     'highcharts-ng',

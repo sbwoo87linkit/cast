@@ -9,13 +9,12 @@
     "ag-grid": "^8.2.0",
     "angular": "^1.6.1",
     "angular-cookies": "^1.6.1",
-    "angular-native-dragdrop": "^1.2.2",
     "angular-resource": "^1.6.1",
     "angular-route": "^1.6.1",
     "angular-ui-router": "^0.4.2",
     "async": "^2.1.4",
     "d3": "^3.5.17",
-    "d3-plugins-sankey": "^1.2.1",
+    "d3-sankey": "^0.6.0",
     "dragular": "^4.4.2",
     "highcharts": "^5.0.10",
     "highcharts-custom-events": "^2.0.15",
@@ -25,7 +24,6 @@
     "jquery-ui": "~1.10.x",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
-    "sankeyjs": "^1.2.2",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
