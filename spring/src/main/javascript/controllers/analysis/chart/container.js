@@ -68,10 +68,14 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
     // motion
-    // $scope.adv.chart = $scope.chartGroups[0].items[2];
+    $scope.adv.chart = $scope.chartGroups[0].items[2];
+
+    // lineplot
+    $scope.adv.chart = $scope.chartGroups[0].items[0];
 
     // heatmap
     $scope.adv.chart = $scope.chartGroups[2].items[1];
+
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};

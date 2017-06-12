@@ -103,9 +103,25 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
      */
 
     $scope.onDropAxisField = function ($event, $data, $index) {
+
+        console.log($event, $data, $index)
         $scope.adv.chartData[$index].axis = _.cloneDeep($data);
         // TODO : drop 후 popup layer open
         // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+        // console.log(popupLayerStore.get('adv.axisField.setting_' + $index));
+        // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
+
+
+        var key = 'adv.axisField.setting_' + $index;
+        var layer = popupLayerStore.get(key);
+        console.log(layer)
+        if (!layer) {
+            return;
+        }
+        layer.placeEl(layer.$target).openEl();
+
+
+
     };
 
     $scope.clearAxisField = function ($index) {
@@ -125,11 +141,19 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
     $scope.onDropTimeField = function ($event, $data) {
         if ($data.type != 'TIMESTAMP') {
             popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
-                return false;
             });
+            return false;
         } else {
             $scope.adv.timeField = _.cloneDeep($data);
         }
+
+        var key = 'adv.timeField.setting';
+        var layer = popupLayerStore.get(key);
+        if (!layer) {
+            return;
+        }
+        var $target = angular.element($event.target);
+        layer.placeEl($target, 'top-right').openEl();
     };
 
     $scope.clearTimeField = function () {

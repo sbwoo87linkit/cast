@@ -26,6 +26,11 @@
     </div>
 
 
+    <!-- 탭 (heatmap) -->
+    <div ng-if="adv.chart.type==='Heatmap'">
+        <%@ include file="../chart_option/heatmap.jsp"%>
+    </div>
+
     <!-- 탭 (pie 차트) -->
 
 
