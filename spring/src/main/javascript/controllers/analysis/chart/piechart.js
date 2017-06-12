@@ -58,8 +58,6 @@ function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
     $scope.yAxisField.fillSelected = {};
 
     $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        console.log(summaryMethod, fill, userDefinedValue)
-        return;
         field.summaryMethod = summaryMethod.value;
 
         if (fill.value === 'userDefined') {
@@ -200,8 +198,6 @@ function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
-        console.log(data);
-
         $scope.config = {
             chart: {
                 plotBackgroundColor: null,

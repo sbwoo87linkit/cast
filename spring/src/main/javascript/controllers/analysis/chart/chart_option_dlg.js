@@ -239,8 +239,6 @@ function ChartOptionCtrl($scope, $timeout, $stateParams, $document,
         ]
 
         $scope.adv.chartOpts.opts.normal.showValue = 'all';
-        console.log($scope.adv.chartOpts.opts.normal.showValue)
-
     }
 
     $scope.activeTabSet = 'defaultTab';

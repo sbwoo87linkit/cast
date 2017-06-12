@@ -70,7 +70,6 @@ function Sankey($window, DEFAULT) {
         });
         // 차트 사이즈 변경 처리
         function resizeAll() {
-            console.log('resizeAll....')
             width = parentEl.width();
             height = parentEl.height();
 
@@ -96,8 +95,6 @@ function Sankey($window, DEFAULT) {
         *   functions
         */
         function setOptions(options) {
-
-            console.log(scope.options);
 
             d3.selectAll('.labels').remove();
             if (scope.options.columnLabelShow) {

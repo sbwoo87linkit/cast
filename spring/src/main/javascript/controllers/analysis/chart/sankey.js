@@ -66,12 +66,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     }
 
     $scope.deleteXAxisField = function ($index) {
-        console.log($index)
         $scope.adv.chartData.splice($index, 1);
     }
 
     $scope.removeXAxisField = function ($index) {
-        console.log('remove', $index)
         $scope.adv.chartData[$index] = {};
     }
 
@@ -90,7 +88,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
             var encoded = btoa(unescape(encodeURIComponent(html)));
             var imgsrc = 'data:image/svg+xml;base64,'+ encoded;
-            console.log(imgsrc);
             var img = '<img src="'+imgsrc+'">';
             d3.select("#svgdataurl").html(img);
 
@@ -236,7 +233,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
 
     $scope.$watch('adv.chartOpts', function (options) {
-        console.log('chagned....222')
         if ($scope.data) {
             renderChart();
         }

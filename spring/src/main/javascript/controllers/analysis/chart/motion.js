@@ -140,8 +140,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.yAxisField.fillSelected = {};
 
     $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        console.log(summaryMethod, fill, userDefinedValue)
-        return;
         field.summaryMethod = summaryMethod.value;
 
         if (fill.value === 'userDefined') {
@@ -370,8 +368,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             d.HR = +d.HR;
             d.PTIME = parseDate(d.PTIME);
         });
-
-        console.log(JSON.stringify(data))
 
         chart
             .data(data)

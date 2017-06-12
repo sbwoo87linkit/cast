@@ -58,8 +58,6 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.yAxisField.fillSelected = {};
 
     $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        console.log(summaryMethod, fill, userDefinedValue)
-        return;
         field.summaryMethod = summaryMethod.value;
 
         if (fill.value === 'userDefined') {
@@ -95,12 +93,6 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             $scope.summaryTimeErrMsg = '데이터를 입력하세요.';
             return;
         }
-
-        // // Number 테스트
-        // if ( isNaN(userDefinedValue) || !angular.isNumber(+userDefinedValue)) {
-        //     $scope.summaryTimeErrMsg = '숫자를 입력하세요.';
-        //     return;
-        // }
 
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
@@ -198,8 +190,6 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var data = d.data.results;
 
-        console.log(d.data);
-
         var yAxisCategories = [];
         for (var i=1; i < d.data.fields.length; i++) {
             yAxisCategories.push(d.data.fields[i].name)
@@ -212,7 +202,6 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         d.data.results.forEach(function (row, i) {
             // console.log(row);
             row.forEach(function (item, j) {
-                console.log(item, j)
                 if (j === 0 ) {
                     xAxisCategories.push(item);
                 } else {

@@ -54,8 +54,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     $scope.yAxisField.fillSelected = {};
 
     $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-        console.log(summaryMethod, fill, userDefinedValue)
-        return;
         field.summaryMethod = summaryMethod.value;
 
         if (fill.value === 'userDefined') {
