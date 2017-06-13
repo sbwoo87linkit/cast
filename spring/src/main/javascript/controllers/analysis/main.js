@@ -11,7 +11,10 @@ function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, para
      * Scope variable
      */
 
-    $scope.adv = {};
+    $scope.adv = {
+        fieldOptions : {}
+    };
+
     // $scope.adv.isReadyToExecute = false;
 
     /**
