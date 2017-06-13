@@ -98,11 +98,12 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         },
         drops : {
+            valueField : {"name":"Event Object의 개수","type":"TEXT","option":null},
+            // TODO: delete. 이하 테스트 Data
             xAxisField : _.find($scope.fieldList, function (x) {
                 return x.type === 'TIMESTAMP'
             }),
             yAxisField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
-            valueField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null}
         }
     }
 
@@ -164,7 +165,8 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             field_options : $scope.adv.fieldOptions
         }
 
-        console.log(data);
+        utility.closeAllLayers();
+        // console.log(data);
 
         var service = 'adv-heatmap';
         $scope.adv.isWaiting = true;
