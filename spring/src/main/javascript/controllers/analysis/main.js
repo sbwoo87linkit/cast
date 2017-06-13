@@ -7,13 +7,6 @@
  */
 MainCtrl.$inject = ['$scope', '$stateParams', 'anomalyAgent', 'advAgent', 'searchCond', 'paramBuilder', '$timeout', 'popupBox'];
 function MainCtrl($scope, $stateParams, anomalyAgent, advAgent, searchCond, paramBuilder, $timeout, popupBox) {
-    /**
-     * Scope variable
-     */
-
-    $scope.adv = {
-        fieldOptions : {}
-    };
 
     // $scope.adv.isReadyToExecute = false;
 

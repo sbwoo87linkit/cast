@@ -7,33 +7,16 @@ var uuidV1 = require('uuid/v1');
  * Controller
  */
 
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', '$filter'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, $filter) {
-
-    /**
-     * 데이터 로드
-     */
-
-    var model = dataModel.get();
-    $scope.adv.datamodel_id = model.id;
-    $scope.fieldList = model.fields.selected;
-
-    $scope.adv.fieldCount = {"name":"Event Object의 개수","type":"TEXT","option":null};
-
-
-    // TODO filer setup for test purpose only
-    // $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
-    // $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
-
-    $scope.hasFilters = function(field) {
-        return field.filters && field.filters.length > 0 ? true : false;
-    }
-
-    $scope.outlier_top = [];
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', '$filter', 'utility'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, $filter, utility) {
 
     /**
      *  Scope 변수
      */
+
+    $scope.adv = {
+        fieldOptions : {}
+    };
 
     $scope.chartGroups = [
         {
@@ -80,6 +63,29 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
     $scope.adv.fieldOption.timeField = {};
+
+
+
+    /**
+     * 데이터 로드
+     */
+
+    var model = dataModel.get();
+    $scope.adv.datamodel_id = model.id;
+    $scope.fieldList = model.fields.selected;
+
+    $scope.adv.fieldCount = {"name":"Event Object의 개수","type":"TEXT","option":null};
+
+    // TODO filer setup for test purpose only
+    // $scope.fieldList[0].filters = [{key:'=', value: '1000'}];
+    // $scope.fieldList[1].filters = [{key:'>', value: '555'}, {key:'!=', value: '99000'}];
+
+    $scope.hasFilters = function(field) {
+        return field.filters && field.filters.length > 0 ? true : false;
+    }
+
+    $scope.outlier_top = [];
+
 
 
     // /**
@@ -156,6 +162,43 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     $scope.deleteFilter = function (index, filters) {
         filters.splice(index, 1);
     }
+
+
+
+    $scope.closePopup = function () {
+        utility.closeAllLayers();
+    }
+
+    $scope.preventDrop = function ($event) {
+        $event.preventDefault();
+    }
+
+    $scope.onDropField = function ($event, $data, field, position) {
+        if ( field  === 'xAxisField' && $data.type != 'TIMESTAMP') {
+            popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
+            });
+            return false;
+        }
+        $scope.adv.fieldOptions.drops[field] = _.cloneDeep($data);
+        utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
+    };
+
+    $scope.openPopup = function ($event, layer, position) {
+        $event.preventDefault();
+        utility.openPopupLayer(layer, position, angular.element($event.target));
+    };
+
+    $scope.clearField = function ($event, field) {
+        // $event.preventDefault();
+        $event.stopPropagation();
+        $scope.adv.fieldOptions.drops[field] = null;
+        utility.closeAllLayers();
+    };
+
+    window.onresize = function () {
+        utility.closeAllLayers();
+    };
+
 
 
 

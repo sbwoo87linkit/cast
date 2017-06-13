@@ -44,7 +44,7 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
     }
 
     this.openPopupLayer = function (layerId, position, target) {
-        console.log(layerId, position, target)
+        // console.log(layerId, position, target)
         // var key = 'adv.timeField.setting';
         var layer = popupLayerStore.get(layerId);
         if (!layer) {

@@ -1,4 +1,3 @@
-
 <!-- 차트 옵션 버튼 -->
 <button id="btnShowChartOpts" type="button" class="mu-btn mu-btn-icon"
         ng-click="openChartOptsDlg()"
@@ -17,23 +16,38 @@
         </button>
     </div>
 
-    <!--{{adv.chart.type}}-->
-    <!-- 탭 (기본) -->
+    <div ng-if="adv.chart.type==='Line plot'">
+        <%@ include file="../options/lineplot/chart.jsp"%>
+    </div>
 
-    <!-- 탭 (Sankey) -->
+    <div ng-if="adv.chart.type==='Scatter plot'">
+        <%@ include file="../options/scatterplot/chart.jsp"%>
+    </div>
+
+    <div ng-if="adv.chart.type==='Motion'">
+        <%@ include file="../options/motion/chart.jsp"%>
+    </div>
+
+    <div ng-if="adv.chart.type==='Histogram'">
+        <%@ include file="../options/histogram/chart.jsp"%>
+    </div>
+
+    <div ng-if="adv.chart.type==='Bar chart'">
+        <%@ include file="../options/barchart/chart.jsp"%>
+    </div>
+
+    <div ng-if="adv.chart.type==='Pie chart'">
+        <%@ include file="../options/piechart/chart.jsp"%>
+    </div>
+
     <div ng-if="adv.chart.type==='Sankey'">
-        <%@ include file="../chart_option/sankey.jsp"%>
+        <%@ include file="../options/sankey/chart.jsp"%>
     </div>
 
-
-    <!-- 탭 (heatmap) -->
     <div ng-if="adv.chart.type==='Heatmap'">
-        <%@ include file="../chart_option/heatmap.jsp"%>
+        <%@ include file="../options/heatmap/chart.jsp"%>
     </div>
 
-    <!-- 탭 (pie 차트) -->
-
-
-
+    <!--Outlier는 옵션창 없으며, 구조가 다름-->
 
 </div>
