@@ -38,19 +38,50 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
     }
 
     this.closeAllLayers = function () {
-        popupLayerStore.get('adv.xAxisField.setting').closeEl();
-        popupLayerStore.get('adv.yAxisField.setting').closeEl();
-        popupLayerStore.get('adv.valueField.setting').closeEl();
+
+        var layer;
+
+        layer = popupLayerStore.get('adv.xAxisField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.xAxisField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.yAxisField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.yAxisField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.valueField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.valueField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.weightField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.weightField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.sizeField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.sizeField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.groupField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.groupField.setting').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.timeField.setting');
+        if (layer) {
+            popupLayerStore.get('adv.timeField.setting').closeEl();
+        }
     }
 
     this.openPopupLayer = function (layerId, position, target) {
-        // console.log(layerId, position, target)
-        // var key = 'adv.timeField.setting';
         var layer = popupLayerStore.get(layerId);
         if (!layer) {
             return;
         }
-        // var $target = angular.element($event.target);
         layer.placeEl(target, position).openEl();
     }
 

@@ -1,19 +1,19 @@
 
-<div ui-on-Drop="onDropField($event, $data, 'yAxisField', 'right-top')" class="drop-container" layer-offset="{left: 2}">
-    <span class="field" ng-if="!adv.fieldOptions.drops.yAxisField" style="">없음</span>
-    <div class="field" ng-if="adv.fieldOptions.drops.yAxisField">
-        <button class="fr" ng-click="openPopup($event, 'adv.yAxisField.setting', 'right-top')"> > </button>
-        <button type="button" class="close fl" ng-click="clearField($event, 'yAxisField')"></button>
-        <div>{{adv.fieldOptions.drops.yAxisField.name}}</div>
+<div ui-on-Drop="onDropField($event, $data, 'xAxisField', 'top-right')" class="drop-container" layer-offset="{left: 2}">
+    <span class="field" ng-if="!adv.fieldOptions.drops.xAxisField" style="">없음</span>
+    <div class="field" ng-if="adv.fieldOptions.drops.xAxisField">
+        <button class="fr" ng-click="openPopup($event, 'adv.xAxisField.setting', 'top-right')"> > </button>
+        <button type="button" class="close fl" ng-click="clearField($event, 'xAxisField')"></button>
+        <div>{{adv.fieldOptions.drops.xAxisField.name}}</div>
     </div>
 </div>
 
-<!-- 팝업 레이어: y축 Field 설정 -->
-<div class="mu-tooltip top-right" style="width: 426px;" popup-layer="adv.yAxisField.setting">
+<!-- 팝업 레이어: x축 Field 설정 -->
+<div class="mu-tooltip top-right" style="width: 426px;" popup-layer="adv.xAxisField.setting">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner">
 
-        <span class="title">{{adv.yAxisField.name}}</span>
+        <span class="title">{{adv.xAxisField.name}}</span>
         <!-- selectbox: 모델 -->
         <div class="mu-search-item timeRelative">
 
@@ -104,9 +104,8 @@
         </div>
 
         <div class="mu-item-group" style="padding-top: 10px;height: 30px;">
-            <button class="mu-btn btnApply fr" type="button" ng-click="saveYAxisFieldOption(timeField.sort.selected)"><spring:message code="save" /></button>
+            <button class="mu-btn btnApply fr" type="button" ng-click="saveXAxisFieldOption(timeField.sort.selected)"><spring:message code="save" /></button>
         </div>
     </div>
 </div>
-<!-- // 팝업 레이어: y축 Field 설정 -->
-
+<!-- // 팝업 레이어: x축 Field 설정 -->

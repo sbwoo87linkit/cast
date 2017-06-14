@@ -80,10 +80,8 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     };
 
     $scope.play = function () {
-        console.log('play')
         $scope.currState = 'play';
         chart.play();
-        console.log(chart)
     };
     $scope.pause = function () {
         $scope.currState = 'pause';
@@ -102,6 +100,23 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     /**
      * Scope variable
      */
+
+
+    //
+    //
+    //
+    //
+    // // group drop field
+    // $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
+    //
+    // // yAxis drop field
+    // $scope.adv.yAxisField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
+    //
+    // // time drop field
+    // $scope.adv.timeField = _.find($scope.fieldList, function (x) {
+    //     return x.type === 'TIMESTAMP'
+    // });
+
 
     $scope.adv.fieldOptions = {
         opts : {
@@ -161,14 +176,12 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         },
         drops : {
-            sizeField : {"name":"Event Object의 개수","type":"TEXT","option":null},
+            valueField : {"name":"Event Object의 개수","type":"TEXT","option":null},
             // TODO: delete. 이하 테스트 Data
-            timeField : _.find($scope.fieldList, function (x) {
+            xAxisField : _.find($scope.fieldList, function (x) {
                 return x.type === 'TIMESTAMP'
             }),
             yAxisField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
-            xAxisField : {"name":"FTS_RAW_DATA","type":"TEXT","option":null},
-            groupField : {"name":"FTS_RAW_DATA","type":"TEXT","option":null},
         }
     }
 
@@ -293,6 +306,32 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     //     popupLayerStore.get('adv.timeField.setting').closeEl();
     // }
 
+    /**
+     * 행 추가 삭제 리사이즈 제어
+     */
+
+    $scope.addRow = function () {
+
+        // TODO : TEST PURPOSE ONLY -
+        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
+        // TODO : UNCOMMENT FOR SERVICE
+        // $scope.adv.chartData.push({});
+
+        _.forEach($scope.adv.chartData, function (row, index) {
+            var container = $('#container_' + index);
+            if (row.config) {
+                var chart = row.config.getChartObj();
+                $timeout(function () {
+                    chart.setSize(chart.containerWidth, container.height(), true);
+                })
+            }
+        })
+    }
+
+    $scope.removeRow = function ($index) {
+        $scope.adv.chartData.splice($index, 1);
+    }
+
     window.onresize = function () {
         resizeAll();
     };
@@ -323,36 +362,21 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     $scope.$on('adv.execute', function () {
         var msg = null;
 
-        if (!$scope.adv.fieldOptions.drops.groupField) {
-            msg = '그룹 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (!$scope.adv.timeField) {
+            msg = '타입 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        if (!$scope.adv.fieldOptions.drops.sizeField) {
-            msg = '사이즈 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-            popupBox.alert(msg, function clickedOk() {
-            });
-            return false;
-        }
-
-        if (!$scope.adv.fieldOptions.drops.xAxisField) {
-            msg = 'x축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-            popupBox.alert(msg, function clickedOk() {
-            });
-            return false;
-        }
-
-        if (!$scope.adv.fieldOptions.drops.yAxisField) {
+        if (!$scope.adv.yAxisField) {
             msg = 'y축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        if (!$scope.adv.fieldOptions.drops.timeField) {
-            msg = '시간 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (msg) {
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
@@ -361,11 +385,8 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: [],
-            field_options : $scope.adv.fieldOptions
+            target_field: [$scope.adv.groupField] // TODO: 모델에 따라 변경 필요
         }
-
-        utility.closeAllLayers();
 
         var service = 'adv-motion';
         $scope.adv.isWaiting = true;
@@ -373,7 +394,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             advAgent.getData(service, d.data.sid).then(function (d1) {
                 // console.log(d1);
                 $scope.adv.isWaiting = false;
-                $scope.isReady = true;
                 renderChart(service, d1);
             }, function (err) {
             });
@@ -418,14 +438,11 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         ]
 
         data.forEach(function (d) {
-            // d.AB = +d.AB;
-            // d.H = +d.H;
-            // d.HR = +d.HR;
+            d.AB = +d.AB;
+            d.H = +d.H;
+            d.HR = +d.HR;
             d.PTIME = parseDate(d.PTIME);
         });
-
-
-        console.log(data)
 
         chart
             .data(data)

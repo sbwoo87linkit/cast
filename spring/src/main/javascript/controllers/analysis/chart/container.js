@@ -7,8 +7,10 @@ var uuidV1 = require('uuid/v1');
  * Controller
  */
 
-ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', '$filter', 'utility'];
-function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, popupLayerStore, dataModel, $rootScope, $filter, utility) {
+ContainerCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS',
+    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', '$filter', 'utility', 'CHART', 'popupBox'];
+function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
+                       searchCond, popupLayerStore, dataModel, $rootScope, $filter, utility, CHART, popupBox) {
 
     /**
      *  Scope 변수
@@ -50,8 +52,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     // 선택한 차트유형
     $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
-    // motion
-    $scope.adv.chart = $scope.chartGroups[0].items[2];
 
     // lineplot
     $scope.adv.chart = $scope.chartGroups[0].items[0];
@@ -59,6 +59,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
     // heatmap
     $scope.adv.chart = $scope.chartGroups[2].items[1];
 
+    // sankey
+    $scope.adv.chart = $scope.chartGroups[2].items[0];
+
+    // motion
+    $scope.adv.chart = $scope.chartGroups[0].items[2];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
@@ -173,27 +178,69 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, p
         $event.preventDefault();
     }
 
-    $scope.onDropField = function ($event, $data, field, position) {
-        if ( field  === 'xAxisField' && $data.type != 'TIMESTAMP') {
+    $scope.onDropField = function ($event, $data, field, position, type) {
+
+        //console.log($event, $data, field, position, type)
+
+        if ( type && $data.type != type) {
             popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
             });
             return false;
         }
         $scope.adv.fieldOptions.drops[field] = _.cloneDeep($data);
-        utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
+
+        if (position) {
+            utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
+        }
     };
+
+    // for sankey chart
+    $scope.onDropColumnsField = function ($event, $data, columns, $index) {
+        columns[$index] = _.cloneDeep($data);
+    }
 
     $scope.openPopup = function ($event, layer, position) {
         $event.preventDefault();
         utility.openPopupLayer(layer, position, angular.element($event.target));
     };
 
-    $scope.clearField = function ($event, field) {
+    // $scope.clearField = function ($event, field) {
+    //     // $event.preventDefault();
+    //     $event.stopPropagation();
+    //     $scope.adv.fieldOptions.drops[field] = null;
+    //     utility.closeAllLayers();
+    // };
+
+    $scope.clearField = function ($event, field, index) {
         // $event.preventDefault();
         $event.stopPropagation();
-        $scope.adv.fieldOptions.drops[field] = null;
+        if (Number.isInteger(index)) {
+            // sankey
+            $scope.adv.fieldOptions.drops[field][index] = {};
+        } else {
+            $scope.adv.fieldOptions.drops[field] = null;
+        }
         utility.closeAllLayers();
     };
+
+    // for sankey. delete fields
+    $scope.deleteField = function (columns, $index) {
+        columns.splice($index, 1);
+    }
+
+    $scope.addField = function (columns) {
+        if (CHART.COLUMN_MAX_COUNT === columns.length) {
+            popupBox.alert('더이상 컬럼을 추가할 수 없습니다.', function clickedOk() {
+            });
+            return false;
+        }
+        columns.splice(columns.length-1, 0, {});
+    }
+
+
+    // sankey column remove(비우기)
+
+    //
 
     window.onresize = function () {
         utility.closeAllLayers();
