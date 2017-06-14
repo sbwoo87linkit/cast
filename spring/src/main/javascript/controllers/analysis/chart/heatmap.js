@@ -135,8 +135,6 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var msg = null;
 
-        console.log($scope.adv);
-
         if (!$scope.adv.fieldOptions.drops.valueField) {
             msg = '값 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {

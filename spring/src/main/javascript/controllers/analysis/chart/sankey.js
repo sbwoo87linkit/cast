@@ -83,8 +83,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var msg = null;
 
-        console.log($scope.adv);
-
         if (!$scope.adv.fieldOptions.drops.weightField) {
             msg = '가중치 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
@@ -164,7 +162,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     })
 
     var renderChart = function (d) {
-        console.log('renderChart', d)
         $scope.config.options = {
             columnLabelText: $scope.adv.chartOpts.opts.xAxis.labels.text,
             columnLabelShow: $scope.adv.chartOpts.opts.xAxis.labels.show,

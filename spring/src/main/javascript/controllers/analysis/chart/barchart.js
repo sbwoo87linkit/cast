@@ -196,7 +196,6 @@ function BarchartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
     var renderChart = function (service, d, rowIndex) {
 
         var data = d.data.results;
-        console.log(data);
 
         $scope.config = {
             chart: {

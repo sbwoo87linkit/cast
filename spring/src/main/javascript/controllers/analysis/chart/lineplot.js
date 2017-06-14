@@ -104,7 +104,6 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
 
     $scope.onDropAxisField = function ($event, $data, $index) {
 
-        console.log($event, $data, $index)
         $scope.adv.chartData[$index].axis = _.cloneDeep($data);
         // TODO : drop 후 popup layer open
         // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
@@ -114,7 +113,6 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
 
         var key = 'adv.axisField.setting_' + $index;
         var layer = popupLayerStore.get(key);
-        console.log(layer)
         if (!layer) {
             return;
         }
