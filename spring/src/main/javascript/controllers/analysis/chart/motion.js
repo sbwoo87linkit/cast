@@ -55,22 +55,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     chart.duration(10000); // 10 sec
 
-
-    // button click events
-    d3.select('#btnPlay').on('click', function () {
-        chart.play();
-    });
-    d3.select('#btnPause').on('click', function () {
-        chart.pause();
-    });
-    d3.select('#btnResume').on('click', function () {
-        chart.resume();
-    });
-    d3.select('#btnStop').on('click', function () {
-        chart.stop();
-    });
-    // sample-code-end:mc1
-
     /**
      *   button group
      */
@@ -80,10 +64,8 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     };
 
     $scope.play = function () {
-        console.log('play')
         $scope.currState = 'play';
         chart.play();
-        console.log(chart)
     };
     $scope.pause = function () {
         $scope.currState = 'pause';
@@ -105,59 +87,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.adv.fieldOptions = {
         opts : {
-            xAxis : {
-                sort : {
-                    list : [
-                        {text: '기본값', value: 'default', isSelected: true},
-                        {text: '오름차순', value: 'ascending'},
-                        {text: '내림차순', value: 'descending'}
-                    ],
-                    selected : {}
-                },
-                range : {
-                    selected: 'notUse',
-                    userDefined : {
-                        size: 10,
-                        start: 0,
-                        end: 10
-                    }
-                },
-                maxCount : 100
-            },
-            yAxis : {
-                sort : {
-                    list : [
-                        {text: '기본값', value: 'default', isSelected: true},
-                        {text: '오름차순', value: 'ascending'},
-                        {text: '내림차순', value: 'descending'}
-                    ],
-                    selected : {}
-                },
-                range : {
-                    selected: 'notUse',
-                    userDefined : {
-                        size: 10,
-                        start: 0,
-                        end: 10
-                    }
-                },
-                maxCount : 100
-            },
-            value : {
-                summaryMethod : {
-                    list : [
-                        { text: '합계', value: 'sum', isSelected: true },
-                        { text: '개수', value: 'count' },
-                        { text: '평균', value: 'average' },
-                        { text: '쵀대', value: 'max' },
-                        { text: '최소', value: 'min' },
-                        { text: '표준편차', value: 'standardDeviation' },
-                        { text: '중간값', value: 'mean' },
-                        { text: '개별 값 나열', value: 'iterate' }
-                    ],
-                    selected : {}
-                }
-            }
 
         },
         drops : {
@@ -166,132 +95,11 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             timeField : _.find($scope.fieldList, function (x) {
                 return x.type === 'TIMESTAMP'
             }),
+            xAxisField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
             yAxisField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
-            xAxisField : {"name":"FTS_RAW_DATA","type":"TEXT","option":null},
-            groupField : {"name":"FTS_RAW_DATA","type":"TEXT","option":null},
+            groupField : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
         }
     }
-
-
-    //
-    // // yAxisField 팝업레이어 옵션
-    // $scope.yAxisField = {}
-    //
-    // $scope.yAxisField.summaryMethods = [
-    //     {text: '합계', value: 'sum', isSelected: true},
-    //     {text: '개수', value: 'count'},
-    //     {text: '평균', value: 'average'},
-    //     {text: '쵀대', value: 'max'},
-    //     {text: '최소', value: 'min'},
-    //     {text: '표준편차', value: 'standardDeviation'},
-    //     {text: '중간값', value: 'mean'},
-    //     {text: '개별 값 나열', value: 'iterate'}
-    // ];
-    //
-    // $scope.yAxisField.summaryMethodSelected = {};
-    //
-    // $scope.yAxisField.fills = [
-    //     {text: '채우지않음', value: 'not_fill', isSelected: true},
-    //     {text: '앞-뒤 평균', value: 'average'},
-    //     {text: '앞의 값', value: 'front_value'},
-    //     {text: '뒤의 값', value: 'rear_value'},
-    //     {text: '0', value: 'zero'},
-    //     {text: '사용자지정', value: 'userDefined'},
-    // ];
-    //
-    // $scope.yAxisField.fillSelected = {};
-    //
-    // $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-    //     field.summaryMethod = summaryMethod.value;
-    //
-    //     if (fill.value === 'userDefined') {
-    //         if (userDefinedValue) {
-    //             popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    //             field.fill = userDefinedValue;
-    //         } else {
-    //             popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {
-    //             })
-    //         }
-    //     } else {
-    //         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    //         field.fill = fill.value;
-    //     }
-    // }
-    //
-    // // timeField 팝업레이어 옵션
-    //
-    // $scope.timeField = {}
-    //
-    // $scope.timeField.summaryTimes = [
-    //     {text: '10초', value: '10sec', isSelected: true},
-    //     {text: '1분', value: '1min'},
-    //     {text: '5분', value: '5min'},
-    //     {text: '사용자정의', value: 'userDefined'},
-    // ];
-    //
-    // $scope.timeField.summaryTimeSelected = {};
-    //
-    // $scope.saveTimeFieldOption = function (model, userDefinedValue) {
-    //
-    //     $scope.summaryTimeErrMsg = null;
-    //     if (model.value === 'userDefined' && !userDefinedValue) {
-    //         $scope.summaryTimeErrMsg = '데이터를 입력하세요.';
-    //         return;
-    //     }
-    //
-    //     // // Number 테스트
-    //     // if ( isNaN(userDefinedValue) || !angular.isNumber(+userDefinedValue)) {
-    //     //     $scope.summaryTimeErrMsg = '숫자를 입력하세요.';
-    //     //     return;
-    //     // }
-    //
-    //     popupLayerStore.get('adv.timeField.setting').closeEl();
-    // }
-    //
-    // /**
-    //  *  Drop 필드 제어
-    //  */
-    //
-    // $scope.onDropYAxisField = function ($event, $data) {
-    //     if ($data.name === 'Event Object의 개수') {
-    //         popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-    //             return false;
-    //         });
-    //     } else {
-    //         $scope.adv.yAxisField = _.cloneDeep($data);
-    //         // TODO : drop 후 popup layer open
-    //         // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-    //     }
-    // };
-    //
-    // $scope.clearAxisField = function ($index) {
-    //     $scope.adv.chartData[$index].axis = null;
-    //     // TODO : drop 후 popup layer open
-    //     popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    // }
-    //
-    // $scope.onDropGroupField = function ($event, $data) {
-    //     $scope.adv.groupField = _.cloneDeep($data);
-    // };
-    //
-    // $scope.clearGroupField = function () {
-    //     $scope.adv.groupField = null;
-    // }
-    //
-    // $scope.onDropTimeField = function ($event, $data) {
-    //     if ($data.type != 'TIMESTAMP') {
-    //         popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
-    //             return false;
-    //         });
-    //     } else {
-    //         $scope.adv.timeField = _.cloneDeep($data);
-    //     }
-    // };
-    //
-    // $scope.clearTimeField = function () {
-    //     $scope.adv.timeField = null;
-    //     popupLayerStore.get('adv.timeField.setting').closeEl();
-    // }
 
     window.onresize = function () {
         resizeAll();
@@ -337,15 +145,15 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             return false;
         }
 
-        if (!$scope.adv.fieldOptions.drops.xAxisField) {
-            msg = 'x축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (!$scope.adv.fieldOptions.drops.yAxisField) {
+            msg = 'y축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        if (!$scope.adv.fieldOptions.drops.yAxisField) {
-            msg = 'y축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (!$scope.adv.fieldOptions.drops.xAxisField) {
+            msg = 'x축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
@@ -357,6 +165,7 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             });
             return false;
         }
+
 
         var data = {
             q: "*",
@@ -373,7 +182,6 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             advAgent.getData(service, d.data.sid).then(function (d1) {
                 // console.log(d1);
                 $scope.adv.isWaiting = false;
-                $scope.isReady = true;
                 renderChart(service, d1);
             }, function (err) {
             });
@@ -382,6 +190,8 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     })
 
     var renderChart = function (service, d, rowIndex) {
+
+        $('.motion-slider').remove();
 
         var data = d.data.results;
 
@@ -418,14 +228,11 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         ]
 
         data.forEach(function (d) {
-            // d.AB = +d.AB;
-            // d.H = +d.H;
-            // d.HR = +d.HR;
+            d.AB = +d.AB;
+            d.H = +d.H;
+            d.HR = +d.HR;
             d.PTIME = parseDate(d.PTIME);
         });
-
-
-        console.log(data)
 
         chart
             .data(data)
