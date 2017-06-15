@@ -1,58 +1,24 @@
-<!--<div ng-repeat="(key, value) in chartOptions">-->
-
-<!--</div>-->
-
-<!--<hr>-->
-
-<!--<div ng-repeat="(key, value) in chartOptions">-->
-
-<!--</div>-->
-
-<!--<hr>-->
-
-
 <div class="mu-dialog-body" ng-show="activeTabSet === 'defaultTab'">
     <!-- 탭 목록 (좌측) -->
     <ul class="mu-tab mu-tab-vertical" mu-tabset="defaultTab">
-        <li mu-tab-item="" ng-repeat="tab in tabs">
-            <a href="javascript:;">{{tab}}</a>
+        <li mu-tab-item="" ng-repeat="group in adv.fieldOptions.groups">
+            <a href="javascript:;">{{group}}</a>
         </li>
     </ul>
 
-<!--
-    general: {
-    label: {
-    text: '드릴다운',
-    controls: {
-    drilldown: {
-    type: 'buttonGroup',
-    selected: 'yes',
-    options: [
-    {text: "예", value: 'yes'},
-    {text: "아니오", value: 'no'}
-    ]
-    }
-    }
-    },
--->
-
-
     <div class="mu-tab-body" mu-tabset="defaultTab">
-        <div class="mu-tabCont" mu-tab-contents="" ng-repeat="(key, tab) in chartOpts">
-
-            <!--{{key}} - {{tab}}-->
+        <div class="mu-tabCont" mu-tab-contents="" ng-repeat="tab in adv.fieldOptions.tabs">
 
             <table class="mu-formbox">
                 <colgroup>
                     <col width="100px">
                 </colgroup>
                 <tbody>
-                <tr ng-repeat="(key, row) in tab">
+                <tr ng-repeat="row in tab.rows">
                     <th>
-                        {{row.text}}
+                        {{row.label}}
                     </th>
                     <td>
-                        <!--{{row}}-->
                         <div style="display:inline-block; border: 1px solid #999; margin: 2px;" ng-repeat="control in row.controls">
 
                             <div ng-if="control.type === 'buttonGroup'">
@@ -98,71 +64,10 @@
                 </tr>
                 </tbody>
             </table>
-     </div>
+
+
+        </div>
     </div>
-
-    <!--<div class="mu-tab-body" mu-tabset="defaultTab">-->
-        <!--<div class="mu-tabCont" mu-tab-contents="" ng-repeat="tab in adv.fieldOptions.tabs">-->
-
-            <!--<table class="mu-formbox">-->
-                <!--<colgroup>-->
-                    <!--<col width="100px">-->
-                <!--</colgroup>-->
-                <!--<tbody>-->
-                <!--<tr ng-repeat="row in tab.rows">-->
-                    <!--<th>-->
-                        <!--{{row.label}}-->
-                    <!--</th>-->
-                    <!--<td>-->
-                        <!--<div style="display:inline-block; border: 1px solid #999; margin: 2px;" ng-repeat="control in row.controls">-->
-
-                            <!--<div ng-if="control.type === 'buttonGroup'">-->
-                                <!--<div class="mu-btn-group" >-->
-                                    <!--<button ng-repeat="option in control.options" class="mu-btn" ng-class="{'active': option.value === control.selected}"-->
-                                            <!--ng-click="control.selected = option.value">-->
-                                        <!--{{option.text}}-->
-                                    <!--</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div ng-if="control.type === 'input'">-->
-                                <!--<div class="mu-item-group">-->
-                                    <!--<input type="text" class="mu-input" ng-model="control.value">-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div ng-if="control.type === 'checkbox'">-->
-                                <!--<div class="mu-item-group">-->
-                                    <!--<div class="mu-checkbox">-->
-                                        <!--<input type="checkbox" id="ckb_{{$index}}"-->
-                                               <!--ng-model="control.value">-->
-                                        <!--<label for="ckb_{{$index}}">-->
-                                            <!--{{control.text}}-->
-                                        <!--</label>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div ng-if="control.type === 'dropdown'">-->
-                                <!--<div class="mu-selectbox" mu-select="" select-model="control.selected" select-items="control.options"-->
-                                     <!--select-change="changeOverlayField('add', $model)">-->
-                                    <!--<button class="mu-value">{{$model.text}}</button>-->
-                                    <!--<ul class="mu-list">-->
-                                        <!--<li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}-->
-                                        <!--</li>-->
-                                    <!--</ul>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                        <!--</div>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-            <!--</table>-->
-
-
-        <!--</div>-->
-    <!--</div>-->
 </div>
 
 

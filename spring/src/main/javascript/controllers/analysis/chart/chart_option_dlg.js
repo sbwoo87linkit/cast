@@ -220,25 +220,25 @@ function ChartOptionCtrl($scope, $timeout, $stateParams, $document,
 
 
     if ($scope.adv.chart.type === 'Sankey') {
-        $scope.tabs = [
-            {res: '일반'},
-            {res: '컬럼'}
-        ];
-
-        $scope.adv.chartOpts.opts.xAxis.labels = {};
-        $scope.adv.chartOpts.opts.xAxis.labels.text = 'Sankey chart 컬럼 레이블';
-        $scope.adv.chartOpts.opts.xAxis.labels.show = true;
-
-
-        // 기본값 오름차순 내림차순
-        $scope.overlayFields = [
-            {text: '기본값', value: 'default'},
-            {text: '오름차순', value: 'ascending', isSelected: true},
-            {text: '내림차순', value: 'dscending'},
-
-        ]
-
-        $scope.adv.chartOpts.opts.normal.showValue = 'all';
+        // $scope.tabs = [
+        //     {res: '일반'},
+        //     {res: '컬럼'}
+        // ];
+        //
+        // $scope.adv.chartOpts.opts.xAxis.labels = {};
+        // $scope.adv.chartOpts.opts.xAxis.labels.text = 'Sankey chart 컬럼 레이블';
+        // $scope.adv.chartOpts.opts.xAxis.labels.show = true;
+        //
+        //
+        // // 기본값 오름차순 내림차순
+        // $scope.overlayFields = [
+        //     {text: '기본값', value: 'default'},
+        //     {text: '오름차순', value: 'ascending', isSelected: true},
+        //     {text: '내림차순', value: 'dscending'},
+        //
+        // ]
+        //
+        // $scope.adv.chartOpts.opts.normal.showValue = 'all';
     }
 
     if ($scope.adv.chart.type === 'Heatmap') {

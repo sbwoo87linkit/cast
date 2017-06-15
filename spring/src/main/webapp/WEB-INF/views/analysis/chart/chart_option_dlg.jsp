@@ -16,38 +16,9 @@
         </button>
     </div>
 
-    <div ng-if="adv.chart.type==='Line plot'">
-        <%@ include file="../options/lineplot/chart.jsp"%>
+    <div>
     </div>
-
-    <div ng-if="adv.chart.type==='Scatter plot'">
-        <%@ include file="../options/scatterplot/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Motion'">
-        <%@ include file="../options/motion/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Histogram'">
-        <%@ include file="../options/histogram/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Bar chart'">
-        <%@ include file="../options/barchart/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Pie chart'">
-        <%@ include file="../options/piechart/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Sankey'">
-        <%@ include file="../options/sankey/chart.jsp"%>
-    </div>
-
-    <div ng-if="adv.chart.type==='Heatmap'">
-        <%@ include file="../options/heatmap/chart.jsp"%>
-    </div>
-
+    <%@ include file="chartOpts.jsp"%>
     <!--Outlier는 옵션창 없으며, 구조가 다름-->
 
 </div>
