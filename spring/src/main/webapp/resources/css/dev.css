@@ -818,15 +818,19 @@ save icon override
     min-height: 170px;
 }
 
-.d3-slider-handle {
-    /*display: block !important;*/
-    line-height: 50px !important;
-    width: 50px !important;
+.motion-slider {
+    margin-left: 50px;
 }
 
-.mu-motion-chart {
-    padding-bottom: 30px !important;
-}
+/*.d3-slider-handle {*/
+    /*!*display: block !important;*!*/
+    /*line-height: 50px !important;*/
+    /*width: 50px !important;*/
+/*}*/
+
+/*.mu-motion-chart {*/
+    /*padding-bottom: 30px !important;*/
+/*}*/
 
 /**
 Sankey

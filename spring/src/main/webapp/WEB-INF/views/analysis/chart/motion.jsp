@@ -62,7 +62,7 @@
 
                         </td>
                         <td>
-                            <div style="height:100%;border : 1px solid #999">
+                            <div ng-show="data" style="height:100%; width:600px; border : 1px solid #999">
 
                                 <div class="mu-line-group">
                                     <button type="button" class="mu-btn mu-btn-icon" ng-click="play()" ng-class="{ active: isState('play') }" id="btnPlay"><i class="mu-icon play"></i><strong>Play</strong></button>

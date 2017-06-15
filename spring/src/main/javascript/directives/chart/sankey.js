@@ -164,7 +164,7 @@ function Sankey($window, DEFAULT) {
                 // .text(function(d) { return d.name; })
                 .text(function(d) {
                     // console.log(scope.options.dataLabelShow)
-                    if (scope.options.dataLabelShow==='all') {
+                    if (scope.options.dataLabelShow==='on') {
                         return d.name + ' : ' + valueFormatter(d.value);
                         // console.log('TEXT....')
                         // return d.name + '>>> aaa';

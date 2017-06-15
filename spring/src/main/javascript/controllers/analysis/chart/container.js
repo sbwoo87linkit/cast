@@ -17,7 +17,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
      */
 
     $scope.adv = {
-        fieldOptions : {}
+        // fieldOptions : {}
     };
 
     $scope.chartGroups = [
@@ -59,11 +59,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // heatmap
     $scope.adv.chart = $scope.chartGroups[2].items[1];
 
-    // motion
-    $scope.adv.chart = $scope.chartGroups[0].items[2];
-
     // sankey
     $scope.adv.chart = $scope.chartGroups[2].items[0];
+
+    // motion
+    $scope.adv.chart = $scope.chartGroups[0].items[2];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
@@ -178,7 +178,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
         $event.preventDefault();
     }
 
-    $scope.onDropField = function ($event, $data, field, position, type) {
+    $scope.onDropField = function ($event, $data, fieldOpts, field, position, type) {
 
         //console.log($event, $data, field, position, type)
 
@@ -187,7 +187,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
             });
             return false;
         }
-        $scope.adv.fieldOptions.drops[field] = _.cloneDeep($data);
+        fieldOpts.drops[field] = _.cloneDeep($data);
 
         if (position) {
             utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
@@ -195,7 +195,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     };
 
     // for sankey chart
-    $scope.onDropColumnsField = function ($event, $data, columns, $index) {
+    $scope.onDropColumnsField = function ($event, $data, fieldOpts, columns, $index) {
         columns[$index] = _.cloneDeep($data);
     }
 
@@ -207,18 +207,18 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // $scope.clearField = function ($event, field) {
     //     // $event.preventDefault();
     //     $event.stopPropagation();
-    //     $scope.adv.fieldOptions.drops[field] = null;
+    //     $scope.fieldOpts.drops[field] = null;
     //     utility.closeAllLayers();
     // };
 
-    $scope.clearField = function ($event, field, index) {
+    $scope.clearField = function ($event, fieldOpts, field, index) {
         // $event.preventDefault();
         $event.stopPropagation();
         if (Number.isInteger(index)) {
             // sankey
-            $scope.adv.fieldOptions.drops[field][index] = {};
+            fieldOpts.drops[field][index] = {};
         } else {
-            $scope.adv.fieldOptions.drops[field] = null;
+            fieldOpts.drops[field] = null;
         }
         utility.closeAllLayers();
     };

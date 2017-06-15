@@ -52,18 +52,13 @@
                     <td></td>
                     <td>
                         <div style="height: 100%; border: 1px solid #999; padding: 10px; position:relative">
-                            <div ng-if="!isReady" class="center">
+                            <div ng-if="!config" class="center">
                                 <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                             </div>
-                            <div ng-if="isReady" style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
+                            <div ng-if="config" style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
                                 <chart-sankey id="sankeyChart"  options="config.options" data="config.data"></chart-sankey>
                             </div>
                         </div>
-                        <!--<div style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">-->
-                            <!--<div>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
                     </td>
                 </tr>
                 <tr style="height: 0;">

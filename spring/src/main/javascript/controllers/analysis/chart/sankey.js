@@ -15,16 +15,12 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                     searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, CHART, $window) {
 
 
-    $scope.config = {};
-
-    //$scope.adv.fieldOptions.tabs[1].rows[1].controls[0].selected.value
-    //chartOpts.column.label
-
     $scope.tabs = ['일반', '컬럼'];
+
     $scope.chartOpts = {
 
         general: {
-            label: {
+            drilldown: {
                 text: '드릴다운',
                 controls: {
                     drilldown: {
@@ -37,10 +33,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                     }
                 }
             },
-            sort: {
+            datalabel: {
                 text: '데이터 값 표시',
                 controls: {
-                    dataLabel: {
+                    datalabel: {
                         type: 'buttonGroup',
                         selected: 'off',
                         options: [
@@ -54,16 +50,16 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         },
         column: {
             label: {
-                text: '데이터 값 표시',
+                text: '레이블',
                 controls: {
                     input: {
                         type: 'input',
-                        value: 'my test column label' // 테스트용 초기 입력값
+                        value: 'column label' // 입력값 테스트
                     },
                     checkbox: {
                         type: 'checkbox',
                         text: '표시',
-                        value: true // checkbox defalut 선택됨
+                        value: true // checkbox 선택
                     }
                 }
             },
@@ -72,7 +68,7 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 controls: {
                     dropdown: {
                         type: 'dropdown',
-                        selected: {}, // Dropdown 선택값이 여기에 저장됨
+                        selected: {}, // Dropdown 선택
                         options: [
                             {text: "기본값", value: 'default'},
                             {text: "오름차순", value: 'ascending'},
@@ -84,27 +80,7 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         }
     }
 
-
-
-    var _modelChangeTimer = null;
-    $scope.$watch('chartOpts', function (value) {
-
-        // Model change 확인
-
-        // 중복발생 방지 처리
-        $window.clearTimeout(_modelChangeTimer);
-        _modelChangeTimer = $window.setTimeout(function () {
-
-            console.log($scope.chartOpts.column.sort.controls.dropdown.selected.value);
-            console.log($scope.chartOpts.column.label.controls.input.value);
-            console.log($scope.chartOpts.column.label.controls.checkbox.value);
-
-            //todo ... 차트업데이트
-
-        }, 100);
-    }, true);
-
-    $scope.adv.fieldOptions = {
+    $scope.fieldOpts = {
         opts: {
             weight: {
                 summaryMethod: {
@@ -142,6 +118,24 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         }
     }
 
+    var _modelChangeTimer = null;
+
+    $scope.$watch('chartOpts', function (value) {
+
+        // if data is not loaded
+        if (!$scope.config) {
+            return;
+        }
+
+        // 중복발생 방지 처리, Model change 확인
+        $window.clearTimeout(_modelChangeTimer);
+        _modelChangeTimer = $window.setTimeout(function () {
+
+            renderChart()
+
+        }, 100);
+    }, true);
+
     /**
      * Data fetch and render chart
      */
@@ -150,14 +144,14 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var msg = null;
 
-        if (!$scope.adv.fieldOptions.drops.weightField) {
+        if (!$scope.fieldOpts.drops.weightField) {
             msg = '가중치 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        $scope.adv.fieldOptions.drops.columnFields.forEach(function (obj) {
+        $scope.fieldOpts.drops.columnFields.forEach(function (obj) {
             if (!obj.hasOwnProperty("name")) {
                 msg = '컬럼(x축) 입력값이 비어 있습니다.  Field를 Drag & drop 하세요';
             }
@@ -173,114 +167,117 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
             target_field: [],
-            field_options: $scope.adv.fieldOptions
+            field_options: $scope.fieldOpts
         }
 
         utility.closeAllLayers();
-        // console.log(data);
 
         var service = 'adv-sankey';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
-            advAgent.getData(service, d.data.sid).then(function (d1) {
+            advAgent.getData(service, d.data.sid).then(function (d) {
+
                 $scope.adv.isWaiting = false;
 
-                $scope.isReady = true;
-                $scope.adv.isWaiting = false;
-                $timeout(function () {
-                    var nodes = [];
-                    d1.data.nodes = [];
-                    d1.data.links = [];
-                    d1.data.results.forEach(function (d) {
-                        if (nodes.indexOf(d[0]) === -1) {
-                            nodes.push(d[0]);
-                        }
+                $scope.data = d.data;
 
-                        if (nodes.indexOf(d[1]) === -1) {
-                            nodes.push(d[1]);
-                        }
-                    });
-
-                    // Sankey nodes
-                    nodes.forEach(function (d, i) {
-                        d1.data.nodes.push({'node': i, 'name': d})
-                    })
-
-                    // Sankey links
-                    d1.data.results.forEach(function (d, i) {
-                        d1.data.links.push({
-                            'source': nodes.indexOf(d[0]),
-                            'target': nodes.indexOf(d[1]),
-                            'value': +d[2]
-                        });
-                    });
-
-                    $scope.data = _.cloneDeep(d1.data);
-
-                    // renderChart(service, d1);
-                    renderChart()
-
-                });
+                renderChart();
 
             }, function (err) {
+                $scope.adv.isWaiting = false;
                 console.log(err)
             });
         });
     })
 
-    var renderChart = function (d) {
-        $scope.config.options = {
-            columnLabelText: $scope.adv.chartOpts.opts.xAxis.labels.text,
-            columnLabelShow: $scope.adv.chartOpts.opts.xAxis.labels.show,
-            dataLabelShow: $scope.adv.chartOpts.opts.normal.showValue
-        };
+    var renderChart = function () {
 
-        $scope.config.data = {
-            nodes: $scope.data.nodes,
-            links: $scope.data.links
-        };
+        var data = {};
+        data = $scope.data;
+        $scope.config = {};
+
+        $timeout(function () {
+            var nodes = [];
+            data.nodes = [];
+            data.links = [];
+            data.results.forEach(function (d) {
+                if (nodes.indexOf(d[0]) === -1) {
+                    nodes.push(d[0]);
+                }
+
+                if (nodes.indexOf(d[1]) === -1) {
+                    nodes.push(d[1]);
+                }
+            });
+
+            // Sankey nodes
+            nodes.forEach(function (d, i) {
+                data.nodes.push({'node': i, 'name': d})
+            })
+
+            // Sankey links
+            data.results.forEach(function (d, i) {
+                data.links.push({
+                    'source': nodes.indexOf(d[0]),
+                    'target': nodes.indexOf(d[1]),
+                    'value': +d[2]
+                });
+            });
+
+            $scope.config.options = {
+                columnLabelText: $scope.chartOpts.column.label.controls.input.value,
+                columnLabelShow: $scope.chartOpts.column.label.controls.checkbox.value,
+                dataLabelShow: $scope.chartOpts.general.datalabel.controls.datalabel.selected
+            };
+
+            $scope.config.data = {
+                nodes: data.nodes,
+                links: data.links
+            };
+        });
     };
 
     $scope.save = function () {
         if (!$scope.config.data) {
             popupBox.alert('차트데이터가 없습니다.', function clickedOk() {
-                return false;
             });
-        } else {
-
-            // NOTE : http://techslides.com/save-svg-as-an-image 참조
-            var html = d3.select("svg")
-                .attr("version", 1.1)
-                .attr("xmlns", "http://www.w3.org/2000/svg")
-                .node().parentNode.innerHTML;
-
-            var encoded = btoa(unescape(encodeURIComponent(html)));
-            var imgsrc = 'data:image/svg+xml;base64,' + encoded;
-            var img = '<img src="' + imgsrc + '">';
-            d3.select("#svgdataurl").html(img);
-
-            var canvas = document.createElement('canvas'),
-                context = canvas.getContext("2d");
-            canvas.width = parseInt(d3.select("svg").style('width'));
-            canvas.height = parseInt(d3.select("svg").style('height'));
-            context.fillStyle = "white";
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            var image = new Image;
-            image.src = imgsrc;
-            image.onload = function () {
-                context.drawImage(image, 0, 0);
-                var canvasdata = canvas.toDataURL("image/png");
-                var pngimg = '<img src="' + canvasdata + '">';
-                d3.select("#pngdataurl").html(pngimg);
-
-                var a = document.createElement("a");
-                a.download = "chart.png";
-                a.href = canvasdata;
-                a.click();
-            };
+            return false;
         }
+
+        // NOTE : http://techslides.com/save-svg-as-an-image 참조
+        var html = d3.select("svg")
+            .attr("version", 1.1)
+            .attr("xmlns", "http://www.w3.org/2000/svg")
+            .node().parentNode.innerHTML;
+
+        var encoded = btoa(unescape(encodeURIComponent(html)));
+        var imgsrc = 'data:image/svg+xml;base64,' + encoded;
+        var img = '<img src="' + imgsrc + '">';
+        d3.select("#svgdataurl").html(img);
+
+        var canvas = document.createElement('canvas'),
+            context = canvas.getContext("2d");
+        canvas.width = parseInt(d3.select("svg").style('width'));
+        canvas.height = parseInt(d3.select("svg").style('height'));
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        var image = new Image;
+        image.src = imgsrc;
+        image.onload = function () {
+            context.drawImage(image, 0, 0);
+            var canvasdata = canvas.toDataURL("image/png");
+            var pngimg = '<img src="' + canvasdata + '">';
+            d3.select("#pngdataurl").html(pngimg);
+
+            var a = document.createElement("a");
+            a.download = "chart.png";
+            a.href = canvasdata;
+            a.click();
+        };
+
     }
+
 }
 
 module.exports = SankeyCtrl;

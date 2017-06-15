@@ -19,7 +19,7 @@
                         {{row.text}}
                     </th>
                     <td>
-                        <div style="display:inline-block; border: 1px solid #999; margin: 2px;" ng-repeat="control in row.controls">
+                        <div style="display:inline-block; border: 0px solid #999; margin: 2px;" ng-repeat="control in row.controls">
 
                             <div ng-if="control.type === 'buttonGroup'">
                                 <div class="mu-btn-group" >
