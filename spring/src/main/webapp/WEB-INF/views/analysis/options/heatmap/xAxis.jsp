@@ -1,17 +1,17 @@
 
-<div ui-on-Drop="onDropField($event, $data, 'xAxisField', 'top-right')" class="drop-container" layer-offset="{left: 2}">
-    <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!adv.fieldOptions.drops.xAxisField" style="">없음</span>
-    <div class="field" ng-if="adv.fieldOptions.drops.xAxisField">
+<div ui-on-Drop="onDropField($event, $data, fieldOpts, 'xAxisField', 'top-right')" class="drop-container" layer-offset="{left: 2}">
+    <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!fieldOpts.drops.xAxisField" style="">없음</span>
+    <div class="field" ng-if="fieldOpts.drops.xAxisField">
         <button class="fr" ng-click="openPopup($event, 'adv.xAxisField.setting', 'top-right')"> > </button>
-        <button ui-on-Drop="preventDrop($event)" type="button" class="close fl" ng-click="clearField($event, 'xAxisField')"></button>
-        <div>{{adv.fieldOptions.drops.xAxisField.name}}</div>
+        <button ui-on-Drop="preventDrop($event)" type="button" class="close fl" ng-click="clearField($event, fieldOpts, 'xAxisField')"></button>
+        <div>{{fieldOpts.drops.xAxisField.name}}</div>
     </div>
 </div>
 
 <div class="mu-tooltip top-right" style="width: 426px;" popup-layer="adv.xAxisField.setting">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner">
-        <span class="title">{{adv.fieldOptions.drops.xAxisField.name}}</span>
+        <span class="title">{{fieldOpts.drops.xAxisField.name}}</span>
         <div class="mu-search-item timeRelative">
 
             <table class="mu-formbox">
@@ -24,8 +24,8 @@
                         <label>정렬:</label>
                     </th>
                     <td>
-                        <div class="mu-selectbox" mu-select="sb1" select-model="adv.fieldOptions.opts.xAxis.sort.selected"
-                             select-items="adv.fieldOptions.opts.xAxis.sort.list" select-change="changeOption($model)">
+                        <div class="mu-selectbox" mu-select="sb1" select-model="fieldOpts.opts.xAxis.sort.selected"
+                             select-items="fieldOpts.opts.xAxis.sort.list" select-change="changeOption($model)">
                             <button class="mu-value">{{$model.text}}</button>
                             <ul class="mu-list">
                                 <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>
@@ -39,12 +39,12 @@
                     </th>
                     <td>
                         <div class="mu-btn-group">
-                            <button class="mu-btn" ng-class="{'active': adv.fieldOptions.opts.xAxis.range.selected === 'userDefined'}"
-                                    ng-click="adv.fieldOptions.opts.xAxis.range.selected = 'userDefined'">사용자지정</button>
-                            <button class="mu-btn" ng-class="{'active': adv.fieldOptions.opts.xAxis.range.selected === 'notUse'}"
-                                    ng-click="adv.fieldOptions.opts.xAxis.range.selected = 'notUse'">만들지 않음</button>
+                            <button class="mu-btn" ng-class="{'active': fieldOpts.opts.xAxis.range.selected === 'userDefined'}"
+                                    ng-click="fieldOpts.opts.xAxis.range.selected = 'userDefined'">사용자지정</button>
+                            <button class="mu-btn" ng-class="{'active': fieldOpts.opts.xAxis.range.selected === 'notUse'}"
+                                    ng-click="fieldOpts.opts.xAxis.range.selected = 'notUse'">만들지 않음</button>
                         </div>
-                        <div ng-show="adv.fieldOptions.opts.xAxis.range.selected === 'userDefined'">
+                        <div ng-show="fieldOpts.opts.xAxis.range.selected === 'userDefined'">
                             <table>
                                 <tr>
                                     <td>
@@ -52,7 +52,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                                               ng-model="adv.fieldOptions.opts.xAxis.range.userDefined.size">
+                                               ng-model="fieldOpts.opts.xAxis.range.userDefined.size">
                                     </td>
                                 </tr>
                                 <tr>
@@ -61,7 +61,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                                               ng-model="adv.fieldOptions.opts.xAxis.range.userDefined.start">
+                                               ng-model="fieldOpts.opts.xAxis.range.userDefined.start">
                                     </td>
                                 </tr>
                                 <tr>
@@ -70,7 +70,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                                               ng-model="adv.fieldOptions.opts.xAxis.range.userDefined.end">
+                                               ng-model="fieldOpts.opts.xAxis.range.userDefined.end">
                                     </td>
                                 </tr>
                             </table>
@@ -83,7 +83,7 @@
                     </th>
                     <td>
                         <input type="text" class="mu-input ng-pristine ng-untouched ng-valid ng-not-empty"
-                               ng-model="adv.fieldOptions.opts.xAxis.maxCount">
+                               ng-model="fieldOpts.opts.xAxis.maxCount">
                     </td>
                 </tr>
                 </tbody>

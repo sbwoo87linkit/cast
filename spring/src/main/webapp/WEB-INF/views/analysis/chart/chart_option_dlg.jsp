@@ -16,8 +16,6 @@
         </button>
     </div>
 
-    <div>
-    </div>
     <%@ include file="chartOpts.jsp"%>
     <!--Outlier는 옵션창 없으며, 구조가 다름-->
 

@@ -1,9 +1,9 @@
-<div ui-on-Drop="onDropField($event, $data, 'valueField', 'bottom-right')" class="drop-container" layer-offset="{left: 2}">
-    <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!adv.fieldOptions.drops.valueField" style="">없음</span>
-    <div class="field" ng-if="adv.fieldOptions.drops.valueField">
+<div ui-on-Drop="onDropField($event, $data, fieldOpts, 'valueField', 'bottom-right')" class="drop-container" layer-offset="{left: 2}">
+    <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!fieldOpts.drops.valueField" style="">없음</span>
+    <div class="field" ng-if="fieldOpts.drops.valueField">
         <button class="fr" ng-click="openPopup($event, 'adv.valueField.setting', 'bottom-right')"> > </button>
-        <button ui-on-Drop="preventDrop($event)" type="button" class="close fl" ng-click="clearField($event, 'valueField')"></button>
-        <div>{{adv.fieldOptions.drops.valueField.name}}</div>
+        <button ui-on-Drop="preventDrop($event)" type="button" class="close fl" ng-click="clearField($event, fieldOpts, 'valueField')"></button>
+        <div>{{fieldOpts.drops.valueField.name}}</div>
     </div>
 </div>
 
@@ -11,7 +11,7 @@
     <div class="arrow"></div>
     <div class="mu-tooltip-inner">
 
-        <span class="title">{{adv.fieldOptions.drops.valueField.name}}</span>
+        <span class="title">{{fieldOpts.drops.valueField.name}}</span>
         <div class="mu-search-item timeRelative">
 
             <table class="mu-formbox">
@@ -24,8 +24,8 @@
                         <label>Summary 방식:</label>
                     </th>
                     <td>
-                        <div class="mu-selectbox" mu-select="sb1" select-model="adv.fieldOptions.opts.value.summaryMethod.selected"
-                             select-items="adv.fieldOptions.opts.value.summaryMethod.list" select-change="changeOption($model)">
+                        <div class="mu-selectbox" mu-select="sb1" select-model="fieldOpts.opts.value.summaryMethod.selected"
+                             select-items="fieldOpts.opts.value.summaryMethod.list" select-change="changeOption($model)">
                             <button class="mu-value">{{$model.text}}</button>
                             <ul class="mu-list">
                                 <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}</li>

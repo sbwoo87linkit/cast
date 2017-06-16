@@ -1,3 +1,4 @@
+
 <div class="mu-dialog-body" ng-show="activeTabSet === 'defaultTab'">
     <!-- 탭 목록 (좌측) -->
     <ul class="mu-tab mu-tab-vertical" mu-tabset="defaultTab">
@@ -7,7 +8,7 @@
     </ul>
 
     <div class="mu-tab-body" mu-tabset="defaultTab">
-        <div class="mu-tabCont" mu-tab-contents="" ng-repeat="(key, tab) in chartOpts">
+        <div class="mu-tabCont" mu-tab-contents="" ng-repeat="(keyTab, tab) in chartOpts">
 
             <table class="mu-formbox">
                 <colgroup>
@@ -39,9 +40,9 @@
                             <div ng-if="control.type === 'checkbox'">
                                 <div class="mu-item-group">
                                     <div class="mu-checkbox">
-                                        <input type="checkbox" id="ckb_{{$index}}"
+                                        <input type="checkbox" id="ckb_{{keyTab}}{{$index}}"
                                                ng-model="control.value">
-                                        <label for="ckb_{{$index}}">
+                                        <label for="ckb_{{keyTab}}{{$index}}">
                                             {{control.text}}
                                         </label>
                                     </div>

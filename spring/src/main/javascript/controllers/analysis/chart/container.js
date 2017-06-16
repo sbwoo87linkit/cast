@@ -56,14 +56,14 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // lineplot
     $scope.adv.chart = $scope.chartGroups[0].items[0];
 
-    // heatmap
-    $scope.adv.chart = $scope.chartGroups[2].items[1];
-
     // sankey
     $scope.adv.chart = $scope.chartGroups[2].items[0];
 
     // motion
     $scope.adv.chart = $scope.chartGroups[0].items[2];
+
+    // heatmap
+    $scope.adv.chart = $scope.chartGroups[2].items[1];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
