@@ -19,7 +19,7 @@
                 <div class="mu-col mu-col-6">
                 </div>
                 <div class="mu-col mu-col-3">
-                    <button type="button" class="mu-btn mu-btn-icon" ng-click="save()"><i class="mu-icon save"></i>저장</button>
+                    <button type="button" class="mu-btn mu-btn-icon" ng-click="export(config)"><i class="mu-icon save"></i>저장</button>
                 </div>
             </div>
         </div>
@@ -61,13 +61,11 @@
                         </td>
                         <td>
                             <div style="height:100%;border : 1px solid #999">
-                                <div ng-if="!config" class="center">
+                                <div ng-show="!config" class="center">
                                     <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                                 </div>
-                                <div ng-if="config" style="position:relative; height: 100%;">
-                                    <highchart
-                                            style="position: absolute; left:0; top:0px; bottom:0; right:0; height: 100%; margin: auto"
-                                            config="config">
+                                <div id="chart-container" style="position:relative; height: 100%;">
+                                    <highchart ng-if="config" config="config" style="position: absolute; left:0; top:0px; bottom:0; right:0; height: 100%; margin: auto">
                                     </highchart>
                                 </div>
                             </div>

@@ -19,7 +19,7 @@
                 <div class="mu-col mu-col-6">
                 </div>
                 <div class="mu-col mu-col-3">
-                    <button type="button" class="mu-btn mu-btn-icon" ng-click="save()"><i class="mu-icon save"></i>저장</button>
+                    <button type="button" class="mu-btn mu-btn-icon" ng-click="export(config)"><i class="mu-icon save"></i>저장</button>
                 </div>
             </div>
         </div>

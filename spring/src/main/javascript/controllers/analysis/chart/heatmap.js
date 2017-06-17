@@ -10,9 +10,10 @@ var async = require('async');
  */
 
 HeatmapCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
-    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', '$window'];
+    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', '$window', 'DEFAULT'];
 function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
-                     searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, $window) {
+                     searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, $window, DEFAULT) {
+
 
     /**
      *
@@ -42,7 +43,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 controls: {
                     datalabel: {
                         type: 'buttonGroup',
-                        selected: 'min_max',
+                        selected: 'on',
                         options: [
                             {text: "끄기", value: 'off'},
                             {text: "켜기", value: 'on'},
@@ -51,19 +52,45 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                     }
                 }
             },
+            // color: {
+            //     text: '기본색상',
+            //     controls: {
+            //         input: {
+            //             type: 'input',
+            //             value: '#3333ff' // 입력값 테스트
+            //         },
+            //         box: {
+            //             type: 'colorPicker',
+            //             value: '#3333ff'
+            //         }
+            //     }
+            // }
+
             color: {
                 text: '기본색상',
                 controls: {
-                    input: {
-                        type: 'input',
-                        value: '#3333ff' // 입력값 테스트
-                    },
-                    box: {
-                        type: 'colorPicker',
-                        value: '#3333ff'
+                    dropdown: {
+                        type: 'colorDropdown',
+                        selected: {}, // Dropdown 선택
+                        options: [
+                            {text: "#8CBECE", value: '#8CBECE', isSelected: true},
+                            {text: "#FF0000", value: '#FF0000'},
+                            {text: "#00FF00", value: '#00FF00'},
+                            {text: "#0000FF", value: '#0000FF'},
+                            {text: "#FF1493", value: '#FF1493'},
+                            {text: "#00BFFF", value: '#00BFFF'},
+                            {text: "#556B2F", value: '#556B2F'},
+                            {text: "#6495ED", value: '#6495ED'},
+                            {text: "#DC143C", value: 'DC143C'},
+                            {text: "#556B2F", value: '556B2F'},
+                            {text: "#483D8B", value: '483D8B'},
+                            //#
+                        ]
                     }
                 }
             }
+
+
         },
         xAxis: {
             label: {
@@ -104,8 +131,8 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                         selected: {}, // Dropdown 선택
                         options: [
                             {text: "기본값", value: 'default'},
-                            {text: "오름차순", value: 'ascending'},
-                            {text: "내림차순", value: 'descending', isSelected: true} // default 내림차순 선택
+                            {text: "오름차순", value: 'asc'},
+                            {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
                         ]
                     }
                 }
@@ -150,8 +177,8 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                         selected: {}, // Dropdown 선택
                         options: [
                             {text: "기본값", value: 'default'},
-                            {text: "오름차순", value: 'ascending'},
-                            {text: "내림차순", value: 'descending', isSelected: true} // default 내림차순 선택
+                            {text: "오름차순", value: 'asc', isSelected: true},
+                            {text: "내림차순", value: 'desc'} // default 내림차순 선택
                         ]
                     }
                 }
@@ -173,12 +200,12 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 controls: {
                     buttons: {
                         type: 'buttonGroup',
-                        selected: 'right',
+                        selected: 'top',
                         options: [
-                            {text: "오른쪽", value: 'right'},
-                            {text: "아래", value: 'bottom'},
+                            {text: "왼쪽", value: 'left'},
                             {text: "위", value: 'top'},
-                            {text: "왼쪽", value: 'left'}
+                            {text: "아래", value: 'bottom'},
+                            {text: "오른쪽", value: 'right'}
                         ]
                     }
                 }
@@ -258,8 +285,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.$watch('chartOpts', function (value) {
 
-        console.log('Model Changed....111')
-        // if data is not loaded
+        // data not loaded
         if (!$scope.data) {
             return;
         }
@@ -268,15 +294,12 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         $window.clearTimeout(_modelChangeTimer);
         _modelChangeTimer = $window.setTimeout(function () {
 
-            console.log('Model Changed....')
-            console.log($scope.chartOpts.general.datalabel.controls.datalabel.selected);
             $timeout(function () {
                 renderChart()
             })
 
         }, 100);
     }, true);
-
 
     /**
      * Data fetch and render chart
@@ -315,7 +338,12 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         }
 
         utility.closeAllLayers();
-        // console.log(data);
+
+        // IMPORTANT : 다시 호출할때는 highchart-ng directive를 destroy 해야 함. template ng-if가 false가 되어 derective가 destroy 됨.
+        // 참조 : https://github.com/pablojim/highcharts-ng/issues/334
+
+        // 차트 Initialize
+        $scope.config = null;
 
         var service = 'adv-heatmap';
         $scope.adv.isWaiting = true;
@@ -331,13 +359,48 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     var renderChart = function (d) {
 
-        console.log('renderChart - heatmap')
+        // console.log($('highchart'));
+        // $('highchart').empty();
+        // $('highchart').remove();
+        //
+        // // return;
+        // $scope.config = undefined;
+        // $scope.config = null;
+        // $scope.config = {};
 
-        var data = $scope.data;
+
+        var data = _.cloneDeep($scope.data);
         var xAxisCategories = [];
         var series = [];
         var yAxisCategories = [];
 
+
+        // y축 정렬 차트옵션
+        var ySort = $scope.chartOpts.yAxis.sort.controls.dropdown.selected.value;
+        if (ySort === 'asc' || ySort === 'desc') {
+
+            var shiftItem = data.fields.shift();
+            data.fields = _.orderBy(data.fields, 'name', ySort);
+            data.fields.unshift(shiftItem);
+            data.yOrders = [];
+            _.forEach(data.fields, function (d, i) {
+                var index = _.findIndex($scope.data.fields, function (field) {
+                    return field.name === d.name
+                })
+                data.yOrders.push(index);
+            })
+            $scope.data.results.forEach(function (d, i) {
+                d.forEach(function (t, j) {
+                    data.results[i][j] = $scope.data.results[i][data.yOrders[j]]
+                })
+            })
+        }
+
+        // x축 정렬 차트옵션
+        var xSort = $scope.chartOpts.xAxis.sort.controls.dropdown.selected.value;
+        if (xSort === 'asc' || xSort === 'desc') {
+            data.results = _.orderBy(data.results, 0, xSort);
+        }
 
         for (var i = 1; i < data.fields.length; i++) {
             yAxisCategories.push(data.fields[i].name)
@@ -372,88 +435,76 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             dataLabel_min_max = true;
         }
 
+        var height = $('#chart-container').height()
+        var width = $('#chart-container').width()
+        // console.log(height)
+
+        // $scope.config.legend.symbolHeight = height - 80
+
+
+        // console.log($scope.chartOpts.legend.show.controls.checkbox.value)
+
+        // 범례 차트옵션
         var legendOpts;
-
-        if ($scope.chartOpts.legend.show.controls.checkbox.value) {
-
-            if ($scope.chartOpts.legend.position.controls.buttons.selected === 'right') {
-                legendOpts = {
-                    enabled: true,
-                    width: 100,
-                    align: 'right',
-                    layout: 'vertical',
-                    y: 25,
-                    floating: false,
-                    verticalAlign: 'top',
-                    height: 400,
-                    // align: 'left',
-                    x: 70, // = marginLeft - default spacingLeft
-                    itemWidth: 100,
-                    borderWidth: 1
-                }
-            }
-
-            if ($scope.chartOpts.legend.position.controls.buttons.selected === 'left') {
-                legendOpts = {
-                    enabled: true,
-                    width: 100,
-                    align: 'left',
-                    layout: 'vertical',
-                    y: 25,
-                    floating: false,
-                    verticalAlign: 'top',
-                    height: 400,
-                    // align: 'left',
-                    x: 70, // = marginLeft - default spacingLeft
-                    itemWidth: 100,
-                    borderWidth: 1
-                }
-            }
-
-            if ($scope.chartOpts.legend.position.controls.buttons.selected === 'top') {
-                legendOpts = {
-
-                    // title: {
-                    //     text: 'Population density per km²'
-                    // },
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'top',
-                    y: 0,
-                    floating: false,
-                    borderWidth: 10,
-                    backgroundColor: 'white'
-
-
-                }
-            }
-
-            if ($scope.chartOpts.legend.position.controls.buttons.selected === 'bottom') {
-                legendOpts = {
-
-                    // title: {
-                    //     text: 'Population density per km²'
-                    // },
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    y: 0,
-                    floating: false,
-                    borderWidth: 10,
-                    backgroundColor: 'white'
-
-                }
-            }
-
-
-
-        } else {
+        var isShowLegend = $scope.chartOpts.legend.show.controls.checkbox.value;
+        if ($scope.chartOpts.legend.position.controls.buttons.selected === 'right') {
             legendOpts = {
-                enabled: false,
+                enabled: isShowLegend,
+                align: 'right',
+                layout: 'vertical',
+                margin: 0,
+                verticalAlign: 'top',
+                y: 2,
+                x: 12,
+                symbolHeight: height - 80,
+                symbolWidth: 10
             }
-
         }
 
+        if ($scope.chartOpts.legend.position.controls.buttons.selected === 'left') {
+            legendOpts = {
+                enabled: isShowLegend,
+                align: 'left',
+                layout: 'vertical',
+                margin: 0,
+                // verticalAlign: 'top',
+                y: 2,
+                x: 12,
+                symbolPadding: 20,
+                symbolHeight: height - 80,
+                symbolWidth: 10
+            }
+        }
+
+        if ($scope.chartOpts.legend.position.controls.buttons.selected === 'top') {
+            legendOpts = {
+                enabled: isShowLegend,
+                align: 'center',
+                layout: 'horizontal',
+                margin: 0,
+                verticalAlign: 'top',
+                y: 2,
+                x: 12,
+                symbolHeight: 10,
+                symbolWidth: width - 260
+            }
+        }
+
+        if ($scope.chartOpts.legend.position.controls.buttons.selected === 'bottom') {
+            legendOpts = {
+                enabled: isShowLegend,
+                align: 'center',
+                layout: 'horizontal',
+                margin: 0,
+                verticalAlign: 'bottom',
+                y: 2,
+                x: 12,
+                symbolHeight: 10,
+                symbolWidth: width - 260
+            }
+        }
+
+        // 차트 구성/랜더링
         $scope.config = {
             chart: {
                 type: 'heatmap',
@@ -462,12 +513,19 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 plotBorderWidth: 1
             },
 
+            credits: {
+                enabled: false
+            },
+
             title: {
-                text: 'Sales per employee per weekday'
+                text: ''
             },
 
             xAxis: {
                 categories: xAxisCategories,
+                title: {
+                    text: $scope.chartOpts.xAxis.label.controls.checkbox.value ? $scope.chartOpts.xAxis.label.controls.input.value : '',
+                },
                 labels: {
                     rotation: parseInt($scope.chartOpts.xAxis.labelRotation.controls.buttons.selected),
                 }
@@ -486,7 +544,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             colorAxis: {
                 min: 0,
                 minColor: '#FFFFFF',
-                maxColor: $scope.chartOpts.general.color.controls.input.value
+                maxColor: $scope.chartOpts.general.color.controls.dropdown.selected.value
             },
 
             legend: legendOpts,
@@ -501,7 +559,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 enabled: false
             },
             series: [{
-                name: 'Sales per employee',
+                name: 'none',
                 borderWidth: 1,
                 data: series,
                 dataLabels: {
@@ -526,10 +584,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 }
             }
         }
-
-
     };
-
 }
 
 module.exports = HeatmapCtrl;

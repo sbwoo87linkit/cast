@@ -25,6 +25,8 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         $scope.adv.targetField = null;
     }
 
+    $scope.adv.targetField = {"name": "Event Object의 개수", "type": "TEXT", "option": null}
+
     $scope.$on('adv.execute', function () {
 
         if (!$scope.adv.targetField) {
@@ -77,7 +79,7 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.targetField
+            target_field: [$scope.adv.targetField]
         }
 
         advAgent.getId(service, data).then(function (d) {
@@ -216,43 +218,43 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
             $scope.techstatic = [
                 {
                     name: '레코드수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'TOTAL'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'TOTAL'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'TOTAL'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'TOTAL'})]
                 },
                 {
                     name: 'MIN',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MIN'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MIN_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MIN'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MIN_COUNT'})]
                 },
                 {
                     name: '1st(25%) 사분위수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'Q1'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'Q1_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q1'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q1_COUNT'})]
                 },
                 {
                     name: '중간값50%)',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MEDIAN'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MEDIAN_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MEDIAN'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MEDIAN_COUNT'})]
                 },
                 {
                     name: '평균',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'AVERAGE'})],
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'AVERAGE'})],
                     recordCounts: ''
                 },
                 {
                     name: '3rd(75%) 사분위수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'Q3'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'Q3_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q3'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q3_COUNT'})]
                 },
                 {
                     name: 'MAX',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MAX'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MAX_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MAX'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MAX_COUNT'})]
                 },
                 {
                     name: 'NA의수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'NA'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'NA'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'NA'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'NA'})]
                 }
             ]
 
@@ -272,43 +274,43 @@ function OutlierCtrl($scope, $timeout, $stateParams, ADE_PARAMS, searchCond, pop
             $scope.outlier = [
                 {
                     name: '레코드수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'TOTAL'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'TOTAL'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'TOTAL'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'TOTAL'})]
                 },
                 {
                     name: 'MIN',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MIN'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MIN_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MIN'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MIN_COUNT'})]
                 },
                 {
                     name: '1st(25%) 사분위수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'Q1'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'Q1_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q1'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q1_COUNT'})]
                 },
                 {
                     name: '중간값50%)',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MEDIAN'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MEDIAN_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MEDIAN'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MEDIAN_COUNT'})]
                 },
                 {
                     name: '평균',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'AVERAGE'})],
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'AVERAGE'})],
                     recordCounts: ''
                 },
                 {
                     name: '3rd(75%) 사분위수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'Q3'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'Q3_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q3'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'Q3_COUNT'})]
                 },
                 {
                     name: 'MAX',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'MAX'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'MAX_COUNT'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'MAX'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'MAX_COUNT'})]
                 },
                 {
                     name: 'NA의수',
-                    techStatics: d.data.results[_.findIndex(d.data.fields, {name: 'NA'})],
-                    recordCounts: d.data.results[_.findIndex(d.data.fields, {name: 'NA'})]
+                    techStatics: d.data.results[0][_.findIndex(d.data.fields, {name: 'NA'})],
+                    recordCounts: d.data.results[0][_.findIndex(d.data.fields, {name: 'NA'})]
                 }
             ]
 

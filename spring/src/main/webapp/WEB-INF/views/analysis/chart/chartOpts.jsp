@@ -1,5 +1,5 @@
 
-<div class="mu-dialog-body" ng-show="activeTabSet === 'defaultTab'">
+<div class="mu-dialog-body" ng-show="activeTabSet === 'defaultTab'" style="overflow: visible">
     <!-- 탭 목록 (좌측) -->
     <ul class="mu-tab mu-tab-vertical" mu-tabset="defaultTab">
         <li mu-tab-item="" ng-repeat="tab in tabs">
@@ -55,6 +55,22 @@
                                     <button class="mu-value">{{$model.text}}</button>
                                     <ul class="mu-list">
                                         <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">{{opt.text}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div ng-if="control.type === 'colorDropdown'">
+                                <div class="mu-selectbox" mu-select="" select-model="control.selected" select-items="control.options"
+                                     select-change="changeOverlayField('add', $model)">
+                                    <button class="mu-value">
+                                        <div style="display: inline-block; width: 70px;">{{$model.text}}</div>
+                                        <div style="display: inline-block; height: 10px; width: 10px" ng-style="{'background' : $model.value}"></div>
+                                    </button>
+                                    <ul class="mu-list">
+                                        <li ng-repeat="opt in $data" mu-option="" value="{{opt.value}}">
+                                            <div style="display: inline-block; width: 70px;">{{opt.text}}</div>
+                                            <div style="display: inline-block; height: 10px; width: 10px" ng-style="{'background' : opt.value}"></div>
                                         </li>
                                     </ul>
                                 </div>

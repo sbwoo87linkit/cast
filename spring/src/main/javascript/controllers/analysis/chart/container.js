@@ -62,8 +62,15 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // motion
     $scope.adv.chart = $scope.chartGroups[0].items[2];
 
+    // outlier
+    $scope.adv.chart = $scope.chartGroups[3].items[0];
+
     // heatmap
     $scope.adv.chart = $scope.chartGroups[2].items[1];
+
+    // pie chart
+    $scope.adv.chart = $scope.chartGroups[1].items[2];
+
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
@@ -246,6 +253,21 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
         utility.closeAllLayers();
     };
 
+
+    $scope.export = function (config) {
+
+        utility.closeAllLayers();
+
+        if (!config) {
+            return;
+        }
+
+        var chart = config.getChartObj();
+        chart.exportChart({
+            type: 'image/png'
+        });
+
+    }
 
 
 
