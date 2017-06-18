@@ -262,6 +262,144 @@ function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
         }
     }
 
+    $scope.myfieldopts = {
+        fields: {
+            size: {
+                title: '사이즈',
+                key:'size',
+                rows: {
+                    summaryMethod: {
+                        title: 'Summary 방식',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: '합계', value: 'sum'},
+                                    {text: '개수', value: 'count'},
+                                    {text: '평균', value: 'average', isSelected: true},
+                                    {text: '쵀대', value: 'max'},
+                                    {text: '최소', value: 'min'},
+                                    {text: '표준편차', value: 'standardDeviation'},
+                                    {text: '중간값', value: 'mean'},
+                                    {text: '개별 값 나열', value: 'iterate'}
+                                ]
+                            }
+
+                        }
+                    }
+                }
+            },
+            group: {
+                title: '그룹',
+                key:'group',
+                rows: {
+                    sort: {
+                        title: '정렬',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: "기본값", value: 'default'},
+                                    {text: "오름차순", value: 'asc'},
+                                    {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
+                                ]
+                            }
+
+                        }
+                    },
+                    range: {
+                        title: '범위만들기',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: "기본값", value: 'default'},
+                                    {text: "오름차순", value: 'asc'},
+                                    {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
+                                ]
+                            }
+
+                        }
+                    }
+                },
+                // controls: [
+                //     {
+                //         range: {
+                //             type: 'buttonGroupExt',
+                //             selected: 'userDefined',
+                //             options: [
+                //                 {text: '자동계산', value: 'auto'},
+                //                 {text: '사용자지정', value: 'userDefined'},
+                //                 {text: '만들지않음', value: 'none'},
+                //             ],
+                //             extOptions: [
+                //                 [],
+                //                 [
+                //                     {text: '범위크기', key: 'rangeSize', value: ''},
+                //                     {text: '범위시작', key: 'rangeStart', value: ''},
+                //                     {text: '범위끝', key: 'rangeEnd', value: ''},
+                //                 ],
+                //                 []
+                //
+                //             ]
+                //
+                //         }
+                //     },
+                // ],
+            },
+        },
+
+        drops: {},
+        // opts: {
+        //     group: {
+        //         sort: {
+        //             list: [
+        //                 {text: '기본값', value: 'default', isSelected: true},
+        //                 {text: '오름차순', value: 'ascending'},
+        //                 {text: '내림차순', value: 'descending'}
+        //             ],
+        //             selected: {}
+        //         },
+        //         range: {
+        //             selected: 'notUse',
+        //             userDefined: {
+        //                 size: 10,
+        //                 start: 0,
+        //                 end: 10
+        //             }
+        //         },
+        //         maxCount: 100
+        //     },
+        //     size: {
+        //         summaryMethod: {
+        //             list: [
+        //                 {text: '합계', value: 'sum', isSelected: true},
+        //                 {text: '개수', value: 'count'},
+        //                 {text: '평균', value: 'average'},
+        //                 {text: '쵀대', value: 'max'},
+        //                 {text: '최소', value: 'min'},
+        //                 {text: '표준편차', value: 'standardDeviation'},
+        //                 {text: '중간값', value: 'mean'},
+        //                 {text: '개별 값 나열', value: 'iterate'}
+        //             ],
+        //             selected: {}
+        //         }
+        //     }
+        //
+        // },
+        // drops: {
+        //     sizeField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
+        //     // TODO: delete. 이하 테스트 Data
+        //     // xAxisField: _.find($scope.fieldList, function (x) {
+        //     //     return x.type === 'TIMESTAMP'
+        //     // }),
+        //     groupField: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+        // }
+    }
+
     var _modelChangeTimer = null;
 
     $scope.$watch('chartOpts', function (value) {
@@ -281,139 +419,6 @@ function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
 
         }, 100);
     }, true);
-
-
-    // // group drop field
-    // $scope.adv.groupField = {"name": "DATE", "type": "TEXT", "option": null};
-    //
-    // // yAxis drop field
-    // $scope.adv.yAxisField = {"name": "Event Object의 개수", "type": "TEXT", "option": null};
-    //
-    // // time drop field
-    // $scope.adv.timeField = _.find($scope.fieldList, function (x) {
-    //     return x.type === 'TIMESTAMP'
-    // });
-    //
-    // // yAxisField 팝업레이어 옵션
-    // $scope.yAxisField = {}
-    //
-    // $scope.yAxisField.summaryMethods = [
-    //     {text: '합계', value: 'sum', isSelected: true},
-    //     {text: '개수', value: 'count'},
-    //     {text: '평균', value: 'average'},
-    //     {text: '쵀대', value: 'max'},
-    //     {text: '최소', value: 'min'},
-    //     {text: '표준편차', value: 'standardDeviation'},
-    //     {text: '중간값', value: 'mean'},
-    //     {text: '개별 값 나열', value: 'iterate'}
-    // ];
-    //
-    // $scope.yAxisField.summaryMethodSelected = {};
-    //
-    // $scope.yAxisField.fills = [
-    //     {text: '채우지않음', value: 'not_fill', isSelected: true},
-    //     {text: '앞-뒤 평균', value: 'average'},
-    //     {text: '앞의 값', value: 'front_value'},
-    //     {text: '뒤의 값', value: 'rear_value'},
-    //     {text: '0', value: 'zero'},
-    //     {text: '사용자지정', value: 'userDefined'},
-    // ];
-    //
-    // $scope.yAxisField.fillSelected = {};
-    //
-    // $scope.saveYAxisFieldOption = function (field, $index, summaryMethod, fill, userDefinedValue) {
-    //     field.summaryMethod = summaryMethod.value;
-    //
-    //     if (fill.value === 'userDefined') {
-    //         if (userDefinedValue) {
-    //             popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    //             field.fill = userDefinedValue;
-    //         } else {
-    //             popupBox.alert('사용자정의 데이터를 입력하세요.', function clickedOk() {
-    //             })
-    //         }
-    //     } else {
-    //         popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    //         field.fill = fill.value;
-    //     }
-    // }
-    //
-    // // timeField 팝업레이어 옵션
-    //
-    // $scope.timeField = {}
-    //
-    // $scope.timeField.summaryTimes = [
-    //     {text: '10초', value: '10sec', isSelected: true},
-    //     {text: '1분', value: '1min'},
-    //     {text: '5분', value: '5min'},
-    //     {text: '사용자정의', value: 'userDefined'},
-    // ];
-    //
-    // $scope.timeField.summaryTimeSelected = {};
-    //
-    // $scope.saveTimeFieldOption = function (model, userDefinedValue) {
-    //
-    //     $scope.summaryTimeErrMsg = null;
-    //     if (model.value === 'userDefined' && !userDefinedValue) {
-    //         $scope.summaryTimeErrMsg = '데이터를 입력하세요.';
-    //         return;
-    //     }
-    //
-    //     // // Number 테스트
-    //     // if ( isNaN(userDefinedValue) || !angular.isNumber(+userDefinedValue)) {
-    //     //     $scope.summaryTimeErrMsg = '숫자를 입력하세요.';
-    //     //     return;
-    //     // }
-    //
-    //     popupLayerStore.get('adv.timeField.setting').closeEl();
-    // }
-    //
-    // /**
-    //  *  Drop 필드 제어
-    //  */
-    //
-    // $scope.onDropYAxisField = function ($event, $data) {
-    //     // if ($data.name === 'Event Object의 개수') {
-    //     //     popupBox.alert('여기에는 Event Object의 개수는 적용할 수 없습니다.', function clickedOk() {
-    //     //         return false;
-    //     //     });
-    //     // } else {
-    //     //     $scope.adv.yAxisField = _.cloneDeep($data);
-    //     //     // TODO : drop 후 popup layer open
-    //     //     // popupLayerStore.get('adv.axisField.setting_' + $index).openEl();
-    //     // }
-    //     $scope.adv.yAxisField = _.cloneDeep($data);
-    // };
-    //
-    // $scope.clearAxisField = function ($index) {
-    //     $scope.adv.chartData[$index].axis = null;
-    //     // TODO : drop 후 popup layer open
-    //     popupLayerStore.get('adv.axisField.setting_' + $index).closeEl();
-    // }
-    //
-    // $scope.onDropGroupField = function ($event, $data) {
-    //     $scope.adv.groupField = _.cloneDeep($data);
-    // };
-    //
-    // $scope.clearGroupField = function () {
-    //     $scope.adv.groupField = null;
-    // }
-    //
-    // $scope.onDropTimeField = function ($event, $data) {
-    //     if ($data.type != 'TIMESTAMP') {
-    //         popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
-    //             return false;
-    //         });
-    //     } else {
-    //         $scope.adv.timeField = _.cloneDeep($data);
-    //     }
-    // };
-    //
-    // $scope.clearTimeField = function () {
-    //     $scope.adv.timeField = null;
-    //     popupLayerStore.get('adv.timeField.setting').closeEl();
-    // }
-
 
     /**
      * Data fetch and render chart
@@ -440,7 +445,8 @@ function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
             target_field: [],
-            field_options: $scope.fieldOpts
+            field_options: $scope.fieldOpts,
+            test: $scope.myfieldopts
         }
 
         // 차트 Initialize

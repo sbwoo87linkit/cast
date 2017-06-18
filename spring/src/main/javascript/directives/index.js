@@ -19,5 +19,7 @@ module.exports = angular.module('sherman.directives', [])
 
     .directive('fieldList', require('./pivot/fieldList.js'))
 
+    .directive('dropField', require('./chart/dropField.js'))
+
     .directive('chartSankey', require('./chart/sankey.js'))
     ;

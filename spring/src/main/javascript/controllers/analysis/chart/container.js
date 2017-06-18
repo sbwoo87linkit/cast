@@ -186,6 +186,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     }
 
     $scope.onDropField = function ($event, $data, fieldOpts, field, position, type) {
+        console.log('onDropField - container.js')
 
         //console.log($event, $data, field, position, type)
 
