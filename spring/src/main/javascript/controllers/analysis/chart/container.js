@@ -74,6 +74,11 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // bar chart
     $scope.adv.chart = $scope.chartGroups[1].items[1];
 
+    // histogram
+    $scope.adv.chart = $scope.chartGroups[1].items[0];
+
+    // scatter plot
+    $scope.adv.chart = $scope.chartGroups[0].items[1];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
@@ -110,8 +115,28 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     //
 
     $scope.closeAllLayers = function () {
-        popupLayerStore.get('analysis.filter.add').closeEl();
-        popupLayerStore.get('analysis.filter.edit').closeEl();
+
+        console.log('closeAllLayers....')
+
+        // popupLayerStore.get('analysis.filter.add').closeEl();
+        // popupLayerStore.get('analysis.filter.edit').closeEl();
+
+        var layer;
+
+        layer = popupLayerStore.get('analysis.filter.add');
+        if (layer) {
+            popupLayerStore.get('analysis.filter.add').closeEl();
+        }
+
+        layer = popupLayerStore.get('analysis.filter.edit');
+        if (layer) {
+            popupLayerStore.get('analysis.filter.edit').closeEl();
+        }
+
+        layer = popupLayerStore.get('adv.fieldList.add');
+        if (layer) {
+            popupLayerStore.get('adv.fieldList.add').closeEl();
+        }
     }
 
     $scope.changeChart = function (chart) {
@@ -188,51 +213,51 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
         $event.preventDefault();
     }
 
-    // $scope.onDropField = function ($event, $data, fieldOpts, field, position, type) {
-    //     console.log('onDropField - container.js')
-    //
-    //     //console.log($event, $data, field, position, type)
-    //
-    //     if ( type && $data.type != type) {
-    //         popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
-    //         });
-    //         return false;
-    //     }
-    //     fieldOpts.drops[field] = _.cloneDeep($data);
-    //
-    //     if (position) {
-    //         utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
-    //     }
-    // };
+    $scope.onDropField = function ($event, $data, fieldOpts, field, position, type) {
+        console.log('onDropField - container.js')
+
+        //console.log($event, $data, field, position, type)
+
+        if ( type && $data.type != type) {
+            popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
+            });
+            return false;
+        }
+        fieldOpts.drops[field] = _.cloneDeep($data);
+
+        if (position) {
+            utility.openPopupLayer('adv.' + field + '.setting', position, angular.element($event.target));
+        }
+    };
 
     // for sankey chart
     $scope.onDropColumnsField = function ($event, $data, fieldOpts, columns, $index) {
         columns[$index] = _.cloneDeep($data);
     }
 
-    // $scope.openPopup = function ($event, layer, position) {
-    //     $event.preventDefault();
-    //     utility.openPopupLayer(layer, position, angular.element($event.target));
-    // };
+    $scope.openPopup = function ($event, layer, position) {
+        $event.preventDefault();
+        utility.openPopupLayer(layer, position, angular.element($event.target));
+    };
 
-    // $scope.clearField = function ($event, field) {
-    //     // $event.preventDefault();
-    //     $event.stopPropagation();
-    //     $scope.fieldOpts.drops[field] = null;
-    //     utility.closeAllLayers();
-    // };
+    $scope.clearField = function ($event, field) {
+        // $event.preventDefault();
+        $event.stopPropagation();
+        $scope.fieldOpts.drops[field] = null;
+        utility.closeAllLayers();
+    };
 
-    // $scope.clearField = function ($event, fieldOpts, field, index) {
-    //     // $event.preventDefault();
-    //     $event.stopPropagation();
-    //     if (Number.isInteger(index)) {
-    //         // sankey
-    //         fieldOpts.drops[field][index] = {};
-    //     } else {
-    //         fieldOpts.drops[field] = null;
-    //     }
-    //     utility.closeAllLayers();
-    // };
+    $scope.clearField = function ($event, fieldOpts, field, index) {
+        // $event.preventDefault();
+        $event.stopPropagation();
+        if (Number.isInteger(index)) {
+            // sankey
+            fieldOpts.drops[field][index] = {};
+        } else {
+            fieldOpts.drops[field] = null;
+        }
+        utility.closeAllLayers();
+    };
 
     // for sankey. delete fields
     $scope.deleteField = function (columns, $index) {

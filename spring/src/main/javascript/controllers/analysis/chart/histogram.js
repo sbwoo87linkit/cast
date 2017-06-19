@@ -179,10 +179,11 @@ function HistogramCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $lo
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
+            target_field: [],
+            field_options: $scope.fieldOpts
         }
 
-        var service = 'adv-histogram-dev';
+        var service = 'adv-histogram';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
             advAgent.getData(service, d.data.sid).then(function (d1) {
