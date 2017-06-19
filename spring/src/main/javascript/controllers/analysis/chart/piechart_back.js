@@ -9,10 +9,10 @@ var async = require('async');
  * Controller
  */
 
-HeatmapCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
-    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', '$window', 'DEFAULT'];
-function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
-                     searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, $window, DEFAULT) {
+PiechartCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
+    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility'];
+function PiechartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
+                      searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility) {
 
 
     /**
@@ -216,7 +216,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.fieldOpts = {
         opts: {
-            xAxis: {
+            group: {
                 sort: {
                     list: [
                         {text: '기본값', value: 'default', isSelected: true},
@@ -235,26 +235,7 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 },
                 maxCount: 100
             },
-            yAxis: {
-                sort: {
-                    list: [
-                        {text: '기본값', value: 'default', isSelected: true},
-                        {text: '오름차순', value: 'ascending'},
-                        {text: '내림차순', value: 'descending'}
-                    ],
-                    selected: {}
-                },
-                range: {
-                    selected: 'notUse',
-                    userDefined: {
-                        size: 10,
-                        start: 0,
-                        end: 10
-                    }
-                },
-                maxCount: 100
-            },
-            value: {
+            size: {
                 summaryMethod: {
                     list: [
                         {text: '합계', value: 'sum', isSelected: true},
@@ -272,13 +253,151 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         },
         drops: {
-            valueField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
+            sizeField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
             // TODO: delete. 이하 테스트 Data
-            xAxisField: _.find($scope.fieldList, function (x) {
-                return x.type === 'TIMESTAMP'
-            }),
-            yAxisField: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+            // xAxisField: _.find($scope.fieldList, function (x) {
+            //     return x.type === 'TIMESTAMP'
+            // }),
+            groupField: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
         }
+    }
+
+    $scope.myfieldopts = {
+        fields: {
+            size: {
+                title: '사이즈',
+                key:'size',
+                rows: {
+                    summaryMethod: {
+                        title: 'Summary 방식',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: '합계', value: 'sum'},
+                                    {text: '개수', value: 'count'},
+                                    {text: '평균', value: 'average', isSelected: true},
+                                    {text: '쵀대', value: 'max'},
+                                    {text: '최소', value: 'min'},
+                                    {text: '표준편차', value: 'standardDeviation'},
+                                    {text: '중간값', value: 'mean'},
+                                    {text: '개별 값 나열', value: 'iterate'}
+                                ]
+                            }
+
+                        }
+                    }
+                }
+            },
+            group: {
+                title: '그룹',
+                key:'group',
+                rows: {
+                    sort: {
+                        title: '정렬',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: "기본값", value: 'default'},
+                                    {text: "오름차순", value: 'asc'},
+                                    {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
+                                ]
+                            }
+
+                        }
+                    },
+                    range: {
+                        title: '범위만들기',
+                        controls: {
+                            dropdown: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: "기본값", value: 'default'},
+                                    {text: "오름차순", value: 'asc'},
+                                    {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
+                                ]
+                            }
+
+                        }
+                    }
+                },
+                // controls: [
+                //     {
+                //         range: {
+                //             type: 'buttonGroupExt',
+                //             selected: 'userDefined',
+                //             options: [
+                //                 {text: '자동계산', value: 'auto'},
+                //                 {text: '사용자지정', value: 'userDefined'},
+                //                 {text: '만들지않음', value: 'none'},
+                //             ],
+                //             extOptions: [
+                //                 [],
+                //                 [
+                //                     {text: '범위크기', key: 'rangeSize', value: ''},
+                //                     {text: '범위시작', key: 'rangeStart', value: ''},
+                //                     {text: '범위끝', key: 'rangeEnd', value: ''},
+                //                 ],
+                //                 []
+                //
+                //             ]
+                //
+                //         }
+                //     },
+                // ],
+            },
+        },
+
+        drops: {},
+        // opts: {
+        //     group: {
+        //         sort: {
+        //             list: [
+        //                 {text: '기본값', value: 'default', isSelected: true},
+        //                 {text: '오름차순', value: 'ascending'},
+        //                 {text: '내림차순', value: 'descending'}
+        //             ],
+        //             selected: {}
+        //         },
+        //         range: {
+        //             selected: 'notUse',
+        //             userDefined: {
+        //                 size: 10,
+        //                 start: 0,
+        //                 end: 10
+        //             }
+        //         },
+        //         maxCount: 100
+        //     },
+        //     size: {
+        //         summaryMethod: {
+        //             list: [
+        //                 {text: '합계', value: 'sum', isSelected: true},
+        //                 {text: '개수', value: 'count'},
+        //                 {text: '평균', value: 'average'},
+        //                 {text: '쵀대', value: 'max'},
+        //                 {text: '최소', value: 'min'},
+        //                 {text: '표준편차', value: 'standardDeviation'},
+        //                 {text: '중간값', value: 'mean'},
+        //                 {text: '개별 값 나열', value: 'iterate'}
+        //             ],
+        //             selected: {}
+        //         }
+        //     }
+        //
+        // },
+        // drops: {
+        //     sizeField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
+        //     // TODO: delete. 이하 테스트 Data
+        //     // xAxisField: _.find($scope.fieldList, function (x) {
+        //     //     return x.type === 'TIMESTAMP'
+        //     // }),
+        //     groupField: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+        // }
     }
 
     var _modelChangeTimer = null;
@@ -306,25 +425,17 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
      */
 
     $scope.$on('adv.execute', function () {
-
         var msg = null;
 
-        if (!$scope.fieldOpts.drops.valueField) {
-            msg = '값 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (!$scope.fieldOpts.drops.sizeField) {
+            msg = '사이즈 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
         }
 
-        if (!$scope.fieldOpts.drops.yAxisField) {
-            msg = 'y축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
-            popupBox.alert(msg, function clickedOk() {
-            });
-            return false;
-        }
-
-        if (!$scope.fieldOpts.drops.xAxisField) {
-            msg = 'x축 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
+        if (!$scope.fieldOpts.drops.groupField) {
+            msg = '그룹 입력값이 비어 있습니다. Field를 Drag & drop 하세요';
             popupBox.alert(msg, function clickedOk() {
             });
             return false;
@@ -334,184 +445,33 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
             target_field: [],
-            field_options: $scope.fieldOpts
+            field_options: $scope.fieldOpts,
+            test: $scope.myfieldopts
         }
-
-        utility.closeAllLayers();
-
-        // IMPORTANT : 다시 호출할때는 highchart-ng directive를 destroy 해야 함. template ng-if가 false가 되어 derective가 destroy 됨.
-        // 참조 : https://github.com/pablojim/highcharts-ng/issues/334
 
         // 차트 Initialize
         $scope.config = null;
 
-        var service = 'adv-heatmap';
+        var service = 'adv-pie';
         $scope.adv.isWaiting = true;
         advAgent.getId(service, data).then(function (d) {
-            advAgent.getData(service, d.data.sid).then(function (d) {
+            advAgent.getData(service, d.data.sid).then(function (d1) {
                 $scope.adv.isWaiting = false;
-                $scope.data = d.data;
-                renderChart();
+                renderChart(service, d1);
             }, function (err) {
             });
         });
     })
 
-    var renderChart = function (d) {
+    var renderChart = function (service, d, rowIndex) {
 
-        // console.log($('highchart'));
-        // $('highchart').empty();
-        // $('highchart').remove();
-        //
-        // // return;
-        // $scope.config = undefined;
-        // $scope.config = null;
-        // $scope.config = {};
-
-
-        var data = _.cloneDeep($scope.data);
-        var xAxisCategories = [];
-        var series = [];
-        var yAxisCategories = [];
-
-
-        // y축 정렬 차트옵션
-        var ySort = $scope.chartOpts.yAxis.sort.controls.dropdown.selected.value;
-        if (ySort === 'asc' || ySort === 'desc') {
-
-            var shiftItem = data.fields.shift();
-            data.fields = _.orderBy(data.fields, 'name', ySort);
-            data.fields.unshift(shiftItem);
-            data.yOrders = [];
-            _.forEach(data.fields, function (d, i) {
-                var index = _.findIndex($scope.data.fields, function (field) {
-                    return field.name === d.name
-                })
-                data.yOrders.push(index);
-            })
-            $scope.data.results.forEach(function (d, i) {
-                d.forEach(function (t, j) {
-                    data.results[i][j] = $scope.data.results[i][data.yOrders[j]]
-                })
-            })
-        }
-
-        // x축 정렬 차트옵션
-        var xSort = $scope.chartOpts.xAxis.sort.controls.dropdown.selected.value;
-        if (xSort === 'asc' || xSort === 'desc') {
-            data.results = _.orderBy(data.results, 0, xSort);
-        }
-
-        for (var i = 1; i < data.fields.length; i++) {
-            yAxisCategories.push(data.fields[i].name)
-        }
-
-        data.results.forEach(function (row, i) {
-            row.forEach(function (item, j) {
-                if (j === 0) {
-                    xAxisCategories.push(item);
-                } else {
-                    series.push([i, j - 1, item])
-                }
-            })
-        })
-
-        var arr = [];
-        series.forEach(function (d) {
-            arr.push(d[2])
-        })
-        var min = Math.min.apply(null, arr),
-            max = Math.max.apply(null, arr);
-        var showDataLabel;
-        if ($scope.chartOpts.general.datalabel.controls.datalabel.selected === 'on') {
-            showDataLabel = true;
-        }
-        if ($scope.chartOpts.general.datalabel.controls.datalabel.selected === 'off') {
-            showDataLabel = false;
-        }
-        var dataLabel_min_max = false;
-        if ($scope.chartOpts.general.datalabel.controls.datalabel.selected === 'min_max') {
-            showDataLabel = true;
-            dataLabel_min_max = true;
-        }
-
-        var height = $('#chart-container').height()
-        var width = $('#chart-container').width()
-        // console.log(height)
-
-        // $scope.config.legend.symbolHeight = height - 80
-
-
-        // console.log($scope.chartOpts.legend.show.controls.checkbox.value)
-
-        // 범례 차트옵션
-        var legendOpts;
-        var showLegend = $scope.chartOpts.legend.show.controls.checkbox.value;
-        var legendPosition = $scope.chartOpts.legend.position.controls.buttons.selected;
-        if (legendPosition === 'right') {
-            legendOpts = {
-                enabled: showLegend,
-                align: 'right',
-                layout: 'vertical',
-                margin: 0,
-                verticalAlign: 'top',
-                y: 2,
-                x: 12,
-                symbolHeight: height - 80,
-                symbolWidth: 10
-            }
-        }
-
-        if (legendPosition === 'left') {
-            legendOpts = {
-                enabled: showLegend,
-                align: 'left',
-                layout: 'vertical',
-                margin: 0,
-                // verticalAlign: 'top',
-                y: 2,
-                x: 12,
-                symbolPadding: 20,
-                symbolHeight: height - 80,
-                symbolWidth: 10
-            }
-        }
-
-        if (legendPosition === 'top') {
-            legendOpts = {
-                enabled: showLegend,
-                align: 'center',
-                layout: 'horizontal',
-                margin: 0,
-                verticalAlign: 'top',
-                y: 2,
-                x: 12,
-                symbolHeight: 10,
-                symbolWidth: width - 260
-            }
-        }
-
-        if (legendPosition === 'bottom') {
-            legendOpts = {
-                enabled: showLegend,
-                align: 'center',
-                layout: 'horizontal',
-                margin: 0,
-                verticalAlign: 'bottom',
-                y: 2,
-                x: 12,
-                symbolHeight: 10,
-                symbolWidth: width - 260
-            }
-        }
-
-        // 차트 구성/랜더링
+        var data = d.data.results;
         $scope.config = {
             chart: {
-                type: 'heatmap',
-                // marginTop: 40,
-                // marginBottom: 80,
-                plotBorderWidth: 1
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
             },
 
             credits: {
@@ -522,70 +482,56 @@ function HeatmapCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 text: ''
             },
 
-            xAxis: {
-                categories: xAxisCategories,
-                title: {
-                    text: $scope.chartOpts.xAxis.label.controls.checkbox.value ? $scope.chartOpts.xAxis.label.controls.input.value : '',
-                },
-                labels: {
-                    rotation: parseInt($scope.chartOpts.xAxis.labelRotation.controls.buttons.selected),
-                }
-            },
 
+            // series: [{
+            //     pointPadding: 0,
+            //     groupPadding: 0,
+            //     pointPlacement: 'between',
+            //     data: data,
+            // }],
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: data
+            }],
+
+            legend: {
+                enabled: false
+            },
             yAxis: {
-                categories: yAxisCategories,
                 title: {
-                    text: $scope.chartOpts.yAxis.label.controls.checkbox.value ? $scope.chartOpts.yAxis.label.controls.input.value : '',
+                    text: null
                 },
+                gridLineWidth: 1
+            },
+            xAxis: {
+                type: 'datetime',
                 labels: {
-                    rotation: parseInt($scope.chartOpts.yAxis.labelRotation.controls.buttons.selected),
+                    // format: '{value:%m/%d %H:%M:%S}',
+                    format: '{value:%H:%M:%S}',
                 }
             },
-
-            colorAxis: {
-                min: 0,
-                minColor: '#FFFFFF',
-                maxColor: $scope.chartOpts.general.color.controls.dropdown.selected.value
-            },
-
-            legend: legendOpts,
-
             tooltip: {
+                enabled: true,
+                useHTML: true,
+                backgroundColor: 'white',
                 formatter: function () {
-                    return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                        this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-                }
+                    return [
+                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
+                        '<b>시리즈: </b>' + this.series.name,
+                        '<b>값: </b>' + this.y
+                    ].join('<br>');
+                },
+                hideDelay: 0
             },
             exporting: {
                 enabled: false
-            },
-            series: [{
-                name: 'none',
-                borderWidth: 1,
-                data: series,
-                dataLabels: {
-                    // enabled: false,
-                    enabled: showDataLabel,
-                    color: '#000000'
-                }
-            }],
-            plotOptions: {
-                series: {
-                    dataLabels: {
-                        formatter: function () {
-                            if (dataLabel_min_max) {
-                                if ((this.point.value == min) || (this.point.value == max)) {
-                                    return this.point.value;
-                                }
-                            } else {
-                                return this.point.value;
-                            }
-                        }
-                    }
-                }
             }
         }
+
     };
+
+
 }
 
-module.exports = HeatmapCtrl;
+module.exports = PiechartCtrl;

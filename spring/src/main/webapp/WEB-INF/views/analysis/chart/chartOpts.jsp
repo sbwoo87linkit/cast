@@ -37,6 +37,12 @@
                                 </div>
                             </div>
 
+                            <div ng-if="control.type === 'label'">
+                                <div class="mu-item-group">
+                                    <span ng-bind="control.value"></span>
+                                </div>
+                            </div>
+
                             <div ng-if="control.type === 'checkbox'">
                                 <div class="mu-item-group">
                                     <div class="mu-checkbox">

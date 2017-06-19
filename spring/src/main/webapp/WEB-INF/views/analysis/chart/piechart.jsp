@@ -32,28 +32,9 @@
 
             </div>
             <div class="mu-col mu-col-10">
-                <drop-field field="myfieldopts.fields.size" drops="myfieldopts.drops"></drop-field>
+                <drop-field field="fieldOpts.fields.size" drops="fieldOpts.drops" position="bottom-left"></drop-field>
             </div>
         </div>
-
-        <!--<div class="mu-row">-->
-            <!--<div class="mu-col mu-col-1">-->
-            <!--</div>-->
-            <!--<div class="mu-col mu-col-10">-->
-                <!--<div class="mu-row">-->
-                    <!--<div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">-->
-                        <!--<span style="display: inline-block; margin-top: 6px">크기</span>-->
-                    <!--</div>-->
-                    <!--<div class="mu-col mu-col-3">-->
-
-                        <!--<%@ include file="../options/piechart/size.jsp"%>-->
-
-                    <!--</div>-->
-                    <!--<div class="mu-col mu-col-8">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
 
         <div class="mu-row chart-row">
             <div id="table-container" class="mu-col mu-col-11 full-height" style="overflow: scroll">
@@ -84,29 +65,13 @@
                 </table>
             </div>
         </div>
-        <!--<div class="mu-row">-->
-            <!--<div class="mu-col mu-col-1"></div>-->
-            <!--<div class="mu-col mu-col-10">-->
-                <!--<div class="mu-row">-->
-                    <!--<div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">-->
-                        <!--<span style="display: inline-block; margin-top: 6px">그룹</span>-->
-                    <!--</div>-->
-                    <!--<div class="mu-col mu-col-3">-->
-
-                        <!--<%@ include file="../options/piechart/group.jsp"%>-->
-
-                    <!--</div>-->
-                <!--</div>-->
-
-            <!--</div>-->
-        <!--</div>-->
 
         <div class="mu-row">
             <div class="mu-col mu-col-1">
 
             </div>
             <div class="mu-col mu-col-10">
-                <drop-field field="myfieldopts.fields.group" drops="myfieldopts.drops"></drop-field>
+                <drop-field field="fieldOpts.fields.group" drops="fieldOpts.drops" position="top-left"></drop-field>
             </div>
         </div>
 

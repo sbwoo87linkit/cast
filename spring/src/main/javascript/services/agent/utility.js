@@ -75,6 +75,44 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
         if (layer) {
             popupLayerStore.get('adv.timeField.setting').closeEl();
         }
+
+        console.log('close all popup layers....')
+
+        layer = popupLayerStore.get('xAxis');
+        if (layer) {
+            popupLayerStore.get('xAxis').closeEl();
+        }
+
+        layer = popupLayerStore.get('yAxis');
+        if (layer) {
+            popupLayerStore.get('yAxis').closeEl();
+        }
+
+        layer = popupLayerStore.get('size');
+        if (layer) {
+            popupLayerStore.get('size').closeEl();
+        }
+
+        layer = popupLayerStore.get('group');
+        if (layer) {
+            popupLayerStore.get('group').closeEl();
+        }
+
+        layer = popupLayerStore.get('value');
+        if (layer) {
+            popupLayerStore.get('value').closeEl();
+        }
+
+        layer = popupLayerStore.get('time');
+        if (layer) {
+            popupLayerStore.get('time').closeEl();
+        }
+
+        layer = popupLayerStore.get('weight');
+        if (layer) {
+            popupLayerStore.get('weight').closeEl();
+        }
+
     }
 
     this.openPopupLayer = function (layerId, position, target) {

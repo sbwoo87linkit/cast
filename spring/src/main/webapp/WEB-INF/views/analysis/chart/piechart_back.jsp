@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<div ng-controller="analysis.chart.BarchartCtrl" class="full-height"
+<div ng-controller="analysis.chart.PiechartCtrl" class="full-height"
      xmlns:spring="http://www.w3.org/1999/XSL/Transform">
 
     <div class="mu-row">
@@ -32,9 +32,28 @@
 
             </div>
             <div class="mu-col mu-col-10">
-                <drop-field field="fieldOpts.fields.group" drops="fieldOpts.drops"></drop-field>
+                <drop-field field="myfieldopts.fields.size" drops="myfieldopts.drops"></drop-field>
             </div>
         </div>
+
+        <!--<div class="mu-row">-->
+            <!--<div class="mu-col mu-col-1">-->
+            <!--</div>-->
+            <!--<div class="mu-col mu-col-10">-->
+                <!--<div class="mu-row">-->
+                    <!--<div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">-->
+                        <!--<span style="display: inline-block; margin-top: 6px">크기</span>-->
+                    <!--</div>-->
+                    <!--<div class="mu-col mu-col-3">-->
+
+                        <!--<%@ include file="../options/piechart/size.jsp"%>-->
+
+                    <!--</div>-->
+                    <!--<div class="mu-col mu-col-8">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="mu-row chart-row">
             <div id="table-container" class="mu-col mu-col-11 full-height" style="overflow: scroll">
@@ -45,11 +64,7 @@
                     </colgroup>
                     <tr>
                         <td>
-                            <drop-field field="fieldOpts.fields.yAxis"
-                                        drops="fieldOpts.drops"
-                                        layout="vertical"
-                                        position="right-top"
-                                        style="height: 100%; width:100%; display: inline-block"></drop-field>
+
                         </td>
                         <td>
                             <div style="height:100%;border : 1px solid #999">
@@ -69,15 +84,32 @@
                 </table>
             </div>
         </div>
+        <!--<div class="mu-row">-->
+            <!--<div class="mu-col mu-col-1"></div>-->
+            <!--<div class="mu-col mu-col-10">-->
+                <!--<div class="mu-row">-->
+                    <!--<div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">-->
+                        <!--<span style="display: inline-block; margin-top: 6px">그룹</span>-->
+                    <!--</div>-->
+                    <!--<div class="mu-col mu-col-3">-->
+
+                        <!--<%@ include file="../options/piechart/group.jsp"%>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="mu-row">
             <div class="mu-col mu-col-1">
 
             </div>
             <div class="mu-col mu-col-10">
-                <drop-field field="fieldOpts.fields.xAxis" drops="fieldOpts.drops" position="top-left"></drop-field>
+                <drop-field field="myfieldopts.fields.group" drops="myfieldopts.drops"></drop-field>
             </div>
         </div>
+
 
     </div>
 
