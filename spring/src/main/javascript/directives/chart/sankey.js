@@ -163,7 +163,7 @@ function Sankey($window, DEFAULT) {
                 .attr('text-anchor', 'end')
                 // .text(function(d) { return d.name; })
                 .text(function(d) {
-                    // console.log(scope.options.dataLabelShow)
+                    console.log(d)
                     if (scope.options.dataLabelShow==='on') {
                         return d.name + ' : ' + valueFormatter(d.value);
                         // console.log('TEXT....')

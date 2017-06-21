@@ -43,8 +43,7 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
         },
         {
             name: '이상치', items: [
-            {type: 'Outlier', icon: 'outlier', description: 'Outlier description'},
-            {type: '차트유형선택', icon: 'none', description: 'none'}
+            {type: 'Outlier', icon: 'outlier', description: 'Outlier description'}
         ]
         }
     ];
@@ -55,12 +54,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
 
     // lineplot
     $scope.adv.chart = $scope.chartGroups[0].items[0];
-
-    // sankey
-    $scope.adv.chart = $scope.chartGroups[2].items[0];
-
-    // motion
-    $scope.adv.chart = $scope.chartGroups[0].items[2];
 
     // outlier
     $scope.adv.chart = $scope.chartGroups[3].items[0];
@@ -80,11 +73,16 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // scatter plot
     $scope.adv.chart = $scope.chartGroups[0].items[1];
 
+    // sankey
+    $scope.adv.chart = $scope.chartGroups[2].items[0];
+
+    // motion
+    $scope.adv.chart = $scope.chartGroups[0].items[2];
+
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
+
     $scope.adv.fieldOption.timeField = {};
-
-
 
     /**
      * 데이터 로드

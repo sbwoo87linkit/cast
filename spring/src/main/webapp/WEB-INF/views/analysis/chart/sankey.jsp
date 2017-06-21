@@ -18,7 +18,7 @@
                 <div class="mu-col mu-col-6">
                 </div>
                 <div class="mu-col mu-col-3">
-                    <button type="button" class="mu-btn mu-btn-icon" ng-click="export(config)"><i class="mu-icon save"></i>저장</button>
+                    <button type="button" class="mu-btn mu-btn-icon" ng-click="exportSankey()"><i class="mu-icon save"></i>저장</button>
                 </div>
             </div>
         </div>
@@ -45,25 +45,36 @@
                             <div class="mu-col mu-col-8">
                             </div>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <div style="height: 100%; border: 1px solid #999; padding: 10px; position:relative">
-                            <div ng-if="!config" class="center">
+                        <div id="chart" style="height: 100%; border: 1px solid #999; position:relative">
+                            <div ng-if="!options" class="center">
                                 <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                             </div>
-                            <div ng-if="config" style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
-                                <chart-sankey id="sankeyChart"  options="config.options" data="config.data"></chart-sankey>
+                            <div ng-if="options" style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
+                                <!--<chart-sankey id="sankeyChart"  options="config.options" data="config.data"></chart-sankey>-->
+
+                                <div google-chart="Sankey"
+                                     gc-data="chart"
+                                     gc-options="options"
+                                     gce-select="onSelect()"
+                                     gce-ready="onReady()"
+                                     gce-on-mouse-over="mouseOver()"
+                                     gce-on-mouse-out="mouseOut()"
+                                ></div>
+                                <div ng-if="chartOpts.column.label.controls.checkbox.value" class="tc font16">
+                                    {{chartOpts.column.label.controls.input.value}}
+                                </div>
                             </div>
                         </div>
                     </td>
                 </tr>
                 <tr style="height: 0;">
                     <td>
-                        <button type="button" ng-click="addField(adv.fieldOptions.drops.columnFields)"><i class="mu-icon add"></i>
+                        <button type="button" ng-click="addField(fieldOpts.drops.columnFields)"><i class="mu-icon add"></i>
                         </button>
                     </td>
                     <td>
@@ -73,6 +84,4 @@
             </table>
         </div>
     </div>
-
-
 </div>

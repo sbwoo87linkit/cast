@@ -164,7 +164,7 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 controls: {
                     input: {
                         type: 'input',
-                        value: '500'
+                        value: '50'
                     }
                 }
             },

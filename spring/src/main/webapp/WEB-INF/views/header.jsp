@@ -20,12 +20,12 @@
                 </a>
             </li>
             <!-- NOTE: 테스트 -->
-            <li ng-class="{ active : routePaths[0] === 'test' }">
-                <a ui-sref="test">
-                    <i class="mu-icon-img test"></i>
-                    <span>테스트</span>
-                </a>
-            </li>
+            <!--<li ng-class="{ active : routePaths[0] === 'test' }">-->
+                <!--<a ui-sref="test">-->
+                    <!--<i class="mu-icon-img test"></i>-->
+                    <!--<span>테스트</span>-->
+                <!--</a>-->
+            <!--</li>-->
         </ul>
     </nav>
 </header>

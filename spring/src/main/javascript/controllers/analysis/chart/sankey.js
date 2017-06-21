@@ -10,10 +10,11 @@ var async = require('async');
  */
 
 SankeyCtrl.$inject = ['$scope', '$timeout', '$stateParams', 'ADE_PARAMS', 'advAgent', '$log',
-    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', 'CHART', '$window'];
+    'searchCond', 'popupLayerStore', 'dataModel', '$rootScope', 'popupBox', '$document', 'utility', 'CHART', '$window', 'DEFAULT'];
 function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
-                    searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, CHART, $window) {
+                    searchCond, popupLayerStore, dataModel, $rootScope, popupBox, $document, utility, CHART, $window, DEFAULT) {
 
+    var columnLabelHeight = 50;
 
     $scope.tabs = ['일반', '컬럼'];
 
@@ -29,20 +30,6 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                         options: [
                             {text: "예", value: 'yes'},
                             {text: "아니오", value: 'no'}
-                        ]
-                    }
-                }
-            },
-            datalabel: {
-                text: '데이터 값 표시',
-                controls: {
-                    datalabel: {
-                        type: 'buttonGroup',
-                        selected: 'off',
-                        options: [
-                            {text: "끄기", value: 'off'},
-                            {text: "켜기", value: 'on'},
-                            {text: "최소/최대", value: 'min_max'}
                         ]
                     }
                 }
@@ -70,9 +57,9 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                         type: 'dropdown',
                         selected: {}, // Dropdown 선택
                         options: [
-                            {text: "기본값", value: 'default'},
-                            {text: "오름차순", value: 'ascending'},
-                            {text: "내림차순", value: 'descending', isSelected: true} // default 내림차순 선택
+                            {text: "기본값", value: null},
+                            {text: "오름차순", value: 'asc'},
+                            {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
                         ]
                     }
                 }
@@ -117,13 +104,14 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             // }),
         }
     }
+    //adv.fieldOptions.drops.columnFields
 
     var _modelChangeTimer = null;
 
     $scope.$watch('chartOpts', function (value) {
 
         // if data is not loaded
-        if (!$scope.config) {
+        if (!$scope.options) {
             return;
         }
 
@@ -131,10 +119,39 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         $window.clearTimeout(_modelChangeTimer);
         _modelChangeTimer = $window.setTimeout(function () {
 
+            console.log('charOpts...')
             renderChart()
 
         }, 100);
     }, true);
+
+    $($window).on('resize', onRsize);
+
+    $scope.$on('$destroy', function () {
+        $($window).off('resize', onRsize);
+    });
+
+    function onRsize() {
+
+
+        $timeout(function () {
+
+            if (!$scope.options) {
+                return;
+            }
+
+            if ($scope.chartOpts.column.label.controls.checkbox.value) {
+                $scope.options.height = $('#chart').height() - columnLabelHeight;
+            } else {
+                $scope.options.height = $('#chart').height();
+            }
+            $scope.options.width = $('#chart').width();
+
+            console.log('update...', $scope.options.height)
+
+        }, 100)
+
+    }
 
     /**
      * Data fetch and render chart
@@ -192,53 +209,73 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     var renderChart = function () {
 
-        var data = {};
-        data = $scope.data;
-        $scope.config = {};
+        var data = $scope.data;
+
+        data.results = [
+            [ "2014", "AL", 99 ],
+            [ "2015", "AL", 102 ],
+            [ "2014", "NL", 85 ],
+            [ "2015", "NL", 108 ],
+            [ "AL", "LAA", 106 ],
+            [ "AL", "SFA", 95 ],
+            [ "NL", "SFN", 94 ],
+            [ "NL", "ATL", 99 ],
+            [ "NL", "CIN", 95 ]
+        ];
+
+
+        var order = $scope.chartOpts.column.sort.controls.dropdown.selected.value;
+        if (order) {
+            // console.log('sorting...', order)
+            data.results = _.orderBy(data.results, [0], order);
+            data.results = _.orderBy(data.results, [1], order);
+        }
+
+        // var arr = data.results;
+        //
+        // data.results = [];
+        //
+        // arr.forEach(function (d) {
+        //     console.log(d);
+        // })
+        //
+        // return;
+
+
+
+        $scope.chart = {
+            "cols": [
+                {label: 'from', type: 'string'},
+                {label: 'to', type: 'string'},
+                {label: 'height', type: 'number'}
+            ],
+            "rows": data.results
+        };
+
+        var width = $('#chart').width();
+        var height = $('#chart').height();
+        if ($scope.chartOpts.column.label.controls.checkbox.value) {
+            height = height - columnLabelHeight;
+        }
 
         $timeout(function () {
-            var nodes = [];
-            data.nodes = [];
-            data.links = [];
-            data.results.forEach(function (d) {
-                if (nodes.indexOf(d[0]) === -1) {
-                    nodes.push(d[0]);
-                }
-
-                if (nodes.indexOf(d[1]) === -1) {
-                    nodes.push(d[1]);
-                }
-            });
-
-            // Sankey nodes
-            nodes.forEach(function (d, i) {
-                data.nodes.push({'node': i, 'name': d})
-            })
-
-            // Sankey links
-            data.results.forEach(function (d, i) {
-                data.links.push({
-                    'source': nodes.indexOf(d[0]),
-                    'target': nodes.indexOf(d[1]),
-                    'value': +d[2]
-                });
-            });
-
-            $scope.config.options = {
-                columnLabelText: $scope.chartOpts.column.label.controls.input.value,
-                columnLabelShow: $scope.chartOpts.column.label.controls.checkbox.value,
-                dataLabelShow: $scope.chartOpts.general.datalabel.controls.datalabel.selected
+            $scope.options = {
+                sankey: {
+                    iterations: 0,
+                },
+                width: width,
+                height: height
             };
 
-            $scope.config.data = {
-                nodes: data.nodes,
-                links: data.links
-            };
-        });
+        }, 100)
+
+
     };
 
-    $scope.save = function () {
-        if (!$scope.config.data) {
+    $scope.exportSankey = function () {
+
+
+        if (!$scope.options) {
             popupBox.alert('차트데이터가 없습니다.', function clickedOk() {
             });
             return false;
@@ -249,6 +286,9 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             .attr("version", 1.1)
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .node().parentNode.innerHTML;
+
+        html = html.substring(0, html.lastIndexOf('<div'));
+        // console.log('html', html);
 
         var encoded = btoa(unescape(encodeURIComponent(html)));
         var imgsrc = 'data:image/svg+xml;base64,' + encoded;
@@ -273,11 +313,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             var a = document.createElement("a");
             a.download = "chart.png";
             a.href = canvasdata;
+
             a.click();
         };
-
     }
-
 }
 
 module.exports = SankeyCtrl;

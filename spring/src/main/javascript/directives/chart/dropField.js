@@ -5,8 +5,8 @@
 /**
 *
 */
-dropField.$inject = ['utility', 'popupLayerStore'];
-function dropField(utility, popupLayerStore) {
+dropField.$inject = ['utility', 'popupLayerStore', 'popupBox'];
+function dropField(utility, popupLayerStore, popupBox) {
     /**
     *   directive link
     */
@@ -36,6 +36,12 @@ function dropField(utility, popupLayerStore) {
         scope.onDropField = function ($event, $data, fieldOpts, popupLayer, position, type) {
             if ( type && $data.type != type) {
                 popupBox.alert('타입 Type Field만 적용 가능합니다.', function clickedOk() {
+                });
+                return false;
+            }
+            console.log(scope.prevent, $data.name)
+            if ( scope.prevent && $data.name === scope.prevent) {
+                popupBox.alert(scope.prevent + ' Field는 적용할 수 없습니다.', function clickedOk() {
                 });
                 return false;
             }
@@ -90,7 +96,8 @@ function dropField(utility, popupLayerStore) {
             field: '=',
             drops: '=',
             position: '@',
-            layout: '@'
+            layout: '@',
+            prevent: '@'
             // fields: '=',
             // withouts: '=',
             // canChoiceCount: '=',

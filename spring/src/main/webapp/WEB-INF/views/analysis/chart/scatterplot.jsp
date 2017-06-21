@@ -49,6 +49,7 @@
                                         drops="fieldOpts.drops"
                                         layout="vertical"
                                         position="right-top"
+                                        prevent="Event Object의 개수"
                                         style="height: 100%; width:100%; display: inline-block"></drop-field>
                         </td>
                         <td>

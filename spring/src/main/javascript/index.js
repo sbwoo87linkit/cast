@@ -20,6 +20,8 @@ require('highcharts-ng');
 
 require('d3-plugins-sankey');
 
+require('angularjs-google-chart');
+
 
 require('./constants');
 require('./directives');
@@ -46,6 +48,7 @@ angular.module('shermanApp', [
         'highcharts-ng',
 
         // 'ngsankey',
+        'angularjs-google-chart',
 
         'sherman.constants',
         'sherman.controllers',

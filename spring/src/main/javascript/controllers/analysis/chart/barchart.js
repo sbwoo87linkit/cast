@@ -249,7 +249,7 @@ function BarchartCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
     $scope.fieldOpts = {
         fields: {
             group: {
-                title: '그룹AAA',
+                title: '그룹',
                 key: 'group',
                 rows: {
                     summaryMethod: {
