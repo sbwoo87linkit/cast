@@ -22,6 +22,8 @@ require('d3-plugins-sankey');
 
 require('angularjs-google-chart');
 
+require('html2canvas')
+require('canvg-fixed')
 
 require('./constants');
 require('./directives');

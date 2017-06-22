@@ -378,8 +378,8 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
         // var data = d.data.results;
         var data = $scope.data.results;
 
-        // var parseDate = d3.time.format('%Y').parse;
-        var parseDate = d3.time.format('%Y%m%d%H%M%S').parse;
+        var parseDate = d3.time.format('%Y').parse;
+        // var parseDate = d3.time.format('%Y%m%d%H%M%S').parse;
         var data = [];
         $scope.data.results.forEach(function (item, i) {
             // var arr = [];
@@ -389,17 +389,38 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                 // arr.push()
                 if (field.type === 'TIMESTAMP') {
                     // obj[field.name] = parseDate(utility.strToDate(item[j]));
-                    // obj[field.name] = parseDate(item[j].substring(0, 4));
-                    obj[field.name] = parseDate(item[j]);
-                    console.log(item[j].substring(0, 4), obj[field.name])
-                } else if (field.type === 'NUMBER'){
-                    obj[field.name] = +item[j];
+                    obj[field.name] = parseDate(item[j].substring(0, 4));
                 } else {
                     obj[field.name] = item[j];
                 }
             })
             data.push(obj)
         })
+
+        data = [
+            {"PTIME": "1974", "AB": 367, "H": 211, "PLAYERID": "Sanches", "HR": 10},
+            {"PTIME": "1975", "AB": 267, "H": 123, "PLAYERID": "Ruis", "HR": 20},
+            {"PTIME": "1976", "AB": 1367, "H": 1112, "PLAYERID": "Piazza", "HR": 98},
+            {"PTIME": "1977", "AB": 467, "H": 216, "PLAYERID": "Sanches", "HR": 15},
+            {"PTIME": "1978", "AB": 667, "H": 323, "PLAYERID": "Ruis", "HR": 40},
+            {"PTIME": "1979", "AB": 267, "H": 112, "PLAYERID": "Piazza", "HR": 9},
+            {"PTIME": "1980", "AB": 867, "H": 412, "PLAYERID": "Sanches", "HR": 30},
+            {"PTIME": "1981", "AB": 578, "H": 358, "PLAYERID": "Ruis", "HR": 60},
+            {"PTIME": "1982", "AB": 1157, "H": 1002, "PLAYERID": "Piazza", "HR": 140}
+        ]
+
+        data.forEach(function (d) {
+            d.AB = +d.AB;
+            d.H = +d.H;
+            d.HR = +d.HR;
+            d.PTIME = parseDate(d.PTIME);
+        });
+
+        // chart
+        //     .data(data)
+        //     .draw();
+
+        console.log('draw....   ')
 
         chart.data(data)
             .xDomain([
@@ -412,8 +433,48 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     };
 
 
-    $scope.exportMotion = function () {
+    $scope.exportHtml = function () {
         console.log('exportHtml....')
+        var finalImageSrc, img;
+        canvg();
+        html2canvas([$('div.visualization')[0]], {
+            useCORS: true,
+            background:'#fff'
+        }).then(function (canvas) {
+            if (navigator.msSaveBlob) {
+                console.log('this is IE');
+                var URL=window.URL;
+                var BlobBuilder = window.MSBlobBuilder;
+                navigator.saveBlob=navigator.msSaveBlob;
+                var imgBlob = canvas.msToBlob();
+                if (BlobBuilder && navigator.saveBlob) {
+                    var showSave =  function (data, name, mimetype) {
+                        var builder = new BlobBuilder();
+                        builder.append(data);
+                        var blob = builder.getBlob(mimetype||"application/octet-stream");
+                        if (!name)
+                            name = "Download.bin";
+                        navigator.saveBlob(blob, name);
+                    };
+                    showSave(imgBlob, 'barchart.png',"image/png");
+                }
+            } else {
+                if ($('#export-image-container').length == 0)
+                    $('body').append('<a id="export-image-container" download="barchart.jpg">')
+                img = canvas.toDataURL("image/jpeg")
+                img = img.replace('data:image/jpeg;base64,', '')
+                finalImageSrc = 'data:image/jpeg;base64,' + img
+
+                $('#export-image-container').attr('href', finalImageSrc)
+                $('#export-image-container')[0].click()
+                $('#export-image-container').remove()
+            }
+        });
+
+    }
+
+
+    $scope.exportSvg = function () {
 
 
         if (!$scope.data) {
@@ -422,21 +483,103 @@ function MotionCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             return false;
         }
 
-        html2canvas($('#chart1'),
-            {
-                background :'#FFFFFF',
-                onrendered: function (canvas) {
+        // NOTE : http://techslides.com/save-svg-as-an-image 참조
+        var html = d3.select("svg")
+            .attr("version", 1.1)
+            .attr("xmlns", "http://www.w3.org/2000/svg")
+            .node().parentNode.innerHTML;
 
-                    var a = document.createElement('a');
-                    a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                    a.download = 'chart.png';
-                    a.click();
-                }
-            });
+        html = html.substring(0, html.lastIndexOf('<div'));
+        // console.log('html', html);
 
+        var encoded = btoa(unescape(encodeURIComponent(html)));
+        var imgsrc = 'data:image/svg+xml;base64,' + encoded;
+        var img = '<img src="' + imgsrc + '">';
+        d3.select("#svgdataurl").html(img);
 
+        var canvas = document.createElement('canvas'),
+            context = canvas.getContext("2d");
+        canvas.width = parseInt(d3.select("svg").style('width'));
+        canvas.height = parseInt(d3.select("svg").style('height'));
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
+        var image = new Image;
+        image.src = imgsrc;
+        image.onload = function () {
+            context.drawImage(image, 0, 0);
+            var canvasdata = canvas.toDataURL("image/png");
+            var pngimg = '<img src="' + canvasdata + '">';
+            d3.select("#pngdataurl").html(pngimg);
+
+            var a = document.createElement("a");
+            a.download = "chart.png";
+            a.href = canvasdata;
+
+            a.click();
+        };
     }
+
+    // screenshot 생성
+    $scope.screenshot = function() {
+        // 임시 컨테이너 생성
+        var tempContainer = $('<div />', {
+            id: 'temp-container',
+            'class': 'temp-container'
+        }).appendTo('body');
+
+        var checkedVals = [];
+        $('.HSbubble_nat_ipt').find('input[type="checkbox"]').each(function() {
+            checkedVals.push($(this)[0].checked);
+        });
+
+        // 원본 컨테이너 내용 복사
+        var clone = $('#container').clone();
+        clone.find('.not-print').remove();      // 인쇄 및 저장하지 않을 element 를 제거
+        var content = $('<div />').append(clone).html();
+
+        // 원본 컨테이너를 body 에서 떼어서 보관함
+        var container = $('#container').detach();
+
+        // 임시 컨테이너에 원본 컨테이너의 내용을 넣음
+        tempContainer.html(content);
+
+        $('.HSbubble_nat_ipt').find('input[type="checkbox"]').each(function(i) {
+            if (checkedVals[i]) {
+                $(this)[0].checked = true;
+            } else {
+                $(this)[0].checked = false;
+            }
+        });
+
+        tempContainer.find('.tab-container').hide();
+        tempContainer.find('.HSworld_map_select').find('.handle').removeClass('down').addClass('up');
+
+        // 페이지의 svg 를 canvas 로 변환
+        canvg();    // canvg 를 실행하지 않아도 html2canvas 로 화면캡쳐가 가능하나, highcharts 의 x,y 축 labeㅣ 등이 잘 표시되지 않는 현상이 있어서 canvg 를 실행함
+
+        // 페이지를 canvas 로 변환
+        html2canvas(document.body, {
+            onrendered: function(canvas) {
+                var dataUri = canvas.toDataURL('image/png'),
+                    // var dataUri = canvas.toDataURL('image/jpeg',1),
+                    dataUri = dataUri.split(',')[1];    // "data:image/png;base64" 삭제
+
+                // 페이지를 변환한 canvas 를 dataUri 로 변환하여 png 파일 생성
+                // $('#export-filename').val('export.jpg');
+                $('#export-filename').val('export.png');
+                $('#export-data').val(dataUri);
+                $('#export-form').submit();
+
+                // 임시 컨테이너 삭제
+                $('#temp-container').remove();
+
+                // 원본 컨테이너를 body 에 다시 넣음
+                $('body').append(container);
+            }
+        });
+    };
+
 
 }
 

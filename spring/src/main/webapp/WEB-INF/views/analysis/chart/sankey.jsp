@@ -49,12 +49,12 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td>
-                        <div id="chart" style="height: 100%; border: 1px solid #999; position:relative">
+                    <td style="background: blue">
+                        <div id="chart" style="background: #fff; height: 100%; border: 1px solid #999; position:relative">
                             <div ng-if="!options" class="center">
                                 <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                             </div>
-                            <div ng-if="options" style="position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
+                            <div id="imagesave" ng-if="options" style="background-color:white; position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
                                 <!--<chart-sankey id="sankeyChart"  options="config.options" data="config.data"></chart-sankey>-->
 
                                 <div google-chart="Sankey"
@@ -65,7 +65,7 @@
                                      gce-on-mouse-over="mouseOver()"
                                      gce-on-mouse-out="mouseOut()"
                                 ></div>
-                                <div ng-if="chartOpts.column.label.controls.checkbox.value" class="tc font16">
+                                <div ng-if="chartOpts.column.label.controls.checkbox.value" style="background: #fff; text-align: center; font-size: 16px;">
                                     {{chartOpts.column.label.controls.input.value}}
                                 </div>
                             </div>

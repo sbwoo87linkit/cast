@@ -19,10 +19,29 @@
                 <div class="mu-col mu-col-6">
                 </div>
                 <div class="mu-col mu-col-3">
-                    <button type="button" class="mu-btn mu-btn-icon" ng-click="export(config)"><i class="mu-icon save"></i>저장</button>
+                    <button type="button" class="mu-btn mu-btn-icon" ng-click="exportMotion()"><i class="mu-icon save"></i>저장</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div>
+
+
+        <!--<div class="visualization" style="background: #fff">-->
+            <!--<svg xmlns="http://www.w3.org/2000/svg" class="chart-container" width="900" height="440"  style='stroke-width: 0px; background-color: #fff;'>-->
+                <!--<g transform="translate(90, 10)">-->
+                    <!--<g transform="translate(0, 302)">-->
+                        <!--<path fill="none" stroke="#777" d="M 0 6 V 0 H 779 V 6" />-->
+                    <!--</g>-->
+                    <!--<g>-->
+                        <!--<line stroke="#2e9ccc" stroke-width="50" transform="translate(253)" x1="0" y1="302" x2="0" y2="14" />-->
+                        <!--<line stroke="#2e9ccc" stroke-width="100" transform="translate(253)" x1="150" y1="302" x2="150" y2="119" />-->
+                    <!--</g>-->
+                <!--</g>-->
+            <!--</svg>-->
+        <!--</div>-->
+
     </div>
 
     <div class="main-container" style="margin-top: 10px;">
@@ -62,7 +81,7 @@
 
                         </td>
                         <td>
-                            <div ng-show="data" style="height:100%; width:600px; border : 1px solid #999">
+                            <div class="visualization"  ng-show="data" style="height:100%; width:600px; border : 1px solid #999">
 
                                 <div class="mu-line-group">
                                     <button type="button" class="mu-btn mu-btn-icon" ng-click="play()" ng-class="{ active: isState('play') }" id="btnPlay"><i class="mu-icon play"></i><strong>Play</strong></button>

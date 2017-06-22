@@ -286,15 +286,53 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         html2canvas($('#imagesave'),
             {
-                background :'#FFFFFF',
+                // background :'#FFFFFF',
                 onrendered: function (canvas) {
 
+                    var context = canvas.getContext("2d");
                     var a = document.createElement('a');
+                    // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
                     a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                     a.download = 'chart.png';
                     a.click();
                 }
             });
+
+        // // NOTE : http://techslides.com/save-svg-as-an-image 참조
+        // var html = d3.select("svg")
+        //     .attr("version", 1.1)
+        //     .attr("xmlns", "http://www.w3.org/2000/svg")
+        //     .node().parentNode.innerHTML;
+        //
+        // html = html.substring(0, html.lastIndexOf('<div'));
+        // // console.log('html', html);
+        //
+        // var encoded = btoa(unescape(encodeURIComponent(html)));
+        // var imgsrc = 'data:image/svg+xml;base64,' + encoded;
+        // var img = '<img src="' + imgsrc + '">';
+        // d3.select("#svgdataurl").html(img);
+        //
+        // var canvas = document.createElement('canvas'),
+        //     context = canvas.getContext("2d");
+        // canvas.width = parseInt(d3.select("svg").style('width'));
+        // canvas.height = parseInt(d3.select("svg").style('height'));
+        // context.fillStyle = "white";
+        // context.fillRect(0, 0, canvas.width, canvas.height);
+        //
+        // var image = new Image;
+        // image.src = imgsrc;
+        // image.onload = function () {
+        //     context.drawImage(image, 0, 0);
+        //     var canvasdata = canvas.toDataURL("image/png");
+        //     var pngimg = '<img src="' + canvasdata + '">';
+        //     d3.select("#pngdataurl").html(pngimg);
+        //
+        //     var a = document.createElement("a");
+        //     a.download = "chart.png";
+        //     a.href = canvasdata;
+        //
+        //     a.click();
+        // };
     }
 }
 
