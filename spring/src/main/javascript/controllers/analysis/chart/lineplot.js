@@ -234,7 +234,7 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
             return false;
         }
 
-        var service = 'adv-lineplot-dev';
+        var service = 'adv-line';
         $scope.adv.isWaiting = true;
         async.forEachOf($scope.adv.chartData, function (item, index, callback) {
             $scope.request(service, index, callback);
@@ -248,7 +248,8 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
         var data = {
             q: "*",
             datamodel_id: $scope.adv.datamodel_id,
-            target_field: $scope.adv.groupField // TODO: 모델에 따라 변경 필요
+            target_field: [],
+            field_options: $scope.fieldOpts
         }
 
         advAgent.getId(service, data).then(function (d) {

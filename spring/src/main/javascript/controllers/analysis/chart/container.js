@@ -52,9 +52,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     $scope.adv.chart = {type: '차트 유형 선택', icon: 'none', description: 'select chart'};
     // TODO test chart type init
 
-    // lineplot
-    $scope.adv.chart = $scope.chartGroups[0].items[0];
-
     // outlier
     $scope.adv.chart = $scope.chartGroups[3].items[0];
 
@@ -78,6 +75,9 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
 
     // motion
     $scope.adv.chart = $scope.chartGroups[0].items[2];
+
+    // lineplot
+    $scope.adv.chart = $scope.chartGroups[0].items[0];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
