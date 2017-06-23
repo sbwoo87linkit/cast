@@ -18,8 +18,6 @@ require('highcharts/modules/exporting')(Highcharts);
 require('highcharts-custom-events')(Highcharts);
 require('highcharts-ng');
 
-require('d3-plugins-sankey');
-
 require('angularjs-google-chart');
 
 require('html2canvas')
