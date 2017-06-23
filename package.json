@@ -17,7 +17,6 @@
     "async": "^2.1.4",
     "canvg-fixed": "^1.0.0",
     "d3": "^3.5.17",
-    "d3-sankey": "^0.6.0",
     "highcharts": "^5.0.10",
     "highcharts-custom-events": "^2.0.15",
     "highcharts-ng": "^1.1.0",

@@ -32,14 +32,20 @@ var LIB_LIST = [
     'angular-resource',
     'angular-route',
     'angular-ui-router',
+
+    'angular-native-dragdrop',
+    'angularjs-google-chart',
+    'canvg-fixed',
+    'html2canvas',
+
     'async',
     'd3',
-    'd3-sankey',
-    'dragular',
     'highcharts',
     'highcharts-ng',
     'highcharts/modules/heatmap',
     'highcharts/modules/exporting',
+
+
     'is_js',
     'jquery',
     'jquery-ui',

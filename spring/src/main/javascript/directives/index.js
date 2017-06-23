@@ -21,5 +21,5 @@ module.exports = angular.module('sherman.directives', [])
 
     .directive('dropField', require('./chart/dropField.js'))
 
-    .directive('chartSankey', require('./chart/sankey.js'))
+    // .directive('chartSankey', require('./chart/sankey.js'))
     ;
