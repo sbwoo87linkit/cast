@@ -24,20 +24,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     $scope.chartOpts = {
 
         general: {
-            stackmode: {
-                text: '스택모드',
-                controls: {
-                    first: {
-                        type: 'buttonGroup',
-                        selected: null,
-                        options: [
-                            {text: "끄기", value: null},
-                            {text: "스택형", value: 'normal'},
-                            {text: "풀스택형", value: 'percent'}
-                        ]
-                    }
-                }
-            },
             drilldown: {
                 text: '드릴다운',
                 controls: {
@@ -47,20 +33,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                         options: [
                             {text: "예", value: 'yes'},
                             {text: "아니오", value: 'no'}
-                        ]
-                    }
-                }
-            },
-            datalabel: {
-                text: '데이터 값 표시',
-                controls: {
-                    datalabel: {
-                        type: 'buttonGroup',
-                        selected: 'on',
-                        options: [
-                            {text: "끄기", value: 'off'},
-                            {text: "켜기", value: 'on'},
-                            {text: "최소/최대", value: 'min_max'}
                         ]
                     }
                 }
