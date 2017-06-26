@@ -39,6 +39,10 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
 
     this.closeAllLayers = function () {
 
+        $('.mu-tooltip').hide();
+
+        /*
+
         var layer;
 
         layer = popupLayerStore.get('adv.xAxisField.setting');
@@ -87,8 +91,7 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
 
 
         })
-
-        $('.mu-tooltip').hide();
+*/
 
 
 

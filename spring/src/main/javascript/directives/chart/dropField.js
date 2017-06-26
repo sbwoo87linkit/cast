@@ -53,8 +53,8 @@ function dropField(utility, popupLayerStore, popupBox) {
             }
 
             // console.log($data, popupLayer, scope.drops, index);
-            scope.drops[popupLayer] = _.cloneDeep($data);
-
+            // scope.drops[popupLayer] = _.cloneDeep($data);
+            scope.field = _.cloneDeep($data);
             // 드랍 후 팝업제어. 'false'인경우 팝업 보여주지 않음.
             if ((scope.showPopup != 'false' )) {
                 if (!scope.position) {
@@ -76,16 +76,21 @@ function dropField(utility, popupLayerStore, popupBox) {
         }
 
 
-        scope.clearField = function ($event, drops, field, index) {
-            // console.log($event, fieldOpts, field, index)
+        scope.clearField = function ($event, field, index) {
+            console.log(field, index)
             // $event.preventDefault();
             $event.stopPropagation();
-            if (Number.isInteger(index)) {
-                // sankey
-                drops[field][index] = {};
-            } else {
-                drops[field] = null;
-            }
+
+            console.log(JSON.stringify(scope.field))
+
+            scope.field = null;
+
+            // if (Number.isInteger(index)) {
+            //     // sankey
+            //     drops[field][index] = {};
+            // } else {
+            //     drops[field] = null;
+            // }
             utility.closeAllLayers();
         };
 
@@ -108,6 +113,7 @@ function dropField(utility, popupLayerStore, popupBox) {
             name: '@',
             field: '=',
             drops: '=',
+            option: '=',
             parentArray: '=',
             index: '@',
             showPopup: '@',

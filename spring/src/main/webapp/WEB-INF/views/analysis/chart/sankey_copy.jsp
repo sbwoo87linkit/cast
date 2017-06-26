@@ -39,17 +39,26 @@
 
                             </div>
                             <div class="mu-col mu-col-10">
+                                <!--<drop-field field="fieldOpts.fields.weight"-->
+                                            <!--drops="fieldOpts.drops"-->
+                                            <!--show-popup="true"-->
+                                            <!--position="bottom-right"-->
+                                            <!--col-width="3"-->
+                                            <!--restrict="TIMESTAMP"></drop-field>-->
+
                                 <drop-field ng-repeat="field in fieldOpts.weightArr"
                                             field="field.drop"
                                             option="field.option"
+                                            drops="field.drop"
                                             show-popup="true"
                                             show-label="true"
                                             position="bottom-right"
                                             col-width="3"
-                                            parent-array="fieldOpts.weightArr"
+                                            parent-array="fieldOpts.xAxisArr"
                                             index="{{$index}}"
                                             middle="{{$middle}}"
                                             class="" ></drop-field>
+
                             </div>
                         </div>
 
@@ -94,7 +103,8 @@
                             <drop-field ng-repeat="field in fieldOpts.xAxisArr"
                                         field="field.drop"
                                         option="field.option"
-                                        show-popup="false"
+                                        drops="field.drop"
+                                        show-popup="true"
                                         show-label="false"
                                         position="top-right"
                                         col-width="12"
