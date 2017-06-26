@@ -149,6 +149,37 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                     }
                 }
             },
+            weightArr: [
+                {
+                    weight: {
+                        title: '가중치',
+                        key: 'weight',
+                        rows: {
+                            summaryMethod: {
+                                title: 'Summary 방식',
+                                controls: {
+                                    first: {
+                                        type: 'dropdown',
+                                        selected: {}, // Dropdown 선택
+                                        options: [
+                                            {text: '합계', value: 'sum'},
+                                            {text: '개수', value: 'count'},
+                                            {text: '평균', value: 'average', isSelected: true},
+                                            {text: '쵀대', value: 'max'},
+                                            {text: '최소', value: 'min'},
+                                            {text: '표준편차', value: 'standardDeviation'},
+                                            {text: '중간값', value: 'mean'},
+                                            {text: '개별 값 나열', value: 'iterate'}
+                                        ]
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    drop: { weight : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
+                }
+            ],
             xAxisArr: [
                 {
                     xAxis: {
@@ -467,6 +498,7 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.$on('adv.execute', function () {
 
+/*
         var msg = null;
 
         if (!$scope.fieldOpts.drops.weightField) {
@@ -487,6 +519,7 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             });
             return false;
         }
+*/
 
         var data = {
             q: "*",
@@ -494,6 +527,10 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
             target_field: [],
             field_options: $scope.fieldOpts
         }
+
+        console.log(data.field_options.fields.xAxisArr[0].xAxis.rows.fillEmpty.controls.first.selected);
+        console.log(data.field_options.fields.xAxisArr[1].xAxis.rows.fillEmpty.controls.first.selected);
+        console.log(data.field_options.fields.weightArr[0].weight.rows.summaryMethod.controls.first.selected);
 
         utility.closeAllLayers();
 

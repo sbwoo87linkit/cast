@@ -40,12 +40,12 @@
     <div class="mu-row">
 
         <div class="mu-col mu-col-1" ng-if="showLabel != 'false'" style="text-align: right; padding-right: 10px;">
-            <span style="display: inline-block; margin-top: 6px">{{field.title}} - {{showLabel}}</span>
+            <span style="display: inline-block; margin-top: 6px">{{field.title}}</span>
         </div>
 
         <div class="mu-col mu-col-{{colWidth}}">
 
-            <div ui-on-Drop="onDropField($event, $data, '{{field.key}}')" class="drop-container"
+            <div ui-on-Drop="onDropField($event, $data, '{{field.key}}{{index}}')" class="drop-container"
                  layer-offset="{left: 2}">
                 <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!drops[field.key]" style="">없음</span>
                 <button style="position: absolute" ng-if="middle==='true'" type="button" class="close fr" ng-click="deleteField(parentArray, index)"></button>
@@ -58,7 +58,7 @@
                             </td>
                             <td style="display:block; width: 100%; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{drops[field.key].name}}</td>
                             <td style="width: 0">
-                                <button ng-if="showPopup!='false' && position" class="fr" ng-click="openPopup($event, field.key, position)"> ></button>
+                                <button ng-if="showPopup!='false' && position" class="fr" ng-click="openPopup($event, field.key+index, position)"> ></button>
                             </td>
                         </tr>
                     </table>

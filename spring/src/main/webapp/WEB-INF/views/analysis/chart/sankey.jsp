@@ -51,12 +51,25 @@
 
                             </div>
                             <div class="mu-col mu-col-10">
-                                <drop-field field="fieldOpts.fields.weight"
-                                            drops="fieldOpts.drops"
+                                <!--<drop-field field="fieldOpts.fields.weight"-->
+                                            <!--drops="fieldOpts.drops"-->
+                                            <!--show-popup="true"-->
+                                            <!--position="bottom-right"-->
+                                            <!--col-width="3"-->
+                                            <!--restrict="TIMESTAMP"></drop-field>-->
+
+                                <drop-field ng-repeat="field in fieldOpts.fields.weightArr"
+                                            field="field.weight"
+                                            drops="field.drop"
                                             show-popup="true"
+                                            show-label="true"
                                             position="bottom-right"
                                             col-width="3"
-                                            restrict="TIMESTAMP"></drop-field>
+                                            parent-array="fieldOpts.fields.xAxisArr"
+                                            index="{{$index}}"
+                                            middle="{{$middle}}"
+                                            class="" ></drop-field>
+
                             </div>
                         </div>
 

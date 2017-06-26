@@ -39,6 +39,7 @@ function dropField(utility, popupLayerStore, popupBox) {
         // scope.onDropField = function ($event, $data, fieldOpts, popupLayer, position, type) {
         scope.onDropField = function ($event, $data, popupLayer) {
 
+
             if ( scope.restrict && $data.type != scope.restrict) {
                 popupBox.alert(scope.restrict + ' Type Field만 적용 가능합니다.', function clickedOk() {
                 });
@@ -51,23 +52,19 @@ function dropField(utility, popupLayerStore, popupBox) {
                 return false;
             }
 
-            console.log('dropField 3', popupLayer)
-
-            console.log(scope.drops);
-            // return;
             console.log($data, popupLayer, scope.drops, scope.drops[popupLayer]);
-            scope.drops[popupLayer] = _.cloneDeep($data);
-
-            // 드랍 후 팝업제어. 'false'인경우 팝업 보여주지 않음.
-            if ((scope.showPopup != 'false' )) {
-                if (!scope.position) {
-                    popupBox.alert('HTML에 position 값이 없습니다.', function clickedOk() {
-                    });
-                    return false;
-                } else {
-                    utility.openPopupLayer(popupLayer, scope.position, angular.element($event.target));
-                }
-            }
+            // scope.drops[popupLayer] = _.cloneDeep($data);
+            //
+            // // 드랍 후 팝업제어. 'false'인경우 팝업 보여주지 않음.
+            // if ((scope.showPopup != 'false' )) {
+            //     if (!scope.position) {
+            //         popupBox.alert('HTML에 position 값이 없습니다.', function clickedOk() {
+            //         });
+            //         return false;
+            //     } else {
+            //         utility.openPopupLayer(popupLayer, scope.position, angular.element($event.target));
+            //     }
+            // }
         };
 
 
@@ -96,7 +93,7 @@ function dropField(utility, popupLayerStore, popupBox) {
         }
 
         scope.openPopup = function ($event, layer, position) {
-            // console.log($event, layer, position)
+            console.log(layer, position, angular.element($event.target))
             $event.preventDefault();
             utility.openPopupLayer(layer, position, angular.element($event.target));
         };
