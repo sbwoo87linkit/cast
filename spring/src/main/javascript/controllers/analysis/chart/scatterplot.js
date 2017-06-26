@@ -27,7 +27,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             drilldown: {
                 text: '드릴다운',
                 controls: {
-                    drilldown: {
+                    first: {
                         type: 'buttonGroup',
                         selected: 'yes',
                         options: [
@@ -42,11 +42,11 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             label: {
                 text: '레이블',
                 controls: {
-                    input: {
+                    first: {
                         type: 'input',
                         value: 'x Axis label' // 입력값 테스트
                     },
-                    checkbox: {
+                    second: {
                         type: 'checkbox',
                         text: '표시',
                         value: true // checkbox 선택
@@ -56,9 +56,9 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             labelRotation: {
                 text: '레이블 회전',
                 controls: {
-                    buttons: {
+                    first: {
                         type: 'buttonGroup',
-                        selected: '-90',
+                        selected: '0',
                         options: [
                             {text: "-90", value: '-90'},
                             {text: "-45", value: '-45'},
@@ -74,18 +74,18 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             label: {
                 text: '레이블',
                 controls: {
-                    input: {
+                    first: {
                         type: 'input',
                         value: 'y Axis label'
                     },
-                    checkbox: {
+                    second: {
                         type: 'checkbox',
                         text: '표시',
                         value: false
                     }
                 }
             },
-            gap: {
+            tickInterval: {
                 text: '간격',
                 controls: {
                     first: {
@@ -99,7 +99,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                 controls: {
                     first: {
                         type: 'input',
-                        value: '10'
+                        value: '0'
                     }
                 }
             },
@@ -108,7 +108,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                 controls: {
                     first: {
                         type: 'input',
-                        value: '200'
+                        value: '20'
                     }
                 }
             },
@@ -117,7 +117,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             show: {
                 text: '범례',
                 controls: {
-                    checkbox: {
+                    first: {
                         type: 'checkbox',
                         text: '표시',
                         value: true
@@ -127,7 +127,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             position: {
                 text: '범례 위치',
                 controls: {
-                    buttons: {
+                    first: {
                         type: 'buttonGroup',
                         selected: 'top',
                         options: [
@@ -213,7 +213,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
                     maxBarCount: {
                         title: '최대 막대수',
                         controls: {
-                            input: {
+                            first: {
                                 type: 'input',
                                 value: '10'
                             }
@@ -282,7 +282,7 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
     $scope.$watch('chartOpts', function (value) {
 
         // data not loaded
-        if (!$scope.data) {
+        if (!$scope.isReady) {
             return;
         }
 
@@ -291,8 +291,8 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
         _modelChangeTimer = $window.setTimeout(function () {
 
             $timeout(function () {
-                // renderChart()
-                $scope.config.legend.verticalAlign = 'bottom'
+                renderChart()
+                // $scope.config.legend.verticalAlign = 'bottom'
             })
 
         }, 100);
@@ -313,9 +313,6 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
 
         utility.closeAllLayers();
 
-        // 차트 Initialize
-        $scope.config = null;
-
         var service = 'adv-scatter';
         $scope.adv.isWaiting = true;
 
@@ -323,29 +320,93 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             advAgent.getData(service, d.data.sid).then(function (d) {
                 $scope.adv.isWaiting = false;
                 $scope.data = d.data;
+                $scope.isReady = true;
                 renderChart();
             }, function (err) {
             });
         });
     })
 
+    $scope.config = {
+        chart: {
+            type: 'scatter',
+            zoomType: 'xy',
+            reflow: true
+        },
+
+        series: [],
+
+        xAxis: {
+            type: 'datetime',
+            title: {
+                text: null
+            },
+            labels: {
+                format: '{value:%H:%M:%S}',
+            }
+        },
+        title: {
+            text: null
+        },
+        legend: {
+            enabled : false
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            gridLineWidth: 1
+        },
+
+        tooltip: {
+            enabled: true,
+            useHTML: true,
+            backgroundColor: 'white',
+            formatter: function () {
+                return [
+                    '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
+                    '<b>시리즈: </b>' + this.series.name,
+                    '<b>값: </b>' + this.y
+                ].join('<br>');
+            },
+            hideDelay: 0
+        },
+        exporting: {
+            enabled: false
+        }
+    }
+
+
     var renderChart = function () {
 
         var series = [];
-
         for (var i =1; i < $scope.data.fields.length; i++) {
-            // console.log('i >>>>> ',i)
             series.push({name: $scope.data.fields[i].name, data: []})
             $scope.data.results.forEach(function (d) {
-                // console.log(d)
                 series[i-1].data.push([utility.strToDate(d[0]), d[i]])
             })
         }
+        // series data
+        $scope.config.series = series;
 
-        // 범례 차트옵션
+        // y축
+        $scope.config.yAxis.title.text =
+            $scope.chartOpts.yAxis.label.controls.second.value ? $scope.chartOpts.yAxis.label.controls.first.value : '';
+        $scope.config.yAxis.tickInterval = $scope.chartOpts.yAxis.tickInterval.controls.first.value;
+        $scope.config.yAxis.min = $scope.chartOpts.yAxis.min.controls.first.value;
+        $scope.config.yAxis.max = $scope.chartOpts.yAxis.max.controls.first.value;
+
+        // x축
+        $scope.config.xAxis.title.text =
+            $scope.chartOpts.xAxis.label.controls.second.value ? $scope.chartOpts.xAxis.label.controls.first.value : '';
+
+        $scope.config.xAxis.labels.rotation =
+            parseInt($scope.chartOpts.xAxis.labelRotation.controls.first.selected);
+
+
         var legendOpts;
-        var showLegend = $scope.chartOpts.legend.show.controls.checkbox.value;
-        var legendPosition = $scope.chartOpts.legend.position.controls.buttons.selected;
+        var showLegend = $scope.chartOpts.legend.show.controls.first.value;
+        var legendPosition = $scope.chartOpts.legend.position.controls.first.selected;
         if (legendPosition === 'right') {
             legendOpts = {
                 borderColor: '#C98657',
@@ -405,54 +466,9 @@ function ScatterplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $
             }
         }
 
-        $scope.config = {
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                reflow: true,
-                // height: height
-            },
+        // 범례
+        $scope.config.legend = legendOpts;
 
-            series: series,
-
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    // format: '{value:%M/%S}',
-                    format: '{value:%H:%M:%S}',
-                }
-            },
-            title: {
-                text: null
-            },
-            // legend: legendOpts,
-            legend: {
-                verticalAlign: 'top'
-            },
-            yAxis: {
-                title: {
-                    text: null
-                },
-                gridLineWidth: 1
-            },
-
-            tooltip: {
-                enabled: true,
-                useHTML: true,
-                backgroundColor: 'white',
-                formatter: function () {
-                    return [
-                        '<b>시간: </b>' + Highcharts.dateFormat('%m/%d %M:%S', this.x),
-                        '<b>시리즈: </b>' + this.series.name,
-                        '<b>값: </b>' + this.y
-                    ].join('<br>');
-                },
-                hideDelay: 0
-            },
-            exporting: {
-                enabled: false
-            }
-        }
 
     };
 

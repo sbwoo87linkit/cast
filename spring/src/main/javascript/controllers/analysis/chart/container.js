@@ -67,17 +67,17 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
     // histogram
     $scope.adv.chart = $scope.chartGroups[1].items[0];
 
-    // sankey
-    $scope.adv.chart = $scope.chartGroups[2].items[0];
-
     // motion
     $scope.adv.chart = $scope.chartGroups[0].items[2];
+
+    // scatter plot
+    $scope.adv.chart = $scope.chartGroups[0].items[1];
 
     // lineplot
     $scope.adv.chart = $scope.chartGroups[0].items[0];
 
-    // scatter plot
-    $scope.adv.chart = $scope.chartGroups[0].items[1];
+    // sankey
+    $scope.adv.chart = $scope.chartGroups[2].items[0];
 
     // 각 필드 옵션을 저장
     $scope.adv.fieldOption = {};
@@ -257,19 +257,6 @@ function ContainerCtrl($scope, $timeout, $stateParams, ADE_PARAMS,
         utility.closeAllLayers();
     };
 
-    // for sankey. delete fields
-    $scope.deleteField = function (columns, $index) {
-        columns.splice($index, 1);
-    }
-
-    $scope.addField = function (columns) {
-        if (CHART.COLUMN_MAX_COUNT === columns.length) {
-            popupBox.alert('더이상 컬럼을 추가할 수 없습니다.', function clickedOk() {
-            });
-            return false;
-        }
-        columns.splice(columns.length-1, 0, {});
-    }
 
 
     // sankey column remove(비우기)

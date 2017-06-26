@@ -72,42 +72,346 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
     }
 
     $scope.fieldOpts = {
-        opts: {
+        fields: {
             weight: {
-                summaryMethod: {
-                    list: [
-                        {text: '합계', value: 'sum', isSelected: true},
-                        {text: '개수', value: 'count'},
-                        {text: '평균', value: 'average'},
-                        {text: '최대', value: 'max'},
-                        {text: '최소', value: 'min'},
-                        {text: '표준편차', value: 'standardDeviation'},
-                        {text: '중간값', value: 'mean'},
-                        {text: '개별 값 나열', value: 'iterate'}
-                    ],
-                    selected: {}
-                }
-            }
-        },
-        drops: {
-            weightField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
-            // TODO : Test data
-            columnFields: [
-                {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
-                {"name": "PTIME", "type": "TEXT", "option": null}
-            ]
-            // TODO: 양끝 Blank 필드
-            // columnFields : [
-            //     {},
-            //     {}
-            // ]
+                title: '가중치',
+                key: 'weight',
+                rows: {
+                    summaryMethod: {
+                        title: 'Summary 방식',
+                        controls: {
+                            first: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: '합계', value: 'sum'},
+                                    {text: '개수', value: 'count'},
+                                    {text: '평균', value: 'average', isSelected: true},
+                                    {text: '쵀대', value: 'max'},
+                                    {text: '최소', value: 'min'},
+                                    {text: '표준편차', value: 'standardDeviation'},
+                                    {text: '중간값', value: 'mean'},
+                                    {text: '개별 값 나열', value: 'iterate'}
+                                ]
+                            }
 
-            // TODO: Time type을 Default로 설정하는 방법
-            // xAxisField : _.find($scope.fieldList, function (x) {
-            //     return x.type === 'TIMESTAMP'
-            // }),
+                        }
+                    }
+                }
+            },
+            time: {
+                title: '시간',
+                key: 'time',
+                rows: {
+                    sort: {
+                        title: '정렬',
+                        controls: {
+                            first: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: "기본값", value: 'default'},
+                                    {text: "오름차순", value: 'asc'},
+                                    {text: "내림차순", value: 'desc', isSelected: true} // default 내림차순 선택
+                                ]
+                            }
+
+                        }
+                    },
+                    rangeExt: {
+                        title: '범위만들기',
+                        controls: {
+                            first: {
+                                type: 'buttonGroupExt',
+                                selected: 'userDefined',
+                                options: [
+                                    // {text: '자동계산', value: 'auto'},
+                                    {text: '사용자지정', value: 'userDefined'},
+                                    {text: '만들지않음', value: 'none'},
+                                ],
+                                extCondition: 'userDefined',
+                                extOptions: [
+                                    {text: '범위크기', key: 'rangeSize', value: '10'},
+                                    {text: '범위시작', key: 'rangeStart', value: '0'},
+                                    {text: '범위끝', key: 'rangeEnd', value: '100'},
+                                ]
+                            }
+                        }
+                    },
+                    maxBarCount: {
+                        title: '최대 막대수',
+                        controls: {
+                            input: {
+                                type: 'input',
+                                value: '10'
+                            }
+                        }
+                    }
+                }
+            },
+            xAxisArr: [
+                {
+                    xAxis: {
+                        title: 'Y축',
+                        key: 'xAxis',
+                        rows: {
+                            summaryMethod: {
+                                title: 'Summary 방식',
+                                controls: {
+                                    first: {
+                                        type: 'dropdown',
+                                        selected: {}, // Dropdown 선택
+                                        options: [
+                                            {text: '합계', value: 'sum'},
+                                            {text: '개수', value: 'count'},
+                                            {text: '평균', value: 'average', isSelected: true},
+                                            {text: '쵀대', value: 'max'},
+                                            {text: '최소', value: 'min'},
+                                            {text: '표준편차', value: 'standardDeviation'},
+                                            {text: '중간값', value: 'mean'},
+                                            {text: '개별 값 나열', value: 'iterate'}
+                                        ]
+                                    }
+
+                                }
+                            },
+                            fillEmpty: {
+                                title: '빠진값 채우기',
+                                controls: {
+                                    first: {
+                                        type: 'dropdownExt',
+                                        selected: {},
+                                        options: [
+                                            {text: '채우지않음', value: 'not_fill', isSelected: true},
+                                            {text: '앞-뒤 평균', value: 'average'},
+                                            {text: '앞의 값', value: 'front_value'},
+                                            {text: '뒤의 값', value: 'rear_value'},
+                                            {text: '0', value: 'zero'},
+                                            {text: '사용자지정', value: 'userDefined'},
+                                        ],
+                                        extCondition: 'userDefined',
+                                        extValue: 'UNDEFINED'
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    drop: { xAxis : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
+
+                },
+                {
+                    xAxis: {
+                        title: 'Y축',
+                        key: 'xAxis',
+                        rows: {
+                            summaryMethod: {
+                                title: 'Summary 방식',
+                                controls: {
+                                    first: {
+                                        type: 'dropdown',
+                                        selected: {}, // Dropdown 선택
+                                        options: [
+                                            {text: '합계', value: 'sum'},
+                                            {text: '개수', value: 'count'},
+                                            {text: '평균', value: 'average', isSelected: true},
+                                            {text: '쵀대', value: 'max'},
+                                            {text: '최소', value: 'min'},
+                                            {text: '표준편차', value: 'standardDeviation'},
+                                            {text: '중간값', value: 'mean'},
+                                            {text: '개별 값 나열', value: 'iterate'}
+                                        ]
+                                    }
+
+                                }
+                            },
+                            fillEmpty: {
+                                title: '빠진값 채우기',
+                                controls: {
+                                    first: {
+                                        type: 'dropdownExt',
+                                        selected: {},
+                                        options: [
+                                            {text: '채우지않음', value: 'not_fill', isSelected: true},
+                                            {text: '앞-뒤 평균', value: 'average'},
+                                            {text: '앞의 값', value: 'front_value'},
+                                            {text: '뒤의 값', value: 'rear_value'},
+                                            {text: '0', value: 'zero'},
+                                            {text: '사용자지정', value: 'userDefined'},
+                                        ],
+                                        extCondition: 'userDefined',
+                                        extValue: 'UNDEFINED'
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    drop: { xAxis : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
+
+                }
+            ]
+            // ,
+            // yAxis: {
+            //     title: 'Y축',
+            //     key: 'yAxis',
+            //     rows: {
+            //         summaryMethod: {
+            //             title: 'Summary 방식',
+            //             controls: {
+            //                 first: {
+            //                     type: 'dropdown',
+            //                     selected: {}, // Dropdown 선택
+            //                     options: [
+            //                         {text: '합계', value: 'sum'},
+            //                         {text: '개수', value: 'count'},
+            //                         {text: '평균', value: 'average', isSelected: true},
+            //                         {text: '쵀대', value: 'max'},
+            //                         {text: '최소', value: 'min'},
+            //                         {text: '표준편차', value: 'standardDeviation'},
+            //                         {text: '중간값', value: 'mean'},
+            //                         {text: '개별 값 나열', value: 'iterate'}
+            //                     ]
+            //                 }
+            //
+            //             }
+            //         },
+            //         fillEmpty: {
+            //             title: '빠진값 채우기',
+            //             controls: {
+            //                 first: {
+            //                     type: 'dropdownExt',
+            //                     selected: {},
+            //                     options: [
+            //                         {text: '채우지않음', value: 'not_fill', isSelected: true},
+            //                         {text: '앞-뒤 평균', value: 'average'},
+            //                         {text: '앞의 값', value: 'front_value'},
+            //                         {text: '뒤의 값', value: 'rear_value'},
+            //                         {text: '0', value: 'zero'},
+            //                         {text: '사용자지정', value: 'userDefined'},
+            //                     ],
+            //                     extCondition: 'userDefined',
+            //                     extValue: 'UNDEFINED'
+            //                 }
+            //
+            //             }
+            //         }
+            //     }
+            // }
+        },
+
+        drops: {
+            // yAxis: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+            time: _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' }),
+            weight: {"name": "Event Object의 개수", "type": "TEXT", "option": null}
         }
+
+    };
+
+    $scope.addField = function (columns) {
+        console.log(columns)
+        if (CHART.COLUMN_MAX_COUNT === columns.length) {
+            popupBox.alert('더이상 컬럼을 추가할 수 없습니다.', function clickedOk() {
+            });
+            return false;
+        }
+        columns.splice(columns.length-1, 0, {
+            xAxis: {
+                title: 'Y축',
+                key: 'xAxis',
+                rows: {
+                    summaryMethod: {
+                        title: 'Summary 방식',
+                        controls: {
+                            first: {
+                                type: 'dropdown',
+                                selected: {}, // Dropdown 선택
+                                options: [
+                                    {text: '합계', value: 'sum'},
+                                    {text: '개수', value: 'count'},
+                                    {text: '평균', value: 'average', isSelected: true},
+                                    {text: '쵀대', value: 'max'},
+                                    {text: '최소', value: 'min'},
+                                    {text: '표준편차', value: 'standardDeviation'},
+                                    {text: '중간값', value: 'mean'},
+                                    {text: '개별 값 나열', value: 'iterate'}
+                                ]
+                            }
+
+                        }
+                    },
+                    fillEmpty: {
+                        title: '빠진값 채우기',
+                        controls: {
+                            first: {
+                                type: 'dropdownExt',
+                                selected: {},
+                                options: [
+                                    {text: '채우지않음', value: 'not_fill', isSelected: true},
+                                    {text: '앞-뒤 평균', value: 'average'},
+                                    {text: '앞의 값', value: 'front_value'},
+                                    {text: '뒤의 값', value: 'rear_value'},
+                                    {text: '0', value: 'zero'},
+                                    {text: '사용자지정', value: 'userDefined'},
+                                ],
+                                extCondition: 'userDefined',
+                                extValue: 'UNDEFINED'
+                            }
+
+                        }
+                    }
+                }
+            },
+            drop: { xAxis : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
+
+        });
     }
+
+
+
+
+    /*
+
+        $scope.fieldOpts = {
+            opts: {
+                weight: {
+                    summaryMethod: {
+                        list: [
+                            {text: '합계', value: 'sum', isSelected: true},
+                            {text: '개수', value: 'count'},
+                            {text: '평균', value: 'average'},
+                            {text: '최대', value: 'max'},
+                            {text: '최소', value: 'min'},
+                            {text: '표준편차', value: 'standardDeviation'},
+                            {text: '중간값', value: 'mean'},
+                            {text: '개별 값 나열', value: 'iterate'}
+                        ],
+                        selected: {}
+                    }
+                }
+            },
+            drops: {
+                weightField: {"name": "Event Object의 개수", "type": "TEXT", "option": null},
+                // TODO : Test data
+                columnFields: [
+                    {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+                    {"name": "PTIME", "type": "TEXT", "option": null}
+                ]
+                // TODO: 양끝 Blank 필드
+                // columnFields : [
+                //     {},
+                //     {}
+                // ]
+
+                // TODO: Time type을 Default로 설정하는 방법
+                // xAxisField : _.find($scope.fieldList, function (x) {
+                //     return x.type === 'TIMESTAMP'
+                // }),
+            }
+        }
+
+    */
+
     //adv.fieldOptions.drops.columnFields
 
     var _modelChangeTimer = null;

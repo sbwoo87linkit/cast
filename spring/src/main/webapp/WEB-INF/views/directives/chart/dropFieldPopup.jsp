@@ -1,7 +1,7 @@
-<div class="mu-tooltip top-right" style="width: 426px;" popup-layer="{{field.key}}">
+<div class="mu-tooltip top-right" style="width: 426px;" popup-layer="{{field.key}}{{index}}">
     <div class="arrow"></div>
     <div class="mu-tooltip-inner">
-        <span class="title">{{drops[field.key].name}}</span>
+        <span class="title">{{drops[field.key].name}} - {{index}}</span>
         <div class="mu-search-item timeRelative">
 
             <table class="mu-formbox">

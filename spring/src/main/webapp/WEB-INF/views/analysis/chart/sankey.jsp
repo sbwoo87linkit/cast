@@ -33,18 +33,35 @@
                 <tr style="height: 0;">
                     <td></td>
                     <td>
+                        <!--<div class="mu-row">-->
+                            <!--<div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">-->
+                                <!--<span style="display: inline-block; margin-top: 6px">가중치</span>-->
+                            <!--</div>-->
+                            <!--<div class="mu-col mu-col-3">-->
+
+                                <!--<%@ include file="../options/sankey/weight.jsp"%>-->
+
+                            <!--</div>-->
+                            <!--<div class="mu-col mu-col-8">-->
+                            <!--</div>-->
+                        <!--</div>-->
+
                         <div class="mu-row">
-                            <div class="mu-col mu-col-1" style="text-align: right; padding-right: 10px;">
-                                <span style="display: inline-block; margin-top: 6px">가중치</span>
-                            </div>
-                            <div class="mu-col mu-col-3">
-
-                                <%@ include file="../options/sankey/weight.jsp"%>
+                            <div class="mu-col mu-col-1">
 
                             </div>
-                            <div class="mu-col mu-col-8">
+                            <div class="mu-col mu-col-10">
+                                <drop-field field="fieldOpts.fields.weight"
+                                            drops="fieldOpts.drops"
+                                            show-popup="true"
+                                            position="bottom-right"
+                                            col-width="3"
+                                            restrict="TIMESTAMP"></drop-field>
                             </div>
                         </div>
+
+
+
                     </td>
                 </tr>
                 <tr>
@@ -74,11 +91,43 @@
                 </tr>
                 <tr style="height: 0;">
                     <td>
-                        <button type="button" ng-click="addField(fieldOpts.drops.columnFields)"><i class="mu-icon add"></i>
+                        <button type="button" ng-click="addField(fieldOpts.fields.xAxisArr)"><i class="mu-icon add"></i>
                         </button>
                     </td>
                     <td>
-                        <%@ include file="../options/sankey/xAxis.jsp"%>
+                        <!--<%@ include file="../options/sankey/xAxis.jsp"%>-->
+
+                        <!--<div class="mu-col mu-col-12">-->
+                            <!--<div ng-repeat="field in ['a','b']" class="mu-col mu-col-2">-->
+                                <!--<drop-field field="fieldOpts.fields.weight"-->
+                                            <!--drops="fieldOpts.drops"-->
+                                            <!--show-popup="true"-->
+                                            <!--position="top-right"-->
+                                            <!--col-width="12"-->
+                                            <!--restrict="TIMESTAMP" class="fl" ></drop-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                        <div class="eqi-container">
+
+                            <drop-field ng-repeat="field in fieldOpts.fields.xAxisArr"
+                                        field="field.xAxis"
+                                        drops="field.drop"
+                                        show-popup="true"
+                                        show-label="false"
+                                        position="top-right"
+                                        col-width="12"
+                                        parent-array="fieldOpts.fields.xAxisArr"
+                                        index="{{$index}}"
+                                        middle="{{$middle}}"
+                                        restrict="TIMESTAMP" class="fl" ></drop-field>
+
+                        </div>
+
+
+
+
                     </td>
                 </tr>
             </table>

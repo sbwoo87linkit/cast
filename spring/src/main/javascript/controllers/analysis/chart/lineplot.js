@@ -259,61 +259,244 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
                     }
                 }
             },
-            yAxis: {
-                title: 'Y축',
-                key: 'yAxis',
-                rows: {
-                    summaryMethod: {
-                        title: 'Summary 방식',
-                        controls: {
-                            first: {
-                                type: 'dropdown',
-                                selected: {}, // Dropdown 선택
-                                options: [
-                                    {text: '합계', value: 'sum'},
-                                    {text: '개수', value: 'count'},
-                                    {text: '평균', value: 'average', isSelected: true},
-                                    {text: '쵀대', value: 'max'},
-                                    {text: '최소', value: 'min'},
-                                    {text: '표준편차', value: 'standardDeviation'},
-                                    {text: '중간값', value: 'mean'},
-                                    {text: '개별 값 나열', value: 'iterate'}
-                                ]
-                            }
+            yAxisArr: [
+                {
+                    yAxis: {
+                        title: 'Y축',
+                        key: 'yAxis',
+                        rows: {
+                            summaryMethod: {
+                                title: 'Summary 방식',
+                                controls: {
+                                    first: {
+                                        type: 'dropdown',
+                                        selected: {}, // Dropdown 선택
+                                        options: [
+                                            {text: '합계', value: 'sum'},
+                                            {text: '개수', value: 'count'},
+                                            {text: '평균', value: 'average', isSelected: true},
+                                            {text: '쵀대', value: 'max'},
+                                            {text: '최소', value: 'min'},
+                                            {text: '표준편차', value: 'standardDeviation'},
+                                            {text: '중간값', value: 'mean'},
+                                            {text: '개별 값 나열', value: 'iterate'}
+                                        ]
+                                    }
 
+                                }
+                            },
+                            fillEmpty: {
+                                title: '빠진값 채우기',
+                                controls: {
+                                    first: {
+                                        type: 'dropdownExt',
+                                        selected: {},
+                                        options: [
+                                            {text: '채우지않음', value: 'not_fill', isSelected: true},
+                                            {text: '앞-뒤 평균', value: 'average'},
+                                            {text: '앞의 값', value: 'front_value'},
+                                            {text: '뒤의 값', value: 'rear_value'},
+                                            {text: '0', value: 'zero'},
+                                            {text: '사용자지정', value: 'userDefined'},
+                                        ],
+                                        extCondition: 'userDefined',
+                                        extValue: 'UNDEFINED'
+                                    }
+
+                                }
+                            }
                         }
                     },
-                    fillEmpty: {
-                        title: '빠진값 채우기',
-                        controls: {
-                            first: {
-                                type: 'dropdownExt',
-                                selected: {},
-                                options: [
-                                    {text: '채우지않음', value: 'not_fill', isSelected: true},
-                                    {text: '앞-뒤 평균', value: 'average'},
-                                    {text: '앞의 값', value: 'front_value'},
-                                    {text: '뒤의 값', value: 'rear_value'},
-                                    {text: '0', value: 'zero'},
-                                    {text: '사용자지정', value: 'userDefined'},
-                                ],
-                                extCondition: 'userDefined',
-                                extValue: 'UNDEFINED'
-                            }
+                    drop: { yAxis : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
 
-                        }
-                    }
                 }
-            }
+            ]
+            // ,
+            // yAxis: {
+            //     title: 'Y축',
+            //     key: 'yAxis',
+            //     rows: {
+            //         summaryMethod: {
+            //             title: 'Summary 방식',
+            //             controls: {
+            //                 first: {
+            //                     type: 'dropdown',
+            //                     selected: {}, // Dropdown 선택
+            //                     options: [
+            //                         {text: '합계', value: 'sum'},
+            //                         {text: '개수', value: 'count'},
+            //                         {text: '평균', value: 'average', isSelected: true},
+            //                         {text: '쵀대', value: 'max'},
+            //                         {text: '최소', value: 'min'},
+            //                         {text: '표준편차', value: 'standardDeviation'},
+            //                         {text: '중간값', value: 'mean'},
+            //                         {text: '개별 값 나열', value: 'iterate'}
+            //                     ]
+            //                 }
+            //
+            //             }
+            //         },
+            //         fillEmpty: {
+            //             title: '빠진값 채우기',
+            //             controls: {
+            //                 first: {
+            //                     type: 'dropdownExt',
+            //                     selected: {},
+            //                     options: [
+            //                         {text: '채우지않음', value: 'not_fill', isSelected: true},
+            //                         {text: '앞-뒤 평균', value: 'average'},
+            //                         {text: '앞의 값', value: 'front_value'},
+            //                         {text: '뒤의 값', value: 'rear_value'},
+            //                         {text: '0', value: 'zero'},
+            //                         {text: '사용자지정', value: 'userDefined'},
+            //                     ],
+            //                     extCondition: 'userDefined',
+            //                     extValue: 'UNDEFINED'
+            //                 }
+            //
+            //             }
+            //         }
+            //     }
+            // }
         },
 
         drops: {
-            yAxis: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+            // yAxis: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
             time: _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' }),
             group: {"name": "Event Object의 개수", "type": "TEXT", "option": null}
         }
 
     };
+
+    /**
+     * 행 추가 삭제 리사이즈 제어
+     */
+
+
+    $scope.addRow = function () {
+
+        // TODO : TEST PURPOSE ONLY -
+        $scope.fieldOpts.fields.yAxisArr.push(
+            {
+                yAxis: {
+                    title: 'Y축',
+                    key: 'yAxis',
+                    rows: {
+                        summaryMethod: {
+                            title: 'Summary 방식',
+                            controls: {
+                                first: {
+                                    type: 'dropdown',
+                                    selected: {}, // Dropdown 선택
+                                    options: [
+                                        {text: '합계', value: 'sum'},
+                                        {text: '개수', value: 'count'},
+                                        {text: '평균', value: 'average', isSelected: true},
+                                        {text: '쵀대', value: 'max'},
+                                        {text: '최소', value: 'min'},
+                                        {text: '표준편차', value: 'standardDeviation'},
+                                        {text: '중간값', value: 'mean'},
+                                        {text: '개별 값 나열', value: 'iterate'}
+                                    ]
+                                }
+
+                            }
+                        },
+                        fillEmpty: {
+                            title: '빠진값 채우기',
+                            controls: {
+                                first: {
+                                    type: 'dropdownExt',
+                                    selected: {},
+                                    options: [
+                                        {text: '채우지않음', value: 'not_fill', isSelected: true},
+                                        {text: '앞-뒤 평균', value: 'average'},
+                                        {text: '앞의 값', value: 'front_value'},
+                                        {text: '뒤의 값', value: 'rear_value'},
+                                        {text: '0', value: 'zero'},
+                                        {text: '사용자지정', value: 'userDefined'},
+                                    ],
+                                    extCondition: 'userDefined',
+                                    extValue: 'UNDEFINED'
+                                }
+
+                            }
+                        }
+                    }
+                },
+                drop: { yAxis : {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null} }
+
+            }
+
+        );
+        // TODO : UNCOMMENT FOR SERVICE
+        // $scope.adv.chartData.push({});
+
+        _.forEach($scope.fieldOpts.fields.yAxisArr, function (row, index) {
+            var container = $('#container_' + index);
+            if (row.config) {
+                var chart = row.config.getChartObj();
+                $timeout(function () {
+                    chart.setSize(chart.containerWidth, container.height(), true);
+                })
+            }
+        })
+    }
+
+    $scope.removeRow = function ($index) {
+        if ($scope.fieldOpts.fields.yAxisArr.length > 1 ) {
+            $scope.fieldOpts.fields.yAxisArr.splice($index, 1);
+        }
+    }
+
+
+    /*
+        $scope.addRow = function () {
+
+            // TODO : TEST PURPOSE ONLY -
+            $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
+            // TODO : UNCOMMENT FOR SERVICE
+            // $scope.adv.chartData.push({});
+
+            _.forEach($scope.adv.chartData, function (row, index) {
+                var container = $('#container_' + index);
+                if (row.config) {
+                    var chart = row.config.getChartObj();
+                    $timeout(function () {
+                        chart.setSize(chart.containerWidth, container.height(), true);
+                    })
+                }
+            })
+        }
+
+        $scope.removeRow = function ($index) {
+            $scope.adv.chartData.splice($index, 1);
+        }
+    */
+
+    window.onresize = function () {
+        resizeAll();
+    };
+
+    function resizeAll() {
+        $('.chart').each(function () {
+            $(this).highcharts().setSize(
+                $(this).parent().width(),
+                $(this).parent().height(),
+                false
+            );
+        });
+        _.forEach($scope.adv.chartData, function (row, index) {
+            var container = $('#container_' + index);
+            if (row.config) {
+                var chart = row.config.getChartObj();
+                $timeout(function () {
+                    chart.setSize(container.width(), container.height(), true);
+                })
+            }
+        })
+    }
+
 
     var _modelChangeTimer = null;
 
@@ -477,54 +660,6 @@ function LineplotCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log
         popupLayerStore.get('adv.timeField.setting').closeEl();
     }
 
-    /**
-     * 행 추가 삭제 리사이즈 제어
-     */
-
-    $scope.addRow = function () {
-
-        // TODO : TEST PURPOSE ONLY -
-        $scope.adv.chartData.push({axis: {"name": "Location", "type": "TEXT", "option": null}});
-        // TODO : UNCOMMENT FOR SERVICE
-        // $scope.adv.chartData.push({});
-
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(chart.containerWidth, container.height(), true);
-                })
-            }
-        })
-    }
-
-    $scope.removeRow = function ($index) {
-        $scope.adv.chartData.splice($index, 1);
-    }
-
-    window.onresize = function () {
-        resizeAll();
-    };
-
-    function resizeAll() {
-        $('.chart').each(function () {
-            $(this).highcharts().setSize(
-                $(this).parent().width(),
-                $(this).parent().height(),
-                false
-            );
-        });
-        _.forEach($scope.adv.chartData, function (row, index) {
-            var container = $('#container_' + index);
-            if (row.config) {
-                var chart = row.config.getChartObj();
-                $timeout(function () {
-                    chart.setSize(container.width(), container.height(), true);
-                })
-            }
-        })
-    }
 
     /**
      * Data fetch and render chart

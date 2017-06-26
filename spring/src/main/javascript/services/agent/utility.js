@@ -88,6 +88,14 @@ function utility($rootScope, $http, $filter, $log, $q, popupLayerStore) {
 
         })
 
+        $('.mu-tooltip').hide();
+
+
+
+
+
+
+
         // layer = popupLayerStore.get('xAxis');
         // if (layer) {
         //     popupLayerStore.get('xAxis').closeEl();

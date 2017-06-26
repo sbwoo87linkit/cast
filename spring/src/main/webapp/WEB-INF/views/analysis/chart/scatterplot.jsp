@@ -32,7 +32,11 @@
 
             </div>
             <div class="mu-col mu-col-10">
-                <drop-field field="fieldOpts.fields.group" drops="fieldOpts.drops"></drop-field>
+                <drop-field field="fieldOpts.fields.group"
+                            drops="fieldOpts.drops"
+                            show-popup="false"
+                            col-width="3"
+                            position="bottom-left"></drop-field>
             </div>
         </div>
 
@@ -48,16 +52,17 @@
                             <drop-field field="fieldOpts.fields.yAxis"
                                         drops="fieldOpts.drops"
                                         layout="vertical"
+                                        show-popup="false"
                                         position="right-top"
                                         prevent="Event Object의 개수"
                                         style="height: 100%; width:100%; display: inline-block"></drop-field>
                         </td>
                         <td>
                             <div style="height:100%;border : 1px solid #999">
-                                <div ng-if="!config" class="center">
+                                <div ng-if="!isReady" class="center">
                                     <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                                 </div>
-                                <div ng-if="config" style="position:relative; height: 100%;">
+                                <div ng-if="isReady" style="position:relative; height: 100%;">
                                     <highchart
                                             style="position: absolute; left:0; top:0px; bottom:0; right:0; height: 100%; margin: auto"
                                             config="config">
@@ -80,7 +85,8 @@
                             drops="fieldOpts.drops"
                             show-popup="false"
                             position="top-left"
-                            restrict="TIME-STAMP"></drop-field>
+                            col-width="11"
+                            restrict="TIMESTAMP"></drop-field>
             </div>
         </div>
 
