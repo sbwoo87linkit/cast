@@ -73,6 +73,8 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
     $scope.fieldOpts = {
         fields: {
+/*
+
             weight: {
                 title: '가중치',
                 key: 'weight',
@@ -149,6 +151,8 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
                     }
                 }
             },
+
+*/
             weightArr: [
                 {
                     weight: {
@@ -282,60 +286,14 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
                 }
             ]
-            // ,
-            // yAxis: {
-            //     title: 'Y축',
-            //     key: 'yAxis',
-            //     rows: {
-            //         summaryMethod: {
-            //             title: 'Summary 방식',
-            //             controls: {
-            //                 first: {
-            //                     type: 'dropdown',
-            //                     selected: {}, // Dropdown 선택
-            //                     options: [
-            //                         {text: '합계', value: 'sum'},
-            //                         {text: '개수', value: 'count'},
-            //                         {text: '평균', value: 'average', isSelected: true},
-            //                         {text: '쵀대', value: 'max'},
-            //                         {text: '최소', value: 'min'},
-            //                         {text: '표준편차', value: 'standardDeviation'},
-            //                         {text: '중간값', value: 'mean'},
-            //                         {text: '개별 값 나열', value: 'iterate'}
-            //                     ]
-            //                 }
-            //
-            //             }
-            //         },
-            //         fillEmpty: {
-            //             title: '빠진값 채우기',
-            //             controls: {
-            //                 first: {
-            //                     type: 'dropdownExt',
-            //                     selected: {},
-            //                     options: [
-            //                         {text: '채우지않음', value: 'not_fill', isSelected: true},
-            //                         {text: '앞-뒤 평균', value: 'average'},
-            //                         {text: '앞의 값', value: 'front_value'},
-            //                         {text: '뒤의 값', value: 'rear_value'},
-            //                         {text: '0', value: 'zero'},
-            //                         {text: '사용자지정', value: 'userDefined'},
-            //                     ],
-            //                     extCondition: 'userDefined',
-            //                     extValue: 'UNDEFINED'
-            //                 }
-            //
-            //             }
-            //         }
-            //     }
-            // }
-        },
-
-        drops: {
-            // yAxis: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
-            time: _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' }),
-            weight: {"name": "Event Object의 개수", "type": "TEXT", "option": null}
         }
+        // ,
+        //
+        // drops: {
+        //     // yAxis: {"name": "FTS_RAW_DATA", "type": "TEXT", "option": null},
+        //     time: _.find($scope.fieldList, function (x) { return x.type === 'TIMESTAMP' }),
+        //     weight: {"name": "Event Object의 개수", "type": "TEXT", "option": null}
+        // }
 
     };
 
@@ -556,17 +514,17 @@ function SankeyCtrl($scope, $timeout, $stateParams, ADE_PARAMS, advAgent, $log,
 
         var data = $scope.data;
 
-        data.results = [
-            ["2014", "AL", 99],
-            ["2015", "AL", 102],
-            ["2014", "NL", 85],
-            ["2015", "NL", 108],
-            ["AL", "LAA", 106],
-            ["AL", "SFA", 95],
-            ["NL", "SFN", 94],
-            ["NL", "ATL", 99],
-            ["NL", "CIN", 95]
-        ];
+        // data.results = [
+        //     ["2014", "AL", 99],
+        //     ["2015", "AL", 102],
+        //     ["2014", "NL", 85],
+        //     ["2015", "NL", 108],
+        //     ["AL", "LAA", 106],
+        //     ["AL", "SFA", 95],
+        //     ["NL", "SFN", 94],
+        //     ["NL", "ATL", 99],
+        //     ["NL", "CIN", 95]
+        // ];
 
 
         var order = $scope.chartOpts.column.sort.controls.dropdown.selected.value;

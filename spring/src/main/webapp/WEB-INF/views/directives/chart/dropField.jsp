@@ -45,7 +45,7 @@
 
         <div class="mu-col mu-col-{{colWidth}}">
 
-            <div ui-on-Drop="onDropField($event, $data, '{{field.key}}{{index}}')" class="drop-container"
+            <div ui-on-Drop="onDropField($event, $data, '{{field.key}}', {{index}})" class="drop-container"
                  layer-offset="{left: 2}">
                 <span ui-on-Drop="preventDrop($event)" class="field" ng-if="!drops[field.key]" style="">없음</span>
                 <button style="position: absolute" ng-if="middle==='true'" type="button" class="close fr" ng-click="deleteField(parentArray, index)"></button>

@@ -37,7 +37,7 @@ function dropField(utility, popupLayerStore, popupBox) {
 */
 
         // scope.onDropField = function ($event, $data, fieldOpts, popupLayer, position, type) {
-        scope.onDropField = function ($event, $data, popupLayer) {
+        scope.onDropField = function ($event, $data, popupLayer, index) {
 
 
             if ( scope.restrict && $data.type != scope.restrict) {
@@ -52,19 +52,20 @@ function dropField(utility, popupLayerStore, popupBox) {
                 return false;
             }
 
-            console.log($data, popupLayer, scope.drops, scope.drops[popupLayer]);
-            // scope.drops[popupLayer] = _.cloneDeep($data);
-            //
-            // // 드랍 후 팝업제어. 'false'인경우 팝업 보여주지 않음.
-            // if ((scope.showPopup != 'false' )) {
-            //     if (!scope.position) {
-            //         popupBox.alert('HTML에 position 값이 없습니다.', function clickedOk() {
-            //         });
-            //         return false;
-            //     } else {
-            //         utility.openPopupLayer(popupLayer, scope.position, angular.element($event.target));
-            //     }
-            // }
+            // console.log($data, popupLayer, scope.drops, index);
+            scope.drops[popupLayer] = _.cloneDeep($data);
+
+            // 드랍 후 팝업제어. 'false'인경우 팝업 보여주지 않음.
+            if ((scope.showPopup != 'false' )) {
+                if (!scope.position) {
+                    popupBox.alert('HTML에 position 값이 없습니다.', function clickedOk() {
+                    });
+                    return false;
+                } else {
+                    // popupLayer ID 는 fieldName + index임 : xAxsi0,  xAxis1 ...
+                    utility.openPopupLayer(popupLayer + index, scope.position, angular.element($event.target));
+                }
+            }
         };
 
 
