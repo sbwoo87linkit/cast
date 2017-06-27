@@ -707,24 +707,24 @@ save icon override
     /*transform:  translateX(-50%) translateY(-50%) rotate(-90deg);*/
 /*}*/
 
-.rotate {
+/*.rotate {*/
 
-    /* Safari */
-    -webkit-transform: rotate(-90deg);
+    /*!* Safari *!*/
+    /*-webkit-transform: rotate(-90deg);*/
 
-    /* Firefox */
-    -moz-transform: rotate(-90deg);
+    /*!* Firefox *!*/
+    /*-moz-transform: rotate(-90deg);*/
 
-    /* IE */
-    -ms-transform: rotate(-90deg);
+    /*!* IE *!*/
+    /*-ms-transform: rotate(-90deg);*/
 
-    /* Opera */
-    -o-transform: rotate(-90deg);
+    /*!* Opera *!*/
+    /*-o-transform: rotate(-90deg);*/
 
-    /* Internet Explorer */
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    /*!* Internet Explorer *!*/
+    /*filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
 
-}
+/*}*/
 
 /*.list-menu-item .mu-icon-img {*/
     /*width: 16px;*/
@@ -788,10 +788,32 @@ save icon override
 
 .drop-container {
     /*height: 25px;*/
-    line-height: 25px;
+    /*line-height: 25px;*/
     border: 1px solid #999;
     height: 100%;
 }
+
+.drop-container.verical {
+    /*height: 25px;*/
+    /*line-height: 25px;*/
+    border: 1px solid #999;
+    height: 100% !important;
+
+}
+
+.verical-field {
+    display: block;
+    height: 100%;
+    line-height: 100%;
+    background: pink;
+}
+
+.verical {
+    height: 100%;
+    display: block;
+}
+
+
 
 .drop-container.on-drag-hover    {
     border: 1px solid red;
@@ -800,6 +822,16 @@ save icon override
 .on-dragging {
     /*background: pink !important;*/
 }
+
+
+html, body, #fullheight {
+    min-height: 100% !important;
+    height: 100%;
+}
+
+
+
+
 
 .field.axis {
     height: 50px;

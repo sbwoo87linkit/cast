@@ -52,9 +52,6 @@
                                             class="" ></drop-field>
                             </div>
                         </div>
-
-
-
                     </td>
                 </tr>
                 <tr>
@@ -65,16 +62,13 @@
                                 <span style="font-size:1.2em">결과가 이곳에 출력됩니다.</span>
                             </div>
                             <div id="imagesave" ng-if="options" style="background-color:white; position:absolute; top:0; left:0; bottom:0; right:0; text-align: left">
-                                <!--<chart-sankey id="sankeyChart"  options="config.options" data="config.data"></chart-sankey>-->
-
                                 <div google-chart="Sankey"
                                      gc-data="chart"
                                      gc-options="options"
                                      gce-select="onSelect()"
                                      gce-ready="onReady()"
                                      gce-on-mouse-over="mouseOver()"
-                                     gce-on-mouse-out="mouseOut()"
-                                ></div>
+                                     gce-on-mouse-out="mouseOut()"></div>
                                 <div ng-if="chartOpts.column.label.controls.checkbox.value" style="background: #fff; text-align: center; font-size: 16px;">
                                     {{chartOpts.column.label.controls.input.value}}
                                 </div>
@@ -88,9 +82,7 @@
                         </button>
                     </td>
                     <td>
-
                         <div class="eqi-container">
-
                             <drop-field ng-repeat="field in fieldOpts.xAxisArr"
                                         field="field.drop"
                                         option="field.option"
@@ -98,12 +90,10 @@
                                         show-label="false"
                                         position="top-right"
                                         col-width="12"
-                                        parent-array="fieldOpts.xAxisArr"
                                         index="{{$index}}"
                                         middle="{{$middle}}"
-                                        restrict="TIMESTAMP" class="fl" ></drop-field>
+                                        class="fl" ></drop-field>
                         </div>
-
                     </td>
                 </tr>
             </table>
